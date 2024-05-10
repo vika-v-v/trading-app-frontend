@@ -1,0 +1,13 @@
+<div id="container">
+  <div id="settings">
+    <img src="../../assets/icons/185095_settings_icon.svg">
+  </div>
+  <div *ngIf="depots.length === 0" class="text">
+    <h1>Erstellen Sie ihr erstes Depot</h1>
+    <img src="../../assets/icons/4781840_plus_icon.svg" (click)="depotAnlegen()">
+  </div>
+  <div *ngIf="depots.length > 0" class="text">
+    <h1>Sie haben schon ein Depot</h1>
+    <p *ngFor="let depot of depots">{{depot}}</p>
+  </div>
+</div>
