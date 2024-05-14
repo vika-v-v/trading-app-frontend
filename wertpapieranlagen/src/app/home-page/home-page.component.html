@@ -1,13 +1,54 @@
 <div id="container">
-  <div id="settings">
-    <img src="../../assets/icons/185095_settings_icon.svg">
+  <div id="top-elements">
+    <div id="left-elements">
+      <div id="left-buttons">
+        <select>
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+          <option value="option3">Option 3</option>
+        </select>
+        <button>Kaufen</button>
+        <button>Verkaufen</button>
+      </div>
+      <div>
+        <select>
+          <option value="option1">Filter 1</option>
+          <option value="option2">Filter 2</option>
+          <option value="option3">Filter 3</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="right-icons">
+      <div *ngIf="depots.length > 0">
+        <img
+          src="../../assets/icons/1904677_add_addition_calculate_charge_create_icon.svg"
+
+        />
+      </div>
+      <div>
+        <img
+          src="../../assets/icons/185095_settings_icon.svg"
+
+        />
+      </div>
+    </div>
   </div>
-  <div *ngIf="depots.length === 0" class="text">
+
+  <div *ngIf="depots.length === 0" id="erstes-depot-view">
     <h1>Erstellen Sie ihr erstes Depot</h1>
-    <img src="../../assets/icons/4781840_plus_icon.svg" (click)="depotAnlegen()">
+    <img
+      src="../../assets/icons/1904677_add_addition_calculate_charge_create_icon.svg"
+      (click)="depotAnlegen()"
+      id="erstes-depot-erstellen-icon"
+    />
   </div>
+
   <div *ngIf="depots.length > 0" class="text">
-    <h1>Sie haben schon ein Depot</h1>
-    <p *ngFor="let depot of depots">{{depot}}</p>
+    <div id="main-section">
+      <div id="graphic">
+        <canvas id="canvas"></canvas>
+      </div>
+    </div>
   </div>
 </div>

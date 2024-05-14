@@ -12,7 +12,7 @@ import { Component } from '@angular/core';
 })
 export class HomePageComponent {
   /* API-Endpoint: liste von Depots {[Depot1, Depot2]}*/
-  depots: string[] = []; // Initialize depots as an array of strings
+  depots: string[] = ['Depot']; // Initialize depots as an array of strings
 
   constructor() {
     /* API-Endpoint: liste von Depots aufrufen */
@@ -22,5 +22,20 @@ export class HomePageComponent {
   depotAnlegen() {
     /* API-Endpoint: neues Depot anlegen */
     this.depots.push('Depot' + (this.depots.length + 1));
+  }
+
+  ngAfterViewInit(): void {
+    this.fillCanvas();
+  }
+
+  fillCanvas(): void {
+    const canvas = <HTMLCanvasElement>document.getElementById('canvas');
+    if (canvas.getContext) {
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.fillStyle = '#e5e5e5'; // Set the fill color to grey
+        ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill the entire canvas
+      }
+    }
   }
 }
