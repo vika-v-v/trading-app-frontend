@@ -13,6 +13,7 @@ import { Component } from '@angular/core';
 export class HomePageComponent {
   /* API-Endpoint: liste von Depots {[Depot1, Depot2]}*/
   depots: string[] = ['Depot']; // Initialize depots as an array of strings
+  expanded = false;
 
   constructor() {
     /* API-Endpoint: liste von Depots aufrufen */
@@ -37,5 +38,9 @@ export class HomePageComponent {
         ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill the entire canvas
       }
     }
+  }
+
+  toggleExpand(): void {
+    this.expanded = !this.expanded;
   }
 }

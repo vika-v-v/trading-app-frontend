@@ -23,14 +23,10 @@
       <div *ngIf="depots.length > 0">
         <img
           src="../../assets/icons/1904677_add_addition_calculate_charge_create_icon.svg"
-
         />
       </div>
       <div>
-        <img
-          src="../../assets/icons/185095_settings_icon.svg"
-
-        />
+        <img src="../../assets/icons/185095_settings_icon.svg" />
       </div>
     </div>
   </div>
@@ -50,42 +46,63 @@
         <canvas id="canvas"></canvas>
       </div>
       <div id="list-wertpapiere">
-        	<table>
-            <thead>
-              <tr>
-                <th>Wertpapiertyp</th>
-                <th>Menge von Wertpapieren</th>
-                <th>Gesamtsumme</th>
-                <th>Entwicklung</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>ETF</td>
-                <td>10</td>
-                <td>15.000 Euro</td>
-                <td><img src="../../assets/icons/4829868_arrow_right_up_icon.svg"></td>
-              </tr>
-              <tr>
-                <td>Fond</td>
-                <td>2</td>
-                <td>3.200 Euro</td>
-                <td><img src="../../assets/icons/4829865_arrow_down_left_icon.svg"></td>
-              </tr>
-              <tr>
-                <td>Aktien</td>
-                <td>31</td>
-                <td>50.000 Euro</td>
-                <td><img src="../../assets/icons/4829868_arrow_right_up_icon.svg"></td>
-              </tr>
-            </tbody>
-          </table>
+        <table>
+          <thead>
+            <tr>
+              <th>Wertpapiertyp</th>
+              <th>Menge von Wertpapieren</th>
+              <th>Gesamtsumme</th>
+              <th>Entwicklung</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ETF</td>
+              <td>10</td>
+              <td>15.000 Euro</td>
+              <td>
+                <img src="../../assets/icons/4829868_arrow_right_up_icon.svg" />
+              </td>
+            </tr>
+            <tr>
+              <td>Fond</td>
+              <td>2</td>
+              <td>3.200 Euro</td>
+              <td>
+                <img
+                  src="../../assets/icons/4829865_arrow_down_left_icon.svg"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Aktien</td>
+              <td>31</td>
+              <td>50.000 Euro</td>
+              <td>
+                <img src="../../assets/icons/4829868_arrow_right_up_icon.svg" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 
+  <div id="expand-button">
+    <img
+      *ngIf="!expanded"
+      src="../../assets/icons/2931160_down_direction_download_pointer_arrow_icon.svg"
+      (click)="toggleExpand()"
+    />
+    <img
+      *ngIf="expanded"
+      src="../../assets/icons/2931161_arrow_top_up_direction_move_icon.svg"
+      (click)="toggleExpand()"
+    />
+  </div>
+
   <div id="bottom-elements">
-      <button>Export</button>
-      <button>Depot löschen</button>
+    <button id="export">Export</button>
+    <button id="depot-loeschen">Depot löschen</button>
   </div>
 </div>
