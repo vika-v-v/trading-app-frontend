@@ -67,7 +67,6 @@ html, body {
 }
 
 #main-section {
-  width: 100%;
   height: 55vh;
   display: flex;
   flex-direction: row;
@@ -75,6 +74,7 @@ html, body {
   align-items: center;
   gap: 15px;
   margin: 10px;
+  width: calc(100% - 20px);
 }
 
 #graphic {
@@ -87,7 +87,7 @@ html, body {
   height: 100%;
 }
 
-#list-wertpapiere {
+#list-wertpapierarten {
   width: 100%;
   height: 100%;
   display: flex;
@@ -96,9 +96,13 @@ html, body {
   justify-content: top;
 }
 
-#list-wertpapiere img {
+#list-wertpapierarten img {
   width: 20px;
   height: 20px;
+}
+
+#list-wertpapierarten {
+  overflow-y: auto;
 }
 
 table {
@@ -135,4 +139,15 @@ th, td {
 #expand-button img {
   height: 100%;
   width: 100%;
+}
+
+#transaktionen-table {
+  margin: 10px;
+  width: calc(100% - 20px);
+}
+
+#transaktionen-table table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
 }
