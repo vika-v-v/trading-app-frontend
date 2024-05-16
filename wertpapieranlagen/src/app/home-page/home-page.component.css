@@ -74,7 +74,7 @@ html, body {
   align-items: center;
   gap: 15px;
   margin: 10px;
-  width: calc(100% - 20px);
+  width: 100%;
 }
 
 #graphic {
@@ -142,12 +142,16 @@ th, td {
 }
 
 #transaktionen-table {
-  margin: 10px;
-  width: calc(100% - 20px);
+  margin: 30px;
+  width: calc(100% - 60px);
 }
 
 #transaktionen-table table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+}
+
+#transaktionen-table th, #transaktionen-table td {
+  padding: 10px;
 }
