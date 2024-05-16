@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang = "de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Joshua Kampmeier">
+  <meta name="description" content="Registrierungs-Oberfläche">
+  <title>Registrierung</title>
+</head>
+<body>
+<div id="registration-container">
+  <div id="main-section">
+    <h1>Registrierung</h1>
+    <div class="input-group">
+      <input name="email" type="email" placeholder="E-Mail Adresse" required>
+    </div>
+    <div class="input-group">
+      <input name="passwort" type="password" placeholder="Passwort" required>
+    </div>
+    <div class="input-group">
+      <input name="passwort wiederholen" type="password" placeholder="Passwort wiederholen" required>
+    </div>
+    <div class="password-strength">
+      <div class="strength-bar"></div>
+      <div class="password-strength-text">Mittleres Passwort</div>
+    </div>
+    <button (click)="naviagateToHomePage()">Registrieren</button>
+    <p>Du hast bereits ein Konto? <span id="anmelden-link" (click)="naviagateToLoginPage()">Melde dich an!</span></p>
+  </div>
+</div>
+</body>

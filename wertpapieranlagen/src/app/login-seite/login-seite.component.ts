@@ -16,4 +16,12 @@ export class LoginSeiteComponent {
   naviagateToHomePage() {
     this.router.navigate(['home-page']);
   }
+
+  navigateToRegistrationPage() {
+    this.router.navigate(['registration-page']);
+  }
+
+  navigateToPasswordResetPage() {
+    this.router.navigate(['password-reset-page']);
+  }
 }
