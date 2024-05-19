@@ -7,7 +7,7 @@
           <option value="option2">Option 2</option>
           <option value="option3">Option 3</option>
         </select>
-        <button>Kaufen</button>
+        <button (click)="showBackground()">Kaufen</button>
         <button>Verkaufen</button>
       </div>
       <div>
@@ -229,5 +229,12 @@
   <div id="bottom-elements">
     <button id="export">Export</button>
     <button id="depot-loeschen">Depot löschen</button>
+  </div>
+
+  <div id="side-panel" [class.show]="_showBackground">
+    <div class="background"></div>
+    <div id="content">
+      <h1>Header</h1>
+    </div>
   </div>
 </div>

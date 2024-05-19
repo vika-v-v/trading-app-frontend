@@ -14,6 +14,11 @@ export class HomePageComponent {
   /* API-Endpoint: liste von Depots {[Depot1, Depot2]}*/
   depots: string[] = ['Depot']; // Initialize depots as an array of strings
   expanded = false;
+  _showBackground: boolean = false;
+
+  showBackground() {
+    this._showBackground = true;
+  }
 
   constructor() {
     /* API-Endpoint: liste von Depots aufrufen */
