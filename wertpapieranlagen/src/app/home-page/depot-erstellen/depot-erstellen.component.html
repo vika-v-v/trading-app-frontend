@@ -1,0 +1,29 @@
+<div id="content">
+  <div id="header">
+    <p>Depot erstellen</p>
+  </div>
+  <div id="information">
+    <div id="depotrname" class="information-line">
+      <p>Name</p>
+      <input type="text" class="global-input" />
+    </div>
+    <div id="waehrung" class="information-line">
+      <p>Währung</p>
+      <select class="global-select">
+        <option>EUR - Euro</option>
+        <option>USD - US Dollar</option>
+        <option>NOK - Norwegische Krone</option>
+        <option>JPY - Yen</option>
+        <option>UAH - Hryvnia</option>
+      </select>
+    </div>
+    <div id="date" class="information-line">
+      <p>Eröffnungsdatum</p>
+      <input type="date" [value]="currentDate" class="global-date" />
+    </div>
+  </div>
+  <div id="bottom-elements">
+    <button class="depot-erstellen global-button">Depot erstellen</button>
+    <button class="abbrechen global-button">Abbrechen</button>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 export enum SidePanel {
   Kaufen = 'kaufen',
   Verkaufen = 'verkaufen',
-  Settings = 'settings'
+  Settings = 'settings',
+  DepotErstellen = 'depot-erstellen'
 }

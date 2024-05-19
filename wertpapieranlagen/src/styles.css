@@ -7,7 +7,27 @@ h1 {
 }
 
 input {
-  padding: 8px; /* fügt Polsterung im Input-Feld hinzu */
-  border: 1px solid #ccc; /* fügt eine Grenze hinzu */
-  border-radius: 4px; /* rundet die Ecken der Grenze */
+  padding: 8px;
+  /* fügt Polsterung im Input-Feld hinzu */
+  border: 1px solid #ccc;
+  /* fügt eine Grenze hinzu */
+  border-radius: 4px;
+  /* rundet die Ecken der Grenze */
+}
+
+.global-button {
+  padding: 10px;
+  background-color: #D9D9D9;
+  cursor: pointer;
+  border: 1.5px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3px;
+}
+
+.global-input, .global-select, .global-date {
+  background-color: #F5F5F5;
+  border: 1.5px solid black;
+  border-radius: 0px;
 }

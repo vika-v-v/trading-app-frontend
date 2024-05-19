@@ -29,7 +29,6 @@ p {
 }
 
 .information-line > * {
-
   width: 100%;
   text-align: left;
   padding: 10px;
@@ -37,8 +36,7 @@ p {
 }
 
 input, select {
-  background-color: #F5F5F5;
-  margin: 10px;
+  width: 100%;
 }
 
 button {
@@ -53,7 +51,7 @@ button {
   margin: 10px 20px;
 }
 
-.vorgang-erfassen, .vorgang-abbrechen {
+.depot-erstellen, .abbrechen {
   width: 100%;
 }
 

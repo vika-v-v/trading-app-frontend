@@ -2,16 +2,16 @@
   <div id="top-elements">
     <div id="left-elements">
       <div id="left-buttons">
-        <select>
+        <select class="global-select">
           <option value="option1">Option 1</option>
           <option value="option2">Option 2</option>
           <option value="option3">Option 3</option>
         </select>
-        <button (click)="showSidePanel(SidePanel.Kaufen)">Kaufen</button>
-        <button (click)="showSidePanel(SidePanel.Verkaufen)">Verkaufen</button>
+        <button (click)="showSidePanel(SidePanel.Kaufen)" class="global-button">Kaufen</button>
+        <button (click)="showSidePanel(SidePanel.Verkaufen)" class="global-button">Verkaufen</button>
       </div>
       <div>
-        <select>
+        <select class="global-select">
           <option value="option1">Filter 1</option>
           <option value="option2">Filter 2</option>
           <option value="option3">Filter 3</option>
@@ -20,7 +20,7 @@
     </div>
 
     <div id="right-icons">
-      <div *ngIf="depots.length > 0">
+      <div *ngIf="depots.length > 0" (click)="showSidePanel(SidePanel.DepotErstellen)">
         <img
           src="../../assets/icons/1904677_add_addition_calculate_charge_create_icon.svg"
         />
@@ -227,8 +227,8 @@
   </div>
 
   <div id="bottom-elements">
-    <button id="export">Export</button>
-    <button id="depot-loeschen">Depot löschen</button>
+    <button id="export" class="global-button">Export</button>
+    <button id="depot-loeschen" class="global-button">Depot löschen</button>
   </div>
 
   <div id="side-panel" [class.show]="_showSidePanel" [class.hide]="_showSidePanel!= null && !_showSidePanel">
@@ -239,6 +239,9 @@
       </div>
       <div *ngIf="sidePanel === SidePanel.Verkaufen">
         <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Verkaufen"></app-wertpapier-vorgang>
+      </div>
+      <div *ngIf="sidePanel === SidePanel.DepotErstellen">
+        <app-depot-erstellen></app-depot-erstellen>
       </div>
     </div>
   </div>

@@ -3,13 +3,15 @@ import { Component } from '@angular/core';
 import { SidePanel } from './side-panel.enum';
 import { WertpapierVorgang } from './wertpapier-vorgang.enum';
 import { WertpapierVorgangComponent } from './wertpapier-vorgang/wertpapier-vorgang.component';
+import { DepotErstellenComponent } from './depot-erstellen/depot-erstellen.component';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
   imports: [
     CommonModule,
-    WertpapierVorgangComponent
+    WertpapierVorgangComponent,
+    DepotErstellenComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
