@@ -10,6 +10,7 @@ html, body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  overflow: hidden;
 }
 
 #top-elements {
@@ -156,6 +157,23 @@ th, td {
   padding: 10px;
 }
 
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
 
 /* Background Styling */
 .background {
@@ -179,16 +197,16 @@ th, td {
 #side-panel.show #content {
   opacity: 1;
   z-index: 2;
+  animation: slideIn 0.5s forwards;
 }
 
 #side-panel #content {
   opacity: 0;
-  position: absolute;
+  position: fixed;
   background-color: white;
   z-index: -1;
   top: 0;
   right: 0;
   width: 50%;
   height: 100%;
-  transition: right 0.5s ease-in-out;
 }
