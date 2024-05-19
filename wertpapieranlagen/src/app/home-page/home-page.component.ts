@@ -1,27 +1,36 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { SidePanel } from './side-panel.enum';
+import { WertpapierVorgang } from './wertpapier-vorgang.enum';
+import { WertpapierVorgangComponent } from './wertpapier-vorgang/wertpapier-vorgang.component';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    WertpapierVorgangComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent {
+  SidePanel = SidePanel;
+  WertpapierVorgang = WertpapierVorgang;
+
   /* API-Endpoint: liste von Depots {[Depot1, Depot2]}*/
   depots: string[] = ['Depot']; // Initialize depots as an array of strings
   expanded = false;
-  _showBackground: boolean | null = null;
+  _showSidePanel: boolean | null = null;
+  sidePanel: SidePanel | null = null;
 
-  showBackground() {
-    this._showBackground = true;
+  showSidePanel(name: SidePanel) {
+    this._showSidePanel = true;
+    this.sidePanel = name;
   }
 
-  hideBackground() {
-    this._showBackground = false;
+  hideSidePanel() {
+    this._showSidePanel = false;
   }
 
   constructor() {

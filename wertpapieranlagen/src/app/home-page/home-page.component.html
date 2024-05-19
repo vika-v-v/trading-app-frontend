@@ -7,8 +7,8 @@
           <option value="option2">Option 2</option>
           <option value="option3">Option 3</option>
         </select>
-        <button (click)="showBackground()">Kaufen</button>
-        <button>Verkaufen</button>
+        <button (click)="showSidePanel(SidePanel.Kaufen)">Kaufen</button>
+        <button (click)="showSidePanel(SidePanel.Verkaufen)">Verkaufen</button>
       </div>
       <div>
         <select>
@@ -25,7 +25,7 @@
           src="../../assets/icons/1904677_add_addition_calculate_charge_create_icon.svg"
         />
       </div>
-      <div>
+      <div (click)="showSidePanel(SidePanel.Settings)">
         <img src="../../assets/icons/185095_settings_icon.svg" />
       </div>
     </div>
@@ -231,10 +231,15 @@
     <button id="depot-loeschen">Depot löschen</button>
   </div>
 
-  <div id="side-panel" [class.show]="_showBackground" [class.hide]="_showBackground!= null && !_showBackground">
-    <div class="background" (click)="hideBackground()"></div>
+  <div id="side-panel" [class.show]="_showSidePanel" [class.hide]="_showSidePanel!= null && !_showSidePanel">
+    <div class="background" (click)="hideSidePanel()"></div>
     <div id="content">
-      <h1>Header</h1>
+      <div *ngIf="sidePanel === SidePanel.Kaufen">
+        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Kaufen"></app-wertpapier-vorgang>
+      </div>
+      <div *ngIf="sidePanel === SidePanel.Verkaufen">
+        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Verkaufen"></app-wertpapier-vorgang>
+      </div>
     </div>
   </div>
 </div>

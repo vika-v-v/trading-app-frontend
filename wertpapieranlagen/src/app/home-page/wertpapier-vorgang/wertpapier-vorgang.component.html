@@ -1,1 +1,33 @@
-<p>wertpapier-vorgang works!</p>
+<div id="content">
+  <div id="header">
+    <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen">Wertpapier kaufen</p>
+    <p *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen">Wertpapier verkaufen</p>
+  </div>
+  <div id="information">
+    <div id="wertpapierart" class="information-line">
+      <p>Wertpapierart</p>
+      <select>
+        <option>Aktie</option>
+        <option>ETF</option>
+        <option>Fond</option>
+      </select>
+    </div>
+    <div id="wertpapiername" class="information-line">
+      <p>Wertpapiername</p>
+      <input type="text" />
+    </div>
+    <div id="kurs" class="information-line">
+      <p>Kurs</p>
+      <input type="text" />
+    </div>
+    <div id="menge" class="information-line">
+      <p>Menge</p>
+      <input type="text" />
+    </div>
+  </div>
+  <div id="bottom-elements">
+    <button class="vorgang-erfassen" *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen">Kauf hinzufügen</button>
+    <button class="vorgang-erfassen" *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen">Verkauf hinzufügen</button>
+    <button class="vorgang-abbrechen">Abbrechen</button>
+  </div>
+</div>
