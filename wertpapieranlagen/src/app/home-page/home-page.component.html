@@ -231,8 +231,8 @@
     <button id="depot-loeschen">Depot löschen</button>
   </div>
 
-  <div id="side-panel" [class.show]="_showBackground">
-    <div class="background"></div>
+  <div id="side-panel" [class.show]="_showBackground" [class.hide]="_showBackground!= null && !_showBackground">
+    <div class="background" (click)="hideBackground()"></div>
     <div id="content">
       <h1>Header</h1>
     </div>
