@@ -1,0 +1,32 @@
+<!--Author: Thore Böger-->
+<h1>User Settings</h1>
+<form>
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name"><br>
+
+    <h2>Account Information</h2>
+    <label for="address">Address:</label><br>
+    <input type="text" id="address" name="address"><br>
+
+    <label for="phone">Phone Number:</label><br>
+    <input type="tel" id="phone" name="phone"><br>
+
+    <label for="email">Email Address:</label><br>
+    <input type="email" id="email" name="email"><br>
+
+    <h2>Settings</h2>
+    <button type="button">Change Password</button>
+    <button type="button">Cancel</button>
+    <button type="button">Log Out</button>
+</form>
+
+<button (click)="showSteuerrechner()">Steuerrechner</button>
+<button (click)="showChangePassword()">Passwort ändern</button>
+
+<div *ngIf="steuerrechnerShown">
+  <app-tax-settings (resetClicked)="hideSteuerrechner()"></app-tax-settings>
+</div>
+
+<div *ngIf="changePasswordShown">
+  <app-change-password-page></app-change-password-page>
+</div>

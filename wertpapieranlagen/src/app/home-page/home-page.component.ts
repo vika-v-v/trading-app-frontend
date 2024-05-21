@@ -4,6 +4,8 @@ import { SidePanel } from './side-panel.enum';
 import { WertpapierVorgang } from './wertpapier-vorgang.enum';
 import { WertpapierVorgangComponent } from './wertpapier-vorgang/wertpapier-vorgang.component';
 import { DepotErstellenComponent } from './depot-erstellen/depot-erstellen.component';
+import { UserSettingsComponent } from '../user-settings/user-settings.component';
+import { TaxSettingsComponent } from '../user-settings/tax-settings/tax-settings.component';
 
 @Component({
   selector: 'app-home-page',
@@ -11,7 +13,9 @@ import { DepotErstellenComponent } from './depot-erstellen/depot-erstellen.compo
   imports: [
     CommonModule,
     WertpapierVorgangComponent,
-    DepotErstellenComponent
+    DepotErstellenComponent,
+    UserSettingsComponent,
+    TaxSettingsComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
