@@ -11,12 +11,12 @@
     <div id="main-section">
       <h1>Anmeldung</h1>
       <div class="input-group">
-        <input name="email" type="email" placeholder="E-Mail Adresse" required>
+        <input name="email" type="email" placeholder="E-Mail Adresse" required [(ngModel)]="email">
       </div>
       <div class="input-group">
-        <input name="passwort" type="password" placeholder="Passwort" required>
+        <input name="passwort" type="password" placeholder="Passwort" required [(ngModel)]="passwort">
       </div>
-      <button (click)="naviagateToHomePage()">Anmelden</button>
+      <button (click)="anmelden()">Anmelden</button>
       <p (click)="navigateToPasswordResetPage()">Passwort vergessen?</p>
       <p>Du hast kein Konto? <span id="registrieren-link" (click)="navigateToRegistrationPage()">Registrieren</span></p>
     </div>
