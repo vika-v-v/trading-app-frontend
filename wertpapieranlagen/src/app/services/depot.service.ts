@@ -7,8 +7,6 @@ import { Observable } from 'rxjs';
 })
 export class DepotService {
 
-  constructor() { }
-
   getTransaktionen(http: HttpClient, depotName: string) {
     return {
       "message": "Transaktionen erfolgreich abgerufen",

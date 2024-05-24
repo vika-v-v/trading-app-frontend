@@ -6,6 +6,9 @@ import { WertpapierVorgangComponent } from './wertpapier-vorgang/wertpapier-vorg
 import { DepotErstellenComponent } from './depot-erstellen/depot-erstellen.component';
 import { UserSettingsComponent } from '../user-settings/user-settings.component';
 import { TaxSettingsComponent } from '../user-settings/tax-settings/tax-settings.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { DepotService } from '../services/depot.service';
+import { TabelleComponent } from './tabelle/tabelle.component';
 
 @Component({
   selector: 'app-home-page',
@@ -15,7 +18,9 @@ import { TaxSettingsComponent } from '../user-settings/tax-settings/tax-settings
     WertpapierVorgangComponent,
     DepotErstellenComponent,
     UserSettingsComponent,
-    TaxSettingsComponent
+    TaxSettingsComponent,
+    HttpClientModule,
+    TabelleComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
@@ -30,6 +35,13 @@ export class HomePageComponent {
   _showSidePanel: boolean | null = null;
   sidePanel: SidePanel | null = null;
 
+  transactionen: any[] = [];
+
+  constructor(private http: HttpClient, private depotService: DepotService) {
+    /* API-Endpoint: liste von Depots aufrufen */
+    this.depotAendern('Depot1');
+  }
+
   showSidePanel(name: SidePanel) {
     this._showSidePanel = true;
     this.sidePanel = name;
@@ -37,11 +49,6 @@ export class HomePageComponent {
 
   hideSidePanel() {
     this._showSidePanel = false;
-  }
-
-  constructor() {
-    /* API-Endpoint: liste von Depots aufrufen */
-
   }
 
   depotAnlegen() {
@@ -66,5 +73,33 @@ export class HomePageComponent {
 
   toggleExpand(): void {
     this.expanded = !this.expanded;
+  }
+
+  depotAendern(neuesDepot: string) {
+    this.transactionen = this.depotService.getTransaktionen(this.http, neuesDepot).data;
+  }
+
+  getTransaktionenHeader() {
+    return ['Datum', 'Wertpapier', 'Anzahl', 'Wertpapierpreis', 'Transaktionskosten', 'Transaktionsart', 'Gesamtkosten'];
+  }
+
+  getTransaktionen() {
+    return this.transactionen.map(transaktion => {
+      return [
+        this.formatDate(transaktion.transaktionsDatum),
+        transaktion.wertpapier.name,
+        transaktion.anzahl,
+        transaktion.wertpapierPreis,
+        transaktion.transaktionskosten,
+        transaktion.transaktionsart,
+        transaktion.gesamtkosten
+      ]
+    });
+  }
+
+  private formatDate(date: string) {
+    const newDate = new Date(date);
+    const formattedDate = `${('0' + newDate.getDate()).slice(-2)}.${('0' + (newDate.getMonth() + 1)).slice(-2)}.${newDate.getFullYear()}`;
+    return formattedDate;
   }
 }

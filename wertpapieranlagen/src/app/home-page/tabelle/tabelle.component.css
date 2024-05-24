@@ -1,0 +1,30 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th, td {
+  border: 0.5px solid black;
+  padding: 7px;
+  font-size: small;
+}
+
+th {
+  padding: 10px;
+  text-align: left;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.header-content div {
+  margin-right: 12px;
+}
+
+.header-content img {
+  height: 1.5em;
+}
+

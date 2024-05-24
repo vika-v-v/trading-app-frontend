@@ -1,0 +1,20 @@
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let data of tableHeader">
+        <div class="header-content">
+          <div>{{ data }}</div>
+          <img src="../../../assets/icons/1063886_arrow_arrow down_arrow square_down_square_icon.svg" alt="icon">
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of tableData">
+      <td *ngFor="let item of data">{{item}}</td>
+    </tr>
+</table>
+
+<div class="filter-sort-popup">
+
+</div>
