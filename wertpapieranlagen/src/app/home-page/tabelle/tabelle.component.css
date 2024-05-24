@@ -46,6 +46,7 @@ th {
   border: 1px solid black;
   padding: 5px;
   box-shadow: rgb(161, 161, 161) 1.5px 1.5px 1px 1px;
+  background-color: white;
 }
 
 .option {
@@ -55,5 +56,7 @@ th {
   margin: 5px;
 }
 
-
+.filter-sort-popup {
+  position: absolute;
+}
 

@@ -4,7 +4,7 @@
       <th *ngFor="let data of tableHeader">
         <div class="header-content">
           <div>{{ data.wert }}</div>
-          <img (click)="showFilterSortPopup(data)" src="../../../assets/icons/1063886_arrow_arrow down_arrow square_down_square_icon.svg" alt="icon">
+          <img #icon (click)="showFilterSortPopup(data, icon)" src="../../../assets/icons/1063886_arrow_arrow down_arrow square_down_square_icon.svg" alt="icon">
         </div>
       </th>
     </tr>
@@ -17,7 +17,7 @@
     </tr>
 </table>
 
-<div *ngIf="filterSortPopup != null" class="filter-sort-popup">
+<div *ngIf="filterSortPopup != null" class="filter-sort-popup" [ngStyle]="{'top.px': popupPosition.top, 'left.px': popupPosition.left}">
   <div class="popup-content">
     <div *ngFor="let filter of possibleFiltersAndSortings">
       <div *ngIf="filter.FilterType === filterSortPopup">

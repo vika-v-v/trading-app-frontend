@@ -22,6 +22,7 @@ export class TabelleComponent {
   tableDataFormatted: any[] = [];
   filterSortPopup: FilterType | null = null;
 
+  popupPosition = { top: 0, left: 0 };
 
   arrowUp: string = '../../../assets/icons/4829871_arrows_up_upload_icon.svg';
   arrowDown: string = '../../../assets/icons/4829873_arrow_down_download_icon.svg';
@@ -94,9 +95,15 @@ export class TabelleComponent {
     }
   }
 
-  showFilterSortPopup(column: any) {
+  showFilterSortPopup(column: any, placeNear: HTMLElement) {
     this.filterSortPopup = column.typ;
 
+    const rect = placeNear.getBoundingClientRect();
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollLeft = document.documentElement.scrollLeft;
+
+    this.popupPosition.top = rect.top + scrollTop;
+    this.popupPosition.left = rect.right + 5 + scrollLeft;
   }
 
   formatDate(date: string): string {
