@@ -11,19 +11,16 @@ export class UserService {
   login(http: HttpClient, email: string, passwort: string): Observable<any> {
     const loginUrl = this.rootUrl + 'users/login';
 
-    const httpHeaders = new HttpHeaders({
-      'X_API_KEY': 'SP01Key'
-    });
-
     const httpOptions = {
-      headers: httpHeaders
+      headers: new HttpHeaders({
+        'X_API_KEY': 'SP01Key'
+      })
     };
 
-    const body = {
-      email: email,
-      passwort: passwort
-    };
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('passwort', passwort);
 
-    return http.post(loginUrl, body, httpOptions);
+    return http.post(loginUrl, formData, httpOptions);
   }
 }

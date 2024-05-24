@@ -26,7 +26,9 @@ export class LoginSeiteComponent {
 
     this.userService.login(this.http, this.email, this.passwort).subscribe(
       response => {
+        console.log("Klappt!");
         console.log('Response:', response);
+
         this.naviagateToHomePage();
       },
       error => {
