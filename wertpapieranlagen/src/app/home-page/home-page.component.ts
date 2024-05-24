@@ -9,6 +9,7 @@ import { TaxSettingsComponent } from '../user-settings/tax-settings/tax-settings
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DepotService } from '../services/depot.service';
 import { TabelleComponent } from './tabelle/tabelle.component';
+import { FilterType } from './tabelle/filter-type.enum';
 
 @Component({
   selector: 'app-home-page',
@@ -80,13 +81,20 @@ export class HomePageComponent {
   }
 
   getTransaktionenHeader() {
-    return ['Datum', 'Wertpapier', 'Anzahl', 'Wertpapierpreis', 'Transaktionskosten', 'Transaktionsart', 'Gesamtkosten'];
+    return [
+      {"wert" : "Datum", "typ" : FilterType.Date},
+      {"wert" : "Wertpapier", "typ" : FilterType.Text},
+      {"wert" : "Anzahl", "typ": FilterType.Number},
+      {"wert" : "Wertpapierpreis", "typ" : FilterType.Number},
+      {"wert" : "Transaktionskosten", "typ" : FilterType.Number},
+      {"wert" : "Transaktionsart", "typ" : FilterType.Object, "optionen" : ["KAUF", "VERKAUF"]},
+      {"wert" : "Gesamtkosten", "typ" : FilterType.Number}];
   }
 
   getTransaktionen() {
     return this.transactionen.map(transaktion => {
       return [
-        this.formatDate(transaktion.transaktionsDatum),
+        transaktion.transaktionsDatum,
         transaktion.wertpapier.name,
         transaktion.anzahl,
         transaktion.wertpapierPreis,
@@ -97,9 +105,4 @@ export class HomePageComponent {
     });
   }
 
-  private formatDate(date: string) {
-    const newDate = new Date(date);
-    const formattedDate = `${('0' + newDate.getDate()).slice(-2)}.${('0' + (newDate.getMonth() + 1)).slice(-2)}.${newDate.getFullYear()}`;
-    return formattedDate;
-  }
 }

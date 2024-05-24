@@ -3,18 +3,45 @@
     <tr>
       <th *ngFor="let data of tableHeader">
         <div class="header-content">
-          <div>{{ data }}</div>
-          <img src="../../../assets/icons/1063886_arrow_arrow down_arrow square_down_square_icon.svg" alt="icon">
+          <div>{{ data.wert }}</div>
+          <img (click)="showFilterSortPopup(data)" src="../../../assets/icons/1063886_arrow_arrow down_arrow square_down_square_icon.svg" alt="icon">
         </div>
       </th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of tableData">
-      <td *ngFor="let item of data">{{item}}</td>
+    <tr *ngFor="let data of tableDataFormatted">
+      <td *ngFor="let item of data">
+          {{item}}
+      </td>
     </tr>
 </table>
 
-<div class="filter-sort-popup">
+<div *ngIf="filterSortPopup != null" class="filter-sort-popup">
+  <div class="popup-content">
+    <div *ngFor="let filter of possibleFiltersAndSortings">
+      <div *ngIf="filter.FilterType === filterSortPopup">
+        <!-- Sortings -->
+        <div *ngFor="let sorting of filter.Sortings" class="option">
+          <img [src]="sorting.ImageSrc" alt="icon">
+          <div>{{ sorting.Name }}</div>
+        </div>
+
+        <!-- Filters -->
+        <div *ngFor="let filterOption of filter.Filters">
+          <div *ngIf="filterOption.Typ === 'Dropdown'" class="filter">
+            <label>{{ filterOption.Name }}</label>
+            <select *ngIf="filterOption.Optionen" [(ngModel)]="filterOption.Selected">
+              <option *ngFor="let option of filterOption.Optionen" [value]="option">{{ option }}</option>
+            </select>
+          </div>
+          <div *ngIf="filterOption.Typ === 'Textfeld'" class="filter">
+            <label>{{ filterOption.Name }}</label>
+            <input type="text" [(ngModel)]="filterOption.Selected">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>

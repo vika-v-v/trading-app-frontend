@@ -2,5 +2,7 @@ export enum FilterType {
   Number,
   Text,
   Date,
-  Boolean
+  Boolean,
+  Object,
+  None
 }

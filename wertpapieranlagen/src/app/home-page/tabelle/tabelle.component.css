@@ -15,7 +15,7 @@ th {
   text-align: left;
 }
 
-.header-content {
+.header-content, .option {
   display: flex;
   align-items: center;
 }
@@ -24,7 +24,36 @@ th {
   margin-right: 12px;
 }
 
-.header-content img {
+.header-content img, .option img {
   height: 1.5em;
 }
+
+.option div {
+  margin-left: 12px;
+}
+
+.filter label {
+  margin-right: 8px;
+}
+
+.filter {
+  margin: 10px;
+}
+
+.popup-content {
+  font-size: small;
+  width: fit-content;
+  border: 1px solid black;
+  padding: 5px;
+  box-shadow: rgb(161, 161, 161) 1.5px 1.5px 1px 1px;
+}
+
+.option {
+  border: 1px solid black;
+  border-radius: 2px;
+  padding: 5px;
+  margin: 5px;
+}
+
+
 
