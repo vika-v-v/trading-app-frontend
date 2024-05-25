@@ -333,6 +333,16 @@ export class TabelleComponent {
         });
       }
     }
+    else if(header.typ == FilterType.Text) {
+      this.tableDataFormatted.forEach((line: any) => {
+        if(!line.row[columnIndex].toLowerCase().includes(filter.selected.toLowerCase())) {
+          line.shown = false;
+        }
+        else {
+          line.shown = true;
+        }
+      });
+    }
   }
 
 

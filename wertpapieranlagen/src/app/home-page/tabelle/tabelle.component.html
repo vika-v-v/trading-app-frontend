@@ -68,7 +68,7 @@
       </div>
       <div *ngIf="filterOption.typ === 'Textfeld'" class="filter">
         <label>{{ filterOption.name }}</label>
-        <input type="text" [(ngModel)]="filterOption.selected" />
+        <input type="text" [(ngModel)]="filterOption.selected" (ngModelChange)="filterSelected(filterOption, getFilterSortPopupOptions())" />
       </div>
       <div *ngIf="filterOption.typ === 'Slider'" class="filter slider-filter">
         <label>{{ filterOption.name }}</label>
