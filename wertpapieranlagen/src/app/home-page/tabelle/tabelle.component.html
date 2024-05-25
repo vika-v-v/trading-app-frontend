@@ -27,12 +27,12 @@
     <ng-container *ngFor="let data of tableDataFormatted">
       <tr *ngIf="data.shown">
         <td *ngFor="let item of data.row">
-          <div *ngIf="item.highlightedRange">
+          <div *ngIf="item.highlightedRange && filterSortPopup != null">
             <span>{{ item.wert.substring(0, item.highlightedRange.start) }}</span>
             <span><mark>{{ item.wert.substring(item.highlightedRange.start, item.highlightedRange.end) }}</mark></span>
             <span>{{ item.wert.substring(item.highlightedRange.end, item.wert.length) }}</span>
           </div>
-          <div *ngIf="!item.highlightedRange">
+          <div *ngIf="!item.highlightedRange || filterSortPopup == null">
             {{ item.wert }}
           </div>
         </td>
@@ -85,6 +85,8 @@
           [step]="1"
           [(value1)]="filterOption.value1"
           [(value2)]="filterOption.value2"
+          (value1Change)="filterSelected(filterOption, getFilterSortPopupOptions())"
+          (value2Change)="filterSelected(filterOption, getFilterSortPopupOptions())"
         ></app-range-slider>
       </div>
     </div>

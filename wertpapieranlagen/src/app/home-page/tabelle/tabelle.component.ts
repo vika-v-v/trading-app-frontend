@@ -334,8 +334,17 @@ export class TabelleComponent {
         }
       });
     }
+    else if(header.typ == FilterType.Number || header.typ == FilterType.Decimal) {
+      this.tableDataFormatted.forEach((line: any) => {
+        if(line.row[columnIndex].wert >= filter.value1 && line.row[columnIndex].wert <= filter.value2) {
+          line.shown = true;
+        }
+        else {
+          line.shown = false;
+        }
+      });
+    }
   }
-
 
   private sortingSelected(sorting: any, header: any) {
     if (!sorting.selected) return;
@@ -367,11 +376,6 @@ export class TabelleComponent {
       }
     });
   }
-
-  onSliderChange(event: { value1: number, value2: number }, filterOption: any) {
-    filterOption.selected = { min: event.value1, max: event.value2 };
-  }
-
 
   private formatDate(date: string): string {
     const d = new Date(date);
