@@ -5,8 +5,20 @@
       <th *ngFor="let data of tableHeaderFormatted">
         <div class="header-content">
           <div>{{ data.wert }}</div>
-          <img *ngIf="!headerSelected(data)" #icon (click)="showFilterSortPopup(data, icon)" src="../../../assets/icons/1063886_arrow_arrow down_arrow square_down_square_icon.svg" alt="icon">
-          <img *ngIf="headerSelected(data)" #icon (click)="showFilterSortPopup(data, icon)" src="../../../assets/icons/2_1063886_grey_arrow_arrow down_arrow square_down_square_icon.svg" alt="icon">
+          <img
+            *ngIf="!headerSelected(data)"
+            #icon
+            (click)="showFilterSortPopup(data, icon)"
+            src="../../../assets/icons/1063886_arrow_arrow down_arrow square_down_square_icon.svg"
+            alt="icon"
+          />
+          <img
+            *ngIf="headerSelected(data)"
+            #icon
+            (click)="showFilterSortPopup(data, icon)"
+            src="../../../assets/icons/2_1063886_grey_arrow_arrow down_arrow square_down_square_icon.svg"
+            alt="icon"
+          />
         </div>
       </th>
     </tr>
@@ -14,36 +26,47 @@
   <tbody>
     <tr *ngFor="let data of tableDataFormatted">
       <td *ngFor="let item of data">
-          {{item}}
+        {{ item }}
       </td>
     </tr>
+  </tbody>
 </table>
 
-<div #popup *ngIf="filterSortPopup != null" class="filter-sort-popup" [ngStyle]="{'top.px': popupPosition.top, 'left.px': popupPosition.left}">
+<div
+  #popup
+  *ngIf="filterSortPopup != null"
+  class="filter-sort-popup"
+  [ngStyle]="{ 'top.px': popupPosition.top, 'left.px': popupPosition.left }"
+>
   <div class="popup-content">
-    <div *ngFor="let filter of tableHeaderFormatted">
-      <div *ngIf="filter.typ === filterSortPopup">
-        <!-- Sortings -->
-        <div *ngFor="let sorting of filter.sortings" class="option" (click)="toggleSorting(sorting, filter)" [ngClass]="{'selected': sorting.selected}">
-          <img [src]="sorting.imagesrc" alt="icon">
-          <div>{{ sorting.name }}</div>
-        </div>
+    <!-- Sortings -->
+    <div
+      *ngFor="let sorting of getFilterSortPopupOptions().sortings"
+      class="option"
+      (click)="toggleSorting(sorting, getFilterSortPopupOptions())"
+      [ngClass]="{ selected: sorting.selected }"
+    >
+      <img [src]="sorting.imagesrc" alt="icon" />
+      <div>{{ sorting.name }}</div>
+    </div>
 
-        <!-- Filters -->
-        <div *ngFor="let filterOption of filter.filters">
-          <div *ngIf="filterOption.typ === 'Dropdown'" class="filter">
-            <label>{{ filterOption.name }}</label>
-            <select *ngIf="filterOption.optionen" [(ngModel)]="filterOption.selected">
-              <option *ngFor="let option of filterOption.optionen" [value]="option">{{ option }}</option>
-            </select>
-          </div>
-          <div *ngIf="filterOption.typ === 'Textfeld'" class="filter">
-            <label>{{ filterOption.name }}</label>
-            <input type="text" [(ngModel)]="filterOption.selected">
-          </div>
-        </div>
+    <!-- Filters -->
+    <div *ngFor="let filterOption of getFilterSortPopupOptions().filters">
+      <div *ngIf="filterOption.typ === 'Dropdown'" class="filter">
+        <label>{{ filterOption.name }}</label>
+        <select
+          *ngIf="filterOption.optionen"
+          [(ngModel)]="filterOption.selected"
+        >
+          <option *ngFor="let option of filterOption.optionen" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+      <div *ngIf="filterOption.typ === 'Textfeld'" class="filter">
+        <label>{{ filterOption.name }}</label>
+        <input type="text" [(ngModel)]="filterOption.selected" />
       </div>
     </div>
   </div>
-
 </div>

@@ -23,7 +23,7 @@ export class TabelleComponent {
   tableHeaderFormatted: any[] = [];
   initialTableDataFormatted: any[] = [];
 
-  filterSortPopup: FilterType | null = null;
+  filterSortPopup: any | null = null;
 
   popupPosition = { top: 0, left: 0 };
   currentIcon: HTMLElement | null = null;
@@ -69,6 +69,29 @@ export class TabelleComponent {
         },
         {
           "Name" : "Absteigend sortieren (Z-A)",
+          "Key" : "desc",
+          "ImageSrc" : this.arrowDown
+        }
+      ],
+      "Filters" : [
+        {
+          "Name" : "Filtern nach...",
+          "Typ" : "Textfeld",
+          "Optionen" : [],
+          "DefaultSelected" : ""
+        }
+      ]
+    },
+    {
+      "FilterType" : FilterType.Number,
+      "Sortings" : [
+        {
+          "Name" : "Aufsteigend sortieren (klein bis groß)",
+          "Key" : "asc",
+          "ImageSrc" : this.arrowUp
+        },
+        {
+          "Name" : "Absteigend sortieren (groß bis klein)",
           "Key" : "desc",
           "ImageSrc" : this.arrowDown
         }
@@ -144,7 +167,7 @@ export class TabelleComponent {
   }
 
   showFilterSortPopup(column: any, placeNear: HTMLElement) {
-    this.filterSortPopup = column.typ;
+    this.filterSortPopup = column;
     this.currentIcon = placeNear;
 
     const rect = placeNear.getBoundingClientRect();
@@ -197,23 +220,36 @@ export class TabelleComponent {
     return false;
   }
 
+  getFilterSortPopupOptions(): any {
+    for (let filterSorting of this.tableHeaderFormatted) {
+      if (filterSorting == this.filterSortPopup) {
+        return filterSorting;
+      }
+    }
+  }
+
 
   private sortingSelected(sorting: any, header: any) {
     if (!sorting.selected) return;
 
-    const columnIndex = this.tableHeaderFormatted.findIndex(header => header === header);
+    const columnIndex = this.tableHeaderFormatted.findIndex(h => h === header);
     if (columnIndex < 0) return;
 
     this.tableDataFormatted.sort((a, b) => {
       let valueA = a[columnIndex];
       let valueB = b[columnIndex];
 
-      if (header.FilterType === FilterType.Date) {
+      if (header.typ === FilterType.Date) {
         valueA = new Date(valueA).getTime();
         valueB = new Date(valueB).getTime();
-      } else if (header.FilterType === FilterType.Text) {
+      }
+      else if (header.typ === FilterType.Text) {
         valueA = valueA.toLowerCase();
         valueB = valueB.toLowerCase();
+      }
+      else if (header.typ === FilterType.Number) {
+        valueA = parseFloat(valueA);
+        valueB = parseFloat(valueB);
       }
 
       if (sorting.key === 'asc') {
