@@ -67,7 +67,7 @@
         <label>{{ filterOption.name }}</label>
         <input type="text" [(ngModel)]="filterOption.selected" />
       </div>
-      <div *ngIf="filterOption.typ === 'Slider'" class="filter">
+      <div *ngIf="filterOption.typ === 'Slider'" class="filter slider-filter">
         <label>{{ filterOption.name }}</label>
         <app-range-slider
           [min]="filterOption.min"

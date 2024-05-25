@@ -98,9 +98,7 @@ export class TabelleComponent {
       "Filters" : [
         {
           "Name" : "Reichweite auswählen",
-          "Typ" : "Slider",
-          "Min" : 0,
-          "Max" : 100
+          "Typ" : "Slider"
         }
       ]
     }
@@ -111,14 +109,14 @@ export class TabelleComponent {
   ngOnInit(): void {
 
     // form table header - map data from possibleFiltersAndSortings to include into tableHeaderFormatted
-    for (let header of this.tableHeader) {
+    for (let i = 0; i < this.tableHeader.length; i++) {
       let headerObject: any = {}; // Change to object
 
-      headerObject.wert = header.wert;
-      headerObject.typ = header.typ;
+      headerObject.wert = this.tableHeader[i].wert;
+      headerObject.typ = this.tableHeader[i].typ;
 
       for (let filterSorting of this.possibleFiltersAndSortings) {
-        if (filterSorting.FilterType == header.typ) {
+        if (filterSorting.FilterType == this.tableHeader[i].typ) {
           let sortings = [];
           for (let sorting of filterSorting.Sortings) {
             let sortingObject: any = {}; // Initialize as an object
@@ -139,13 +137,16 @@ export class TabelleComponent {
 
             if ('Optionen' in filter) filterObject.optionen = filter.Optionen;
             if ('DefaultSelected' in filter) filterObject.selected = filter.DefaultSelected;
-            if ('Min' in filter) {
-              filterObject.min = filter.Min;
-              filterObject.value1 = filter.Min;
-            }
-            if ('Max' in filter) {
-               filterObject.max = filter.Max;
-              filterObject.value2 = filter.Max;
+            if (filter.Typ == 'Slider') {
+              filterObject.min = Math.min(...this.tableData.map(row => row[i]));
+              filterObject.value1 = filterObject.min;
+
+              filterObject.max = Math.max(...this.tableData.map(row => row[i]));
+              filterObject.value2 = filterObject.max;
+
+              if(filterObject.min == filterObject.max) {
+                filterObject.typ = "none";
+              }
             }
 
             filters.push(filterObject);

@@ -63,3 +63,10 @@ th {
 .selected {
   background-color: rgb(203, 203, 203);
 }
+
+
+.slider-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

@@ -27,24 +27,27 @@ export class RangeSliderComponent {
   trackLeft: string = '';
   trackWidth: string = '';
 
+  ngOnInit(): void {
+    if (this.value1 === undefined) this.value1 = this.min;
+    if (this.value2 === undefined) this.value2 = this.max;
+
+    this.min = Math.floor(this.min);
+    this.max = Math.ceil(this.max);
+  }
+
   set value1(val: number) {
-    this._value1 = val;
+    this._value1 = parseFloat(val.toFixed(2));
     this.value1Change.emit(this._value1);
     this.onValueChange();
   }
 
   set value2(val: number) {
-    this._value2 = val;
+    this._value2 = parseFloat(val.toFixed(2));
     this.value2Change.emit(this._value2);
     this.onValueChange();
   }
 
   constructor() {}
-
-  ngOnInit(): void {
-    if (this.value1 === undefined) this.value1 = this.min;
-    if (this.value2 === undefined) this.value2 = this.max;
-  }
 
   onValueChange() {
     if (this._value1 > this._value2) {
