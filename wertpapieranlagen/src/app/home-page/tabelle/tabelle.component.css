@@ -60,3 +60,6 @@ th {
   position: absolute;
 }
 
+.selected {
+  background-color: rgb(203, 203, 203);
+}

@@ -1,7 +1,7 @@
 <table>
   <thead>
     <tr>
-      <th *ngFor="let data of tableHeader">
+      <th *ngFor="let data of tableHeaderFormatted">
         <div class="header-content">
           <div>{{ data.wert }}</div>
           <img #icon (click)="showFilterSortPopup(data, icon)" src="../../../assets/icons/1063886_arrow_arrow down_arrow square_down_square_icon.svg" alt="icon">
@@ -19,25 +19,25 @@
 
 <div #popup *ngIf="filterSortPopup != null" class="filter-sort-popup" [ngStyle]="{'top.px': popupPosition.top, 'left.px': popupPosition.left}">
   <div class="popup-content">
-    <div *ngFor="let filter of possibleFiltersAndSortings">
-      <div *ngIf="filter.FilterType === filterSortPopup">
+    <div *ngFor="let filter of tableHeaderFormatted">
+      <div *ngIf="filter.typ === filterSortPopup">
         <!-- Sortings -->
-        <div *ngFor="let sorting of filter.Sortings" class="option">
-          <img [src]="sorting.ImageSrc" alt="icon">
-          <div>{{ sorting.Name }}</div>
+        <div *ngFor="let sorting of filter.sortings" class="option" (click)="toggleSorting(sorting, filter)" [ngClass]="{'selected': sorting.selected}">
+          <img [src]="sorting.imagesrc" alt="icon">
+          <div>{{ sorting.name }}</div>
         </div>
 
         <!-- Filters -->
-        <div *ngFor="let filterOption of filter.Filters">
-          <div *ngIf="filterOption.Typ === 'Dropdown'" class="filter">
-            <label>{{ filterOption.Name }}</label>
-            <select *ngIf="filterOption.Optionen" [(ngModel)]="filterOption.Selected">
-              <option *ngFor="let option of filterOption.Optionen" [value]="option">{{ option }}</option>
+        <div *ngFor="let filterOption of filter.filters">
+          <div *ngIf="filterOption.typ === 'Dropdown'" class="filter">
+            <label>{{ filterOption.name }}</label>
+            <select *ngIf="filterOption.optionen" [(ngModel)]="filterOption.selected">
+              <option *ngFor="let option of filterOption.optionen" [value]="option">{{ option }}</option>
             </select>
           </div>
-          <div *ngIf="filterOption.Typ === 'Textfeld'" class="filter">
-            <label>{{ filterOption.Name }}</label>
-            <input type="text" [(ngModel)]="filterOption.Selected">
+          <div *ngIf="filterOption.typ === 'Textfeld'" class="filter">
+            <label>{{ filterOption.name }}</label>
+            <input type="text" [(ngModel)]="filterOption.selected">
           </div>
         </div>
       </div>

@@ -20,10 +20,13 @@ export class TabelleComponent {
   @Input() tableData: any[] = [];
 
   tableDataFormatted: any[] = [];
+  tableHeaderFormatted: any[] = [];
+
   filterSortPopup: FilterType | null = null;
 
   popupPosition = { top: 0, left: 0 };
   currentIcon: HTMLElement | null = null;
+  // TODO: wenn zweites mal geklicked nicht mehr anzeigen
 
   arrowUp: string = '../../../assets/icons/4829871_arrows_up_upload_icon.svg';
   arrowDown: string = '../../../assets/icons/4829873_arrow_down_download_icon.svg';
@@ -37,13 +40,13 @@ export class TabelleComponent {
       "Sortings" : [
         {
           "Name" : "Aufsteigend sortieren (früher bis später)",
-          "ImageSrc" : this.arrowUp,
-          "Selected" : false
+          "Key" : "asc",
+          "ImageSrc" : this.arrowUp
         },
         {
           "Name" : "Absteigend sortieren (später bis früher)",
-          "ImageSrc" : this.arrowDown,
-          "Selected" : false
+          "Key" : "desc",
+          "ImageSrc" : this.arrowDown
         }
       ],
       "Filters" : [
@@ -51,7 +54,7 @@ export class TabelleComponent {
           "Name" : "Zeitraum",
           "Typ" : "Dropdown",
           "Optionen" : ["Heute", "Gestern", "Diese Woche", "Dieser Monat", "Dieses Jahr", "Alle Perioden"],
-          "Selected" : "Alle Perioden"
+          "DefaultSelected" : "Alle Perioden"
         }
       ]
     },
@@ -60,13 +63,13 @@ export class TabelleComponent {
       "Sortings" : [
         {
           "Name" : "Aufsteigend sortieren (A-Z)",
-          "ImageSrc" : this.arrowUp,
-          "Selected" : false
+          "Key" : "asc",
+          "ImageSrc" : this.arrowUp
         },
         {
           "Name" : "Absteigend sortieren (Z-A)",
-          "ImageSrc" : this.arrowDown,
-          "Selected" : false
+          "Key" : "desc",
+          "ImageSrc" : this.arrowDown
         }
       ],
       "Filters" : [
@@ -74,7 +77,7 @@ export class TabelleComponent {
           "Name" : "Filtern nach...",
           "Typ" : "Textfeld",
           "Optionen" : [],
-          "Selected" : ""
+          "DefaultSelected" : ""
         }
       ]
     }
@@ -85,6 +88,44 @@ export class TabelleComponent {
   ngOnInit(): void {
     console.log('Table Header:', this.tableHeader);
     console.log('Table Data:', this.tableData);
+
+    // form table header - map data from possibleFiltersAndSortings to include into tableHeaderFormatted
+    for (let header of this.tableHeader) {
+      let headerObject: any = {}; // Change to object
+
+      headerObject.wert = header.wert;
+      headerObject.typ = header.typ;
+
+      for (let filterSorting of this.possibleFiltersAndSortings) {
+        if (filterSorting.FilterType == header.typ) {
+          let sortings = [];
+          for (let sorting of filterSorting.Sortings) {
+            let sortingObject: any = {}; // Initialize as an object
+            sortingObject.name = sorting.Name;
+            sortingObject.imagesrc = sorting.ImageSrc;
+            sortingObject.selected = false;
+            sortingObject.key = sorting.Key;
+
+            sortings.push(sortingObject);
+          }
+          headerObject.sortings = sortings;
+
+          let filters = [];
+          for (let filter of filterSorting.Filters) {
+            let filterObject: any = {}; // Initialize as an object
+            filterObject.name = filter.Name;
+            filterObject.typ = filter.Typ;
+            filterObject.optionen = filter.Optionen;
+            filterObject.selected = filter.DefaultSelected;
+
+            filters.push(filterObject);
+          }
+          headerObject.filters = filters;
+        }
+      }
+      this.tableHeaderFormatted.push(headerObject);
+    }
+
 
     // form table data - map types to include into tableDataFormatted
     for (let j = 0; j < this.tableData.length; j++) {
@@ -125,6 +166,22 @@ export class TabelleComponent {
         this.filterSortPopup = null;
       }
     }
+  }
+
+  toggleSorting(sorting: any, filterSorting: any) {
+    if(!sorting.selected) {
+      filterSorting.sortings.forEach((sorting: any) => {
+        sorting.selected = false;
+      });
+      sorting.selected = true;
+    }
+    else {
+      sorting.selected = false;
+    }
+  }
+
+  columnForFilterSortSelected(column: any) {
+
   }
 
   formatDate(date: string): string {
