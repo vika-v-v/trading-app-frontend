@@ -27,7 +27,14 @@
     <ng-container *ngFor="let data of tableDataFormatted">
       <tr *ngIf="data.shown">
         <td *ngFor="let item of data.row">
-          {{ item }}
+          <div *ngIf="item.highlightedRange">
+            <span>{{ item.wert.substring(0, item.highlightedRange.start) }}</span>
+            <span><mark>{{ item.wert.substring(item.highlightedRange.start, item.highlightedRange.end) }}</mark></span>
+            <span>{{ item.wert.substring(item.highlightedRange.end, item.wert.length) }}</span>
+          </div>
+          <div *ngIf="!item.highlightedRange">
+            {{ item.wert }}
+          </div>
         </td>
       </tr>
     </ng-container>

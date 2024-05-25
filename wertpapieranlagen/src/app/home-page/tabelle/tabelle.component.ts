@@ -182,17 +182,21 @@ export class TabelleComponent {
     for (let j = 0; j < this.tableData.length; j++) {
       let row = [];
       for (let i = 0; i < this.tableHeader.length; i++) {
-        let wert;
+        let data: any = {};
         if (this.tableHeader[i].typ == FilterType.Date) {
-          wert = this.formatDate(this.tableData[j][i]);
+          data.wert = this.formatDate(this.tableData[j][i]);
         }
         else if (this.tableHeader[i].typ == FilterType.Decimal) {
-          wert = parseFloat(this.tableData[j][i]).toFixed(2);
+          data.wert = parseFloat(this.tableData[j][i]).toFixed(2);
+        }
+        else if(this.tableHeader[i].typ == FilterType.Text) {
+          data.wert = this.tableData[j][i];
+          data.highlightedRange = {start: -1, end: -1};
         }
         else {
-          wert = this.tableData[j][i];
+          data.wert = this.tableData[j][i];
         }
-        row.push(wert);
+        row.push(data);
       }
       this.tableDataFormatted.push({row, "shown": true});
     }
@@ -290,7 +294,7 @@ export class TabelleComponent {
       }
       else if (filter.selected == "Heute") {
         this.tableDataFormatted.forEach((line: any) => {
-          if(line.row[columnIndex] != this.formatDate(new Date().toISOString())) {
+          if(line.row[columnIndex].wert != this.formatDate(new Date().toISOString())) {
             line.shown = false;
           }
           else {
@@ -300,7 +304,7 @@ export class TabelleComponent {
       }
       else if (filter.selected == "Gestern") {
         this.tableDataFormatted.forEach((line: any) => {
-          if(line.row[columnIndex] != this.formatDate(new Date(new Date().setDate(new Date().getDate() - 1)).toISOString())) {
+          if(line.row[columnIndex].wert != this.formatDate(new Date(new Date().setDate(new Date().getDate() - 1)).toISOString())) {
             line.shown = false;
           }
           else {
@@ -320,11 +324,13 @@ export class TabelleComponent {
     }
     else if(header.typ == FilterType.Text) {
       this.tableDataFormatted.forEach((line: any) => {
-        if(!line.row[columnIndex].toLowerCase().includes(filter.selected.toLowerCase())) {
-          line.shown = false;
+        if(line.row[columnIndex].wert.toLowerCase().includes(filter.selected.toLowerCase())) {
+          line.shown = true;
+          line.row[columnIndex].highlightedRange = {start: line.row[columnIndex].wert.toLowerCase().indexOf(filter.selected.toLowerCase()), end: line.row[columnIndex].wert.toLowerCase().indexOf(filter.selected.toLowerCase()) + filter.selected.length};
         }
         else {
-          line.shown = true;
+          line.shown = false;
+          line.row[columnIndex].highlightedRange = {start: -1, end: -1};
         }
       });
     }
@@ -338,8 +344,8 @@ export class TabelleComponent {
     if (columnIndex < 0) return;
 
     this.tableDataFormatted.sort((a, b) => {
-      let valueA = a.row[columnIndex];
-      let valueB = b.row[columnIndex];
+      let valueA = a.row[columnIndex].wert;
+      let valueB = b.row[columnIndex].wert;
 
       if (header.typ === FilterType.Date) {
         valueA = this.parseDate(valueA).getTime();
@@ -381,7 +387,7 @@ export class TabelleComponent {
 
       const currentWeek = this.getWeek(new Date());
       this.tableDataFormatted.forEach((line: any) => {
-        const date = this.parseDate(line.row[lineNumber]);
+        const date = this.parseDate(line.row[lineNumber].wert);
         line.shown = this.getWeek(date) === currentWeek && date.getFullYear() === currentYear && date.getMonth() === currentMonth;
       });
     }
@@ -389,7 +395,7 @@ export class TabelleComponent {
     private filterByYear(lineNumber: number) {
       const currentYear = new Date().getFullYear();
       this.tableDataFormatted.forEach((line: any) => {
-        const date = this.parseDate(line.row[lineNumber]);
+        const date = this.parseDate(line.row[lineNumber].wert);
         line.shown = date.getFullYear() === currentYear;
       });
     }
@@ -399,7 +405,7 @@ export class TabelleComponent {
       const currentMonth = new Date().getMonth();
 
       this.tableDataFormatted.forEach((line: any) => {
-        const date = this.parseDate(line.row[lineNumber]);
+        const date = this.parseDate(line.row[lineNumber].wert);
         line.shown = date.getFullYear() === currentYear && date.getMonth() === currentMonth;
       });
     }
