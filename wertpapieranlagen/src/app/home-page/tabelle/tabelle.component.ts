@@ -21,6 +21,7 @@ export class TabelleComponent {
 
   tableDataFormatted: any[] = [];
   tableHeaderFormatted: any[] = [];
+  initialTableDataFormatted: any[] = [];
 
   filterSortPopup: FilterType | null = null;
 
@@ -86,8 +87,6 @@ export class TabelleComponent {
   constructor(private eRef: ElementRef) { }
 
   ngOnInit(): void {
-    console.log('Table Header:', this.tableHeader);
-    console.log('Table Data:', this.tableData);
 
     // form table header - map data from possibleFiltersAndSortings to include into tableHeaderFormatted
     for (let header of this.tableHeader) {
@@ -140,6 +139,8 @@ export class TabelleComponent {
       }
       this.tableDataFormatted.push(row);
     }
+
+    this.initialTableDataFormatted = [...this.tableDataFormatted];
   }
 
   showFilterSortPopup(column: any, placeNear: HTMLElement) {
@@ -168,23 +169,62 @@ export class TabelleComponent {
     }
   }
 
-  toggleSorting(sorting: any, filterSorting: any) {
-    if(!sorting.selected) {
-      filterSorting.sortings.forEach((sorting: any) => {
-        sorting.selected = false;
+  toggleSorting(sorting: any, header: any) {
+    if (!sorting.selected) {
+      this.tableHeaderFormatted.forEach((h: any) => {
+        if(h.sortings != undefined) {
+          h.sortings.forEach((s: any) => {
+            s.selected = false;
+          });
+        }
       });
       sorting.selected = true;
-    }
-    else {
+      this.sortingSelected(sorting, header);
+    } else {
       sorting.selected = false;
+      this.tableDataFormatted = [...this.initialTableDataFormatted];
     }
   }
 
-  columnForFilterSortSelected(column: any) {
+  headerSelected(header: any): boolean {
+    if(header.sortings == undefined) return false;
 
+    for (let s of header.sortings) {
+      if (s.selected) {
+        return true;
+      }
+    }
+    return false;
   }
 
-  formatDate(date: string): string {
+
+  private sortingSelected(sorting: any, header: any) {
+    if (!sorting.selected) return;
+
+    const columnIndex = this.tableHeaderFormatted.findIndex(header => header === header);
+    if (columnIndex < 0) return;
+
+    this.tableDataFormatted.sort((a, b) => {
+      let valueA = a[columnIndex];
+      let valueB = b[columnIndex];
+
+      if (header.FilterType === FilterType.Date) {
+        valueA = new Date(valueA).getTime();
+        valueB = new Date(valueB).getTime();
+      } else if (header.FilterType === FilterType.Text) {
+        valueA = valueA.toLowerCase();
+        valueB = valueB.toLowerCase();
+      }
+
+      if (sorting.key === 'asc') {
+        return valueA > valueB ? 1 : valueA < valueB ? -1 : 0;
+      } else {
+        return valueA < valueB ? 1 : valueA > valueB ? -1 : 0;
+      }
+    });
+  }
+
+  private formatDate(date: string): string {
     const d = new Date(date);
     const year = d.getFullYear();
     const month = ('0' + (d.getMonth() + 1)).slice(-2);
