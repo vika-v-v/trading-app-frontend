@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
 import { FilterType } from './filter-type.enum';
 import { FormsModule } from '@angular/forms';
 
@@ -23,9 +23,13 @@ export class TabelleComponent {
   filterSortPopup: FilterType | null = null;
 
   popupPosition = { top: 0, left: 0 };
+  currentIcon: HTMLElement | null = null;
 
   arrowUp: string = '../../../assets/icons/4829871_arrows_up_upload_icon.svg';
   arrowDown: string = '../../../assets/icons/4829873_arrow_down_download_icon.svg';
+
+  @ViewChild('popup') popupRef!: ElementRef;
+  @ViewChild('icon') iconRef!: ElementRef;
 
   possibleFiltersAndSortings = [
     {
@@ -76,6 +80,8 @@ export class TabelleComponent {
     }
   ]
 
+  constructor(private eRef: ElementRef) { }
+
   ngOnInit(): void {
     console.log('Table Header:', this.tableHeader);
     console.log('Table Data:', this.tableData);
@@ -97,6 +103,7 @@ export class TabelleComponent {
 
   showFilterSortPopup(column: any, placeNear: HTMLElement) {
     this.filterSortPopup = column.typ;
+    this.currentIcon = placeNear;
 
     const rect = placeNear.getBoundingClientRect();
     const scrollTop = document.documentElement.scrollTop;
@@ -104,6 +111,20 @@ export class TabelleComponent {
 
     this.popupPosition.top = rect.top + scrollTop;
     this.popupPosition.left = rect.right + 5 + scrollLeft;
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClick(event: Event) {
+    const targetElement = event.target as HTMLElement;
+
+    if (this.filterSortPopup && this.popupRef) {
+      const clickedInsidePopup = this.popupRef.nativeElement.contains(targetElement);
+      const clickedInsideIcon = this.currentIcon?.contains(targetElement);
+
+      if (!clickedInsideIcon && !clickedInsidePopup) {
+        this.filterSortPopup = null;
+      }
+    }
   }
 
   formatDate(date: string): string {

@@ -17,7 +17,7 @@
     </tr>
 </table>
 
-<div *ngIf="filterSortPopup != null" class="filter-sort-popup" [ngStyle]="{'top.px': popupPosition.top, 'left.px': popupPosition.left}">
+<div #popup *ngIf="filterSortPopup != null" class="filter-sort-popup" [ngStyle]="{'top.px': popupPosition.top, 'left.px': popupPosition.left}">
   <div class="popup-content">
     <div *ngFor="let filter of possibleFiltersAndSortings">
       <div *ngIf="filter.FilterType === filterSortPopup">
