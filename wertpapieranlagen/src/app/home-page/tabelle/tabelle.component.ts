@@ -312,25 +312,10 @@ export class TabelleComponent {
         this.filterByWeek(columnIndex);
       }
       else if (filter.selected == "Dieser Monat") {
-        this.tableDataFormatted.forEach((line: any) => {
-          if(this.parseDate(line.row[columnIndex]).getMonth() != new Date().getMonth() ||
-            this.parseDate(line.row[columnIndex]).getFullYear() != new Date().getFullYear()) {
-            line.shown = false;
-          }
-          else {
-            line.shown = true;
-          }
-        });
+        this.filterByMonth(columnIndex);
       }
       else if (filter.selected == "Dieses Jahr") {
-        this.tableDataFormatted.forEach((line: any) => {
-          if(this.parseDate(line.row[columnIndex]).getFullYear() != new Date().getFullYear()) {
-            line.shown = false;
-          }
-          else {
-            line.shown = true;
-          }
-        });
+        this.filterByYear(columnIndex);
       }
     }
     else if(header.typ == FilterType.Text) {
@@ -391,10 +376,31 @@ export class TabelleComponent {
   }
 
   private filterByWeek(lineNumber: number) {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+
       const currentWeek = this.getWeek(new Date());
       this.tableDataFormatted.forEach((line: any) => {
         const date = this.parseDate(line.row[lineNumber]);
-        line.shown = this.getWeek(date) === currentWeek;
+        line.shown = this.getWeek(date) === currentWeek && date.getFullYear() === currentYear && date.getMonth() === currentMonth;
+      });
+    }
+
+    private filterByYear(lineNumber: number) {
+      const currentYear = new Date().getFullYear();
+      this.tableDataFormatted.forEach((line: any) => {
+        const date = this.parseDate(line.row[lineNumber]);
+        line.shown = date.getFullYear() === currentYear;
+      });
+    }
+
+    private filterByMonth(lineNumber: number) {
+      const currentYear = new Date().getFullYear();
+      const currentMonth = new Date().getMonth();
+
+      this.tableDataFormatted.forEach((line: any) => {
+        const date = this.parseDate(line.row[lineNumber]);
+        line.shown = date.getFullYear() === currentYear && date.getMonth() === currentMonth;
       });
     }
 
