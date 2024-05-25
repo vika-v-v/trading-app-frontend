@@ -2,13 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
 import { FilterType } from './filter-type.enum';
 import { FormsModule } from '@angular/forms';
+import { RangeSliderComponent } from './range-slider/range-slider.component';
 
 @Component({
   selector: 'app-tabelle',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RangeSliderComponent
   ],
   templateUrl: './tabelle.component.html',
   styleUrl: './tabelle.component.css'
@@ -33,7 +35,6 @@ export class TabelleComponent {
   arrowDown: string = '../../../assets/icons/4829873_arrow_down_download_icon.svg';
 
   @ViewChild('popup') popupRef!: ElementRef;
-  @ViewChild('icon') iconRef!: ElementRef;
 
   possibleFiltersAndSortings = [
     {
@@ -76,9 +77,7 @@ export class TabelleComponent {
       "Filters" : [
         {
           "Name" : "Filtern nach...",
-          "Typ" : "Textfeld",
-          "Optionen" : [],
-          "DefaultSelected" : ""
+          "Typ" : "Textfeld"
         }
       ]
     },
@@ -98,10 +97,10 @@ export class TabelleComponent {
       ],
       "Filters" : [
         {
-          "Name" : "Filtern nach...",
-          "Typ" : "Textfeld",
-          "Optionen" : [],
-          "DefaultSelected" : ""
+          "Name" : "Reichweite auswählen",
+          "Typ" : "Slider",
+          "Min" : 0,
+          "Max" : 100
         }
       ]
     }
@@ -137,8 +136,17 @@ export class TabelleComponent {
             let filterObject: any = {}; // Initialize as an object
             filterObject.name = filter.Name;
             filterObject.typ = filter.Typ;
-            filterObject.optionen = filter.Optionen;
-            filterObject.selected = filter.DefaultSelected;
+
+            if ('Optionen' in filter) filterObject.optionen = filter.Optionen;
+            if ('DefaultSelected' in filter) filterObject.selected = filter.DefaultSelected;
+            if ('Min' in filter) {
+              filterObject.min = filter.Min;
+              filterObject.value1 = filter.Min;
+            }
+            if ('Max' in filter) {
+               filterObject.max = filter.Max;
+              filterObject.value2 = filter.Max;
+            }
 
             filters.push(filterObject);
           }
@@ -174,8 +182,23 @@ export class TabelleComponent {
     const scrollTop = document.documentElement.scrollTop;
     const scrollLeft = document.documentElement.scrollLeft;
 
-    this.popupPosition.top = rect.top + scrollTop;
-    this.popupPosition.left = rect.right + 5 + scrollLeft;
+    // Default position to the right of the element
+    let popupLeft = rect.left + scrollLeft;
+    let popupTop = rect.bottom + 5 + scrollTop;
+
+    // Check if the popup would be rendered outside the right edge of the screen
+    setTimeout(() => {
+      const popupWidth = this.popupRef.nativeElement.offsetWidth;
+      const screenWidth = window.innerWidth;
+
+      if (popupLeft + popupWidth > screenWidth) {
+        // Render the popup to the left of the element
+        popupLeft = rect.right - popupWidth + scrollLeft;
+      }
+
+      this.popupPosition.top = popupTop;
+      this.popupPosition.left = popupLeft;
+    }, 0);
   }
 
   @HostListener('document:click', ['$event'])
@@ -259,6 +282,11 @@ export class TabelleComponent {
       }
     });
   }
+
+  onSliderChange(event: { value1: number, value2: number }, filterOption: any) {
+    filterOption.selected = { min: event.value1, max: event.value2 };
+  }
+
 
   private formatDate(date: string): string {
     const d = new Date(date);
