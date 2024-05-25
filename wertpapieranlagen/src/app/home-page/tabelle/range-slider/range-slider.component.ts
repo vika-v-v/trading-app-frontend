@@ -30,9 +30,6 @@ export class RangeSliderComponent {
   ngOnInit(): void {
     if (this.value1 === undefined) this.value1 = this.min;
     if (this.value2 === undefined) this.value2 = this.max;
-
-    this.min = Math.floor(this.min);
-    this.max = Math.ceil(this.max);
   }
 
   set value1(val: number) {

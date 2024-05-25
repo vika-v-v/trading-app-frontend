@@ -101,6 +101,27 @@ export class TabelleComponent {
           "Typ" : "Slider"
         }
       ]
+    },
+    {
+      "FilterType" : FilterType.Decimal,
+      "Sortings" : [
+        {
+          "Name" : "Aufsteigend sortieren (klein bis groß)",
+          "Key" : "asc",
+          "ImageSrc" : this.arrowUp
+        },
+        {
+          "Name" : "Absteigend sortieren (groß bis klein)",
+          "Key" : "desc",
+          "ImageSrc" : this.arrowDown
+        }
+      ],
+      "Filters" : [
+        {
+          "Name" : "Reichweite auswählen",
+          "Typ" : "Slider"
+        }
+      ]
     }
   ]
 
@@ -138,10 +159,10 @@ export class TabelleComponent {
             if ('Optionen' in filter) filterObject.optionen = filter.Optionen;
             if ('DefaultSelected' in filter) filterObject.selected = filter.DefaultSelected;
             if (filter.Typ == 'Slider') {
-              filterObject.min = Math.min(...this.tableData.map(row => row[i]));
+              filterObject.min = Math.floor(Math.min(...this.tableData.map(row => row[i])));
               filterObject.value1 = filterObject.min;
 
-              filterObject.max = Math.max(...this.tableData.map(row => row[i]));
+              filterObject.max = Math.ceil(Math.max(...this.tableData.map(row => row[i])));
               filterObject.value2 = filterObject.max;
 
               if(filterObject.min == filterObject.max) {
@@ -157,19 +178,23 @@ export class TabelleComponent {
       this.tableHeaderFormatted.push(headerObject);
     }
 
-
     // form table data - map types to include into tableDataFormatted
     for (let j = 0; j < this.tableData.length; j++) {
       let row = [];
       for (let i = 0; i < this.tableHeader.length; i++) {
+        let wert;
         if (this.tableHeader[i].typ == FilterType.Date) {
-          row.push(this.formatDate(this.tableData[j][i]));
+          wert = this.formatDate(this.tableData[j][i]);
+        }
+        else if (this.tableHeader[i].typ == FilterType.Decimal) {
+          wert = parseFloat(this.tableData[j][i]).toFixed(2);
         }
         else {
-          row.push(this.tableData[j][i]);
+          wert = this.tableData[j][i];
         }
+        row.push(wert);
       }
-      this.tableDataFormatted.push(row);
+      this.tableDataFormatted.push({row, "shown": true});
     }
 
     this.initialTableDataFormatted = [...this.tableDataFormatted];
@@ -252,6 +277,64 @@ export class TabelleComponent {
     }
   }
 
+  // TODO: several filters selected
+  filterSelected(filter: any, header: any) {
+    const columnIndex = this.tableHeaderFormatted.findIndex(h => h === header);
+    if (columnIndex < 0) return;
+
+    if(header.typ == FilterType.Date) {
+      if(filter.selected == "Alle Perioden") {
+        this.tableDataFormatted.forEach((line: any) => {
+          line.shown = true;
+        });
+      }
+      else if (filter.selected == "Heute") {
+        this.tableDataFormatted.forEach((line: any) => {
+          if(line.row[columnIndex] != this.formatDate(new Date().toISOString())) {
+            line.shown = false;
+          }
+          else {
+            line.shown = true;
+          }
+        });
+      }
+      else if (filter.selected == "Gestern") {
+        this.tableDataFormatted.forEach((line: any) => {
+          if(line.row[columnIndex] != this.formatDate(new Date(new Date().setDate(new Date().getDate() - 1)).toISOString())) {
+            line.shown = false;
+          }
+          else {
+            line.shown = true;
+          }
+        });
+      }
+      else if (filter.selected == "Diese Woche") {
+        this.filterByWeek(columnIndex);
+      }
+      else if (filter.selected == "Dieser Monat") {
+        this.tableDataFormatted.forEach((line: any) => {
+          if(this.parseDate(line.row[columnIndex]).getMonth() != new Date().getMonth() ||
+            this.parseDate(line.row[columnIndex]).getFullYear() != new Date().getFullYear()) {
+            line.shown = false;
+          }
+          else {
+            line.shown = true;
+          }
+        });
+      }
+      else if (filter.selected == "Dieses Jahr") {
+        this.tableDataFormatted.forEach((line: any) => {
+          if(this.parseDate(line.row[columnIndex]).getFullYear() != new Date().getFullYear()) {
+            line.shown = false;
+          }
+          else {
+            line.shown = true;
+          }
+        });
+      }
+    }
+  }
+
 
   private sortingSelected(sorting: any, header: any) {
     if (!sorting.selected) return;
@@ -260,12 +343,12 @@ export class TabelleComponent {
     if (columnIndex < 0) return;
 
     this.tableDataFormatted.sort((a, b) => {
-      let valueA = a[columnIndex];
-      let valueB = b[columnIndex];
+      let valueA = a.row[columnIndex];
+      let valueB = b.row[columnIndex];
 
       if (header.typ === FilterType.Date) {
-        valueA = new Date(valueA).getTime();
-        valueB = new Date(valueB).getTime();
+        valueA = this.parseDate(valueA).getTime();
+        valueB = this.parseDate(valueB).getTime();
       }
       else if (header.typ === FilterType.Text) {
         valueA = valueA.toLowerCase();
@@ -295,5 +378,27 @@ export class TabelleComponent {
     const month = ('0' + (d.getMonth() + 1)).slice(-2);
     const day = ('0' + d.getDate()).slice(-2);
     return `${day}.${month}.${year}`;
+  }
+
+  private filterByWeek(lineNumber: number) {
+      const currentWeek = this.getWeek(new Date());
+      this.tableDataFormatted.forEach((line: any) => {
+        const date = this.parseDate(line.row[lineNumber]);
+        line.shown = this.getWeek(date) === currentWeek;
+      });
+    }
+
+  private parseDate(dateString: string): Date {
+    const [day, month, year] = dateString.split('.').map(part => parseInt(part, 10));
+    return new Date(year, month - 1, day);
+  }
+
+  private getWeek(date: Date): number {
+    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    const dayOfWeek = firstDayOfYear.getDay();
+    const day = dayOfWeek === 0 ? 7 : dayOfWeek; // Adjust for Sunday being 0 in JavaScript
+
+    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
+    return Math.ceil((pastDaysOfYear + day) / 7);
   }
 }

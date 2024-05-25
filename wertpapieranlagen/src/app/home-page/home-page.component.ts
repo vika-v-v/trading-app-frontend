@@ -85,10 +85,10 @@ export class HomePageComponent {
       {"wert" : "Datum", "typ" : FilterType.Date},
       {"wert" : "Wertpapier", "typ" : FilterType.Text},
       {"wert" : "Anzahl", "typ": FilterType.Number},
-      {"wert" : "Wertpapierpreis", "typ" : FilterType.Number},
-      {"wert" : "Transaktionskosten", "typ" : FilterType.Number},
+      {"wert" : "Wertpapierpreis", "typ" : FilterType.Decimal},
+      {"wert" : "Transaktionskosten", "typ" : FilterType.Decimal},
       {"wert" : "Transaktionsart", "typ" : FilterType.Object, "optionen" : ["KAUF", "VERKAUF"]},
-      {"wert" : "Gesamtkosten", "typ" : FilterType.Number}];
+      {"wert" : "Gesamtkosten", "typ" : FilterType.Decimal}];
   }
 
   getTransaktionen() {

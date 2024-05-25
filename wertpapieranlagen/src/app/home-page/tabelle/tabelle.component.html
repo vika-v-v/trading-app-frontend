@@ -24,11 +24,13 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of tableDataFormatted">
-      <td *ngFor="let item of data">
-        {{ item }}
-      </td>
-    </tr>
+    <ng-container *ngFor="let data of tableDataFormatted">
+      <tr *ngIf="data.shown">
+        <td *ngFor="let item of data.row">
+          {{ item }}
+        </td>
+      </tr>
+    </ng-container>
   </tbody>
 </table>
 
@@ -57,6 +59,7 @@
         <select
           *ngIf="filterOption.optionen"
           [(ngModel)]="filterOption.selected"
+          (ngModelChange)="filterSelected(filterOption, getFilterSortPopupOptions())"
         >
           <option *ngFor="let option of filterOption.optionen" [value]="option">
             {{ option }}
