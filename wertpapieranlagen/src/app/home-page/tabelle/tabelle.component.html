@@ -28,9 +28,20 @@
       <tr *ngIf="data.shown">
         <td *ngFor="let item of data.row">
           <div *ngIf="item.highlightedRange && filterSortPopup != null">
-            <span>{{ item.wert.substring(0, item.highlightedRange.start) }}</span>
-            <span><mark>{{ item.wert.substring(item.highlightedRange.start, item.highlightedRange.end) }}</mark></span>
-            <span>{{ item.wert.substring(item.highlightedRange.end, item.wert.length) }}</span>
+            <span>{{
+              item.wert.substring(0, item.highlightedRange.start)
+            }}</span>
+            <span
+              ><mark>{{
+                item.wert.substring(
+                  item.highlightedRange.start,
+                  item.highlightedRange.end
+                )
+              }}</mark></span
+            >
+            <span>{{
+              item.wert.substring(item.highlightedRange.end, item.wert.length)
+            }}</span>
           </div>
           <div *ngIf="!item.highlightedRange || filterSortPopup == null">
             {{ item.wert }}
@@ -66,7 +77,9 @@
         <select
           *ngIf="filterOption.optionen"
           [(ngModel)]="filterOption.selected"
-          (ngModelChange)="filterSelected(filterOption, getFilterSortPopupOptions())"
+          (ngModelChange)="
+            filterSelected(filterOption, getFilterSortPopupOptions())
+          "
         >
           <option *ngFor="let option of filterOption.optionen" [value]="option">
             {{ option }}
@@ -75,7 +88,13 @@
       </div>
       <div *ngIf="filterOption.typ === 'Textfeld'" class="filter">
         <label>{{ filterOption.name }}</label>
-        <input type="text" [(ngModel)]="filterOption.selected" (ngModelChange)="filterSelected(filterOption, getFilterSortPopupOptions())" />
+        <input
+          type="text"
+          [(ngModel)]="filterOption.selected"
+          (ngModelChange)="
+            filterSelected(filterOption, getFilterSortPopupOptions())
+          "
+        />
       </div>
       <div *ngIf="filterOption.typ === 'Slider'" class="filter slider-filter">
         <label>{{ filterOption.name }}</label>
@@ -85,9 +104,27 @@
           [step]="1"
           [(value1)]="filterOption.value1"
           [(value2)]="filterOption.value2"
-          (value1Change)="filterSelected(filterOption, getFilterSortPopupOptions())"
-          (value2Change)="filterSelected(filterOption, getFilterSortPopupOptions())"
+          (value1Change)="
+            filterSelected(filterOption, getFilterSortPopupOptions())
+          "
+          (value2Change)="
+            filterSelected(filterOption, getFilterSortPopupOptions())
+          "
         ></app-range-slider>
+      </div>
+      <div
+        *ngIf="filterOption.typ === 'Checkbox'"
+        class="filter checkbox-filter"
+      >
+        <label>{{ filterOption.name }}</label>
+        <div *ngFor="let option of filterOption.optionen">
+          <input
+            type="checkbox"
+            [checked]="option.selected"
+            (change)="option.selected = !option.selected; filterSelected(filterOption, getFilterSortPopupOptions())"
+          />
+          <label>{{ option.name }}</label>
+        </div>
       </div>
     </div>
   </div>

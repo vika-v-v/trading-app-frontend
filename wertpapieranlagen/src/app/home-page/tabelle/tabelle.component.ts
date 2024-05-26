@@ -33,8 +33,7 @@ export class TabelleComponent {
 
   @ViewChild('popup') popupRef!: ElementRef;
 
-  constructor(@Inject('SORTINGS_AND_FILTERS') private possibleFiltersAndSortings: any,
-    @Inject('FIRST_DAY_OF_WEEK') private firstDayOfWeek: any) { }
+  constructor(@Inject('SORTINGS_AND_FILTERS') private possibleFiltersAndSortings: any) { }
 
   ngOnInit(): void {
 
@@ -77,6 +76,14 @@ export class TabelleComponent {
               if (filterObject.min == filterObject.max) {
                 filterObject.typ = "none";
               }
+            }
+            if(filter.Typ == 'Checkbox') {
+              let optionen = [];
+              let uniqueValues = [...new Set(this.tableData.map(row => row[i]))];
+              for (let value of uniqueValues) {
+                optionen.push({name: value, selected: true});
+              }
+              filterObject.optionen = optionen;
             }
 
             filters.push(filterObject);
@@ -273,7 +280,7 @@ export class TabelleComponent {
         valueA = valueA.toLowerCase();
         valueB = valueB.toLowerCase();
       }
-      else if (header.typ === FilterType.Number) {
+      else if (header.typ === FilterType.Number || header.typ === FilterType.Decimal) {
         valueA = parseFloat(valueA);
         valueB = parseFloat(valueB);
       }

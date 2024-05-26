@@ -17,10 +17,6 @@ export const appConfig: ApplicationConfig = {
       useValue: "http://213.133.101.113:8080/api/"
     },
     {
-      provide: "FIRST_DAY_OF_WEEK",
-      useValue: 1 // Monday
-    },
-    {
       provide: "SORTINGS_AND_FILTERS",
       useValue: [
         {
@@ -106,6 +102,27 @@ export const appConfig: ApplicationConfig = {
             {
               "Name": "Reichweite auswählen",
               "Typ": "Slider"
+            }
+          ]
+        },
+        {
+          "FilterType": FilterType.Object,
+          "Sortings": [
+            {
+              "Name": "Aufsteigend sortieren (A-Z)",
+              "Key": "asc",
+              "ImageSrc": arrowUp
+            },
+            {
+              "Name": "Absteigend sortieren (Z-A)",
+              "Key": "desc",
+              "ImageSrc": arrowDown
+            }
+          ],
+          "Filters": [
+            {
+              "Name": "Anzeigen",
+              "Typ": "Checkbox"
             }
           ]
         }

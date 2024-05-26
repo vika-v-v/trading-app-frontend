@@ -4,7 +4,8 @@ table {
   text-align: left;
 }
 
-th, td {
+th,
+td {
   border: 0.5px solid black;
   padding: 7px;
   font-size: small;
@@ -15,7 +16,8 @@ th {
   text-align: left;
 }
 
-.header-content, .option {
+.header-content,
+.option {
   display: flex;
   align-items: center;
 }
@@ -24,7 +26,8 @@ th {
   margin-right: 12px;
 }
 
-.header-content img, .option img {
+.header-content img,
+.option img {
   height: 1.5em;
 }
 
@@ -66,7 +69,17 @@ th {
 
 
 .slider-filter {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.checkbox-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.checkbox-filter label {
+  margin-bottom: 3px;
 }
