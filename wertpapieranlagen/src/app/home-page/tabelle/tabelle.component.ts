@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, Input, ViewChild } from '@angular/core';
 import { FilterType } from './filter-type.enum';
 import { FormsModule } from '@angular/forms';
 import { RangeSliderComponent } from './range-slider/range-slider.component';
@@ -33,96 +33,8 @@ export class TabelleComponent {
 
   @ViewChild('popup') popupRef!: ElementRef;
 
-  possibleFiltersAndSortings = [
-    {
-      "FilterType" : FilterType.Date,
-      "Sortings" : [
-        {
-          "Name" : "Aufsteigend sortieren (früher bis später)",
-          "Key" : "asc",
-          "ImageSrc" : this.arrowUp
-        },
-        {
-          "Name" : "Absteigend sortieren (später bis früher)",
-          "Key" : "desc",
-          "ImageSrc" : this.arrowDown
-        }
-      ],
-      "Filters" : [
-        {
-          "Name" : "Zeitraum",
-          "Typ" : "Dropdown",
-          "Optionen" : ["Heute", "Gestern", "Diese Woche", "Dieser Monat", "Dieses Jahr", "Alle Perioden"],
-          "DefaultSelected" : "Alle Perioden"
-        }
-      ]
-    },
-    {
-      "FilterType" : FilterType.Text,
-      "Sortings" : [
-        {
-          "Name" : "Aufsteigend sortieren (A-Z)",
-          "Key" : "asc",
-          "ImageSrc" : this.arrowUp
-        },
-        {
-          "Name" : "Absteigend sortieren (Z-A)",
-          "Key" : "desc",
-          "ImageSrc" : this.arrowDown
-        }
-      ],
-      "Filters" : [
-        {
-          "Name" : "Filtern nach...",
-          "Typ" : "Textfeld"
-        }
-      ]
-    },
-    {
-      "FilterType" : FilterType.Number,
-      "Sortings" : [
-        {
-          "Name" : "Aufsteigend sortieren (klein bis groß)",
-          "Key" : "asc",
-          "ImageSrc" : this.arrowUp
-        },
-        {
-          "Name" : "Absteigend sortieren (groß bis klein)",
-          "Key" : "desc",
-          "ImageSrc" : this.arrowDown
-        }
-      ],
-      "Filters" : [
-        {
-          "Name" : "Reichweite auswählen",
-          "Typ" : "Slider"
-        }
-      ]
-    },
-    {
-      "FilterType" : FilterType.Decimal,
-      "Sortings" : [
-        {
-          "Name" : "Aufsteigend sortieren (klein bis groß)",
-          "Key" : "asc",
-          "ImageSrc" : this.arrowUp
-        },
-        {
-          "Name" : "Absteigend sortieren (groß bis klein)",
-          "Key" : "desc",
-          "ImageSrc" : this.arrowDown
-        }
-      ],
-      "Filters" : [
-        {
-          "Name" : "Reichweite auswählen",
-          "Typ" : "Slider"
-        }
-      ]
-    }
-  ]
-
-  constructor(private eRef: ElementRef) { }
+  constructor(@Inject('SORTINGS_AND_FILTERS') private possibleFiltersAndSortings: any,
+    @Inject('FIRST_DAY_OF_WEEK') private firstDayOfWeek: any) { }
 
   ngOnInit(): void {
 
@@ -162,7 +74,7 @@ export class TabelleComponent {
               filterObject.max = Math.ceil(Math.max(...this.tableData.map(row => row[i])));
               filterObject.value2 = filterObject.max;
 
-              if(filterObject.min == filterObject.max) {
+              if (filterObject.min == filterObject.max) {
                 filterObject.typ = "none";
               }
             }
@@ -186,16 +98,16 @@ export class TabelleComponent {
         else if (this.tableHeader[i].typ == FilterType.Decimal) {
           data.wert = parseFloat(this.tableData[j][i]).toFixed(2);
         }
-        else if(this.tableHeader[i].typ == FilterType.Text) {
+        else if (this.tableHeader[i].typ == FilterType.Text) {
           data.wert = this.tableData[j][i];
-          data.highlightedRange = {start: -1, end: -1};
+          data.highlightedRange = { start: -1, end: -1 };
         }
         else {
           data.wert = this.tableData[j][i];
         }
         row.push(data);
       }
-      this.tableDataFormatted.push({row, "shown": true});
+      this.tableDataFormatted.push({ row, "shown": true });
     }
 
     this.initialTableDataFormatted = [...this.tableDataFormatted];
@@ -245,7 +157,7 @@ export class TabelleComponent {
   toggleSorting(sorting: any, header: any) {
     if (!sorting.selected) {
       this.tableHeaderFormatted.forEach((h: any) => {
-        if(h.sortings != undefined) {
+        if (h.sortings != undefined) {
           h.sortings.forEach((s: any) => {
             s.selected = false;
           });
@@ -260,7 +172,7 @@ export class TabelleComponent {
   }
 
   headerSelected(header: any): boolean {
-    if(header.sortings == undefined) return false;
+    if (header.sortings == undefined) return false;
 
     for (let s of header.sortings) {
       if (s.selected) {
@@ -283,15 +195,15 @@ export class TabelleComponent {
     const columnIndex = this.tableHeaderFormatted.findIndex(h => h === header);
     if (columnIndex < 0) return;
 
-    if(header.typ == FilterType.Date) {
-      if(filter.selected == "Alle Perioden") {
+    if (header.typ == FilterType.Date) {
+      if (filter.selected == "Alle Perioden") {
         this.tableDataFormatted.forEach((line: any) => {
           line.shown = true;
         });
       }
       else if (filter.selected == "Heute") {
         this.tableDataFormatted.forEach((line: any) => {
-          if(line.row[columnIndex].wert != this.formatDate(new Date().toISOString())) {
+          if (line.row[columnIndex].wert != this.formatDate(new Date().toISOString())) {
             line.shown = false;
           }
           else {
@@ -301,7 +213,7 @@ export class TabelleComponent {
       }
       else if (filter.selected == "Gestern") {
         this.tableDataFormatted.forEach((line: any) => {
-          if(line.row[columnIndex].wert != this.formatDate(new Date(new Date().setDate(new Date().getDate() - 1)).toISOString())) {
+          if (line.row[columnIndex].wert != this.formatDate(new Date(new Date().setDate(new Date().getDate() - 1)).toISOString())) {
             line.shown = false;
           }
           else {
@@ -319,21 +231,21 @@ export class TabelleComponent {
         this.filterByYear(columnIndex);
       }
     }
-    else if(header.typ == FilterType.Text) {
+    else if (header.typ == FilterType.Text) {
       this.tableDataFormatted.forEach((line: any) => {
-        if(line.row[columnIndex].wert.toLowerCase().includes(filter.selected.toLowerCase())) {
+        if (line.row[columnIndex].wert.toLowerCase().includes(filter.selected.toLowerCase())) {
           line.shown = true;
-          line.row[columnIndex].highlightedRange = {start: line.row[columnIndex].wert.toLowerCase().indexOf(filter.selected.toLowerCase()), end: line.row[columnIndex].wert.toLowerCase().indexOf(filter.selected.toLowerCase()) + filter.selected.length};
+          line.row[columnIndex].highlightedRange = { start: line.row[columnIndex].wert.toLowerCase().indexOf(filter.selected.toLowerCase()), end: line.row[columnIndex].wert.toLowerCase().indexOf(filter.selected.toLowerCase()) + filter.selected.length };
         }
         else {
           line.shown = false;
-          line.row[columnIndex].highlightedRange = {start: -1, end: -1};
+          line.row[columnIndex].highlightedRange = { start: -1, end: -1 };
         }
       });
     }
-    else if(header.typ == FilterType.Number || header.typ == FilterType.Decimal) {
+    else if (header.typ == FilterType.Number || header.typ == FilterType.Decimal) {
       this.tableDataFormatted.forEach((line: any) => {
-        if(line.row[columnIndex].wert >= filter.value1 && line.row[columnIndex].wert <= filter.value2) {
+        if (line.row[columnIndex].wert >= filter.value1 && line.row[columnIndex].wert <= filter.value2) {
           line.shown = true;
         }
         else {
@@ -386,42 +298,46 @@ export class TabelleComponent {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
 
-      const currentWeek = this.getWeek(new Date());
-      this.tableDataFormatted.forEach((line: any) => {
-        const date = this.parseDate(line.row[lineNumber].wert);
-        line.shown = this.getWeek(date) === currentWeek && date.getFullYear() === currentYear && date.getMonth() === currentMonth;
-      });
-    }
+    const currentWeek = this.getWeek(new Date());
+    this.tableDataFormatted.forEach((line: any) => {
+      const date = this.parseDate(line.row[lineNumber].wert);
+      line.shown = this.getWeek(date) === currentWeek && date.getFullYear() === currentYear && date.getMonth() === currentMonth;
+    });
+  }
 
-    private filterByYear(lineNumber: number) {
-      const currentYear = new Date().getFullYear();
-      this.tableDataFormatted.forEach((line: any) => {
-        const date = this.parseDate(line.row[lineNumber].wert);
-        line.shown = date.getFullYear() === currentYear;
-      });
-    }
+  private filterByYear(lineNumber: number) {
+    const currentYear = new Date().getFullYear();
+    this.tableDataFormatted.forEach((line: any) => {
+      const date = this.parseDate(line.row[lineNumber].wert);
+      line.shown = date.getFullYear() === currentYear;
+    });
+  }
 
-    private filterByMonth(lineNumber: number) {
-      const currentYear = new Date().getFullYear();
-      const currentMonth = new Date().getMonth();
+  private filterByMonth(lineNumber: number) {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
 
-      this.tableDataFormatted.forEach((line: any) => {
-        const date = this.parseDate(line.row[lineNumber].wert);
-        line.shown = date.getFullYear() === currentYear && date.getMonth() === currentMonth;
-      });
-    }
+    this.tableDataFormatted.forEach((line: any) => {
+      const date = this.parseDate(line.row[lineNumber].wert);
+      line.shown = date.getFullYear() === currentYear && date.getMonth() === currentMonth;
+    });
+  }
 
   private parseDate(dateString: string): Date {
     const [day, month, year] = dateString.split('.').map(part => parseInt(part, 10));
     return new Date(year, month - 1, day);
   }
 
-  private getWeek(date: Date): number {
-    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-    const dayOfWeek = firstDayOfYear.getDay();
-    const day = dayOfWeek === 0 ? 7 : dayOfWeek; // Adjust for Sunday being 0 in JavaScript
+  getWeek(date: Date): number {
+    const target = new Date(date.valueOf());
+    const dayNr = (date.getDay() + 6) % 7; // ISO week starts on Monday
+    target.setDate(target.getDate() - dayNr + 3); // Thursday
+    const firstThursday = new Date(target.getFullYear(), 0, 4);
 
-    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
-    return Math.ceil((pastDaysOfYear + day) / 7);
-  }
+    // Calculate the number of days between the target date and the first Thursday of the year
+    const daysBetween = Math.floor((target.getTime() - firstThursday.getTime()) / 86400000);
+    const weekNumber = Math.round((daysBetween + firstThursday.getDay() + 1) / 7);
+
+    return weekNumber;
+}
 }
