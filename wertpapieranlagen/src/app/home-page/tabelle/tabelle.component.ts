@@ -31,9 +31,6 @@ export class TabelleComponent {
   currentIcon: HTMLElement | null = null;
   // TODO: wenn zweites mal geklicked nicht mehr anzeigen
 
-  arrowUp: string = '../../../assets/icons/4829871_arrows_up_upload_icon.svg';
-  arrowDown: string = '../../../assets/icons/4829873_arrow_down_download_icon.svg';
-
   @ViewChild('popup') popupRef!: ElementRef;
 
   possibleFiltersAndSortings = [

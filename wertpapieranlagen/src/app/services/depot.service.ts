@@ -1,11 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepotService {
+
+  private rootUrl: string;
+
+  constructor(@Inject('ROOT_URL') rootUrl: string) {
+    this.rootUrl = rootUrl;
+  }
 
   getTransaktionen(http: HttpClient, depotName: string) {
     return {

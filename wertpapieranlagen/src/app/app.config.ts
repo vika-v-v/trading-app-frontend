@@ -2,7 +2,114 @@ import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
+import { FilterType } from './home-page/tabelle/filter-type.enum';
+
+let arrowUp = '../../../assets/icons/4829871_arrows_up_upload_icon.svg';
+let arrowDown = '../../../assets/icons/4829873_arrow_down_download_icon.svg';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes)]
+
+
+  providers: [
+    provideRouter(routes),
+    {
+      provide: "ROOT_URL",
+      useValue: "http://213.133.101.113:8080/api/"
+    },
+    {
+      provide: "FIRST_DAY_OF_WEEK",
+      useValue: 1 // Monday
+    },
+    {
+      provide: "SORTINGS_AND_FILTERS",
+      useValue: [
+        {
+          "FilterType": FilterType.Date,
+          "Sortings": [
+            {
+              "Name": "Aufsteigend sortieren (früher bis später)",
+              "Key": "asc",
+              "ImageSrc": arrowUp
+            },
+            {
+              "Name": "Absteigend sortieren (später bis früher)",
+              "Key": "desc",
+              "ImageSrc": arrowDown
+            }
+          ],
+          "Filters": [
+            {
+              "Name": "Zeitraum",
+              "Typ": "Dropdown",
+              "Optionen": ["Heute", "Gestern", "Diese Woche", "Dieser Monat", "Dieses Jahr", "Alle Perioden"],
+              "DefaultSelected": "Alle Perioden"
+            }
+          ]
+        },
+        {
+          "FilterType": FilterType.Text,
+          "Sortings": [
+            {
+              "Name": "Aufsteigend sortieren (A-Z)",
+              "Key": "asc",
+              "ImageSrc": arrowUp
+            },
+            {
+              "Name": "Absteigend sortieren (Z-A)",
+              "Key": "desc",
+              "ImageSrc": arrowDown
+            }
+          ],
+          "Filters": [
+            {
+              "Name": "Filtern nach...",
+              "Typ": "Textfeld"
+            }
+          ]
+        },
+        {
+          "FilterType": FilterType.Number,
+          "Sortings": [
+            {
+              "Name": "Aufsteigend sortieren (klein bis groß)",
+              "Key": "asc",
+              "ImageSrc": arrowUp
+            },
+            {
+              "Name": "Absteigend sortieren (groß bis klein)",
+              "Key": "desc",
+              "ImageSrc": arrowDown
+            }
+          ],
+          "Filters": [
+            {
+              "Name": "Reichweite auswählen",
+              "Typ": "Slider"
+            }
+          ]
+        },
+        {
+          "FilterType": FilterType.Decimal,
+          "Sortings": [
+            {
+              "Name": "Aufsteigend sortieren (klein bis groß)",
+              "Key": "asc",
+              "ImageSrc": arrowUp
+            },
+            {
+              "Name": "Absteigend sortieren (groß bis klein)",
+              "Key": "desc",
+              "ImageSrc": arrowDown
+            }
+          ],
+          "Filters": [
+            {
+              "Name": "Reichweite auswählen",
+              "Typ": "Slider"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 };
