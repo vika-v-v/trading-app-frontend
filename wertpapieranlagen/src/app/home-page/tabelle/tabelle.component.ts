@@ -77,11 +77,11 @@ export class TabelleComponent {
                 filterObject.typ = "none";
               }
             }
-            if(filter.Typ == 'Checkbox') {
+            if (filter.Typ == 'Checkbox') {
               let optionen = [];
               let uniqueValues = [...new Set(this.tableData.map(row => row[i]))];
               for (let value of uniqueValues) {
-                optionen.push({name: value, selected: true});
+                optionen.push({ name: value, selected: true });
               }
               filterObject.optionen = optionen;
             }
@@ -197,77 +197,64 @@ export class TabelleComponent {
     }
   }
 
-  // TODO: several filters selected
-  filterSelected(filter: any, header: any) {
-    const columnIndex = this.tableHeaderFormatted.findIndex(h => h === header);
-    if (columnIndex < 0) return;
+  filterSelected() {
+    // Reset all lines to be shown initially
+    this.tableDataFormatted.forEach((line: any) => {
+      line.shown = true;
+    });
 
-    if (header.typ == FilterType.Date) {
-      if (filter.selected == "Alle Perioden") {
-        this.tableDataFormatted.forEach((line: any) => {
-          line.shown = true;
-        });
-      }
-      else if (filter.selected == "Heute") {
-        this.tableDataFormatted.forEach((line: any) => {
-          if (line.row[columnIndex].wert != this.formatDate(new Date().toISOString())) {
-            line.shown = false;
+    // Apply each filter
+    for (let i = 0; i < this.tableHeaderFormatted.length; i++) {
+      let header = this.tableHeaderFormatted[i];
+      for (let j = 0; j < header.filters.length; j++) {
+        let filter = header.filters[j];
+
+        if (header.typ == FilterType.Date) {
+          if (filter.selected == "Heute") {
+            this.filterToday(i);
           }
-          else {
-            line.shown = true;
+          else if (filter.selected == "Gestern") {
+            this.filterYesterday(i);
           }
-        });
-      }
-      else if (filter.selected == "Gestern") {
-        this.tableDataFormatted.forEach((line: any) => {
-          if (line.row[columnIndex].wert != this.formatDate(new Date(new Date().setDate(new Date().getDate() - 1)).toISOString())) {
-            line.shown = false;
+          else if (filter.selected == "Diese Woche") {
+            this.filterByWeek(i);
           }
-          else {
-            line.shown = true;
+          else if (filter.selected == "Dieser Monat") {
+            this.filterByMonth(i);
           }
-        });
+          else if (filter.selected == "Dieses Jahr") {
+            this.filterByYear(i);
+          }
+        }
+        else if (header.typ == FilterType.Text) {
+          this.tableDataFormatted.forEach((line: any) => {
+            if(!filter.selected || !line.row[i].wert) {
+              line.row[i].highlightedRange = { start: -1, end: -1 };
+            }
+            else if (line.row[i].wert.toLowerCase().includes(filter.selected.toLowerCase())) {
+              line.row[i].highlightedRange = { start: line.row[i].wert.toLowerCase().indexOf(filter.selected.toLowerCase()), end: line.row[i].wert.toLowerCase().indexOf(filter.selected.toLowerCase()) + filter.selected.length };
+            }
+            else {
+              line.shown = false;
+              line.row[i].highlightedRange = { start: -1, end: -1 };
+            }
+          });
+        }
+        else if (header.typ == FilterType.Number || header.typ == FilterType.Decimal) {
+          this.tableDataFormatted.forEach((line: any) => {
+            if (!(line.row[i].wert >= filter.value1 && line.row[i].wert <= filter.value2)) {
+              line.shown = false;
+            }
+          });
+        }
+        else if (header.typ == FilterType.Object) {
+          this.tableDataFormatted.forEach((line: any) => {
+            if (!(filter.optionen.find((option: any) => option.selected && option.name == line.row[i].wert))) {
+              line.shown = false;
+            }
+          });
+        }
       }
-      else if (filter.selected == "Diese Woche") {
-        this.filterByWeek(columnIndex);
-      }
-      else if (filter.selected == "Dieser Monat") {
-        this.filterByMonth(columnIndex);
-      }
-      else if (filter.selected == "Dieses Jahr") {
-        this.filterByYear(columnIndex);
-      }
-    }
-    else if (header.typ == FilterType.Text) {
-      this.tableDataFormatted.forEach((line: any) => {
-        if (line.row[columnIndex].wert.toLowerCase().includes(filter.selected.toLowerCase())) {
-          line.shown = true;
-          line.row[columnIndex].highlightedRange = { start: line.row[columnIndex].wert.toLowerCase().indexOf(filter.selected.toLowerCase()), end: line.row[columnIndex].wert.toLowerCase().indexOf(filter.selected.toLowerCase()) + filter.selected.length };
-        }
-        else {
-          line.shown = false;
-          line.row[columnIndex].highlightedRange = { start: -1, end: -1 };
-        }
-      });
-    }
-    else if (header.typ == FilterType.Number || header.typ == FilterType.Decimal) {
-      this.tableDataFormatted.forEach((line: any) => {
-        if (line.row[columnIndex].wert >= filter.value1 && line.row[columnIndex].wert <= filter.value2) {
-          line.shown = true;
-        }
-        else {
-          line.shown = false;
-        }
-      });
-    }
-    else if(header.typ == FilterType.Object) {
-      this.tableDataFormatted.forEach((line: any) => {
-        if(filter.optionen.find((option: any) => option.selected && option.name == line.row[columnIndex].wert)) {
-          line.shown = true;
-        } else {
-          line.shown = false;
-        }
-      });
     }
   }
 
@@ -310,6 +297,22 @@ export class TabelleComponent {
     return `${day}.${month}.${year}`;
   }
 
+  private filterToday(lineNumber: number) {
+    this.tableDataFormatted.forEach((line: any) => {
+      if (line.row[lineNumber].wert != this.formatDate(new Date().toISOString())) {
+        line.shown = false;
+      }
+    });
+  }
+
+  private filterYesterday(lineNumber: number) {
+    this.tableDataFormatted.forEach((line: any) => {
+      if (line.row[lineNumber].wert != this.formatDate(new Date(new Date().setDate(new Date().getDate() - 1)).toISOString())) {
+        line.shown = false;
+      }
+    });
+  }
+
   private filterByWeek(lineNumber: number) {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
@@ -325,7 +328,8 @@ export class TabelleComponent {
     const currentYear = new Date().getFullYear();
     this.tableDataFormatted.forEach((line: any) => {
       const date = this.parseDate(line.row[lineNumber].wert);
-      line.shown = date.getFullYear() === currentYear;
+      if (!(date.getFullYear() === currentYear))
+        line.shown = false;
     });
   }
 
@@ -335,7 +339,8 @@ export class TabelleComponent {
 
     this.tableDataFormatted.forEach((line: any) => {
       const date = this.parseDate(line.row[lineNumber].wert);
-      line.shown = date.getFullYear() === currentYear && date.getMonth() === currentMonth;
+      if (!(date.getFullYear() === currentYear && date.getMonth() === currentMonth))
+        line.shown = false;
     });
   }
 
@@ -355,5 +360,5 @@ export class TabelleComponent {
     const weekNumber = Math.round((daysBetween + firstThursday.getDay() + 1) / 7);
 
     return weekNumber;
-}
+  }
 }

@@ -78,7 +78,7 @@
           *ngIf="filterOption.optionen"
           [(ngModel)]="filterOption.selected"
           (ngModelChange)="
-            filterSelected(filterOption, getFilterSortPopupOptions())
+            filterSelected()
           "
         >
           <option *ngFor="let option of filterOption.optionen" [value]="option">
@@ -92,7 +92,7 @@
           type="text"
           [(ngModel)]="filterOption.selected"
           (ngModelChange)="
-            filterSelected(filterOption, getFilterSortPopupOptions())
+            filterSelected()
           "
         />
       </div>
@@ -105,10 +105,10 @@
           [(value1)]="filterOption.value1"
           [(value2)]="filterOption.value2"
           (value1Change)="
-            filterSelected(filterOption, getFilterSortPopupOptions())
+            filterSelected()
           "
           (value2Change)="
-            filterSelected(filterOption, getFilterSortPopupOptions())
+            filterSelected()
           "
         ></app-range-slider>
       </div>
@@ -121,7 +121,7 @@
           <input
             type="checkbox"
             [checked]="option.selected"
-            (change)="option.selected = !option.selected; filterSelected(filterOption, getFilterSortPopupOptions())"
+            (change)="option.selected = !option.selected; filterSelected()"
           />
           <label>{{ option.name }}</label>
         </div>
