@@ -33,12 +33,12 @@
     />
   </div>
 
-  <div *ngIf="depots.length > 0" class="text">
+  <div *ngIf="depots.length > 0">
     <div id="main-section">
       <div id="graphic">
         <canvas id="canvas"></canvas>
       </div>
-      <div id="tabelle-wertpapieren">
+      <div id="wertpapieren-table">
         <app-tabelle [tableHeader]="getWertpapieren()" [tableData]="getWertpapierenData()"></app-tabelle>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, HostListener, Inject, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, Inject, Input, ViewChild } from '@angular/core';
 import { FilterType } from './filter-type.enum';
 import { FormsModule } from '@angular/forms';
 import { RangeSliderComponent } from './range-slider/range-slider.component';
@@ -15,7 +15,7 @@ import { RangeSliderComponent } from './range-slider/range-slider.component';
   templateUrl: './tabelle.component.html',
   styleUrl: './tabelle.component.css'
 })
-export class TabelleComponent {
+export class TabelleComponent implements AfterViewInit {
   FilterType = FilterType;
 
   @Input() tableHeader: any[] = [];
@@ -32,6 +32,7 @@ export class TabelleComponent {
   // TODO: wenn zweites mal geklicked nicht mehr anzeigen
 
   @ViewChild('popup') popupRef!: ElementRef;
+  @ViewChild('table') table!: ElementRef;
 
   constructor(@Inject('SORTINGS_AND_FILTERS') private possibleFiltersAndSortings: any, private cdr: ChangeDetectorRef) { }
 
@@ -119,6 +120,10 @@ export class TabelleComponent {
     }
 
     this.initialTableDataFormatted = [...this.tableDataFormatted];
+  }
+
+  ngAfterViewInit(): void {
+    this.fixColumnWidths();
   }
 
   showFilterSortPopup(column: any, placeNear: HTMLElement) {
@@ -404,5 +409,19 @@ export class TabelleComponent {
     const weekNumber = Math.round((daysBetween + firstThursday.getDay() + 1) / 7);
 
     return weekNumber;
+  }
+
+  fixColumnWidths() {
+    const table = this.table.nativeElement;
+    const ths = table.querySelectorAll('th');
+    const widths = Array.from(ths).map((th:any)  => th.offsetWidth);
+
+    // Set the fixed widths
+    widths.forEach((width, index) => {
+      ths[index].style.width = `${width - 20}px`;
+    });
+
+    // Change table layout to fixed
+    table.style.tableLayout = 'fixed';
   }
 }

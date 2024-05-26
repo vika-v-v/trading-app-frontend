@@ -73,9 +73,8 @@ html, body {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;
-  margin: 10px;
-  width: 100%;
+  margin: 15px;
+  width: 95vw;
 }
 
 #graphic {
@@ -86,25 +85,6 @@ html, body {
 #canvas {
   width: 100%;
   height: 100%;
-}
-
-#tabelle-wertpapieren {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: top;
-}
-
-#tabelle-wertpapieren {
-  overflow-y: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
 }
 
 #bottom-elements {
@@ -132,10 +112,15 @@ table {
 }
 
 #transaktionen-table {
-  margin: 30px;
-  width: calc(100% - 60px);
+  margin: 20px;
+  width: calc(100% - 40px);
 }
 
+#wertpapieren-table {
+  margin: 15px;
+  width: calc(100% - 30px);
+  align-self: flex-start;
+}
 
 @keyframes slideIn {
   from {

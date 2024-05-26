@@ -1,6 +1,6 @@
 table {
   width: 100%;
-  min-width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   text-align: left;
   table-layout: auto;
