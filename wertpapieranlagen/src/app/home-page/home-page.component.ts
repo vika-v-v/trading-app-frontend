@@ -37,6 +37,7 @@ export class HomePageComponent {
   sidePanel: SidePanel | null = null;
 
   transactionen: any[] = [];
+  wertpapiere: any[] = [];
 
   constructor(private http: HttpClient, private depotService: DepotService) {
     /* API-Endpoint: liste von Depots aufrufen */
@@ -78,17 +79,18 @@ export class HomePageComponent {
 
   depotAendern(neuesDepot: string) {
     this.transactionen = this.depotService.getTransaktionen(this.http, neuesDepot).data;
+    this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
   }
 
   getTransaktionenHeader() {
     return [
-      {"wert" : "Datum", "typ" : FilterType.Date},
-      {"wert" : "Wertpapier", "typ" : FilterType.Text},
-      {"wert" : "Anzahl", "typ": FilterType.Number},
-      {"wert" : "Wertpapierpreis", "typ" : FilterType.Decimal},
-      {"wert" : "Transaktionskosten", "typ" : FilterType.Decimal},
-      {"wert" : "Transaktionsart", "typ" : FilterType.Object, "optionen" : ["KAUF", "VERKAUF"]},
-      {"wert" : "Gesamtkosten", "typ" : FilterType.Decimal}];
+      { "wert": "Datum", "typ": FilterType.Date },
+      { "wert": "Wertpapier", "typ": FilterType.Text },
+      { "wert": "Anzahl", "typ": FilterType.Decimal },
+      { "wert": "Wertpapierpreis", "typ": FilterType.Decimal },
+      { "wert": "Transaktionskosten", "typ": FilterType.Decimal },
+      { "wert": "Transaktionsart", "typ": FilterType.Object },
+      { "wert": "Gesamtkosten", "typ": FilterType.Decimal }];
   }
 
   getTransaktionen() {
@@ -105,4 +107,34 @@ export class HomePageComponent {
     });
   }
 
+  getWertpapieren() {
+    return [
+      { "wert": "Name", "typ": FilterType.Text },
+      { "wert": "Art", "typ": FilterType.Object },
+      { "wert": "Kurs", "typ": FilterType.Decimal },
+      { "wert": "Anteil", "typ": FilterType.Decimal },
+      { "wert": "Gesamtwert", "typ": FilterType.Decimal }
+    ];
+  }
+
+  getWertpapierenData() {
+    return this.wertpapiere.map(wertpapier => {
+      return [
+        wertpapier.name,
+        wertpapier.WertpapierArt,
+        wertpapier.WertpapierAktuellerKurs,
+        wertpapier.WertpapierAnteil,
+        wertpapier.Gesamtwert
+      ]
+    });
+  }
+
+  mapWertpapierenData(response: any) {
+    const data = response;
+    const mappedData = Object.keys(data).map((key: any) => ({
+      name: key,
+      ...data[key]
+    }));
+    return mappedData;
+  }
 }

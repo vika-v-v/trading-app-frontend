@@ -1,11 +1,12 @@
 table {
   width: 100%;
+  min-width: 100%;
   border-collapse: collapse;
   text-align: left;
+  table-layout: auto;
 }
 
-th,
-td {
+th, td {
   border: 0.5px solid black;
   padding: 7px;
   font-size: small;
@@ -16,8 +17,7 @@ th {
   text-align: left;
 }
 
-.header-content,
-.option {
+.header-content, .option {
   display: flex;
   align-items: center;
 }
@@ -26,8 +26,7 @@ th {
   margin-right: 12px;
 }
 
-.header-content img,
-.option img {
+.header-content img, .option img {
   height: 1.5em;
 }
 
@@ -45,7 +44,6 @@ th {
 
 .popup-content {
   font-size: small;
-  width: fit-content;
   border: 1px solid black;
   padding: 5px;
   box-shadow: rgb(161, 161, 161) 1.5px 1.5px 1px 1px;
@@ -66,7 +64,6 @@ th {
 .selected {
   background-color: rgb(203, 203, 203);
 }
-
 
 .slider-filter {
   display: flex;

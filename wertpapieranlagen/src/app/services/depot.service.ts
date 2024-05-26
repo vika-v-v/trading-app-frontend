@@ -12,6 +12,36 @@ export class DepotService {
     this.rootUrl = rootUrl;
   }
 
+  getWertpapiere(http: HttpClient, depotName: string) {
+    return {
+      "message": "Wertpapiere erfolgreich abgerufen",
+      "statusCode": 200,
+      "data": {
+          "Apple": {
+              "WertpapierDurchschnittspreis": "0.0",
+              "WertpapierArt": "AKTIE",
+              "WertpapierAnteil": "18.0",
+              "Gesamtwert": "0.0",
+              "WertpapierAktuellerKurs": "100.0"
+          },
+          "Tesla": {
+              "WertpapierDurchschnittspreis": "0.0",
+              "WertpapierArt": "AKTIE",
+              "WertpapierAnteil": "12.0",
+              "Gesamtwert": "0.0",
+              "WertpapierAktuellerKurs": "250.0"
+          },
+          "MSCI World iShares": {
+              "WertpapierDurchschnittspreis": "0.0",
+              "WertpapierArt": "ETF",
+              "WertpapierAnteil": "6.0",
+              "Gesamtwert": "0.0",
+              "WertpapierAktuellerKurs": "50.0"
+          }
+        }
+    }
+  }
+
   getTransaktionen(http: HttpClient, depotName: string) {
     return {
       "message": "Transaktionen erfolgreich abgerufen",

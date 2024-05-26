@@ -6,17 +6,9 @@
         <div class="header-content">
           <div>{{ data.wert }}</div>
           <img
-            *ngIf="!headerSelected(data)"
             #icon
             (click)="showFilterSortPopup(data, icon)"
-            src="../../../assets/icons/1063886_arrow_arrow down_arrow square_down_square_icon.svg"
-            alt="icon"
-          />
-          <img
-            *ngIf="headerSelected(data)"
-            #icon
-            (click)="showFilterSortPopup(data, icon)"
-            src="../../../assets/icons/2_1063886_grey_arrow_arrow down_arrow square_down_square_icon.svg"
+            [src]="getArrowSrc(data)"
             alt="icon"
           />
         </div>
@@ -77,9 +69,7 @@
         <select
           *ngIf="filterOption.optionen"
           [(ngModel)]="filterOption.selected"
-          (ngModelChange)="
-            filterSelected()
-          "
+          (ngModelChange)="filterSelected()"
         >
           <option *ngFor="let option of filterOption.optionen" [value]="option">
             {{ option }}
@@ -91,9 +81,7 @@
         <input
           type="text"
           [(ngModel)]="filterOption.selected"
-          (ngModelChange)="
-            filterSelected()
-          "
+          (ngModelChange)="filterSelected()"
         />
       </div>
       <div *ngIf="filterOption.typ === 'Slider'" class="filter slider-filter">
@@ -104,12 +92,8 @@
           [step]="1"
           [(value1)]="filterOption.value1"
           [(value2)]="filterOption.value2"
-          (value1Change)="
-            filterSelected()
-          "
-          (value2Change)="
-            filterSelected()
-          "
+          (value1Change)="filterSelected()"
+          (value2Change)="filterSelected()"
         ></app-range-slider>
       </div>
       <div
