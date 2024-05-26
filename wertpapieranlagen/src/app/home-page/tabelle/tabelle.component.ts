@@ -260,6 +260,15 @@ export class TabelleComponent {
         }
       });
     }
+    else if(header.typ == FilterType.Object) {
+      this.tableDataFormatted.forEach((line: any) => {
+        if(filter.optionen.find((option: any) => option.selected && option.name == line.row[columnIndex].wert)) {
+          line.shown = true;
+        } else {
+          line.shown = false;
+        }
+      });
+    }
   }
 
   private sortingSelected(sorting: any, header: any) {
