@@ -10,6 +10,8 @@ import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
 import { DepotService } from '../services/depot.service';
 import { TabelleComponent } from './tabelle/tabelle.component';
 import { FilterType } from './tabelle/filter-type.enum';
+import { GrafikComponent } from './grafik/grafik.component';
+import { GrafikTyp } from './grafik/grafik-typ.enum';
 
 @Component({
   selector: 'app-home-page',
@@ -21,7 +23,8 @@ import { FilterType } from './tabelle/filter-type.enum';
     UserSettingsComponent,
     TaxSettingsComponent,
     HttpClientModule,
-    TabelleComponent
+    TabelleComponent,
+    GrafikComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
@@ -29,6 +32,7 @@ import { FilterType } from './tabelle/filter-type.enum';
 export class HomePageComponent {
   SidePanel = SidePanel;
   WertpapierVorgang = WertpapierVorgang;
+  GrafikTyp = GrafikTyp;
 
   /* API-Endpoint: liste von Depots {[Depot1, Depot2]}*/
   depots: string[] = ['Depot']; // Initialize depots as an array of strings

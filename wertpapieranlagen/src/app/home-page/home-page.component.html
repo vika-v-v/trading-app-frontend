@@ -36,7 +36,7 @@
   <div *ngIf="depots.length > 0">
     <div id="main-section">
       <div id="graphic">
-        <canvas id="canvas"></canvas>
+        <app-grafik [typ]="GrafikTyp.PizzadiagrammWertpapierarten"></app-grafik>
       </div>
       <div id="wertpapieren-table">
         <app-tabelle [tableHeader]="getWertpapieren()" [tableData]="getWertpapierenData()"></app-tabelle>
