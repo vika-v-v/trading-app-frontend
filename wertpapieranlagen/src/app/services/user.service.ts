@@ -27,4 +27,32 @@ export class UserService {
 
     return http.post(loginUrl, formData, httpOptions);
   }
+
+  register(http: HttpClient, email: string, passwort: string): Observable<any> {
+    const registerUrl = this.rootUrl + 'users/register';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'X_API_KEY': 'SP01Key'
+      })
+    };
+
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('passwort', passwort);
+
+    return http.post(registerUrl, formData, httpOptions);
+  }
+
+  reset(http: HttpClient, email: string): Observable<any> {
+    const resetUrl: string = `${this.rootUrl}/users/reset-password?email=${email}`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'X_API_KEY': 'SPO1Key'
+      })
+    };
+
+    return http.get(resetUrl, httpOptions);
+  }
+
 }

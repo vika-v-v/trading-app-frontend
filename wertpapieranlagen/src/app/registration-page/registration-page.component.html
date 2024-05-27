@@ -11,19 +11,19 @@
   <div id="main-section">
     <h1>Registrierung</h1>
     <div class="input-group">
-      <input name="email" type="email" placeholder="E-Mail Adresse" required>
+      <input name="email" type="email" placeholder="E-Mail Adresse" required [(ngModel)]="email">
     </div>
     <div class="input-group">
-      <input name="passwort" type="password" placeholder="Passwort" required>
+      <input name="passwort" type="password" placeholder="Passwort" required [(ngModel)]="passwort1">
     </div>
     <div class="input-group">
-      <input name="passwort wiederholen" type="password" placeholder="Passwort wiederholen" required>
+      <input name="passwort wiederholen" type="password" placeholder="Passwort wiederholen" required [(ngModel)]="passwort2">
     </div>
     <div class="password-strength">
       <div class="strength-bar"></div>
       <div class="password-strength-text">Mittleres Passwort</div>
     </div>
-    <button (click)="naviagateToHomePage()">Registrieren</button>
+    <button (click)="registrieren()">Registrieren</button>
     <p>Du hast bereits ein Konto? <span id="anmelden-link" (click)="naviagateToLoginPage()">Melde dich an!</span></p>
   </div>
 </div>

@@ -29,14 +29,15 @@ export class LoginSeiteComponent {
         console.log("Klappt!");
         console.log('Response:', response);
 
-        this.naviagateToHomePage();
+        if(response.statusCode === 200) {
+          this.naviagateToHomePage();
+        }
+          this.userService.setToken(response.data);
       },
       error => {
         console.error('Error:', error);
       }
     );
-
-    this.naviagateToHomePage();
   }
 
   naviagateToHomePage() {
