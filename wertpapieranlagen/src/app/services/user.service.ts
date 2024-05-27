@@ -55,14 +55,17 @@ export class UserService {
   }
 
   reset(http: HttpClient, email: string): Observable<any> {
-    const resetUrl: string = `${this.rootUrl}/users/reset-password?email=${email}`;
+    const resetUrl: string = `${this.rootUrl}users/reset-passwort`;
+
     const httpOptions = {
-      headers: new HttpHeaders({
-        'X_API_KEY': 'SPO1Key'
-      })
+        headers: new HttpHeaders({
+          'X_API_KEY': 'SP01Key'
+        }),
+        params: new HttpParams().set('email', email)
     };
 
     return http.get(resetUrl, httpOptions);
-  }
+}
+
 
 }

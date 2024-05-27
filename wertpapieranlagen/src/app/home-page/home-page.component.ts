@@ -6,7 +6,7 @@ import { WertpapierVorgangComponent } from './wertpapier-vorgang/wertpapier-vorg
 import { DepotErstellenComponent } from './depot-erstellen/depot-erstellen.component';
 import { UserSettingsComponent } from '../user-settings/user-settings.component';
 import { TaxSettingsComponent } from '../user-settings/tax-settings/tax-settings.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
 import { DepotService } from '../services/depot.service';
 import { TabelleComponent } from './tabelle/tabelle.component';
 import { FilterType } from './tabelle/filter-type.enum';
