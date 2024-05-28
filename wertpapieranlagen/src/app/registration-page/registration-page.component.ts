@@ -41,7 +41,7 @@ export class RegistrationPageComponent {
   }
 
   registrieren() {
-    if(this.password === undefined || this.email === undefined) {
+    if(this.password === undefined || this.isPasswordInvalid === false || this.email === undefined) {
       console.log("Ungültige Eingaben!");
     } else {
       this.userService.register(this.http, this.email, this.password).subscribe(
