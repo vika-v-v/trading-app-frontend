@@ -1,1 +1,9 @@
-<canvas id="canvas"></canvas>
+<!-- grafik.component.html -->
+<div id="canvas-container">
+  <div id="dropdown-container">
+    <select id="typ-dropdown" class="global-select">
+      <option *ngFor="let value of grafikTypValues">{{ value }}</option>
+    </select>
+  </div>
+  <canvas id="canvas"></canvas>
+</div>

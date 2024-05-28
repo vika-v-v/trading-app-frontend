@@ -6,12 +6,11 @@ import { WertpapierVorgangComponent } from './wertpapier-vorgang/wertpapier-vorg
 import { DepotErstellenComponent } from './depot-erstellen/depot-erstellen.component';
 import { UserSettingsComponent } from '../user-settings/user-settings.component';
 import { TaxSettingsComponent } from '../user-settings/tax-settings/tax-settings.component';
-import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DepotService } from '../services/depot.service';
 import { TabelleComponent } from './tabelle/tabelle.component';
 import { FilterType } from './tabelle/filter-type.enum';
 import { GrafikComponent } from './grafik/grafik.component';
-import { GrafikTyp } from './grafik/grafik-typ.enum';
 
 @Component({
   selector: 'app-home-page',
@@ -32,7 +31,6 @@ import { GrafikTyp } from './grafik/grafik-typ.enum';
 export class HomePageComponent {
   SidePanel = SidePanel;
   WertpapierVorgang = WertpapierVorgang;
-  GrafikTyp = GrafikTyp;
 
   /* API-Endpoint: liste von Depots {[Depot1, Depot2]}*/
   depots: string[] = ['Depot']; // Initialize depots as an array of strings

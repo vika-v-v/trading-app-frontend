@@ -1,3 +1,3 @@
 export enum GrafikTyp {
-  PizzadiagrammWertpapierarten
+  PizzadiagrammWertpapierarten = 'Wertpapierarten Diagramm'
 }

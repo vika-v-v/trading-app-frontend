@@ -3,6 +3,8 @@ import { GrafikTyp } from './grafik-typ.enum';
 import { HttpClient } from '@angular/common/http';
 import { DepotService } from '../../services/depot.service';
 import { Chart, ChartConfiguration, ChartTypeRegistry, registerables } from 'chart.js';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 interface Wertpapier {
   WertpapierDurchschnittspreis: string;
@@ -19,24 +21,37 @@ interface Wertpapiere {
 @Component({
   selector: 'app-grafik',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule,
+    CommonModule
+  ],
   templateUrl: './grafik.component.html',
   styleUrls: ['./grafik.component.css']
 })
-export class GrafikComponent implements OnInit, AfterViewInit {
-  @Input() typ: GrafikTyp = GrafikTyp.PizzadiagrammWertpapierarten;
+export class GrafikComponent implements AfterViewInit {
+  grafikTypEnum = GrafikTyp;
+  grafikTypValues: string[];
+
   private chart: Chart<'pie', number[], string> | undefined;
+  typ : GrafikTyp = GrafikTyp.PizzadiagrammWertpapierarten;
+
+  private BABY_BLUE =   {light: '#bcd8f6', dark: '#A2BEDC'};
+  private NAVY_BLUE =   {light: '#133962', dark: '#042440'};
+  private VIOLET_BLUE = {light: '#5d59b9', dark: '#4E499E'};
+  private LAVENDER =    {light: '#ab90be', dark: '#B793C9'};
+  private ROSE_PINK =   {light: '#e482b2', dark: '#D26B9D'};
 
   constructor(private depotService: DepotService, private http: HttpClient) {
     // Register Chart.js components
     Chart.register(...registerables);
-  }
-
-  ngOnInit() {
-    // Removed chart creation from ngOnInit to ngAfterViewInit
+    this.grafikTypValues = Object.values(this.grafikTypEnum);
   }
 
   ngAfterViewInit() {
+    this.generateDiagramm();
+  }
+
+  generateDiagramm() {
     if (this.typ === GrafikTyp.PizzadiagrammWertpapierarten) {
       this.generatePizzaDiagramm();
     }
@@ -54,33 +69,60 @@ export class GrafikComponent implements OnInit, AfterViewInit {
         datasets: [{
           data: data,
           backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
+            this.BABY_BLUE.light,
+            this.LAVENDER.light,
+            this.NAVY_BLUE.light,
+            this.VIOLET_BLUE.light,
+            this.ROSE_PINK.light
           ],
           borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
+            this.BABY_BLUE.dark,
+            this.LAVENDER.dark,
+            this.NAVY_BLUE.dark,
+            this.VIOLET_BLUE.dark,
+            this.ROSE_PINK.dark
           ],
           borderWidth: 1
         }]
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             position: 'bottom',
+            labels: {
+              color: 'black',
+              font: {
+                family: 'Verdana, Geneva, Tahoma, sans-serif'
+              }
+            }
           },
           title: {
             display: true,
-            text: 'Wertpapierarten'
+            text: 'Wertpapierarten',
+            color: 'black',
+            font: {
+              family: 'Verdana, Geneva, Tahoma, sans-serif',
+              size: 15
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const label = context.label || '';
+                const value = context.raw || 0;
+                return `${label}: ${value}%`;
+              }
+            },
+            titleFont: {
+              family: 'Verdana, Geneva, Tahoma, sans-serif', // Change tooltip title font family
+              size: 12 // Change tooltip title font size
+            },
+            bodyFont: {
+              family: 'Verdana, Geneva, Tahoma, sans-serif', // Change tooltip body font family
+              size: 10 // Change tooltip body font size
+            }
           }
         }
       }
@@ -120,7 +162,7 @@ export class GrafikComponent implements OnInit, AfterViewInit {
     return Object.keys(wertpapierartenMap).map(art => {
       return {
         art: art,
-        percentage: (wertpapierartenMap[art] / gesamtwert) * 100
+        percentage: Math.round((wertpapierartenMap[art] / gesamtwert) * 100)
       };
     });
   }
