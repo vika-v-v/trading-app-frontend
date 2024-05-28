@@ -22,20 +22,24 @@ export class PasswordResetPageComponent {
   }
 
   sendLink(){
+    if(this.email === undefined) {
+      console.log("Ungültige Eingaben!");
+    } else {
+      this.userService.reset(this.http, this.email).subscribe(
+        response => {
+          console.log("Klappt!");
+          console.log('Response:', response);
 
-    this.userService.reset(this.http, this.email).subscribe(
-      response => {
-        console.log("Klappt!");
-        console.log('Response:', response);
-
-        if(response.statusCode === 200) {
-          console.log('Link gesendet!');
+          if(response.statusCode === 200) {
+            console.log('Link gesendet!');
+            this.naviagateToLoginPage();
+          }
+        },
+        error => {
+          console.error('Error:', error);
         }
-      },
-      error => {
-        console.error('Error:', error);
-      }
-    );
+      );
+    }
   }
 
   naviagateToLoginPage() {

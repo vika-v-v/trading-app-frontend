@@ -55,7 +55,7 @@ export class UserService {
   }
 
   reset(http: HttpClient, email: string): Observable<any> {
-    const resetUrl: string = `${this.rootUrl}users/reset-passwort`;
+    const resetUrl: string = this.rootUrl + 'users/reset-passwort';
 
     const httpOptions = {
         headers: new HttpHeaders({
@@ -66,6 +66,5 @@ export class UserService {
 
     return http.get(resetUrl, httpOptions);
 }
-
 
 }

@@ -28,5 +28,5 @@
 </div>
 
 <div *ngIf="changePasswordShown">
-  <app-change-password-page></app-change-password-page>
+  <app-change-password-page (resetClicked)="hideChangePassword()"></app-change-password-page>
 </div>

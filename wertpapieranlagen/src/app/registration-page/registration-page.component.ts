@@ -1,44 +1,63 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { PasswordUtilsService } from '../services/password-utils.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-registration-page',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     HttpClientModule
   ],
   templateUrl: './registration-page.component.html',
-  styleUrl: './registration-page.component.css'
+  styleUrls: ['../app.component.css', './registration-page.component.css']
 })
 export class RegistrationPageComponent {
-
   email!: string;
-  passwort1!: string;
-  passwort2!: string;
+  password: string = '';
+  password2: string = '';
+  doPasswordsMatch: boolean = true;
+  passwordStrengthText!: string;
+  passwordStrengthWidth: string = '0%';
+  passwordStrengthColor: string = '#ddd';
+  isPasswordInvalid: boolean = false;
 
-  constructor(private router: Router, private userService: UserService, private http: HttpClient) {
+  constructor(private router: Router, private userService: UserService, private http: HttpClient, private passwordUtils: PasswordUtilsService) {}
+
+  checkPassword() {
+    this.passwordStrengthWidth = this.passwordUtils.checkPassword(this.password).width;
+    this.passwordStrengthColor = this.passwordUtils.checkPassword(this.password).color;
+    this.passwordStrengthText = this.passwordUtils.checkPassword(this.password).text;
+    this.isPasswordInvalid = this.passwordUtils.checkPassword(this.password).isInvalid;
   }
 
-  registrieren(){
+  checkPasswordMatch() {
+    this.doPasswordsMatch = this.passwordUtils.checkPasswordMatch(this.password, this.password2);
+  }
 
-    this.userService.register(this.http, this.email, this.passwort1).subscribe(
-      response => {
-        console.log("Klappt!");
-        console.log('Response:', response);
+  registrieren() {
+    if(this.password === undefined || this.email === undefined) {
+      console.log("Ungültige Eingaben!");
+    } else {
+      this.userService.register(this.http, this.email, this.password).subscribe(
+        response => {
+          console.log("Klappt!");
+          console.log('Response:', response);
 
-        if(response.statusCode === 200) {
-          this.naviagateToHomePage();
+          if(response.statusCode === 200) {
+            this.naviagateToHomePage();
+          }
+        },
+        error => {
+          console.error('Error:', error);
         }
-      },
-      error => {
-        console.error('Error:', error);
-      }
-    );
-
+      );
+    }
   }
 
   naviagateToLoginPage() {
