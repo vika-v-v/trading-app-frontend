@@ -14,20 +14,29 @@
     </div>
     <div id="wertpapiername" class="information-line">
       <p>Wertpapiername</p>
-      <input class="global-input" type="text" />
+      <input class="global-input" type="text" [(ngModel)]="wertpapiername"/>
+    </div>
+    <div id="date" class="information-line">
+      <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen"> Kaufdatum</p>
+      <p *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen"> Verkaufsdatum</p>
+      <input type="date" [value]="currentDate" class="global-date" [(ngModel)]="date"/>
     </div>
     <div id="kurs" class="information-line">
       <p>Kurs</p>
-      <input class="global-input" type="text" />
+      <input class="global-input" type="text" [(ngModel)]="wertpapierPreis"/>
     </div>
     <div id="menge" class="information-line">
       <p>Menge</p>
-      <input class="global-input" type="text" />
+      <input class="global-input" type="text" [(ngModel)]="anzahl"/>
+    </div>
+    <div id="transaktionskosten" class="information-line">
+      <p>Transaktionskosten</p>
+      <input class="global-input" type="text" [(ngModel)]="transaktionskosten"/>
     </div>
   </div>
   <div id="bottom-elements">
-    <button class="vorgang-erfassen global-button" *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen">Kauf hinzufügen</button>
-    <button class="vorgang-erfassen global-button" *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen">Verkauf hinzufügen</button>
+    <button (click)="kaufHinzufuegen()" class="vorgang-erfassen global-button" *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen">Kauf hinzufügen</button>
+    <button (click)="verkaufHinzufuegen()"class="vorgang-erfassen global-button" *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen">Verkauf hinzufügen</button>
     <button class="vorgang-abbrechen global-button">Abbrechen</button>
   </div>
 </div>
