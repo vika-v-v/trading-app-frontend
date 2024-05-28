@@ -8,11 +8,8 @@ h1 {
 
 input {
   padding: 8px;
-  /* fügt Polsterung im Input-Feld hinzu */
   border: 1px solid #ccc;
-  /* fügt eine Grenze hinzu */
   border-radius: 4px;
-  /* rundet die Ecken der Grenze */
 }
 
 .global-button {

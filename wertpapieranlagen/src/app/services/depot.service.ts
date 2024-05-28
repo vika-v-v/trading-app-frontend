@@ -36,7 +36,14 @@ export class DepotService {
               "WertpapierArt": "ETF",
               "WertpapierAnteil": "6.0",
               "Gesamtwert": "0.0",
-              "WertpapierAktuellerKurs": "50.0"
+              "WertpapierAktuellerKurs": "100.0"
+          },
+          "My Fond": {
+              "WertpapierDurchschnittspreis": "0.0",
+              "WertpapierArt": "FOND",
+              "WertpapierAnteil": "10.0",
+              "Gesamtwert": "0.0",
+              "WertpapierAktuellerKurs": "510.0"
           }
         }
     }
