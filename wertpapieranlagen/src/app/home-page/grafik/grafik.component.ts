@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { GrafikTyp } from './grafik-typ.enum';
 import { HttpClient } from '@angular/common/http';
 import { DepotService } from '../../services/depot.service';
-import { Chart, ChartConfiguration, ChartType } from 'chart.js';
+import { Chart, ChartConfiguration, ChartTypeRegistry, registerables } from 'chart.js';
 
 interface Wertpapier {
   WertpapierDurchschnittspreis: string;
@@ -23,11 +23,18 @@ interface Wertpapiere {
   templateUrl: './grafik.component.html',
   styleUrls: ['./grafik.component.css']
 })
-export class GrafikComponent implements AfterViewInit {
+export class GrafikComponent implements OnInit, AfterViewInit {
   @Input() typ: GrafikTyp = GrafikTyp.PizzadiagrammWertpapierarten;
-  private chart: Chart<'pie', number[], string>  | undefined;
+  private chart: Chart<'pie', number[], string> | undefined;
 
-  constructor(private depotService: DepotService, private http: HttpClient) { }
+  constructor(private depotService: DepotService, private http: HttpClient) {
+    // Register Chart.js components
+    Chart.register(...registerables);
+  }
+
+  ngOnInit() {
+    // Removed chart creation from ngOnInit to ngAfterViewInit
+  }
 
   ngAfterViewInit() {
     if (this.typ === GrafikTyp.PizzadiagrammWertpapierarten) {
@@ -69,16 +76,19 @@ export class GrafikComponent implements AfterViewInit {
         responsive: true,
         plugins: {
           legend: {
-            position: 'top',
+            position: 'bottom',
           },
           title: {
             display: true,
-            text: 'Wertpapierarten Pie Chart'
+            text: 'Wertpapierarten'
           }
         }
       }
     };
 
+    if (this.chart) {
+      this.chart.destroy();
+    }
     this.chart = new Chart('canvas', chartConfig);
   }
 
