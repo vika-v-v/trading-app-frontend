@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { TaxSettingsComponent } from './tax-settings/tax-settings.component';
 import { CommonModule } from '@angular/common';
 import { ChangePasswordPageComponent } from './change-password-page/change-password-page.component';
@@ -18,6 +19,9 @@ export class UserSettingsComponent {
   steuerrechnerShown = false;
   changePasswordShown = false;
 
+  constructor(private router: Router) {
+  }
+
   showSteuerrechner() {
     this.steuerrechnerShown = true;
     this.changePasswordShown = false;
@@ -34,5 +38,9 @@ export class UserSettingsComponent {
 
   hideChangePassword() {
     this.changePasswordShown = false;
+  }
+
+  naviagateToLoginPage() {
+    this.router.navigate(['login-seite']);
   }
 }
