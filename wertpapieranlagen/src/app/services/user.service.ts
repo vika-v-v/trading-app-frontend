@@ -67,5 +67,39 @@ export class UserService {
     return http.get(resetUrl, httpOptions);
 }
 
+  updateUserData(http: HttpClient, userId: string, optionalData: 
+    {
+      email?: string;
+      password?: string;
+      vorname?: string;
+      nachname?: string;
+      telefonnummer?: string;
+      strasse?: string;
+      hausnummer?: string;
+      plz?: string;
+      ort?: string;
+      steuersatz?: string;
+      freibetrag?: string;
+      kirchensteuer?: string;
+      verlustverrechnungstopf?: string;
+    }): Observable<any> {
+  const resetUrl: string = this.rootUrl + 'users/update';
+  const httpOptions = {
+      headers: new HttpHeaders({
+        'X_API_KEY': 'SP01Key'
+      }),
+  };
+
+  const formData = new FormData();
+
+  Object.keys(optionalData).forEach(key => {
+    const value = optionalData[key as keyof typeof optionalData];
+    if (value !== null && value !== undefined) {
+      formData.append(key, value);
+    }
+  });
+
+  return http.post(resetUrl, formData, httpOptions);
+}
 
 }
