@@ -67,5 +67,27 @@ export class UserService {
     return http.get(resetUrl, httpOptions);
 }
 
+updateUserData(http: HttpClient, userId: string, optionalData: {
+  email?: string;
+  password?: string;
+  vorname?: string;
+  nachname?: string;
+  telefonnummer?: string;
+  strasse?: string;
+  hausnummer?: string;
+  plz?: string;
+  ort?: string;
+  steuersatz?: string;
+  freibetrag?: string;
+  kirchensteuer?: string;
+  verlustverrechnungstopf?: string;
+}): Observable<any> {
+  const url = this.rootUrl + `users/${userId}/update`;
+  const httpOptions = {
+    headers: new HttpHeaders({
+      "Authorization": `Bearer ${this.userService.getToken()}`,
+    })
+  };
+
 
 }
