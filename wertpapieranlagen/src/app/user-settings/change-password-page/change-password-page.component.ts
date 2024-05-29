@@ -48,4 +48,24 @@ export class ChangePasswordPageComponent {
   onReset() {
     this.resetClicked.emit();
   }
+
+  changePassword() {
+    if(this.password === undefined || this.isPasswordInvalid) {
+      console.log("Ungültige Eingaben!");
+    } else {
+      this.userService.updateUserData(this.http, this.userService.getToken(), {password: this.password}).subscribe(
+        response => {
+          console.log("Klappt!");
+          console.log('Response:', response);
+
+          if(response.statusCode === 200) {
+            console.log("Passwort erfolgreich geändert.");
+          }
+        },
+        error => {
+          console.error('Error:', error);
+        }
+      );
+    }
+  }
 }

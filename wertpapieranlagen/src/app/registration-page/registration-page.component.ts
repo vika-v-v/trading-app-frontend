@@ -41,7 +41,7 @@ export class RegistrationPageComponent {
   }
 
   registrieren() {
-    if(this.password === undefined || this.isPasswordInvalid === false || this.email === undefined) {
+    if(this.password === undefined || this.isPasswordInvalid || this.email === undefined) {
       console.log("Ungültige Eingaben!");
     } else {
       this.userService.register(this.http, this.email, this.password).subscribe(
@@ -49,7 +49,7 @@ export class RegistrationPageComponent {
           console.log("Klappt!");
           console.log('Response:', response);
 
-          if(response.statusCode === 200) {
+          if(response.statusCode === 200 || response.statusCode === 201) {
             this.naviagateToHomePage();
           }
         },
