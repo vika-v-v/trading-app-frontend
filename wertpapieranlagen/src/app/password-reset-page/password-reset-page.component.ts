@@ -25,7 +25,7 @@ export class PasswordResetPageComponent {
     if(this.email === undefined) {
       console.log("Ungültige Eingaben!");
     } else {
-      this.userService.reset(this.http, this.email).subscribe(
+      this.userService.resetPassword(this.http, this.email).subscribe(
         response => {
           console.log("Klappt!");
           console.log('Response:', response);

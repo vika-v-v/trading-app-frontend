@@ -1,4 +1,4 @@
-<div id="container">
+<div id="container" *ngIf="isPageVisible(); else notLoggedInMessage">
   <div id="top-elements">
     <div id="left-elements">
       <div id="left-buttons">
@@ -85,3 +85,8 @@
     </div>
   </div>
 </div>
+
+<!--Wird anstelle der Homepage angezeigt, wenn kein Token hinterlegt ist-->
+<ng-template #notLoggedInMessage>
+  <p>Sie sind nicht angemeldet.</p>
+</ng-template>

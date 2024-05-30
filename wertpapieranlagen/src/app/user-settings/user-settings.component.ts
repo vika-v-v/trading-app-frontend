@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 import { TaxSettingsComponent } from './tax-settings/tax-settings.component';
 import { CommonModule } from '@angular/common';
 import { ChangePasswordPageComponent } from './change-password-page/change-password-page.component';
+import { AutoLogoutService } from '../services/auto-logout.service';
 
 @Component({
   selector: 'app-user-settings',
@@ -19,7 +21,7 @@ export class UserSettingsComponent {
   steuerrechnerShown = false;
   changePasswordShown = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private userService: UserService, private autoLogoutService: AutoLogoutService) {
   }
 
   showSteuerrechner() {
@@ -41,6 +43,8 @@ export class UserSettingsComponent {
   }
 
   naviagateToLoginPage() {
+    this.autoLogoutService.stop();
     this.router.navigate(['login-seite']);
+    this.userService.setToken('');
   }
 }

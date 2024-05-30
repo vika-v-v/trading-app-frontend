@@ -11,6 +11,7 @@ import { DepotService } from '../services/depot.service';
 import { TabelleComponent } from './tabelle/tabelle.component';
 import { FilterType } from './tabelle/filter-type.enum';
 import { GrafikComponent } from './grafik/grafik.component';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-home-page',
@@ -41,9 +42,13 @@ export class HomePageComponent {
   transactionen: any[] = [];
   wertpapiere: any[] = [];
 
-  constructor(private http: HttpClient, private depotService: DepotService) {
+  constructor(private http: HttpClient, private depotService: DepotService, private userService: UserService) {
     /* API-Endpoint: liste von Depots aufrufen */
     this.depotAendern('Depot1');
+  }
+
+  isPageVisible() {
+    return this.userService.getToken() != '';
   }
 
   showSidePanel(name: SidePanel) {
