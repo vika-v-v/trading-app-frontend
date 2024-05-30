@@ -8,8 +8,7 @@ import { HttpParams } from "@angular/common/http";
 })
 export class UserService {
   private rootUrl: string;
-
-  private token!: string;
+  private token: string = '';
 
   constructor(@Inject('ROOT_URL') rootUrl: string) {
     this.rootUrl = rootUrl;
@@ -54,20 +53,22 @@ export class UserService {
     return http.post(registerUrl, formData, httpOptions);
   }
 
-  reset(http: HttpClient, email: string): Observable<any> {
-    const resetUrl: string = this.rootUrl + 'users/reset-passwort';
+  resetPassword(http: HttpClient, email: string): Observable<any> {
+    const resetUrl: string = this.rootUrl + 'users/reset-passwort-initialisieren';
 
     const httpOptions = {
         headers: new HttpHeaders({
           'X_API_KEY': 'SP01Key'
         }),
-        params: new HttpParams().set('email', email)
     };
 
-    return http.get(resetUrl, httpOptions);
+    const formData = new FormData();
+    formData.append('email', email);
+
+    return http.post(resetUrl, formData, httpOptions);
 }
 
-  updateUserData(http: HttpClient, userId: string, optionalData: 
+  updateUserData(http: HttpClient, optionalData:
     {
       email?: string;
       password?: string;
@@ -83,10 +84,11 @@ export class UserService {
       kirchensteuer?: string;
       verlustverrechnungstopf?: string;
     }): Observable<any> {
+
   const resetUrl: string = this.rootUrl + 'users/update';
   const httpOptions = {
       headers: new HttpHeaders({
-        'X_API_KEY': 'SP01Key'
+        'Authorization': `Bearer ${this.token}`
       }),
   };
 
@@ -99,7 +101,7 @@ export class UserService {
     }
   });
 
-  return http.post(resetUrl, formData, httpOptions);
+  return http.patch(resetUrl, formData, httpOptions);
 }
 
 }

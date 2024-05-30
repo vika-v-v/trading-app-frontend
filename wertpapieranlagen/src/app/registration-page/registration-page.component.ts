@@ -5,6 +5,7 @@ import { PasswordUtilsService } from '../services/password-utils.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AutoLogoutService } from '../services/auto-logout.service';
 
 @Component({
   selector: 'app-registration-page',
@@ -15,7 +16,7 @@ import { CommonModule } from '@angular/common';
     HttpClientModule
   ],
   templateUrl: './registration-page.component.html',
-  styleUrls: ['../app.component.css', './registration-page.component.css']
+  styleUrls: ['./registration-page.component.css']
 })
 export class RegistrationPageComponent {
   email!: string;
@@ -27,7 +28,7 @@ export class RegistrationPageComponent {
   passwordStrengthColor: string = '#ddd';
   isPasswordInvalid: boolean = false;
 
-  constructor(private router: Router, private userService: UserService, private http: HttpClient, private passwordUtils: PasswordUtilsService) {}
+  constructor(private router: Router, private userService: UserService, private http: HttpClient, private passwordUtils: PasswordUtilsService, private autoLogoutService: AutoLogoutService) {}
 
   checkPassword() {
     this.passwordStrengthWidth = this.passwordUtils.checkPassword(this.password).width;
@@ -66,5 +67,6 @@ export class RegistrationPageComponent {
 
   naviagateToHomePage() {
     this.router.navigate(['home-page']);
+    this.autoLogoutService.startTimer();
   }
 }

@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
     HttpClientModule
   ],
   templateUrl: './change-password-page.component.html',
-  styleUrls: ['../../app.component.css', './change-password-page.component.css']
+  styleUrls: ['./change-password-page.component.css']
 })
 export class ChangePasswordPageComponent {
   password: string = '';
@@ -53,7 +53,7 @@ export class ChangePasswordPageComponent {
     if(this.password === undefined || this.isPasswordInvalid) {
       console.log("Ungültige Eingaben!");
     } else {
-      this.userService.updateUserData(this.http, this.userService.getToken(), {password: this.password}).subscribe(
+      this.userService.updateUserData(this.http, {password: this.password}).subscribe(
         response => {
           console.log("Klappt!");
           console.log('Response:', response);
