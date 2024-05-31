@@ -1,5 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http'; // Import für HttpHeaders hinzugefügt
 import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,48 +10,63 @@ export class DepotService {
 
   private rootUrl: string;
 
-  constructor(@Inject('ROOT_URL') rootUrl: string) {
+  constructor(@Inject('ROOT_URL') rootUrl: string, private userService: UserService) {
     this.rootUrl = rootUrl;
   }
 
-  getWertpapiere(http: HttpClient, depotName: string) {
+  depotErstellen(http: HttpClient, name: string, waehrung: string): Observable<any> {
+    const createDepotUrl = this.rootUrl + 'depot/create';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.userService.getToken()}`
+      })
+    };
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('waehrung', waehrung);
+
+    return http.post(createDepotUrl, formData, httpOptions);
+  }
+
+  getWertpapiere(depotName: string) {
     return {
       "message": "Wertpapiere erfolgreich abgerufen",
       "statusCode": 200,
       "data": {
-          "Apple": {
-              "WertpapierDurchschnittspreis": "0.0",
-              "WertpapierArt": "AKTIE",
-              "WertpapierAnteil": "18.0",
-              "Gesamtwert": "0.0",
-              "WertpapierAktuellerKurs": "100.0"
-          },
-          "Tesla": {
-              "WertpapierDurchschnittspreis": "0.0",
-              "WertpapierArt": "AKTIE",
-              "WertpapierAnteil": "12.0",
-              "Gesamtwert": "0.0",
-              "WertpapierAktuellerKurs": "250.0"
-          },
-          "MSCI World iShares": {
-              "WertpapierDurchschnittspreis": "0.0",
-              "WertpapierArt": "ETF",
-              "WertpapierAnteil": "6.0",
-              "Gesamtwert": "0.0",
-              "WertpapierAktuellerKurs": "100.0"
-          },
-          "My Fond": {
-              "WertpapierDurchschnittspreis": "0.0",
-              "WertpapierArt": "FOND",
-              "WertpapierAnteil": "10.0",
-              "Gesamtwert": "0.0",
-              "WertpapierAktuellerKurs": "510.0"
-          }
+        "Apple": {
+          "WertpapierDurchschnittspreis": "0.0",
+          "WertpapierArt": "AKTIE",
+          "WertpapierAnteil": "18.0",
+          "Gesamtwert": "0.0",
+          "WertpapierAktuellerKurs": "100.0"
+        },
+        "Tesla": {
+          "WertpapierDurchschnittspreis": "0.0",
+          "WertpapierArt": "AKTIE",
+          "WertpapierAnteil": "12.0",
+          "Gesamtwert": "0.0",
+          "WertpapierAktuellerKurs": "250.0"
+        },
+        "MSCI World iShares": {
+          "WertpapierDurchschnittspreis": "0.0",
+          "WertpapierArt": "ETF",
+          "WertpapierAnteil": "6.0",
+          "Gesamtwert": "0.0",
+          "WertpapierAktuellerKurs": "100.0"
+        },
+        "My Fond": {
+          "WertpapierDurchschnittspreis": "0.0",
+          "WertpapierArt": "FOND",
+          "WertpapierAnteil": "10.0",
+          "Gesamtwert": "0.0",
+          "WertpapierAktuellerKurs": "510.0"
         }
-    }
+      }
+    };
   }
 
-  getTransaktionen(http: HttpClient, depotName: string) {
+  getTransaktionen(depotName: string) {
     return {
       "message": "Transaktionen erfolgreich abgerufen",
       "statusCode": 200,
