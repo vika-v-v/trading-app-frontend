@@ -3,6 +3,7 @@
     <div id="left-elements">
       <div id="left-buttons">
         <select class="global-select">
+          
           <option value="option1">Depot 1</option>
           <option value="option2">Depot 2</option>
           <option value="option3">Depot 3</option>
@@ -76,7 +77,7 @@
         <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Verkaufen"></app-wertpapier-vorgang>
       </div>
       <div *ngIf="sidePanel === SidePanel.DepotErstellen">
-        <app-depot-erstellen></app-depot-erstellen>
+        <app-depot-erstellen (onAbbrechen)="hideSidePanel()"></app-depot-erstellen>
       </div>
       <div *ngIf="sidePanel === SidePanel.Settings">
         <app-user-settings></app-user-settings>

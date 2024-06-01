@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { DepotService } from '../../services/depot.service';
 import { FormsModule } from '@angular/forms';
 
@@ -15,13 +15,20 @@ export class DepotErstellenComponent {
   name!: string;
   waehrung!: string;
 
+  @Output() onAbbrechen = new EventEmitter<void>();
+
   constructor(private httpClient: HttpClient, private depotService: DepotService){
 
   }
 
-
   ngOnInit() {
     this.currentDate = this.formatDate(new Date());
+  }
+
+  abbrechen() {
+    this.name = "";
+    this.waehrung = "";
+    this.onAbbrechen.emit();
   }
 
   formatDate(date: Date): string {
@@ -34,11 +41,13 @@ export class DepotErstellenComponent {
   depotErstellen(){
     this.depotService.depotErstellen(this.httpClient, this.name, this.waehrung).subscribe(
       response=>{
-
+        this.abbrechen();
       },
       error=>{
         console.log(error.message);
       }
     );
   }
+
+
 }
