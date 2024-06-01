@@ -29,7 +29,7 @@ export class DepotService {
     return http.post(createDepotUrl, formData, httpOptions);
   }
 
-  getWertpapiere(depotName: string) {
+  getWertpapiere(http: HttpClient, depotName: string) {
     return {
       "message": "Wertpapiere erfolgreich abgerufen",
       "statusCode": 200,
@@ -66,7 +66,7 @@ export class DepotService {
     };
   }
 
-  getTransaktionen(depotName: string) {
+  getTransaktionen(http: HttpClient, depotName: string) {
     return {
       "message": "Transaktionen erfolgreich abgerufen",
       "statusCode": 200,

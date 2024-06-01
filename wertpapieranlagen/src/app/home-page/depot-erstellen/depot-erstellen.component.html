@@ -5,25 +5,21 @@
   <div id="information">
     <div id="depotrname" class="information-line">
       <p>Name</p>
-      <input type="text" class="global-input" />
+      <input [(ngModel)]="name" type="text" class="global-input" />
     </div>
     <div id="waehrung" class="information-line">
       <p>Währung</p>
-      <select class="global-select">
-        <option>EUR - Euro</option>
-        <option>USD - US Dollar</option>
-        <option>NOK - Norwegische Krone</option>
-        <option>JPY - Yen</option>
-        <option>UAH - Hryvnia</option>
+      <select [(ngModel)]="waehrung" class="global-select">
+        <option value="EUR">EUR - Euro</option>
       </select>
     </div>
-    <div id="date" class="information-line">
+    <!--div id="date" class="information-line">
       <p>Eröffnungsdatum</p>
       <input type="date" [value]="currentDate" class="global-date" />
-    </div>
+    </div-->
   </div>
   <div id="bottom-elements">
-    <button class="depot-erstellen global-button">Depot erstellen</button>
+    <button class="depot-erstellen global-button" (click)="depotErstellen()">Depot erstellen</button>
     <button class="abbrechen global-button">Abbrechen</button>
   </div>
 </div>
