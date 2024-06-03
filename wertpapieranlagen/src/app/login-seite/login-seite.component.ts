@@ -32,8 +32,8 @@ export class LoginSeiteComponent {
 
         if(response.statusCode === 200) {
           this.naviagateToHomePage();
-        }
           this.userService.setToken(response.data);
+        }
       },
       error => {
         console.error('Error:', error);
