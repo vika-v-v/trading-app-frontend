@@ -2,12 +2,7 @@
   <div id="top-elements">
     <div id="left-elements">
       <div id="left-buttons">
-        <select class="global-select">
-          
-          <option value="option1">Depot 1</option>
-          <option value="option2">Depot 2</option>
-          <option value="option3">Depot 3</option>
-        </select>
+        <app-depot-dropdown></app-depot-dropdown>
         <button (click)="showSidePanel(SidePanel.Kaufen)" class="global-button">Kaufen</button>
         <button (click)="showSidePanel(SidePanel.Verkaufen)" class="global-button">Verkaufen</button>
       </div>
