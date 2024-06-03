@@ -1,28 +1,20 @@
 #main-container {
-  position: fixed; /* Stellt sicher, dass der Container immer im Ansichtsbereich bleibt */
+  height: 100vh;
+  width: 100vw;
   top: 0;
   left: 0;
-  height: 100vh; /* 100% der Höhe des Ansichtsbereichs */
-  width: 100vw; /* 100% der Breite des Ansichtsbereichs */
-  margin: 0;
-  padding: 0;
+  position: fixed;
+  overflow: hidden;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* Verhindert Scrollen im Container */
 }
 
 #login-container {
   height: 100%;
   width: 100%;
-  background-image: url("../../assets/images/adam-nir-wTO6MWpMrJk-unsplash.jpg");
+  background-image: url('../../assets/images/background-image.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: left;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 }
 
 #main-section {
