@@ -12,6 +12,7 @@ import { TabelleComponent } from './tabelle/tabelle.component';
 import { FilterType } from './tabelle/filter-type.enum';
 import { GrafikComponent } from './grafik/grafik.component';
 import { UserService } from '../services/user.service';
+import { DepotDropdownComponent } from '../depot-dropdown/depot-dropdown.component';
 
 @Component({
   selector: 'app-home-page',
@@ -24,7 +25,8 @@ import { UserService } from '../services/user.service';
     TaxSettingsComponent,
     HttpClientModule,
     TabelleComponent,
-    GrafikComponent
+    GrafikComponent,
+    DepotDropdownComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
