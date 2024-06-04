@@ -11,44 +11,70 @@
 #login-container {
   height: 100%;
   width: 100%;
-  background-image: url('../../assets/images/background-image.jpg');
+  background-image: url('../../assets/images/background-image.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: left;
 }
 
-#main-section {
-    background-color: #BDBDBF;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
-    width: 20vw;
-    height: 80vh;
-    margin-top: 5vh;
+#content-container {
+  width: 40vw;
+  margin-left: 10%;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+  align-items: flex-start;
 }
 
-input {
-  display: block; /* macht die Elemente zu Blockelementen, sodass sie die volle Breite einnehmen */
-  width: 100%; /* setzt die Breite auf 100% der Elternelementbreite */
+#login-text {
+  width: 100vw;
+  height: 15vh;
+  margin-left: 15%;
+  margin-top: 5%;
+  color: white;
+  text-align: left;
+  font-size: min(100vw, 15vh);
+  letter-spacing: 3vw;
 }
 
-.input-group {
-  display: flex; /* verwendet Flexbox, um die Elemente nebeneinander anzuordnen */
-  margin-bottom: 15px; /* Abstand zwischen den Form-Gruppen */
-}
-
-button {
+#login-data {
+  height: auto;
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vh;
   width: 100%;
-  padding: 10px;
-  background-color: #37C9F6;
-  border-radius: 10px;
+}
+
+#login-data > * {
+  font-size: min(40vw, 2.5vh);
+  padding: 1.5vh;
+  border-radius: 1.7vh;
+  background: linear-gradient(135deg, #926a11, #92691152, rgba(0, 0, 0, 0));
   border: none;
+  color: white;
 }
 
-#registrieren-link {
-  color: blue;
+#login-data > *:hover {
+  background: linear-gradient(135deg, #d79810, #92691152, rgba(0, 0, 0, 0));
 }
 
-p {
-  text-align: center;
+#login-data > *::placeholder {
+  color: white;
+}
+
+#login-button {
+  width: 100%;
+  height: auto;
+  margin-top: 6vh;
+  font-size: min(40vw, 2.5vh);
+  padding: 1.5vh;
+  border-radius: 1.7vh;
+  background: linear-gradient(135deg, #86600600, #926a11, #8d590000);
+  border: none;
+  color: white;
+}
+
+#login-button:hover {
+  background: linear-gradient(135deg, #86600600, #d79810, #8d590000);
 }
