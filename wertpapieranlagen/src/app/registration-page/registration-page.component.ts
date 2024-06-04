@@ -52,6 +52,7 @@ export class RegistrationPageComponent {
 
           if(response.statusCode === 200 || response.statusCode === 201) {
             this.naviagateToHomePage();
+            this.userService.setToken(response.data);
           }
         },
         error => {
