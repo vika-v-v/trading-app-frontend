@@ -6,18 +6,12 @@
 }
 
 @font-face {
-  font-family: 'Garet Book';
-  src: url('assets/fonts/garet/Garet-Book.otf') format('opentype');
-}
-
-@font-face {
-  font-family: 'Garet Heavy';
-  src: url('assets/fonts/garet/Garet-Heavy.otf') format('opentype');
+  font-family: 'Gully';
+  src: url('assets/fonts/gully/Gully-Regular.otf') format('opentype');
 }
 
 * {
-  font-family: 'Garet Book', Verdana, Geneva, Tahoma, sans-serif;
-  font-weight: 600;
+  font-family: 'Gully', Verdana, Geneva, Tahoma, sans-serif;
 }
 
 
