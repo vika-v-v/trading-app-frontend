@@ -32,12 +32,12 @@
 
 #login-text {
   width: 100vw;
-  height: 15vh;
+  height: 17vh;
   margin-left: 15%;
   margin-top: 5%;
   color: white;
   text-align: left;
-  font-size: min(100vw, 15vh);
+  font-size: 17vh;
   letter-spacing: 3vw;
 }
 
@@ -51,8 +51,8 @@
 }
 
 #login-data > * {
-  font-size: 2.5vh;
-  padding: 1.5vh;
+  font-size: 3vh;
+  padding: 2vh;
   border-radius: 1.7vh;
   background: linear-gradient(135deg, #926a11, #92691152, rgba(0, 0, 0, 0));
   border: none;
@@ -69,9 +69,8 @@
 
 #login-button {
   width: 100%;
-  height: auto;
-  font-size: 2.5vh;
-  padding: 1.5vh;
+  font-size: 3vh;
+  padding: 2vh;
   border-radius: 1.7vh;
   background: linear-gradient(135deg, #86600600, #926a11, #8d590000);
   border: none;
@@ -90,7 +89,7 @@
 #bottom-elements > * {
   width: 100%;
   height: auto;
-  font-size: 2.5vh;
+  font-size: 3vh;
   padding: 1vh;
   border-radius: 1.7vh;
   border: none;
