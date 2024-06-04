@@ -1,3 +1,7 @@
+/* Author: Viktoriia Vovchenko */
+
+/* TODO: add animations to hover */
+
 #main-container {
   height: 100vh;
   width: 100vw;
@@ -18,11 +22,11 @@
 }
 
 #content-container {
-  width: 40vw;
+  width: 30vw;
   margin-left: 10%;
   display: flex;
   flex-direction: column;
-  gap: 1vh;
+  gap: 5vh;
   align-items: flex-start;
 }
 
@@ -47,7 +51,7 @@
 }
 
 #login-data > * {
-  font-size: min(40vw, 2.5vh);
+  font-size: 2.5vh;
   padding: 1.5vh;
   border-radius: 1.7vh;
   background: linear-gradient(135deg, #926a11, #92691152, rgba(0, 0, 0, 0));
@@ -66,15 +70,40 @@
 #login-button {
   width: 100%;
   height: auto;
-  margin-top: 6vh;
-  font-size: min(40vw, 2.5vh);
+  font-size: 2.5vh;
   padding: 1.5vh;
   border-radius: 1.7vh;
   background: linear-gradient(135deg, #86600600, #926a11, #8d590000);
   border: none;
   color: white;
+  margin-top: 3vh;
 }
 
 #login-button:hover {
   background: linear-gradient(135deg, #86600600, #d79810, #8d590000);
 }
+
+#bottom-elements {
+  width: 100%;
+}
+
+#bottom-elements > * {
+  width: 100%;
+  height: auto;
+  font-size: 2.5vh;
+  padding: 1vh;
+  border-radius: 1.7vh;
+  border: none;
+  color: #BFB8B8;
+  margin: 0;
+  text-align: center;
+}
+
+.link {
+  text-decoration: underline;
+}
+
+.link:hover {
+  text-decoration-color: white;
+}
+

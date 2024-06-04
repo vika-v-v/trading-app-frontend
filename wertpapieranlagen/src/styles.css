@@ -1,10 +1,23 @@
-* {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
+
 
 @font-face {
   font-family: 'Glacial Indifference Bold';
   src: url('assets/fonts/GlacialIndifference-Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Garet Book';
+  src: url('assets/fonts/garet/Garet-Book.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Garet Heavy';
+  src: url('assets/fonts/garet/Garet-Heavy.otf') format('opentype');
+}
+
+* {
+  font-family: 'Garet Book', Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
 }
 
 

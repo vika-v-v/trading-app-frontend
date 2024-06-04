@@ -4,29 +4,16 @@
     <h1 class="main-header" id="login-text">Login</h1>
     <div id="content-container">
       <div id="login-data">
-        <input
-          name="email"
-          type="email"
-          placeholder="E-Mail Adresse"
-          required
-          [(ngModel)]="email"
-        />
-        <input
-          name="passwort"
-          type="password"
-          placeholder="Passwort"
-          required
-          [(ngModel)]="passwort"
-        />
+        <input name="email" type="email" placeholder="E-Mail Adresse" required [(ngModel)]="email"/>
+        <input name="passwort" type="password" placeholder="Passwort" required [(ngModel)]="passwort"/>
       </div>
       <button id="login-button" (click)="anmelden()">Anmelden</button>
+      <div id="bottom-elements">
+        <p (click)="navigateToPasswordResetPage()" class="link">Passwort vergessen?</p>
+        <p>Du hast kein Konto?
+          <span id="registrieren-link" class="link" (click)="navigateToRegistrationPage()">Registrieren</span>
+        </p>
+      </div>
     </div>
-    <p (click)="navigateToPasswordResetPage()">Passwort vergessen?</p>
-    <p>
-      Du hast kein Konto?
-      <span id="registrieren-link" (click)="navigateToRegistrationPage()"
-        >Registrieren</span
-      >
-    </p>
   </div>
 </div>
