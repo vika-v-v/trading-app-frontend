@@ -8,8 +8,6 @@ let arrowUp = '../../../assets/icons/4829871_arrows_up_upload_icon.svg';
 let arrowDown = '../../../assets/icons/4829873_arrow_down_download_icon.svg';
 
 export const appConfig: ApplicationConfig = {
-
-
   providers: [
     provideRouter(routes),
     {

@@ -1,6 +1,19 @@
-* {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+
+@font-face {
+  font-family: 'Glacial Indifference Bold';
+  src: url('assets/fonts/GlacialIndifference-Bold.otf') format('opentype');
 }
+
+@font-face {
+  font-family: 'Gully';
+  src: url('assets/fonts/gully/Gully-Light.otf') format('opentype');
+}
+
+* {
+  font-family: 'Gully', Verdana, Geneva, Tahoma, sans-serif;
+}
+
 
 h1 {
   text-align: center;
@@ -10,6 +23,12 @@ input {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.main-header {
+  font-family: 'Glacial Indifference Bold', Verdana;
+  text-transform: uppercase;
+  letter-spacing: 7px;
 }
 
 .global-button {

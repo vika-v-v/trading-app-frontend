@@ -1,24 +1,19 @@
-<!DOCTYPE html>
-<html lang = "de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="author" content="Joshua Kampmeier">
-  <meta name="description" content="Anmelde-Oberfläche">
-  <title>Anmeldung</title>
-</head>
-<body>
+<!-- Author: Joshua Kampmeier / Viktoriia Vovchenko (kleine Änderungen für CSS)-->
+<div id="main-container">
   <div id="login-container">
-    <div id="main-section">
-      <h1>Anmeldung</h1>
-      <div class="input-group">
-        <input name="email" type="email" placeholder="E-Mail Adresse" required [(ngModel)]="email">
+    <h1 class="main-header" id="login-text">Login</h1>
+    <div id="content-container">
+      <div id="login-data">
+        <input name="email" type="email" placeholder="E-Mail Adresse" required [(ngModel)]="email"/>
+        <input name="passwort" type="password" placeholder="Passwort" required [(ngModel)]="passwort"/>
       </div>
-      <div class="input-group">
-        <input name="passwort" type="password" placeholder="Passwort" required [(ngModel)]="passwort">
+      <button id="login-button" (click)="anmelden()">Anmelden</button>
+      <div id="bottom-elements">
+        <p (click)="navigateToPasswordResetPage()" class="link">Passwort vergessen?</p>
+        <p>Du hast kein Konto?
+          <span id="registrieren-link" class="link" (click)="navigateToRegistrationPage()">Registrieren</span>
+        </p>
       </div>
-      <button (click)="anmelden()">Anmelden</button>
-      <p (click)="navigateToPasswordResetPage()">Passwort vergessen?</p>
-      <p>Du hast kein Konto? <span id="registrieren-link" (click)="navigateToRegistrationPage()">Registrieren</span></p>
     </div>
   </div>
-</body>
+</div>

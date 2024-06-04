@@ -1,54 +1,108 @@
+/* Author: Viktoriia Vovchenko */
+
+/* TODO: add animations to hover */
+
+#main-container {
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  position: fixed;
+  overflow: hidden;
+  display: flex;
+}
+
 #login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-/*    height: 100vh;
-    width: 100vw;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background: url("../../assets/icons/image 1.jpg") no-repeat center center fixed;
-    background-size: cover;
-*/
-}
-
-#main-section {
-    background-color: #BDBDBF;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
-    width: 20vw;
-    height: 80vh;
-    margin-top: 5vh;
-}
-
-body {
-  background-color: #f5f5f5;
-}
-
-input {
-  display: block; /* macht die Elemente zu Blockelementen, sodass sie die volle Breite einnehmen */
-  width: 100%; /* setzt die Breite auf 100% der Elternelementbreite */
-}
-
-.input-group {
-  display: flex; /* verwendet Flexbox, um die Elemente nebeneinander anzuordnen */
-  margin-bottom: 15px; /* Abstand zwischen den Form-Gruppen */
-}
-
-button {
+  height: 100%;
   width: 100%;
-  padding: 10px;
-  background-color: #37C9F6;
-  border-radius: 10px;
+  background-image: url('../../assets/images/background-image.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left;
+}
+
+#content-container {
+  width: 30vw;
+  margin-left: 10%;
+  display: flex;
+  flex-direction: column;
+  gap: 5vh;
+  align-items: flex-start;
+}
+
+#login-text {
+  width: 100vw;
+  height: 17vh;
+  margin-left: 15%;
+  margin-top: 5%;
+  color: white;
+  text-align: left;
+  font-size: 17vh;
+  letter-spacing: 3vw;
+}
+
+#login-data {
+  height: auto;
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vh;
+  width: 100%;
+}
+
+#login-data > * {
+  font-size: 3vh;
+  padding: 2vh;
+  border-radius: 1.7vh;
+  background: linear-gradient(135deg, #926a11, #92691152, rgba(0, 0, 0, 0));
   border: none;
+  color: white;
 }
 
-#registrieren-link {
-  color: blue;
+#login-data > *:hover {
+  background: linear-gradient(135deg, #d79810, #92691152, rgba(0, 0, 0, 0));
 }
 
-p {
+#login-data > *::placeholder {
+  color: white;
+}
+
+#login-button {
+  width: 100%;
+  font-size: 3vh;
+  padding: 2vh;
+  border-radius: 1.7vh;
+  background: linear-gradient(135deg, #86600600, #926a11, #8d590000);
+  border: none;
+  color: white;
+  margin-top: 3vh;
+}
+
+#login-button:hover {
+  background: linear-gradient(135deg, #86600600, #d79810, #8d590000);
+}
+
+#bottom-elements {
+  width: 100%;
+}
+
+#bottom-elements > * {
+  width: 100%;
+  height: auto;
+  font-size: 3vh;
+  padding: 1vh;
+  border-radius: 1.7vh;
+  border: none;
+  color: #BFB8B8;
+  margin: 0;
   text-align: center;
 }
+
+.link {
+  text-decoration: underline;
+}
+
+.link:hover {
+  text-decoration-color: white;
+}
+
