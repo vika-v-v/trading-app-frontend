@@ -9,9 +9,17 @@ import { UserService } from './user.service';
 export class DepotDropdownService {
   
   private rootUrl: string;
+  private token: string = '';
 
   constructor(@Inject('ROOT_URL') rootUrl: string, private userService: UserService) {
     this.rootUrl = rootUrl;
+  }
+
+  setToken(token: string) {
+    this.token = token;
+  }
+  getToken(){
+    return this.token;
   }
 
   getAllDepots(http: HttpClient): Observable<any> {
