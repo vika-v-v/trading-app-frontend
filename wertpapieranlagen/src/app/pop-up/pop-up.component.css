@@ -1,0 +1,56 @@
+.infoErrorPopUp {
+  color: white;
+  height: 10vh;
+  width: 50vw;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 8px; /* Abgerundete Ecken */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Schatten für mehr Tiefe */
+}
+.symbol {
+  position: absolute;
+  left: 2rem;
+  font-size: 3em; /* Symbol 3 mal so groß */
+}
+.text {
+  font-size: 1.5em; /* Text 1.5 mal vergrößern */
+  margin-left: 7rem; /* Abstand von der linken Seite, um Platz für das Symbol zu lassen */
+  text-align: center; /* Text rechtsbündig ausrichten */
+  width: 80%; /* Breite entsprechend anpassen */
+}
+
+
+
+
+
+
+.choicePopUp {
+  height: 20vh;
+  width: 30vw;
+  background-color: #2c2c2c;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  color: white;
+  margin-bottom: 40vh;
+}
+
+.choicePopUp p {
+  padding: 3vh 2vw;
+  font-size: 18px;
+}
+
+.choicePopUp button {
+  background-color: #3a3a3a;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+

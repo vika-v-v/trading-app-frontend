@@ -4,6 +4,7 @@ import { UserService } from '../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AutoLogoutService } from '../services/auto-logout.service';
+import { PopUpService } from '../services/pop-up.service';
 
 @Component({
   selector: 'app-login-seite',
@@ -20,7 +21,7 @@ export class LoginSeiteComponent {
   email!: string;
   passwort!: string;
 
-  constructor(private router: Router, private userService: UserService, private http: HttpClient, private autoLogoutService: AutoLogoutService) {
+  constructor(private router: Router, private userService: UserService, private http: HttpClient, private autoLogoutService: AutoLogoutService, private popUpService: PopUpService) {
   }
 
   anmelden() {
@@ -33,10 +34,13 @@ export class LoginSeiteComponent {
         if(response.statusCode === 200) {
           this.naviagateToHomePage();
           this.userService.setToken(response.data);
+        } else {
+          this.popUpService.errorPopUp("E-Mail oder Passwort falsch!")
         }
       },
       error => {
         console.error('Error:', error);
+        this.popUpService.errorPopUp("E-Mail oder Passwort falsch!")
       }
     );
   }
