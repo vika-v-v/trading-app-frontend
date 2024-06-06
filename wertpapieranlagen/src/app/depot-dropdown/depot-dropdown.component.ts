@@ -52,6 +52,7 @@ export class DepotDropdownComponent implements OnInit {
     if (depotId) {
       const selectedDepot = this.depots.find(depot => depot.depotId === depotId);
       this.selectedDepot = selectedDepot;
+      this.depotService.setDepot(selectedDepot.name);
     }
   }
 }
