@@ -1,15 +1,15 @@
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'; // Import für HttpHeaders hinzugefügt
-import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepotDropdownService {
-  
   private rootUrl: string;
   private depot: string = '';
+  private reloadSubject = new BehaviorSubject<void>(undefined); 
 
   constructor(@Inject('ROOT_URL') rootUrl: string, private userService: UserService) {
     this.rootUrl = rootUrl;
@@ -31,4 +31,13 @@ export class DepotDropdownService {
     };
     return http.get(createDepotUrl, httpOptions);
   }
+
+  reloadDepots() {
+    this.reloadSubject.next(); // Hinzugefügt
+  }
+
+  getReloadObservable(): Observable<void> {
+    return this.reloadSubject.asObservable(); // Hinzugefügt
+  }
+  
 }

@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { DepotService } from '../../services/depot.service';
 import { FormsModule } from '@angular/forms';
+import { DepotDropdownService } from '../../services/depot-dropdown.service';
+
 
 @Component({
   selector: 'app-depot-erstellen',
@@ -10,14 +12,14 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './depot-erstellen.component.html',
   styleUrl: './depot-erstellen.component.css'
 })
-export class DepotErstellenComponent {
+export class DepotErstellenComponent implements OnInit{
   currentDate!: string;
   name!: string;
   waehrung!: string;
 
   @Output() onAbbrechen = new EventEmitter<void>();
 
-  constructor(private httpClient: HttpClient, private depotService: DepotService){
+  constructor(private httpClient: HttpClient, private depotDropdownService: DepotDropdownService, private depotService: DepotService){
 
   }
 
@@ -42,12 +44,12 @@ export class DepotErstellenComponent {
     this.depotService.depotErstellen(this.httpClient, this.name, this.waehrung).subscribe(
       response=>{
         this.abbrechen();
+        this.depotDropdownService.reloadDepots();
       },
       error=>{
         console.log(error.message);
       }
     );
   }
-
 
 }

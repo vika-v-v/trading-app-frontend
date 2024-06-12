@@ -1,12 +1,13 @@
 <div>
-    <select class="global-select" (change)="onSelectDepot($event)">
-      <option *ngFor="let depot of depots" [value]="depot.depotId">{{ depot.name }}</option>
-    </select>
-    <!--div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div-->
-    <!--div *ngIf="selectedDepot">
-      <h3>Gewähltes Depot:</h3>
-      <p>Name: {{ selectedDepot.name }}</p>
-      <p>Währung: {{ selectedDepot.waehrung }}</p>
-    </div-->
+  <select class="global-select" (change)="onSelectDepot($event)">
+    <option *ngFor="let depot of filteredDepots" [value]="depot.depotId">{{ depot.name }}</option>
+  </select>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <!--
+  <div *ngIf="selectedDepot">
+    <h3>Gewähltes Depot:</h3>
+    <p>Name: {{ selectedDepot.name }}</p>
+    <p>Währung: {{ selectedDepot.waehrung }}</p>
+  </div>
+  -->
 </div>
-  

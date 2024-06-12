@@ -29,6 +29,17 @@ export class DepotService {
     return http.post(createDepotUrl, formData, httpOptions);
   }
 
+  getWertverlauf(http: HttpClient, depotName: string): Observable<any>{
+    const getDepotWertverlaufUrl = `${this.rootUrl}depot/getWertpapierDepotHistorie?depotName=Depot1`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.userService.getToken()}`
+      })
+    };
+  
+    return http.get(getDepotWertverlaufUrl, httpOptions);
+  }
+
   getWertpapiere(http: HttpClient, depotName: string) {
     return {
       "message": "Wertpapiere erfolgreich abgerufen",

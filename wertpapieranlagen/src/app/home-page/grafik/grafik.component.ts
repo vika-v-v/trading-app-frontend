@@ -1,47 +1,60 @@
 import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { GrafikTyp } from './grafik-typ.enum';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http'; // Import für HttpHeaders hinzugefügt
 import { DepotService } from '../../services/depot.service';
+import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { Chart, ChartConfiguration, ChartTypeRegistry, registerables } from 'chart.js';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 interface Wertpapier {
-  WertpapierDurchschnittspreis: string;
-  WertpapierArt: string;
-  WertpapierAnteil: string;
-  Gesamtwert: string;
-  WertpapierAktuellerKurs: string;
-}
+    WertpapierDurchschnittspreis: string;
+    WertpapierArt: string;
+    WertpapierAnteil: string;
+    Gesamtwert: string;
+    WertpapierAktuellerKurs: string;
+  }
+  
+  interface Wertpapiere {
+    [key: string]: Wertpapier;
+  }
+  
+  interface Data {
+    [key: string]: {
+      [key: string]: {
+        GesamtwertKaufpreis: string;
+        WertpapierDurchschnittspreis: string;
+        WertpapierArt: string;
+        WertpapierAnteil: string;
+      }
+    }
+  }
+  
+  @Component({
+    selector: 'app-grafik',
+    standalone: true,
+    imports: [
+      FormsModule,
+      CommonModule
+    ],
+    templateUrl: './grafik.component.html',
+    styleUrls: ['./grafik.component.css']
+  })
 
-interface Wertpapiere {
-  [key: string]: Wertpapier;
-}
-
-@Component({
-  selector: 'app-grafik',
-  standalone: true,
-  imports: [
-    FormsModule,
-    CommonModule
-  ],
-  templateUrl: './grafik.component.html',
-  styleUrls: ['./grafik.component.css']
-})
 export class GrafikComponent implements AfterViewInit {
   grafikTypEnum = GrafikTyp;
   grafikTypValues: string[];
 
   private chart: Chart<'pie' | 'bar' | 'line', number[], string> | undefined;
-  typ : GrafikTyp = GrafikTyp.PizzadiagrammWertpapierarten;
+  typ: GrafikTyp = GrafikTyp.PizzadiagrammWertpapierarten;
 
-  private BABY_BLUE =   {light: '#bcd8f6', dark: '#A2BEDC'};
-  private NAVY_BLUE =   {light: '#133962', dark: '#042440'};
-  private VIOLET_BLUE = {light: '#5d59b9', dark: '#4E499E'};
-  private LAVENDER =    {light: '#ab90be', dark: '#B793C9'};
-  private ROSE_PINK =   {light: '#e482b2', dark: '#D26B9D'};
+  private BABY_BLUE = { light: '#bcd8f6', dark: '#A2BEDC' };
+  private NAVY_BLUE = { light: '#133962', dark: '#042440' };
+  private VIOLET_BLUE = { light: '#5d59b9', dark: '#4E499E' };
+  private LAVENDER = { light: '#ab90be', dark: '#B793C9' };
+  private ROSE_PINK = { light: '#e482b2', dark: '#D26B9D' };
 
-  constructor(private depotService: DepotService, private http: HttpClient) {
+  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService) {
     // Register Chart.js components
     Chart.register(...registerables);
     this.grafikTypValues = Object.values(this.grafikTypEnum);
@@ -56,7 +69,7 @@ export class GrafikComponent implements AfterViewInit {
       this.generatePizzaDiagramm();
     } else if (this.typ === GrafikTyp.WertverlaufWertpapierwerte) {
       this.generateLineChart();
-    } else if (this.typ === 'LineChart') {
+    } else if (this.typ === GrafikTyp.BardDiagrammWertpapiere) {
       this.generateBarDiagramm();
     }
   }
@@ -215,52 +228,96 @@ export class GrafikComponent implements AfterViewInit {
     this.chart = new Chart('canvas', chartConfig);
   }
 
-  generateLineChart() {
-    const xValues = ['01-24', '02-24', '03-24', '04-24', '05-24', '06-24', '07-24', '08-24', '09-24', '10-24', '11-24', '12-24'];
-    const yValues = [1, 8, 8, 9, 23, 9, 10, 11, 14, 14, 15, 10];
-    const yValues1 = [1, 18, 12, 19, 13, 19, 11, 14, 41, 43, 50, 12];
+  async generateLineChart() {
+    try {
+      const depotName = this.depotDropdownService.getDepot();
+      const input = await this.depotService.getWertverlauf(this.http, depotName).toPromise();
+      const xValues: string[] = [];
+      const yValues: { [key: string]: number[] } = {};
+      const wertNameSet: Set<string> = new Set();
+      const minMax: { [key: string]: { min: number, max: number } } = {};
   
-    const chartConfig = {
-      type: 'line' as const, // Typ explizit als 'line' festlegen
-      data: {
-        labels: xValues,
-        datasets: [{
-          label: 'Apple',
-          fill: false,
-          tension: 0,
-          backgroundColor: "rgba(0,0,255,1.0)",
-          borderColor: "rgba(0,0,255,0.1)",
-          data: yValues
-        }, {
-          label: 'Microsoft',
-          fill: false,
-          tension: 0,
-          backgroundColor: "rgba(255,0,0,1.0)",
-          borderColor: "rgba(255,0,0,0.1)",
-          data: yValues1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            min: 0,
-            max: 55,
-            ticks: {
-              stepSize: 5
-            }
+      const data: Data = input.data;  // Cast to Data type
+  
+      for (const date in data) {
+        xValues.push(date);
+        for (const stockName in data[date]) {
+          const stockData = data[date][stockName];
+          const averagePrice = stockData.WertpapierDurchschnittspreis.replace(',', '.');
+          const averagePriceNumber = parseFloat(averagePrice);
+  
+          if (!yValues[stockName]) {
+            yValues[stockName] = [];
+            wertNameSet.add(stockName);
+            minMax[stockName] = { min: Number.MAX_VALUE, max: Number.MIN_VALUE };
           }
+          yValues[stockName].push(averagePriceNumber);
+  
+          if (averagePriceNumber < minMax[stockName].min) minMax[stockName].min = averagePriceNumber;
+          if (averagePriceNumber > minMax[stockName].max) minMax[stockName].max = averagePriceNumber;
         }
       }
-    };
   
-    if (this.chart) {
-      this.chart.destroy();
+      const datasets = [];
+      let yAxisIndex = 0;
+  
+      for (const stockName of wertNameSet) {
+        const stockData = yValues[stockName];
+        datasets.push({
+          label: stockName,
+          fill: false,
+          tension: 0,
+          backgroundColor: `rgba(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},1.0)`,
+          borderColor: `rgba(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},0.1)`,
+          data: stockData,
+          yAxisID: `y${yAxisIndex}`
+        });
+        yAxisIndex++;
+      }
+  
+      const scales: any = {};
+  
+      let yIndex = 0;
+      for (const stockName of wertNameSet) {
+        const min = Math.floor(minMax[stockName].min * 0.9);
+        const max = Math.ceil(minMax[stockName].max * 1.1);
+  
+        scales[`y${yIndex}`] = {
+          type: 'linear',
+          position: yIndex % 2 === 0 ? 'left' : 'right',
+          min: min,
+          max: max,
+          ticks: {
+            stepSize: 5
+          },
+          grid: {
+            drawOnChartArea: yIndex % 2 === 0  // only want the grid lines for one axis to show up
+          }
+        };
+        yIndex++;
+      }
+  
+      const chartConfig: ChartConfiguration<'line', number[], string> = {
+        type: 'line', // Typ explizit als 'line' festlegen
+        data: {
+          labels: xValues,
+          datasets: datasets
+        },
+        options: {
+          scales: scales
+        }
+      };
+  
+      if (this.chart) {
+        this.chart.destroy();
+      }
+      this.chart = new Chart('canvas', chartConfig);
+    } catch (error) {
+      console.error('Fehler beim Abrufen des Wertverlaufs:', error);
     }
-    this.chart = new Chart('canvas', chartConfig);
   }
   
-  
-  
+
   onChangeTyp(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value as GrafikTyp;
