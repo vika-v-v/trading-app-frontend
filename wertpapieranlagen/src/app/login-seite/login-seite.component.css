@@ -1,6 +1,6 @@
 /* Author: Viktoriia Vovchenko */
 
-/* TODO: add animations to hover */
+/* TODO: add animations to hover, change width to more % if screen is thin */
 
 #main-container {
   height: 100vh;
@@ -41,68 +41,5 @@
   letter-spacing: 3vw;
 }
 
-#login-data {
-  height: auto;
-  margin-top: 3%;
-  display: flex;
-  flex-direction: column;
-  gap: 2.5vh;
-  width: 100%;
-}
 
-#login-data > * {
-  font-size: 3vh;
-  padding: 2vh;
-  border-radius: 1.7vh;
-  background: linear-gradient(135deg, #926a11, #92691152, rgba(0, 0, 0, 0));
-  border: none;
-  color: white;
-}
-
-#login-data > *:hover {
-  background: linear-gradient(135deg, #d79810, #92691152, rgba(0, 0, 0, 0));
-}
-
-#login-data > *::placeholder {
-  color: white;
-}
-
-#login-button {
-  width: 100%;
-  font-size: 3vh;
-  padding: 2vh;
-  border-radius: 1.7vh;
-  background: linear-gradient(135deg, #86600600, #926a11, #8d590000);
-  border: none;
-  color: white;
-  margin-top: 3vh;
-}
-
-#login-button:hover {
-  background: linear-gradient(135deg, #86600600, #d79810, #8d590000);
-}
-
-#bottom-elements {
-  width: 100%;
-}
-
-#bottom-elements > * {
-  width: 100%;
-  height: auto;
-  font-size: 3vh;
-  padding: 1vh;
-  border-radius: 1.7vh;
-  border: none;
-  color: #BFB8B8;
-  margin: 0;
-  text-align: center;
-}
-
-.link {
-  text-decoration: underline;
-}
-
-.link:hover {
-  text-decoration-color: white;
-}
 

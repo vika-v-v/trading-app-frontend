@@ -5,9 +5,10 @@
   src: url('assets/fonts/GlacialIndifference-Bold.otf') format('opentype');
 }
 
+
 @font-face {
   font-family: 'Gully';
-  src: url('assets/fonts/gully/Gully-Light.otf') format('opentype');
+  src: url('assets/fonts/gully/Gully-Regular.otf') format('opentype');
 }
 
 * {
@@ -48,6 +49,71 @@ input {
   border-radius: 0px;
 }
 
+/* Login-Seite, Passwort Zurücksetzen, Registrieren */
+.yellow-button {
+  width: 100%;
+  font-size: 3vh;
+  padding: 2vh;
+  border-radius: 1.7vh;
+  background: linear-gradient(135deg, #86600600, #926a11, #8d590000);
+  border: none;
+  color: white;
+  margin-top: 3vh;
+}
+
+.yellow-button:hover {
+  background: linear-gradient(135deg, #86600600, #d79810, #8d590000);
+}
+
+.yellow-input-group {
+  height: auto;
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vh;
+  width: 100%;
+}
+
+.yellow-input-group > * {
+  font-size: 3vh;
+  padding: 2vh;
+  border-radius: 1.7vh;
+  background: linear-gradient(135deg, #926a11, #92691152, rgba(0, 0, 0, 0));
+  border: none;
+  color: white;
+}
+
+.yellow-input-group > *:hover {
+  background: linear-gradient(135deg, #d79810, #92691152, rgba(0, 0, 0, 0));
+}
+
+.yellow-input-group > *::placeholder {
+  color: white;
+}
+
+.bottom-links {
+  width: 100%;
+}
+
+.bottom-links > * {
+  width: 100%;
+  height: auto;
+  font-size: 3vh;
+  padding: 1vh;
+  border-radius: 1.7vh;
+  border: none;
+  color: #BFB8B8;
+  margin: 0;
+  text-align: center;
+}
+
+.bottom-link {
+  text-decoration: underline;
+}
+
+.bottom-link:hover {
+  text-decoration-color: white;
+}
 
 /* Passwortstärke-Anzeige */
 .password-strength {
