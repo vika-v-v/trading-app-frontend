@@ -47,7 +47,6 @@ export class RegistrationPageComponent {
     } else {
       this.userService.register(this.http, this.email, this.password).subscribe(
         response => {
-          console.log("Klappt!");
           console.log('Response:', response);
 
           if(response.statusCode === 200 || response.statusCode === 201) {

@@ -36,10 +36,13 @@ export class DepotService {
         'Authorization': `Bearer ${this.userService.getToken()}`
       })
     };
-  
+
     return http.get(getDepotWertverlaufUrl, httpOptions);
   }
 
+  // 1. get-anfrage schicken
+  // 2. zu Observable machen
+  // 3. in home-page subscribe auf das observable
   getWertpapiere(http: HttpClient, depotName: string) {
     return {
       "message": "Wertpapiere erfolgreich abgerufen",

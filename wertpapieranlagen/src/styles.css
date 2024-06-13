@@ -54,7 +54,7 @@ input {
   width: 100%;
   font-size: 3vh;
   padding: 2vh;
-  border-radius: 1.7vh;
+  border-radius: 2vh;
   background: linear-gradient(135deg, #86600600, #926a11, #8d590000);
   border: none;
   color: white;
@@ -70,17 +70,17 @@ input {
   margin-top: 3%;
   display: flex;
   flex-direction: column;
-  gap: 2.5vh;
   width: 100%;
 }
 
 .yellow-input-group > * {
   font-size: 3vh;
   padding: 2vh;
-  border-radius: 1.7vh;
+  border-radius: 2vh;
   background: linear-gradient(135deg, #926a11, #92691152, rgba(0, 0, 0, 0));
   border: none;
   color: white;
+  margin: 1vh 0 2vh 0;
 }
 
 .yellow-input-group > *:hover {
@@ -119,11 +119,18 @@ input {
 .password-strength {
   position: relative;
   width: 100%;
-  height: 10px;
-  background-color: #ddd;
+  height: 7px;
+  background: none;
+  background-color: #00000084;
   border-radius: 4px;
-  margin-top: 40px;
+  margin-top: 30px;
   margin-bottom: 15px;
+  padding: 0px;
+  border: none;
+}
+
+.password-strength:hover {
+  background-color: #00000084;
 }
 
 .strength-bar {
@@ -143,22 +150,17 @@ input {
   font-size: 12px;
 }
 
-.invalid-password-message {
-  color: red;
-  font-size: 12px;
-  margin-bottom: 5px;
+.invalid-password-message, #password-match-error {
+  color: rgb(199, 14, 14);
+  font-size: 2.2vh;
+  margin: 0 0 0 10px;
+  /* allgemeine styles überschreiben */
+  padding: 0px;
+  border-radius: 0px;
+  background: none;
+  border: none;
 }
 
-input.invalid-password {
-  border: 1px solid red;
-}
-
-#password-match-error {
-  color: red;
-  font-size: 12px;
-  margin-bottom: 5px;
-}
-
-input.password-mismatch {
-  border: 1px solid red;
+input.invalid-password, input.password-mismatch {
+  border: 2px solid rgb(135, 0, 0);
 }
