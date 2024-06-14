@@ -3,15 +3,15 @@
   <div id="login-container">
     <h1 class="main-header" id="login-text">Login</h1>
     <div id="content-container">
-      <div id="login-data">
+      <div class="yellow-input-group">
         <input name="email" type="email" placeholder="E-Mail Adresse" required [(ngModel)]="email"/>
         <input name="passwort" type="password" placeholder="Passwort" required [(ngModel)]="passwort"/>
       </div>
-      <button id="login-button" (click)="anmelden()">Anmelden</button>
-      <div id="bottom-elements">
-        <p (click)="navigateToPasswordResetPage()" class="link">Passwort vergessen?</p>
+      <button class="yellow-button" (click)="anmelden()">Anmelden</button>
+      <div class="bottom-links">
+        <p (click)="navigateToPasswordResetPage()" class="bottom-link">Passwort vergessen?</p>
         <p>Du hast kein Konto?
-          <span id="registrieren-link" class="link" (click)="navigateToRegistrationPage()">Registrieren</span>
+          <span id="registrieren-link" class="bottom-link" (click)="navigateToRegistrationPage()">Registrieren</span>
         </p>
       </div>
     </div>
