@@ -1,22 +1,27 @@
-<div id="registration-container">
-  <div id="main-section">
-    <h1>Registrierung</h1>
-    <div class="input-group">
-      <input name="email" type="email" placeholder="E-Mail Adresse" required [(ngModel)]="email">
+<!-- Author: Joshua Kampmeier/ Viktoriia Vovchenko (kleine Änderungen für CSS)-->
+<div id="main-container">
+  <div id="registration-container">
+    <div id="content-container">
+      <h1 class="main-header" id="registrieren-text">Registrieren</h1>
+      <div class="yellow-input-group">
+        <input name="email" type="email" placeholder="E-Mail Adresse" required [(ngModel)]="email">
+
+        <div *ngIf="isPasswordInvalid" class="invalid-password-message">Ungültiges Passwort</div>
+        <input name="passwort" type="password" placeholder="Passwort" required [(ngModel)]="password" (input)="checkPassword()" [ngClass]="{'invalid-password': isPasswordInvalid}">
+
+        <div *ngIf="!doPasswordsMatch && password2.length > 0" id="password-match-error">Passwörter stimmen nicht überein</div>
+        <input name="passwort wiederholen" type="password" placeholder="Passwort wiederholen" required [(ngModel)]="password2" (input)="checkPasswordMatch()" [ngClass]="{'password-mismatch': !doPasswordsMatch && password2.length > 0}" #password2Field>
+
+        <div class="password-strength">
+          <div class="strength-bar" [ngStyle]="{'width': passwordStrengthWidth, 'background-color': passwordStrengthColor}"></div>
+          <div class="password-strength-text">{{ passwordStrengthText }}</div>
+        </div>
+      </div>
+
+      <button class="yellow-button" id="registrieren-button" (click)="registrieren()">Registrieren</button>
+      <div class="bottom-links">
+        <p>Du hast bereits ein Konto? <span id="anmelden-link" class="bottom-link" (click)="naviagateToLoginPage()">Melde dich an!</span></p>
+      </div>
     </div>
-    <div class="input-group">
-      <div *ngIf="isPasswordInvalid" class="invalid-password-message">Ungültiges Passwort</div>
-      <input name="passwort" type="password" placeholder="Passwort" required [(ngModel)]="password" (input)="checkPassword()" [ngClass]="{'invalid-password': isPasswordInvalid}">
-    </div>
-    <div class="input-group">
-      <div *ngIf="!doPasswordsMatch && password2.length > 0" id="password-match-error">Passwörter stimmen nicht überein</div>
-      <input name="passwort wiederholen" type="password" placeholder="Passwort wiederholen" required [(ngModel)]="password2" (input)="checkPasswordMatch()" [ngClass]="{'password-mismatch': !doPasswordsMatch && password2.length > 0}" #password2Field>
-    </div>
-    <div class="password-strength">
-      <div class="strength-bar" [ngStyle]="{'width': passwordStrengthWidth, 'background-color': passwordStrengthColor}"></div>
-      <div class="password-strength-text">{{ passwordStrengthText }}</div>
-    </div>
-    <button (click)="registrieren()">Registrieren</button>
-    <p>Du hast bereits ein Konto? <span id="anmelden-link" (click)="naviagateToLoginPage()">Melde dich an!</span></p>
   </div>
 </div>

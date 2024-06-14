@@ -176,3 +176,14 @@ html, body {
   width: 35%;
   height: 100%;
 }
+
+/* Styles für Gesamtwert Depot und Gewinn/ Verlust */
+#depotwerte {
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+}
+.column {
+  text-align: center;
+}
