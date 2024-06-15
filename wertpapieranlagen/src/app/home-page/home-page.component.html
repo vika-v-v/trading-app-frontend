@@ -49,7 +49,7 @@
       </div>
       <div class="column">
         <p>Gewinn/Verlust</p>
-        <p>-xxx.xx EUR</p>
+        <p>{{ getGewinnVerlust() }} EUR</p>
       </div>
     </div>
     <app-tabelle [tableHeader]="getTransaktionenHeader()" [tableData]="getTransaktionen()"></app-tabelle>

@@ -43,6 +43,7 @@ export class HomePageComponent {
 
   transactionen: any[] = [];
   wertpapiere: any[] = [];
+  depot: any = {};
 
   constructor(private http: HttpClient, private depotService: DepotService, private userService: UserService) {
     /* API-Endpoint: liste von Depots aufrufen */
@@ -89,6 +90,13 @@ export class HomePageComponent {
   depotAendern(neuesDepot: string) {
     this.transactionen = this.depotService.getTransaktionen(this.http, neuesDepot).data;
     this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
+    console.log("sas");
+    this.depotService.getDepot(this.http, neuesDepot).subscribe(response => {
+      if (response && response.data) {
+        this.depot = response.data;
+        console.log(this.depot);
+      }
+    });
   }
 
   getTransaktionenHeader() {
@@ -145,5 +153,13 @@ export class HomePageComponent {
       ...data[key]
     }));
     return mappedData;
+  }
+
+  getGesamtwert(){
+    return 50.12;
+  }
+
+  getGewinnVerlust(): number {
+    return parseFloat((this.depot.depotGewinnVerlust || 0).toFixed(2));
   }
 }
