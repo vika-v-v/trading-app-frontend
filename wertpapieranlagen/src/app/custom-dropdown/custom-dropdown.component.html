@@ -1,8 +1,11 @@
-<div class="dropdown-container">
-  <select class="custom-dropdown grey-text" (change)="onSelectionChange($event)">
-    <option *ngFor="let option of options" [value]="option.value">
-      {{ option.label }}
-    </option>
-  </select>
-  <img class="dropdown-icon" src="../../assets/icons/phosphor-thin/caret_down_thin_icon.svg" alt="Dropdown Icon">
+<div class="dropdown-container" (clickOutside)="dropdownOpen = false">
+  <div class="selected-option" (click)="toggleDropdown()">
+    <p class="grey-text">{{ selectedOption?.label || 'Select an option' }}</p>
+    <img class="dropdown-icon" src="../../assets/icons/phosphor-thin/caret_down_thin_icon.svg" alt="Dropdown Icon">
+  </div>
+  <div class="options-container" *ngIf="dropdownOpen">
+    <div *ngFor="let option of options" (click)="selectOption(option)" class="option">
+      <p class="grey-text">{{ option.label }}</p>
+    </div>
+  </div>
 </div>

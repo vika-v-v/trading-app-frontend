@@ -60,9 +60,7 @@ export class DepotDropdownComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSelectDepot(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    const depotId = target.value;
+  onSelectDepot(depotId: string) {
     if (depotId) {
       const selectedDepot = this.depots.find(depot => depot.depotId === depotId);
       this.selectedDepot = selectedDepot;

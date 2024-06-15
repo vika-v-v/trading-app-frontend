@@ -7,19 +7,20 @@
           <p class="grey-text" id="gesamtwert-text">50.12 EUR</p>
           <img id="gesamtwert-info-icon" src="../../assets/icons/phosphor-thin/info_thin_icon.svg">
         </div>
-        <button (click)="showSidePanel(SidePanel.Kaufen)" class="global-button">Kaufen</button>
-        <button (click)="showSidePanel(SidePanel.Verkaufen)" class="global-button">Verkaufen</button>
+        <!--button (click)="showSidePanel(SidePanel.Kaufen)" class="global-button">Kaufen</button>
+        <button (click)="showSidePanel(SidePanel.Verkaufen)" class="global-button">Verkaufen</button-->
       </div>
     </div>
 
     <div id="right-icons">
-      <div *ngIf="depots.length > 0" (click)="showSidePanel(SidePanel.DepotErstellen)">
+      <!--div *ngIf="depots.length > 0" (click)="showSidePanel(SidePanel.DepotErstellen)">
         <img
           src="../../assets/icons/1904677_add_addition_calculate_charge_create_icon.svg"
         />
-      </div>
-      <div (click)="showSidePanel(SidePanel.Settings)">
-        <img src="../../assets/icons/185095_settings_icon.svg" />
+      </div-->
+      <app-custom-dropdown [options]="selectTransactions" (selectionChange)="onSelectTransaction($event)"></app-custom-dropdown>
+      <div id="settings-container" (click)="showSidePanel(SidePanel.Settings)">
+        <img id="settings" src="../../assets/icons/phosphor-thin/gear_thin_icon.svg" />
       </div>
     </div>
   </div>

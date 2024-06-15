@@ -13,6 +13,7 @@ import { FilterType } from './tabelle/filter-type.enum';
 import { GrafikComponent } from './grafik/grafik.component';
 import { UserService } from '../services/user.service';
 import { DepotDropdownComponent } from '../depot-dropdown/depot-dropdown.component';
+import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 
 @Component({
   selector: 'app-home-page',
@@ -26,7 +27,8 @@ import { DepotDropdownComponent } from '../depot-dropdown/depot-dropdown.compone
     HttpClientModule,
     TabelleComponent,
     GrafikComponent,
-    DepotDropdownComponent
+    DepotDropdownComponent,
+    CustomDropdownComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
@@ -43,6 +45,12 @@ export class HomePageComponent {
 
   transactionen: any[] = [];
   wertpapiere: any[] = [];
+
+  selectTransactions = [
+    { "value": "Kauf", "label": "Kaufen" },
+    { "value": "Verkauf", "label": "Verkaufen" },
+    { "value": "Dividende", "label": "Dividende erfassen" }
+  ]
 
   constructor(private http: HttpClient, private depotService: DepotService, private userService: UserService) {
     /* API-Endpoint: liste von Depots aufrufen */
@@ -69,6 +77,15 @@ export class HomePageComponent {
 
   ngAfterViewInit(): void {
     this.fillCanvas();
+  }
+
+  onSelectTransaction(selectedTransaction: string) {
+    if(selectedTransaction === 'Kauf') {
+      this.showSidePanel(SidePanel.Kaufen);
+    }
+    if(selectedTransaction === 'Verkauf') {
+      this.showSidePanel(SidePanel.Verkaufen);
+    }
   }
 
   fillCanvas(): void {

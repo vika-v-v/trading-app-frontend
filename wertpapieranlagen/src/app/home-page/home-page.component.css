@@ -41,11 +41,8 @@ html, body {
   align-items: center;
   justify-content: flex-end;
   gap: 15px;
-  margin-right: 10px;
-}
-
-#right-icons>*>* {
-  height: 40px;
+  margin: 10px 20px 0px 0px;
+  height: 11vh;
 }
 
 #left-buttons {
@@ -64,7 +61,7 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: 5px;
-  margin-left: 10px;
+  margin-left: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -140,6 +137,16 @@ html, body {
 }
 
 #expand-button img {
+  height: 100%;
+  width: 100%;
+}
+
+#settings {
+  height: 100%;
+  width: 100%;
+}
+
+#settings-container {
   height: 100%;
   width: 100%;
 }
