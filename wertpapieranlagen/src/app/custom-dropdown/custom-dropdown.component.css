@@ -9,6 +9,7 @@
   margin: 3px;
   background-color: #443f37;
   cursor: pointer;
+  width: fit-content;
 }
 
 .selected-option {
@@ -22,6 +23,7 @@
   margin: 0;
   padding: 0;
   height: 25px;
+  white-space: nowrap;
 }
 
 .dropdown-icon {
@@ -35,7 +37,8 @@
   position: absolute;
   top: 120%;
   left: 0;
-  width: 100%;
+  width: fit-content;
+  min-width: 100%;
   background-color: #322e28;
   z-index: 1;
   padding: 0 2px;
@@ -44,7 +47,7 @@
 .option {
   cursor: pointer;
   height: auto;
-  padding: 2px;
+  padding: 1px;
   margin: 0;
   border-radius: 4px;
   width: 100%;
