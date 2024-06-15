@@ -13,6 +13,7 @@ import { FilterType } from './tabelle/filter-type.enum';
 import { GrafikComponent } from './grafik/grafik.component';
 import { UserService } from '../services/user.service';
 import { DepotDropdownComponent } from '../depot-dropdown/depot-dropdown.component';
+import { NotLoggedInComponent } from '../not-logged-in/not-logged-in.component';
 
 @Component({
   selector: 'app-home-page',
@@ -26,7 +27,8 @@ import { DepotDropdownComponent } from '../depot-dropdown/depot-dropdown.compone
     HttpClientModule,
     TabelleComponent,
     GrafikComponent,
-    DepotDropdownComponent
+    DepotDropdownComponent,
+    NotLoggedInComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
@@ -88,7 +90,9 @@ export class HomePageComponent {
 
   depotAendern(neuesDepot: string) {
     this.transactionen = this.depotService.getTransaktionen(this.http, neuesDepot).data;
-    this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
+    this.depotService.getWertpapiere(this.http, neuesDepot).subscribe(response => {
+      this.wertpapiere = this.mapWertpapierenData(response.data);
+    });
   }
 
   getTransaktionenHeader() {
