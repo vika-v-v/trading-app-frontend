@@ -9,7 +9,6 @@
   margin: 3px;
   background-color: #443f37;
   cursor: pointer;
-
 }
 
 .selected-option {
@@ -39,13 +38,22 @@
   width: 100%;
   background-color: #322e28;
   z-index: 1;
+  padding: 0 2px;
 }
 
 .option {
   cursor: pointer;
-  height: 25px;
+  height: auto;
+  padding: 2px;
+  margin: 0;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.option-text {
+  text-align: center;
 }
 
 .option:hover {
-  background-color: #f1f1f1;
+  background-color: #474338;
 }

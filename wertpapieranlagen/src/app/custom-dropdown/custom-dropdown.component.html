@@ -5,7 +5,7 @@
   </div>
   <div class="options-container" *ngIf="dropdownOpen">
     <div *ngFor="let option of options" (click)="selectOption(option)" class="option">
-      <p class="grey-text">{{ option.label }}</p>
+      <p class="grey-text option-text">{{ option.label }}</p>
     </div>
   </div>
 </div>
