@@ -3,7 +3,7 @@
     <div id="left-elements">
       <div id="left-buttons">
         <app-depot-dropdown></app-depot-dropdown>
-        <p>50.12 EUR</p>
+        <p>{{ getGesamtwert() }} EUR</p>
         <button (click)="showSidePanel(SidePanel.Kaufen)" class="global-button">Kaufen</button>
         <button (click)="showSidePanel(SidePanel.Verkaufen)" class="global-button">Verkaufen</button>
       </div>
@@ -45,7 +45,7 @@
     <div id="depotwerte">
       <div class="column">
         <p>Gesamtwert vom Depot</p>
-        <p>xxx.xx EUR</p>
+        <p>{{ getGesamtwert() }} EUR</p>
       </div>
       <div class="column">
         <p>Gewinn/Verlust</p>

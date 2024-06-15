@@ -90,11 +90,9 @@ export class HomePageComponent {
   depotAendern(neuesDepot: string) {
     this.transactionen = this.depotService.getTransaktionen(this.http, neuesDepot).data;
     this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
-    console.log("sas");
     this.depotService.getDepot(this.http, neuesDepot).subscribe(response => {
       if (response && response.data) {
         this.depot = response.data;
-        console.log(this.depot);
       }
     });
   }
