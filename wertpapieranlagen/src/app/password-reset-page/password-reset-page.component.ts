@@ -16,13 +16,13 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 })
 export class PasswordResetPageComponent {
 
-  email!: string;
+  email: string = '';
 
   constructor(private router: Router, private userService: UserService, private http: HttpClient) {
   }
 
   sendLink(){
-    if(this.email === undefined) {
+    if(this.email === '') {
       console.log("Ungültige Eingaben!");
     } else {
       this.userService.resetPassword(this.http, this.email).subscribe(
