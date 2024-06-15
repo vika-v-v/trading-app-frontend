@@ -19,7 +19,7 @@ import { AutoLogoutService } from '../services/auto-logout.service';
   styleUrls: ['./registration-page.component.css']
 })
 export class RegistrationPageComponent {
-  email!: string;
+  email: string = '';
   password: string = '';
   password2: string = '';
   doPasswordsMatch: boolean = true;
@@ -42,7 +42,7 @@ export class RegistrationPageComponent {
   }
 
   registrieren() {
-    if(this.password === undefined || this.isPasswordInvalid || this.email === undefined) {
+    if(this.password === '' || this.isPasswordInvalid || this.email === '') {
       console.log("Ungültige Eingaben!");
     } else {
       this.userService.register(this.http, this.email, this.password).subscribe(
