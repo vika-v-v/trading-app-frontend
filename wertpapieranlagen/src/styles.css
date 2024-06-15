@@ -44,9 +44,21 @@ input {
 }
 
 .global-input, .global-select, .global-date {
-  background-color: #F5F5F5;
+  background-color: #443f37;
   border: 1.5px solid black;
   border-radius: 0px;
+}
+
+.global-select {
+  border: none;
+  border-radius: 4px;
+  padding: 1.5vh;
+  margin: 3px;
+  font-size: 2.7vh;
+}
+
+.grey-text {
+  color: #dbd1d1
 }
 
 /* Login-Seite, Passwort Zurücksetzen, Registrieren */

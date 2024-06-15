@@ -1,0 +1,8 @@
+<div class="dropdown-container">
+  <select class="custom-dropdown grey-text" (change)="onSelectionChange($event)">
+    <option *ngFor="let option of options" [value]="option.value">
+      {{ option.label }}
+    </option>
+  </select>
+  <img class="dropdown-icon" src="../../assets/icons/phosphor-thin/caret_down_thin_icon.svg" alt="Dropdown Icon">
+</div>

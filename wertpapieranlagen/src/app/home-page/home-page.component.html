@@ -3,7 +3,10 @@
     <div id="left-elements">
       <div id="left-buttons">
         <app-depot-dropdown></app-depot-dropdown>
-        <p>50.12 EUR</p>
+        <div>
+          <p class="grey-text" id="gesamtwert-text">50.12 EUR</p>
+          <img id="gesamtwert-info-icon" src="../../assets/icons/phosphor-thin/info_thin_icon.svg">
+        </div>
         <button (click)="showSidePanel(SidePanel.Kaufen)" class="global-button">Kaufen</button>
         <button (click)="showSidePanel(SidePanel.Verkaufen)" class="global-button">Verkaufen</button>
       </div>
