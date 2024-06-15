@@ -51,5 +51,5 @@ export class DepotErstellenComponent implements OnInit{
       }
     );
   }
-
 }
+
