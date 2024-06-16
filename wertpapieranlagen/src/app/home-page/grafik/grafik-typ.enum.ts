@@ -1,5 +1,6 @@
 export enum GrafikTyp {
-  PizzadiagrammWertpapierarten = 'Wertpapierarten Diagramm',
-  WertverlaufWertpapierwerte = 'Wertpapier Wertverlauf',
-  BardDiagrammWertpapiere = 'Balken Diagramm'
+  PizzadiagrammWertpapierWert = 'Depot-Wertpapier Wert',
+  PizzadiagrammWertpapierMenge = 'Depot-Wertpapier Menge',
+  WertverlaufWertpapierwerte = 'Depot-Wertverlauf',
+  BardDiagrammWertpapiere = 'Depot-Wertpapierarten'
 }

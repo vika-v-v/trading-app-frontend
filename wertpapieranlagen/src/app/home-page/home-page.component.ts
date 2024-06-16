@@ -14,6 +14,7 @@ import { GrafikComponent } from './grafik/grafik.component';
 import { UserService } from '../services/user.service';
 import { DepotDropdownComponent } from '../depot-dropdown/depot-dropdown.component';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
+import { NotLoggedInComponent } from '../not-logged-in/not-logged-in.component';
 
 @Component({
   selector: 'app-home-page',
@@ -28,7 +29,8 @@ import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.comp
     TabelleComponent,
     GrafikComponent,
     DepotDropdownComponent,
-    CustomDropdownComponent
+    CustomDropdownComponent,
+    NotLoggedInComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
@@ -45,6 +47,7 @@ export class HomePageComponent {
 
   transactionen: any[] = [];
   wertpapiere: any[] = [];
+  depot: any = {};
 
   selectTransactions = [
     { "value": "Kauf", "label": "Kaufen" },
@@ -105,7 +108,20 @@ export class HomePageComponent {
 
   depotAendern(neuesDepot: string) {
     this.transactionen = this.depotService.getTransaktionen(this.http, neuesDepot).data;
-    this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
+    //this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
+    /*Mögliche Lösung für this.wertpapiere @Thore*/
+    this.depotService.getWertpapiere(this.http, neuesDepot).subscribe(response => {
+      if (response && response.data) {
+        this.wertpapiere = response.data;
+      }
+    });
+
+    /* Speichert Werte in this.depot */
+    this.depotService.getDepot(this.http, neuesDepot).subscribe(response => {
+      if (response && response.data) {
+        this.depot = response.data;
+      }
+    });
   }
 
   getTransaktionenHeader() {
@@ -162,5 +178,13 @@ export class HomePageComponent {
       ...data[key]
     }));
     return mappedData;
+  }
+
+  getGesamtwert(){
+    return 50.12;
+  }
+
+  getGewinnVerlust(): number {
+    return parseFloat((this.depot.depotGewinnVerlust || 0).toFixed(2));
   }
 }

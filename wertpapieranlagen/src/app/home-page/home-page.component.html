@@ -4,7 +4,7 @@
       <div id="left-buttons">
         <app-depot-dropdown></app-depot-dropdown>
         <div>
-          <p class="grey-text" id="gesamtwert-text">50.12 EUR</p>
+          <p class="grey-text" id="gesamtwert-text">{{ getGesamtwert() }} EUR</p>
           <img id="gesamtwert-info-icon" src="../../assets/icons/phosphor-thin/info_thin_icon.svg">
         </div>
       </div>
@@ -47,11 +47,11 @@
     <div id="depotwerte">
       <div class="column">
         <p>Gesamtwert vom Depot</p>
-        <p>xxx.xx EUR</p>
+        <p>{{ getGesamtwert() }} EUR</p>
       </div>
       <div class="column">
         <p>Gewinn/Verlust</p>
-        <p>-xxx.xx EUR</p>
+        <p>{{ getGewinnVerlust() }} EUR</p>
       </div>
     </div>
     <app-tabelle [tableHeader]="getTransaktionenHeader()" [tableData]="getTransaktionen()"></app-tabelle>
@@ -96,5 +96,5 @@
 
 <!--Wird anstelle der Homepage angezeigt, wenn kein Token hinterlegt ist-->
 <ng-template #notLoggedInMessage>
-  <p>Sie sind nicht angemeldet.</p>
+  <app-not-logged-in></app-not-logged-in>
 </ng-template>
