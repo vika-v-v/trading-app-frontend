@@ -45,7 +45,8 @@ export class GrafikComponent implements AfterViewInit {
   grafikTypValues: string[];
 
   private chart: Chart<'pie' | 'bar' | 'line', number[], string> | undefined;
-  typ: GrafikTyp = GrafikTyp.PizzadiagrammWertpapierMenge;
+  @Input() typ: GrafikTyp = GrafikTyp.PizzadiagrammWertpapierMenge;
+  name: string = 'Wertpapiermenge';
 
   private BABY_BLUE = { light: '#bcd8f6', dark: '#A2BEDC' };
   private NAVY_BLUE = { light: '#133962', dark: '#042440' };
@@ -66,12 +67,16 @@ export class GrafikComponent implements AfterViewInit {
   generateDiagramm() {
     if (this.typ === GrafikTyp.PizzadiagrammWertpapierWert) {
       this.generatePizzaDiagrammValue();
+      this.name = 'Wertpapierwert';
     } else if (this.typ === GrafikTyp.WertverlaufWertpapierwerte) {
       this.generateLineChart();
+      this.name = 'Wertpapierwerte';
     } else if (this.typ === GrafikTyp.PizzadiagrammWertpapierMenge) {
       this.generatePizzaDiagrammNumber();
+      this.name = 'Wertpapiermenge';
     } else if (this.typ === GrafikTyp.BardDiagrammWertpapiere) {
       this.generateBarDiagramm();
+      this.name = 'Wertpapierarten';
     }
   }
 
@@ -100,7 +105,7 @@ generatePizzaDiagrammNumber() {
     const datasets = [{
       data: percentages.map(wp => wp.percentage),
       backgroundColor: data.map(() => this.getRandomColor()), // Zufällige Hintergrundfarben generieren
-      borderColor: data.map(() => 'rgba(0, 0, 0, 1)'), 
+      borderColor: data.map(() => 'rgba(0, 0, 0, 1)'),
       borderWidth: 1
     }];
 
@@ -248,24 +253,24 @@ generatePizzaDiagrammValue() {
   generateBarDiagramm() {
     this.depotService.getWertpapiere(this.http, "Depot1").subscribe(response => {
       const wertpapiere: any = response.data;
-  
+
       // Count occurrences of each WertpapierArt
       const countMap: { [key: string]: number } = {
         FOND: 0,
         AKTIE: 0,
         ETF: 0
       };
-  
+
       Object.values(wertpapiere).forEach((wp: any) => { // <- Hier wp als any typisieren
         const art = wp.WertpapierArt.toUpperCase();
         if (countMap.hasOwnProperty(art)) {
           countMap[art]++;
         }
       });
-  
+
       const labels = Object.keys(countMap);
       const data = labels.map(label => countMap[label]);
-  
+
       const chartConfig: ChartConfiguration<'bar', number[], string> = {
         type: 'bar',
         data: {
@@ -329,13 +334,13 @@ generatePizzaDiagrammValue() {
           }
         }
       };
-  
+
       if (this.chart) {
         this.chart.destroy();
       }
       this.chart = new Chart('canvas', chartConfig);
     });
-  }  
+  }
 
   async generateLineChart() {
     try {
@@ -345,31 +350,31 @@ generatePizzaDiagrammValue() {
       const yValues: { [key: string]: number[] } = {};
       const wertNameSet: Set<string> = new Set();
       const minMax: { [key: string]: { min: number, max: number } } = {};
-  
+
       const data: Data = input.data;  // Cast to Data type
-  
+
       for (const date in data) {
         xValues.push(date);
         for (const stockName in data[date]) {
           const stockData = data[date][stockName];
           const averagePrice = stockData.WertpapierDurchschnittspreis.replace(',', '.');
           const averagePriceNumber = parseFloat(averagePrice);
-  
+
           if (!yValues[stockName]) {
             yValues[stockName] = [];
             wertNameSet.add(stockName);
             minMax[stockName] = { min: Number.MAX_VALUE, max: Number.MIN_VALUE };
           }
           yValues[stockName].push(averagePriceNumber);
-  
+
           if (averagePriceNumber < minMax[stockName].min) minMax[stockName].min = averagePriceNumber;
           if (averagePriceNumber > minMax[stockName].max) minMax[stockName].max = averagePriceNumber;
         }
       }
-  
+
       const datasets = [];
       let yAxisIndex = 0;
-  
+
       for (const stockName of wertNameSet) {
         const stockData = yValues[stockName];
         datasets.push({
@@ -383,14 +388,14 @@ generatePizzaDiagrammValue() {
         });
         yAxisIndex++;
       }
-  
+
       const scales: any = {};
-  
+
       let yIndex = 0;
       for (const stockName of wertNameSet) {
         const min = Math.floor(minMax[stockName].min * 0.9);
         const max = Math.ceil(minMax[stockName].max * 1.1);
-  
+
         scales[`y${yIndex}`] = {
           type: 'linear',
           position: yIndex % 2 === 0 ? 'left' : 'right',
@@ -405,7 +410,7 @@ generatePizzaDiagrammValue() {
         };
         yIndex++;
       }
-  
+
       const chartConfig: ChartConfiguration<'line', number[], string> = {
         type: 'line', // Typ explizit als 'line' festlegen
         data: {
@@ -416,7 +421,7 @@ generatePizzaDiagrammValue() {
           scales: scales
         }
       };
-  
+
       if (this.chart) {
         this.chart.destroy();
       }
@@ -440,7 +445,7 @@ getRandomColor() {
   const b = Math.floor(Math.random() * 255);
   return `rgba(${r},${g},${b},0.8)`; // Alpha-Wert kann angepasst werden
 }
-  
+
   getWertpapierarten(wertpapiere: Wertpapiere) {
     const wertpapierartenMap: { [key: string]: number } = {};
 

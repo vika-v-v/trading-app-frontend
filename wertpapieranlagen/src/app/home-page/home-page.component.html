@@ -23,23 +23,14 @@
     </div>
   </div>
 
-  <div *ngIf="depots.length === 0" id="erstes-depot-view">
-    <h1>Erstellen Sie ihr erstes Depot</h1>
-    <img
-      src="../../assets/icons/1904677_add_addition_calculate_charge_create_icon.svg"
-      (click)="depotAnlegen()"
-      id="erstes-depot-erstellen-icon"
-    />
-  </div>
-
-  <div *ngIf="depots.length > 0">
-    <div id="main-section">
-      <div id="graphic">
-        <app-grafik></app-grafik>
-      </div>
-      <div id="wertpapieren-table">
-        <app-tabelle [tableHeader]="getWertpapieren()" [tableData]="getWertpapierenData()"></app-tabelle>
-      </div>
+  <div id="main-section">
+    <div class="elementen-erste-linie">
+      <app-grafik [typ]="GrafikTyp.WertverlaufWertpapierwerte" class="grafik"></app-grafik>
+      <app-grafik [typ]="GrafikTyp.PizzadiagrammWertpapierWert" class="grafik"></app-grafik>
+    </div>
+    <div class="elementen-zweite-linie">
+      <app-grafik [typ]="GrafikTyp.PizzadiagrammWertpapierMenge" class="grafik"></app-grafik>
+      <app-tabelle id="wertpapieren-table" [tableHeader]="getWertpapieren()" [tableData]="getWertpapierenData()" [name]="'Wertpapiere'"></app-tabelle>
     </div>
   </div>
 
@@ -54,7 +45,7 @@
         <p>{{ getGewinnVerlust() }} EUR</p>
       </div>
     </div>
-    <app-tabelle [tableHeader]="getTransaktionenHeader()" [tableData]="getTransaktionen()"></app-tabelle>
+    <app-tabelle [tableHeader]="getTransaktionenHeader()" [tableData]="getTransaktionen()" [name]="'Transaktionen'"></app-tabelle>
   </div>
 
   <div id="expand-button">

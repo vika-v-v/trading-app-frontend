@@ -15,6 +15,7 @@ import { UserService } from '../services/user.service';
 import { DepotDropdownComponent } from '../depot-dropdown/depot-dropdown.component';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 import { NotLoggedInComponent } from '../not-logged-in/not-logged-in.component';
+import { GrafikTyp } from './grafik/grafik-typ.enum';
 
 @Component({
   selector: 'app-home-page',
@@ -38,6 +39,7 @@ import { NotLoggedInComponent } from '../not-logged-in/not-logged-in.component';
 export class HomePageComponent {
   SidePanel = SidePanel;
   WertpapierVorgang = WertpapierVorgang;
+  GrafikTyp = GrafikTyp;
 
   /* API-Endpoint: liste von Depots {[Depot1, Depot2]}*/
   depots: string[] = ['Depot']; // Initialize depots as an array of strings

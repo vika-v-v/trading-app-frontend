@@ -20,6 +20,7 @@ export class TabelleComponent implements AfterViewInit {
 
   @Input() tableHeader: any[] = [];
   @Input() tableData: any[] = [];
+  @Input() name: string = '';
 
   tableDataFormatted: any[] = [];
   tableHeaderFormatted: any[] = [];
@@ -186,7 +187,7 @@ export class TabelleComponent implements AfterViewInit {
 
   getArrowSrc(header: any) {
     const greyArrow = "../../../assets/icons/2_1063886_grey_arrow_arrow down_arrow square_down_square_icon.svg";
-    const whiteArrow = "../../../assets/icons/1063886_arrow_arrow down_arrow square_down_square_icon.svg";
+    const whiteArrow = "../../../assets/icons/andere/1063886_white_arrow_arrow down_arrow square_down_square_icon.svg";
     const lightGreyArrow = "../../../assets/icons/3_1063886_light_grey_arrow_arrow down_arrow square_down_square_icon.svg";
 
     let resultArrow = whiteArrow;

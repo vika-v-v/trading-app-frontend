@@ -11,7 +11,6 @@ html, body {
   position: fixed;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   background-image: url('../../assets/images/homepage-background.png');
   background-size: cover;
@@ -22,7 +21,7 @@ html, body {
 #gesamtwert-text {
   padding: 1.5vh;
   margin: 3px;
-  font-size: 2.7vh;
+  font-size: 14px;
 }
 
 #top-elements {
@@ -31,7 +30,7 @@ html, body {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin: 10px;
+  padding: 10px 0;
   display: flex;
   align-items: center;
 }
@@ -41,8 +40,7 @@ html, body {
   align-items: center;
   justify-content: flex-end;
   gap: 15px;
-  margin: 10px 20px 0px 0px;
-  height: 11vh;
+  margin-right: 20px;
 }
 
 #left-buttons {
@@ -61,10 +59,10 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: 5px;
-  margin-left: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 20px;
 }
 
 #left-buttons>* {
@@ -88,33 +86,49 @@ html, body {
   margin-bottom: 2em;
 }
 
-#erstes-depot-view {
+#main-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  width: calc(100vw - 70px);
+  margin: 5px;
+  height: calc(100vh - 150px);
+  max-height: calc(100vh - 150px);
+  box-sizing: border-box;
+}
+
+.elementen-erste-linie, .elementen-zweite-linie {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  text-align: center;
-  margin-top: 20vh;
-}
-
-#erstes-depot-erstellen-icon {
-  height: 70px;
-  width: 70px;
-}
-
-#main-section {
-  height: 55vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin: 15px;
-  width: 95vw;
-}
-
-#graphic {
   width: 100%;
-  height: 100%;
+  height: calc((100vh - 170px) / 2);
+  max-height: calc((100vh - 170px) / 2);
+  flex: 1;
+}
+
+.elementen-erste-linie {
+  margin-bottom: 10px; /* Space between rows */
+}
+
+.grafik, #wertpapieren-table {
+  flex: 1; /* Allows graphics to take equal space */
+  margin: 0 10px; /* Space between graphics */
+  height: calc((100vh - 170px) / 2);
+  max-height: calc((100vh - 170px) / 2);
+  width: calc((100vw - 80px) / 2);
+}
+
+@media (max-width: 768px) {
+  .elementen-erste-linie, .elementen-zweite-linie {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .grafik, #wertpapieren-table {
+    margin: 10px 0; /* Adjust margin for smaller screens */
+  }
 }
 
 #bottom-elements {
@@ -123,6 +137,7 @@ html, body {
   align-items: center;
   width: 100%;
   margin: 20px;
+  height: 60px;
 }
 
 #bottom-elements > * {
@@ -143,12 +158,10 @@ html, body {
 
 #settings {
   height: 100%;
-  width: 100%;
 }
 
 #settings-container {
-  height: 100%;
-  width: 100%;
+  height: 3em;
 }
 
 #transaktionen-table {
