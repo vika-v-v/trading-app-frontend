@@ -47,7 +47,9 @@
         <p class="grey-text wert">{{ getGewinnVerlust() }} EUR</p>
       </div>
     </div>
-    <app-tabelle id="transaktionen-table" [tableHeader]="getTransaktionenHeader()" [tableData]="getTransaktionen()" [name]="'Transaktionen'"></app-tabelle>
+    <div id="transaktionen-table">
+      <app-tabelle  [tableHeader]="getTransaktionenHeader()" [tableData]="getTransaktionen()" [name]="'Transaktionen'"></app-tabelle>
+    </div>
   </div>
 
   <div id="expand-button">
