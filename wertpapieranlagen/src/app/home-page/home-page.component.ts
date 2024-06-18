@@ -91,9 +91,7 @@ export class HomePageComponent {
 
   depotAendern(neuesDepot: string) {
     this.transactionen = this.depotService.getTransaktionen(this.http, neuesDepot).data;
-    this.depotService.getWertpapiere(this.http, neuesDepot).subscribe(response => {
-      this.wertpapiere = this.mapWertpapierenData(response.data);
-    })
+    this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
   }
 
   getTransaktionenHeader() {
