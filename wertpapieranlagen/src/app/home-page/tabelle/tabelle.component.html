@@ -48,6 +48,9 @@
         </ng-container>
       </tbody>
     </table>
+    <div *ngIf="tableDataFormatted.length == 0" id="leer-fehlermeldung">
+      <p class="grey-text">{{leerFehlermeldung}}</p>
+    </div>
   </div>
 </div>
 

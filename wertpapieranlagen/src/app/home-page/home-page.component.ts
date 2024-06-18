@@ -110,8 +110,8 @@ export class HomePageComponent {
     this.transactionen = this.depotService.getTransaktionen(this.http, neuesDepot).data;
     //this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
     /*Mögliche Lösung für this.wertpapiere @Thore*/
-    this.depotService.getWertpapiere(this.http, neuesDepot).subscribe(response => {
-      if (response && response.data) {
+    this.depotService.getWertpapiere(this.http, neuesDepot).subscribe(
+      response => {
         this.wertpapiere = response.data;
         this.wertpapierenData = Object.keys(this.wertpapiere).map((key: any) => {
           const wertpapier = this.wertpapiere[key];
@@ -123,12 +123,12 @@ export class HomePageComponent {
             wertpapier.Gesamtwert
           ];
         });
-      }
-      else {
+      },
+      error => {
         this.wertpapiere = [];
         this.wertpapierenData = [];
       }
-    });
+    );
 
     /* Speichert Werte in this.depot */
     this.depotService.getDepot(this.http, neuesDepot).subscribe(response => {

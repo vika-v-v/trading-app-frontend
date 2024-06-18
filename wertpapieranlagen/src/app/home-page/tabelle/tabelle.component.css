@@ -127,3 +127,10 @@ th {
 .checkbox-filter label {
   margin-bottom: 3px;
 }
+
+#leer-fehlermeldung {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

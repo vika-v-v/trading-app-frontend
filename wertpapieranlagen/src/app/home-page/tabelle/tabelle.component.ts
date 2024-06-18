@@ -21,6 +21,7 @@ export class TabelleComponent implements OnInit, OnChanges  { // implements Afte
   @Input() tableHeader: any[] = [];
   @Input() tableData: any[] = [];
   @Input() name: string = '';
+  @Input() leerFehlermeldung: string = 'Noch nicht vorhanden.';
 
   tableDataFormatted: any[] = [];
   tableHeaderFormatted: any[] = [];
