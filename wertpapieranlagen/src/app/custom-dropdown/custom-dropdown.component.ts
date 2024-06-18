@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 // !TODO if clicked on the arrow, also open the dropdown
 @Component({
@@ -11,19 +11,26 @@ import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/
   templateUrl: './custom-dropdown.component.html',
   styleUrl: './custom-dropdown.component.css'
 })
-export class CustomDropdownComponent implements AfterViewInit {
+export class CustomDropdownComponent implements OnInit {
   @Input() options: { value: string, label: string }[] = [];
   @Input() alwaysSelectOption: string | null = null;
-  @Input() selectFirstOptionOnStart: boolean = false;
+  @Input() selectedOption: { value: string, label: string } | null = null;
   @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
 
-  selectedOption: { value: string, label: string } | null = null;
   dropdownOpen: boolean = false;
 
-  ngAfterViewInit() {
-    this.setAlwaysSelectedOption();
-    if(this.selectFirstOptionOnStart) {
-      this.selectedOption = this.options[0];
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    this.initializeDropdown();
+    this.cdr.detectChanges(); // Force Angular to detect changes
+  }
+
+  private initializeDropdown() {
+    if (this.alwaysSelectOption != null) {
+      this.selectedOption = { value: this.alwaysSelectOption, label: this.alwaysSelectOption };
+    } else if (this.selectedOption == null) {
+      this.selectedOption = { value: "none", label: "Wählen Sie eine Option aus..." };
     }
   }
 
@@ -32,15 +39,12 @@ export class CustomDropdownComponent implements AfterViewInit {
   }
 
   selectOption(option: { value: string, label: string }): void {
-    this.selectedOption = option;
-    this.setAlwaysSelectedOption();
+    if (this.alwaysSelectOption == null) {
+      this.selectedOption = option;
+    } else {
+      this.selectedOption = { value: this.alwaysSelectOption, label: this.alwaysSelectOption };
+    }
     this.selectionChange.emit(option.value);
     this.dropdownOpen = false;
-  }
-
-  setAlwaysSelectedOption() {
-    if(this.alwaysSelectOption != null) {
-      this.selectedOption = {value: this.alwaysSelectOption, label: this.alwaysSelectOption};
-    }
   }
 }

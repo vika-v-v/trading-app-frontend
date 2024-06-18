@@ -6,6 +6,8 @@ import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { Chart, ChartConfiguration, ChartTypeRegistry, registerables } from 'chart.js';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
+import { PopUpService } from '../../services/pop-up.service';
 
 interface Wertpapier {
   WertpapierDurchschnittspreis: string;
@@ -35,18 +37,21 @@ interface Data {
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    CustomDropdownComponent
   ],
   templateUrl: './grafik.component.html',
   styleUrls: ['./grafik.component.css']
 })
 export class GrafikComponent implements AfterViewInit {
-  grafikTypEnum = GrafikTyp;
+  grafikTyp = GrafikTyp;
   grafikTypValues: string[];
 
   private chart: Chart<'pie' | 'bar' | 'line', number[], string> | undefined;
   @Input() typ: GrafikTyp = GrafikTyp.PizzadiagrammWertpapierMenge;
-  name: string = 'Wertpapiermenge';
+  name: string = '';
+
+  wertpapiere: string[] = [];
 
   private BABY_BLUE = { light: '#bcd8f6', dark: '#A2BEDC' };
   private NAVY_BLUE = { light: '#133962', dark: '#042440' };
@@ -54,10 +59,10 @@ export class GrafikComponent implements AfterViewInit {
   private LAVENDER = { light: '#ab90be', dark: '#B793C9' };
   private ROSE_PINK = { light: '#e482b2', dark: '#D26B9D' };
 
-  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService) {
+  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService, private popUpService: PopUpService) {
     // Register Chart.js components
     Chart.register(...registerables);
-    this.grafikTypValues = Object.values(this.grafikTypEnum);
+    this.grafikTypValues = Object.values(this.grafikTyp);
   }
 
   ngAfterViewInit() {
@@ -351,10 +356,10 @@ generatePizzaDiagrammValue() {
       const input = await this.depotService.getWertverlauf(this.http, depotName).toPromise();
       const xValues: string[] = [];
       const yValues: number[] = [];
-      const aktienname = "Apple"; //<----- Hier Tag von Vika einfügen 
-  
+      const aktienname = "Apple"; //<----- Hier Tag von Vika einfügen
+
       const data: Data = input.data;
-  
+
       for (const date in data) {
         xValues.push(date);
         if (data[date][aktienname]) {
@@ -366,10 +371,10 @@ generatePizzaDiagrammValue() {
           yValues.push(0); // If there is no data for the given date, push 0 or handle it as needed
         }
       }
-  
+
       const minPrice = Math.min(...yValues.filter(value => value !== 0)) * 0.9;
       const maxPrice = Math.max(...yValues.filter(value => value !== 0)) * 1.1;
-  
+
       const chartConfig: ChartConfiguration<'line', number[], string> = {
         type: 'line',
         data: {
@@ -401,7 +406,7 @@ generatePizzaDiagrammValue() {
           }
         }
       };
-  
+
       if (this.chart) {
         this.chart.destroy();
       }
@@ -417,23 +422,23 @@ generatePizzaDiagrammValue() {
       const input = await this.depotService.getWertverlauf(this.http, depotName).toPromise();
       const xValues: string[] = [];
       const yValues: number[] = [];
-  
+
       const data: Data = input.data;
-  
+
       for (const date in data) {
         xValues.push(date);
         let dailySum = 0;
-  
+
         for (const stockName in data[date]) {
           const stockData = data[date][stockName];
           const averagePrice = stockData.WertpapierDurchschnittspreis.replace(',', '.');
           const averagePriceNumber = parseFloat(averagePrice);
           dailySum += averagePriceNumber;
         }
-  
+
         yValues.push(dailySum);
       }
-  
+
       const chartConfig: ChartConfiguration<'line', number[], string> = {
         type: 'line',
         data: {
@@ -465,7 +470,7 @@ generatePizzaDiagrammValue() {
           }
         }
       };
-  
+
       if (this.chart) {
         this.chart.destroy();
       }
@@ -474,7 +479,7 @@ generatePizzaDiagrammValue() {
       console.error('Fehler beim Abrufen des Wertverlaufs:', error);
     }
   }
-  
+
 
   onChangeTyp(event: Event) {
     const selectElement = event.target as HTMLSelectElement;

@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 
-#name-container {
+#header-container {
   min-width: 50%;
   align-self: flex-start; /* Align container at the start */
   background-color: #23201c;
