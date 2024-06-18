@@ -44,7 +44,7 @@ export class DepotService {
   // 2. zu Observable machen check
   // 3. in home-page subscribe auf das observable
   getWertpapiere(http: HttpClient, depotName: string): Observable<any> {
-    const getWertpapiereURL= `${this.rootUrl}depot/getWertpapiere?depotName=Depot1`;
+    const getWertpapiereURL= `${this.rootUrl}depot/getWertpapiere?depotName=` + depotName;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`

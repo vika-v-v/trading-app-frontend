@@ -82,7 +82,7 @@ export class GrafikComponent implements AfterViewInit {
 
   // Funktion generatePizzaDiagrammNumber
 generatePizzaDiagrammNumber() {
-  this.depotService.getWertpapiere(this.http, "Depot1").subscribe(response => {
+  this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
     const wertpapiere = response.data;
 
     // Convert the data into an array of { name: string, value: number } objects
@@ -167,7 +167,7 @@ generatePizzaDiagrammNumber() {
 
 // Funktion generatePizzaDiagrammValue
 generatePizzaDiagrammValue() {
-  this.depotService.getWertpapiere(this.http, "Depot1").subscribe(response => {
+  this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
     const wertpapiere = response.data;
 
     // Convert the data into an array of { name: string, value: number } objects
@@ -251,7 +251,7 @@ generatePizzaDiagrammValue() {
 }
 
   generateBarDiagramm() {
-    this.depotService.getWertpapiere(this.http, "Depot1").subscribe(response => {
+    this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
       const wertpapiere: any = response.data;
 
       // Count occurrences of each WertpapierArt
@@ -344,7 +344,7 @@ generatePizzaDiagrammValue() {
 
   async generateLineChart() {
     try {
-      const depotName = "Depot1";//this.depotDropdownService.getDepot();
+      const depotName = this.depotDropdownService.getDepot();
       const input = await this.depotService.getWertverlauf(this.http, depotName).toPromise();
       const xValues: string[] = [];
       const yValues: { [key: string]: number[] } = {};
