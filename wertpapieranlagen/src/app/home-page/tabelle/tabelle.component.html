@@ -24,23 +24,23 @@
         <ng-container *ngFor="let data of tableDataFormatted">
           <tr *ngIf="data.shown">
             <td *ngFor="let item of data.row">
-              <div class="grey-text" *ngIf="item.highlightedRange && filterSortPopup != null">
-                <span>{{
+              <div *ngIf="item.highlightedRange && filterSortPopup != null">
+                <span class="grey-text">{{
                   item.wert.substring(0, item.highlightedRange.start)
                 }}</span>
                 <span
-                  ><mark>{{
+                  ><mark class="grey-text">{{
                     item.wert.substring(
                       item.highlightedRange.start,
                       item.highlightedRange.end
                     )
                   }}</mark></span
                 >
-                <span>{{
+                <span class="grey-text">{{
                   item.wert.substring(item.highlightedRange.end, item.wert.length)
                 }}</span>
               </div>
-              <div *ngIf="!item.highlightedRange || filterSortPopup == null">
+              <div *ngIf="!item.highlightedRange || filterSortPopup == null" class="grey-text">
                 {{ item.wert }}
               </div>
             </td>

@@ -1,3 +1,4 @@
+
 <div id="container" *ngIf="isPageVisible(); else notLoggedInMessage">
   <div id="top-elements">
     <div id="left-elements">
@@ -34,29 +35,30 @@
     </div>
   </div>
 
-  <div id="transaktionen-table" *ngIf="expanded">
+  <div id="bottom-section">
+  <div *ngIf="expanded">
     <div id="depotwerte">
       <div class="column">
-        <p>Gesamtwert vom Depot</p>
-        <p>{{ getGesamtwert() }} EUR</p>
+        <p class="grey-text">Gesamtwert vom Depot</p>
+        <p class="grey-text wert">{{ getGesamtwert() }} EUR</p>
       </div>
       <div class="column">
-        <p>Gewinn/Verlust</p>
-        <p>{{ getGewinnVerlust() }} EUR</p>
+        <p class="grey-text">Gewinn/Verlust</p>
+        <p class="grey-text wert">{{ getGewinnVerlust() }} EUR</p>
       </div>
     </div>
-    <app-tabelle [tableHeader]="getTransaktionenHeader()" [tableData]="getTransaktionen()" [name]="'Transaktionen'"></app-tabelle>
+    <app-tabelle id="transaktionen-table" [tableHeader]="getTransaktionenHeader()" [tableData]="getTransaktionen()" [name]="'Transaktionen'"></app-tabelle>
   </div>
 
   <div id="expand-button">
     <img
       *ngIf="!expanded"
-      src="../../assets/icons/2931160_down_direction_download_pointer_arrow_icon.svg"
+      src="../../assets/icons/phosphor-thin/caret_down_thin_icon.svg"
       (click)="toggleExpand()"
     />
     <img
       *ngIf="expanded"
-      src="../../assets/icons/2931161_arrow_top_up_direction_move_icon.svg"
+      src="../../assets/icons/phosphor-thin/caret_up_thin_icon.svg"
       (click)="toggleExpand()"
     />
   </div>
@@ -84,8 +86,10 @@
     </div>
   </div>
 </div>
+</div>
 
 <!--Wird anstelle der Homepage angezeigt, wenn kein Token hinterlegt ist-->
 <ng-template #notLoggedInMessage>
   <app-not-logged-in></app-not-logged-in>
 </ng-template>
+

@@ -2,10 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  width: calc((100vw - 80px) / 2);
-  max-width: calc((100vw - 80px) / 2);
-  height: calc((100vh - 170px) / 2);
-  max-height: calc((100vh - 170px) / 2);
   position: relative;
   flex-direction: column;
 }
