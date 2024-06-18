@@ -74,16 +74,8 @@ export class GrafikComponent implements AfterViewInit {
       this.generatePizzaDiagrammValue();
       this.name = 'Wertpapierwert';
     } else if (this.typ === GrafikTyp.WertverlaufWertpapierwerte) {
-      this.generateLineChart();
-      this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(
-        response => {
-          this.wertpapiere = response.data;
-          this.popUpService.errorPopUp('Klappt');
-        },
-        error => {
-          this.popUpService.errorPopUp('Fehler beim Abrufen der Wertpapiere.');
-        });
-      this.name = 'Wertpapierwert';
+      this.generateLineChart_WertpapierWert();
+      this.name = 'Wertpapierwerte';
     } else if (this.typ === GrafikTyp.PizzadiagrammWertpapierMenge) {
       this.generatePizzaDiagrammNumber();
       this.name = 'Wertpapiermenge';
@@ -355,83 +347,60 @@ generatePizzaDiagrammValue() {
     });
   }
 
-  async generateLineChart() {
+  async generateLineChart_WertpapierWert() {
     try {
       const depotName = this.depotDropdownService.getDepot();
       const input = await this.depotService.getWertverlauf(this.http, depotName).toPromise();
       const xValues: string[] = [];
-      const yValues: { [key: string]: number[] } = {};
-      const wertNameSet: Set<string> = new Set();
-      const minMax: { [key: string]: { min: number, max: number } } = {};
+      const yValues: number[] = [];
+      const aktienname = "Apple"; //<----- Hier Tag von Vika einfügen
 
-      const data: Data = input.data;  // Cast to Data type
+      const data: Data = input.data;
 
       for (const date in data) {
         xValues.push(date);
-        for (const stockName in data[date]) {
-          const stockData = data[date][stockName];
+        if (data[date][aktienname]) {
+          const stockData = data[date][aktienname];
           const averagePrice = stockData.WertpapierDurchschnittspreis.replace(',', '.');
           const averagePriceNumber = parseFloat(averagePrice);
-
-          if (!yValues[stockName]) {
-            yValues[stockName] = [];
-            wertNameSet.add(stockName);
-            minMax[stockName] = { min: Number.MAX_VALUE, max: Number.MIN_VALUE };
-          }
-          yValues[stockName].push(averagePriceNumber);
-
-          if (averagePriceNumber < minMax[stockName].min) minMax[stockName].min = averagePriceNumber;
-          if (averagePriceNumber > minMax[stockName].max) minMax[stockName].max = averagePriceNumber;
+          yValues.push(averagePriceNumber);
+        } else {
+          yValues.push(0); // If there is no data for the given date, push 0 or handle it as needed
         }
       }
 
-      const datasets = [];
-      let yAxisIndex = 0;
-
-      for (const stockName of wertNameSet) {
-        const stockData = yValues[stockName];
-        datasets.push({
-          label: stockName,
-          fill: false,
-          tension: 0,
-          backgroundColor: `rgba(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},1.0)`,
-          borderColor: `rgba(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},0.1)`,
-          data: stockData,
-          yAxisID: `y${yAxisIndex}`
-        });
-        yAxisIndex++;
-      }
-
-      const scales: any = {};
-
-      let yIndex = 0;
-      for (const stockName of wertNameSet) {
-        const min = Math.floor(minMax[stockName].min * 0.9);
-        const max = Math.ceil(minMax[stockName].max * 1.1);
-
-        scales[`y${yIndex}`] = {
-          type: 'linear',
-          position: yIndex % 2 === 0 ? 'left' : 'right',
-          min: min,
-          max: max,
-          ticks: {
-            stepSize: 5
-          },
-          grid: {
-            drawOnChartArea: yIndex % 2 === 0  // only want the grid lines for one axis to show up
-          }
-        };
-        yIndex++;
-      }
+      const minPrice = Math.min(...yValues.filter(value => value !== 0)) * 0.9;
+      const maxPrice = Math.max(...yValues.filter(value => value !== 0)) * 1.1;
 
       const chartConfig: ChartConfiguration<'line', number[], string> = {
-        type: 'line', // Typ explizit als 'line' festlegen
+        type: 'line',
         data: {
           labels: xValues,
-          datasets: datasets
+          datasets: [{
+            label: aktienname,
+            fill: false,
+            tension: 0,
+            backgroundColor: 'rgba(0, 0, 255, 1.0)', // Use any color for the background
+            borderColor: 'rgba(0, 0, 0, 1)', // Always black border
+            data: yValues,
+            yAxisID: 'y'
+          }]
         },
         options: {
-          scales: scales
+          scales: {
+            y: {
+              type: 'linear',
+              position: 'left',
+              min: minPrice,
+              max: maxPrice,
+              ticks: {
+                stepSize: 5
+              },
+              grid: {
+                drawOnChartArea: true // Show grid lines for y-axis
+              }
+            }
+          }
         }
       };
 
@@ -443,6 +412,71 @@ generatePizzaDiagrammValue() {
       console.error('Fehler beim Abrufen des Wertverlaufs:', error);
     }
   }
+
+  async generateLineChart_DepotWert() {
+    try {
+      const depotName = this.depotDropdownService.getDepot();
+      const input = await this.depotService.getWertverlauf(this.http, depotName).toPromise();
+      const xValues: string[] = [];
+      const yValues: number[] = [];
+
+      const data: Data = input.data;
+
+      for (const date in data) {
+        xValues.push(date);
+        let dailySum = 0;
+
+        for (const stockName in data[date]) {
+          const stockData = data[date][stockName];
+          const averagePrice = stockData.WertpapierDurchschnittspreis.replace(',', '.');
+          const averagePriceNumber = parseFloat(averagePrice);
+          dailySum += averagePriceNumber;
+        }
+
+        yValues.push(dailySum);
+      }
+
+      const chartConfig: ChartConfiguration<'line', number[], string> = {
+        type: 'line',
+        data: {
+          labels: xValues,
+          datasets: [
+            {
+              label: 'Depot Wert',
+              fill: false,
+              tension: 0,
+              backgroundColor: 'rgba(75, 192, 192, 1)',
+              borderColor: 'rgba(0, 0, 0, 1)', // Schwarz für die Linienfarbe
+              data: yValues,
+              yAxisID: 'y'
+            }
+          ]
+        },
+        options: {
+          scales: {
+            y: {
+              type: 'linear',
+              position: 'left',
+              ticks: {
+                stepSize: 5
+              },
+              grid: {
+                drawOnChartArea: true
+              }
+            }
+          }
+        }
+      };
+
+      if (this.chart) {
+        this.chart.destroy();
+      }
+      this.chart = new Chart('canvas', chartConfig);
+    } catch (error) {
+      console.error('Fehler beim Abrufen des Wertverlaufs:', error);
+    }
+  }
+
 
   onChangeTyp(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
