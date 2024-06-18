@@ -87,6 +87,7 @@
   vertical-align: middle;
   width: calc(100vw - 70px);
   max-width: calc(100vw - 70px);
+  min-width: calc(100vw - 70px);
   height: calc(100vh - 150px);
   max-height: calc(100vh - 150px);
   box-sizing: border-box;
@@ -140,6 +141,7 @@
 
 #transaktionen-table {
   width: 100%;
+  min-width: 100%;
 }
 
 #depot-actions {

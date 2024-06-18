@@ -16,7 +16,7 @@ import { DepotDropdownComponent } from '../depot-dropdown/depot-dropdown.compone
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 import { NotLoggedInComponent } from '../not-logged-in/not-logged-in.component';
 import { GrafikTyp } from './grafik/grafik-typ.enum';
-import { NonDepotExistingComponent } from './non-depot-existing/non-depot-existing.component'; 
+import { NonDepotExistingComponent } from './non-depot-existing/non-depot-existing.component';
 
 
 @Component({
@@ -48,14 +48,15 @@ export class HomePageComponent implements OnInit{
   _showSidePanel: boolean | null = null;
   sidePanel: SidePanel | null = null;
 
-  transactionen: any[] = [];
+  transaktionen: any[] = [];
   wertpapiere: any[] = [];
   depot: any = {};
 
   currentDepotName = '';
   wertpapierenData: any[] = [];
+  transaktionenData: any[] = [];
 
-  showNonDepotExistingComponent: boolean = false; 
+  showNonDepotExistingComponent: boolean = false;
 
   selectTransactions = [
     { "value": "Kauf", "label": "Kaufen" },
@@ -123,7 +124,28 @@ export class HomePageComponent implements OnInit{
       return;
     }
 
-    this.transactionen = this.depotService.getTransaktionen(this.http, neuesDepot).data;
+    this.depotService.getTransaktionen(this.http, neuesDepot).subscribe(
+      response => {
+        this.transaktionen = response.data;
+        this.transaktionenData = Object.keys(this.transaktionen).map((key: any) => {
+          const transaktion = this.transaktionen[key];
+          return [
+            transaktion.transaktionsDatum,
+            transaktion.wertpapier.name,
+            transaktion.anzahl,
+            transaktion.wertpapierPreis,
+            transaktion.transaktionskosten,
+            transaktion.transaktionsart,
+            transaktion.gesamtkosten
+          ];
+        });
+      },
+      error => {
+        this.transaktionen = [];
+        this.transaktionenData = [];
+      }
+    );
+
     //this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
     /*Mögliche Lösung für this.wertpapiere @Thore*/
     this.depotService.getWertpapiere(this.http, neuesDepot).subscribe(
@@ -165,20 +187,6 @@ export class HomePageComponent implements OnInit{
       { "wert": "Transaktionskosten", "typ": FilterType.Decimal },
       { "wert": "Transaktionsart", "typ": FilterType.Object },
       { "wert": "Gesamtkosten", "typ": FilterType.Decimal }];
-  }
-
-  getTransaktionen() {
-    return this.transactionen.map(transaktion => {
-      return [
-        transaktion.transaktionsDatum,
-        transaktion.wertpapier.name,
-        transaktion.anzahl,
-        transaktion.wertpapierPreis,
-        transaktion.transaktionskosten,
-        transaktion.transaktionsart,
-        transaktion.gesamtkosten
-      ]
-    });
   }
 
   getWertpapieren() {
