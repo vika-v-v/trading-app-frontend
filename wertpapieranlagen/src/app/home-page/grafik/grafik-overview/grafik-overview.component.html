@@ -1,7 +1,12 @@
 <!-- grafik-overview.component.html -->
 <div class="grafik-overview-container">
+  <div *ngIf="typ == grafikTyp.WertverlaufDepotwerte">
     <app-grafik-linechart-depot [depotName]="selectedDepotName"></app-grafik-linechart-depot>
+  </div>
+  <div *ngIf="typ == grafikTyp.PizzadiagrammWertpapierMenge">
     <app-grafik-piechart-number [depotName]="selectedDepotName"></app-grafik-piechart-number>
+  </div>
+  <div *ngIf="typ == grafikTyp.PizzadiagrammWertpapierWert">
     <app-grafik-piechart-value [depotName]="selectedDepotName"></app-grafik-piechart-value>
   </div>
-  
+</div>
