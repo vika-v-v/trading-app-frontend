@@ -38,9 +38,8 @@ export class DepotDropdownComponent implements OnInit, OnDestroy {
 
   loadDepots() {
     this.depotService.getAllDepots(this.http).subscribe(
-      (data) => {
-        this.depots = data.data; // Anpassen an das zurückgegebene Format
-        this.filteredDepots = this.depots; // Initialisiere filteredDepots mit allen Depots
+      (response) => {
+        this.depots = response.data; // Anpassen an das zurückgegebene Format
         this.filteredDepots = this.depots.map(depot => ({ value: depot.depotId, label: depot.name }));
       },
       (error) => {

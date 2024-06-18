@@ -2,7 +2,6 @@
   <div id="header-container">
     <p class="name grey-text">{{ name }}</p>
     <div *ngIf="this.typ === grafikTyp.WertverlaufWertpapierwerte">
-      <app-custom-dropdown [selectFirstOptionOnStart]="true"></app-custom-dropdown>
     </div>
   </div>
   <canvas id="canvas"></canvas>

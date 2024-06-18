@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 // !TODO if clicked on the arrow, also open the dropdown
 @Component({
@@ -14,25 +14,23 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@
 export class CustomDropdownComponent implements OnInit {
   @Input() options: { value: string, label: string }[] = [];
   @Input() alwaysSelectOption: string | null = null;
-  @Input() selectFirstOptionOnStart: boolean = false;
+  @Input() selectedOption: { value: string, label: string } | null = null;
   @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
 
-  selectedOption: { value: string, label: string } | null = null;
   dropdownOpen: boolean = false;
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.initializeDropdown();
+    this.cdr.detectChanges(); // Force Angular to detect changes
   }
 
   private initializeDropdown() {
     if (this.alwaysSelectOption != null) {
       this.selectedOption = { value: this.alwaysSelectOption, label: this.alwaysSelectOption };
-    } else if (this.selectFirstOptionOnStart) {
-      this.selectedOption = this.options[0] || { value: 'none', label: 'Wähle eine Option' };
-    } else {
-      this.selectedOption = { value: 'none', label: 'Wähle eine Option' };
+    } else if (this.selectedOption == null) {
+      this.selectedOption = { value: "none", label: "Wählen Sie eine Option aus..." };
     }
   }
 
