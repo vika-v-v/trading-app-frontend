@@ -22,6 +22,8 @@ export class LoginSeiteComponent {
   passwort!: string;
 
   constructor(private router: Router, private userService: UserService, private http: HttpClient, private autoLogoutService: AutoLogoutService, private popUpService: PopUpService) {
+    //this.userService.setToken('abc');
+    //this.naviagateToHomePage();
   }
 
   anmelden() {

@@ -1,8 +1,6 @@
 <div id="canvas-container">
-  <div id="dropdown-container">
-    <select id="typ-dropdown" class="global-select" (change)="onChangeTyp($event)">
-      <option *ngFor="let value of grafikTypValues" [value]="value">{{ value }}</option>
-    </select>
+  <div id="name-container">
+    <p class="name grey-text">{{ name }}</p>
   </div>
   <canvas id="canvas"></canvas>
 </div>

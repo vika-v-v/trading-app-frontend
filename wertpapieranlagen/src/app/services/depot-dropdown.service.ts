@@ -9,7 +9,7 @@ import { UserService } from './user.service';
 export class DepotDropdownService {
   private rootUrl: string;
   private depot: string = '';
-  private reloadSubject = new BehaviorSubject<void>(undefined); 
+  private reloadSubject = new BehaviorSubject<void>(undefined);
 
   constructor(@Inject('ROOT_URL') rootUrl: string, private userService: UserService) {
     this.rootUrl = rootUrl;
@@ -39,5 +39,6 @@ export class DepotDropdownService {
   getReloadObservable(): Observable<void> {
     return this.reloadSubject.asObservable(); // Hinzugefügt
   }
-  
+
 }
+

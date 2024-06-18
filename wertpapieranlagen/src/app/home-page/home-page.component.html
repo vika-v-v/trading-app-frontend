@@ -1,76 +1,69 @@
+
 <div id="container" *ngIf="isPageVisible(); else notLoggedInMessage">
   <div id="top-elements">
     <div id="left-elements">
       <div id="left-buttons">
         <app-depot-dropdown></app-depot-dropdown>
-        <p>{{ getGesamtwert() }} EUR</p>
-        <button (click)="showSidePanel(SidePanel.Kaufen)" class="global-button">Kaufen</button>
-        <button (click)="showSidePanel(SidePanel.Verkaufen)" class="global-button">Verkaufen</button>
+        <div>
+          <p class="grey-text" id="gesamtwert-text">{{ getGesamtwert() }} EUR</p>
+          <img id="gesamtwert-info-icon" src="../../assets/icons/phosphor-thin/info_thin_icon.svg">
+        </div>
       </div>
     </div>
 
     <div id="right-icons">
-      <div *ngIf="depots.length > 0" (click)="showSidePanel(SidePanel.DepotErstellen)">
-        <img
-          src="../../assets/icons/1904677_add_addition_calculate_charge_create_icon.svg"
-        />
-      </div>
-      <div (click)="showSidePanel(SidePanel.Settings)">
-        <img src="../../assets/icons/185095_settings_icon.svg" />
+      <app-custom-dropdown [options]="selectTransactions" [alwaysSelectOption]="'Trasaktionen'" (selectionChange)="onSelectTransaction($event)"></app-custom-dropdown>
+      <div id="settings-container" (click)="showSidePanel(SidePanel.Settings)">
+        <img id="settings" src="../../assets/icons/phosphor-thin/gear_thin_icon.svg" />
       </div>
     </div>
   </div>
 
-  <div *ngIf="depots.length === 0" id="erstes-depot-view">
-    <h1>Erstellen Sie ihr erstes Depot</h1>
-    <img
-      src="../../assets/icons/1904677_add_addition_calculate_charge_create_icon.svg"
-      (click)="depotAnlegen()"
-      id="erstes-depot-erstellen-icon"
-    />
-  </div>
-
-  <div *ngIf="depots.length > 0">
-    <div id="main-section">
-      <div id="graphic">
-        <app-grafik></app-grafik>
-      </div>
-      <div id="wertpapieren-table">
-        <app-tabelle [tableHeader]="getWertpapieren()" [tableData]="getWertpapierenData()"></app-tabelle>
-      </div>
+  <div id="main-section">
+    <div class="elementen-erste-linie">
+      <app-grafik [typ]="GrafikTyp.WertverlaufWertpapierwerte" class="grafik"></app-grafik>
+      <app-grafik [typ]="GrafikTyp.PizzadiagrammWertpapierWert" class="grafik"></app-grafik>
+    </div>
+    <div class="elementen-zweite-linie">
+      <app-grafik [typ]="GrafikTyp.PizzadiagrammWertpapierMenge" class="grafik"></app-grafik>
+      <app-tabelle id="wertpapieren-table" [tableHeader]="getWertpapieren()" [tableData]="getWertpapierenData()" [name]="'Wertpapiere'"></app-tabelle>
     </div>
   </div>
 
-  <div id="transaktionen-table" *ngIf="expanded">
+  <div id="bottom-section">
+  <div *ngIf="expanded">
     <div id="depotwerte">
       <div class="column">
-        <p>Gesamtwert vom Depot</p>
-        <p>{{ getGesamtwert() }} EUR</p>
+        <p class="grey-text">Gesamtwert vom Depot</p>
+        <p class="grey-text wert">{{ getGesamtwert() }} EUR</p>
       </div>
       <div class="column">
-        <p>Gewinn/Verlust</p>
-        <p>{{ getGewinnVerlust() }} EUR</p>
+        <p class="grey-text">Gewinn/Verlust</p>
+        <p class="grey-text wert">{{ getGewinnVerlust() }} EUR</p>
       </div>
     </div>
-    <app-tabelle [tableHeader]="getTransaktionenHeader()" [tableData]="getTransaktionen()"></app-tabelle>
+    <div id="transaktionen-table">
+      <app-tabelle  [tableHeader]="getTransaktionenHeader()" [tableData]="getTransaktionen()" [name]="'Transaktionen'"></app-tabelle>
+    </div>
   </div>
 
   <div id="expand-button">
     <img
       *ngIf="!expanded"
-      src="../../assets/icons/2931160_down_direction_download_pointer_arrow_icon.svg"
+      src="../../assets/icons/phosphor-thin/caret_down_thin_icon.svg"
       (click)="toggleExpand()"
     />
     <img
       *ngIf="expanded"
-      src="../../assets/icons/2931161_arrow_top_up_direction_move_icon.svg"
+      src="../../assets/icons/phosphor-thin/caret_up_thin_icon.svg"
       (click)="toggleExpand()"
     />
   </div>
 
-  <div id="bottom-elements">
-    <button id="export" class="global-button">Export</button>
-    <button id="depot-loeschen" class="global-button">Depot löschen</button>
+  <div id="depot-actions">
+    <button id="depot-erstellen" class="grey-text" (click)="showSidePanel(SidePanel.DepotErstellen)">Neues Depot erstellen</button>
+    <button id="depot-loeschen" class="grey-text">Depot löschen</button>
+    <button id="export" class="grey-text">Export</button>
   </div>
 
   <div id="side-panel" [class.show]="_showSidePanel" [class.hide]="_showSidePanel!= null && !_showSidePanel">
@@ -91,8 +84,10 @@
     </div>
   </div>
 </div>
+</div>
 
 <!--Wird anstelle der Homepage angezeigt, wenn kein Token hinterlegt ist-->
 <ng-template #notLoggedInMessage>
   <app-not-logged-in></app-not-logged-in>
 </ng-template>
+

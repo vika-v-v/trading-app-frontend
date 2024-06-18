@@ -43,10 +43,14 @@ input {
   margin: 3px;
 }
 
-.global-input, .global-select, .global-date {
-  background-color: #F5F5F5;
+.global-input, .global-date {
+  background-color: #443f37;
   border: 1.5px solid black;
   border-radius: 0px;
+}
+
+.grey-text {
+  color: #dbd1d1;
 }
 
 /* Login-Seite, Passwort Zurücksetzen, Registrieren */

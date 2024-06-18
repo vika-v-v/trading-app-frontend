@@ -1,8 +1,9 @@
 <div>
-  <select class="global-select" (change)="onSelectDepot($event)">
+  <app-custom-dropdown [options]="filteredDepots" [selectFirstOptionOnStart]="true" (selectionChange)="onSelectDepot($event)"></app-custom-dropdown>
+  <!--select class="global-select grey-text" (change)="onSelectDepot($event)">
     <option *ngFor="let depot of filteredDepots" [value]="depot.depotId">{{ depot.name }}</option>
   </select>
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div-->
   <!--
   <div *ngIf="selectedDepot">
     <h3>Gewähltes Depot:</h3>

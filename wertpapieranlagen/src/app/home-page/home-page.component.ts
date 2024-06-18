@@ -13,7 +13,9 @@ import { FilterType } from './tabelle/filter-type.enum';
 import { GrafikComponent } from './grafik/grafik.component';
 import { UserService } from '../services/user.service';
 import { DepotDropdownComponent } from '../depot-dropdown/depot-dropdown.component';
+import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 import { NotLoggedInComponent } from '../not-logged-in/not-logged-in.component';
+import { GrafikTyp } from './grafik/grafik-typ.enum';
 
 @Component({
   selector: 'app-home-page',
@@ -28,6 +30,7 @@ import { NotLoggedInComponent } from '../not-logged-in/not-logged-in.component';
     TabelleComponent,
     GrafikComponent,
     DepotDropdownComponent,
+    CustomDropdownComponent,
     NotLoggedInComponent
   ],
   templateUrl: './home-page.component.html',
@@ -36,6 +39,7 @@ import { NotLoggedInComponent } from '../not-logged-in/not-logged-in.component';
 export class HomePageComponent {
   SidePanel = SidePanel;
   WertpapierVorgang = WertpapierVorgang;
+  GrafikTyp = GrafikTyp;
 
   /* API-Endpoint: liste von Depots {[Depot1, Depot2]}*/
   depots: string[] = ['Depot']; // Initialize depots as an array of strings
@@ -46,6 +50,12 @@ export class HomePageComponent {
   transactionen: any[] = [];
   wertpapiere: any[] = [];
   depot: any = {};
+
+  selectTransactions = [
+    { "value": "Kauf", "label": "Kaufen" },
+    { "value": "Verkauf", "label": "Verkaufen" },
+    { "value": "Dividende", "label": "Dividende erfassen" }
+  ]
 
   constructor(private http: HttpClient, private depotService: DepotService, private userService: UserService) {
     /* API-Endpoint: liste von Depots aufrufen */
@@ -72,6 +82,15 @@ export class HomePageComponent {
 
   ngAfterViewInit(): void {
     this.fillCanvas();
+  }
+
+  onSelectTransaction(selectedTransaction: string) {
+    if(selectedTransaction === 'Kauf') {
+      this.showSidePanel(SidePanel.Kaufen);
+    }
+    if(selectedTransaction === 'Verkauf') {
+      this.showSidePanel(SidePanel.Verkaufen);
+    }
   }
 
   fillCanvas(): void {

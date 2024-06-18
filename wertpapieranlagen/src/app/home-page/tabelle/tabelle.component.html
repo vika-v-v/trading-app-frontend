@@ -1,48 +1,55 @@
 <!-- Author: Viktoriia Vovchenko -->
-<table #table>
-  <thead>
-    <tr>
-      <th *ngFor="let data of tableHeaderFormatted">
-        <div class="header-content">
-          <div>{{ data.wert }}</div>
-          <img
-            #icon
-            (click)="showFilterSortPopup(data, icon)"
-            [src]="getArrowSrc(data)"
-            alt="icon"
-          />
-        </div>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <ng-container *ngFor="let data of tableDataFormatted">
-      <tr *ngIf="data.shown">
-        <td *ngFor="let item of data.row">
-          <div *ngIf="item.highlightedRange && filterSortPopup != null">
-            <span>{{
-              item.wert.substring(0, item.highlightedRange.start)
-            }}</span>
-            <span
-              ><mark>{{
-                item.wert.substring(
-                  item.highlightedRange.start,
-                  item.highlightedRange.end
-                )
-              }}</mark></span
-            >
-            <span>{{
-              item.wert.substring(item.highlightedRange.end, item.wert.length)
-            }}</span>
-          </div>
-          <div *ngIf="!item.highlightedRange || filterSortPopup == null">
-            {{ item.wert }}
-          </div>
-        </td>
-      </tr>
-    </ng-container>
-  </tbody>
-</table>
+<div id="container">
+  <div *ngIf="name != ''" id="name-container">
+    <p class="name grey-text">{{ name }}</p>
+  </div>
+  <div id="table-container">
+    <table #table>
+      <thead>
+        <tr>
+          <th *ngFor="let data of tableHeaderFormatted">
+            <div class="header-content">
+              <div class="grey-text">{{ data.wert }}</div>
+              <img
+                #icon
+                (click)="showFilterSortPopup(data, icon)"
+                [src]="getArrowSrc(data)"
+                alt="icon"
+              />
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of tableDataFormatted">
+          <tr *ngIf="data.shown">
+            <td *ngFor="let item of data.row">
+              <div *ngIf="item.highlightedRange && filterSortPopup != null">
+                <span class="grey-text">{{
+                  item.wert.substring(0, item.highlightedRange.start)
+                }}</span>
+                <span
+                  ><mark class="grey-text">{{
+                    item.wert.substring(
+                      item.highlightedRange.start,
+                      item.highlightedRange.end
+                    )
+                  }}</mark></span
+                >
+                <span class="grey-text">{{
+                  item.wert.substring(item.highlightedRange.end, item.wert.length)
+                }}</span>
+              </div>
+              <div *ngIf="!item.highlightedRange || filterSortPopup == null" class="grey-text">
+                {{ item.wert }}
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <div
   #popup
