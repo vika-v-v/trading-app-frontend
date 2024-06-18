@@ -3,7 +3,7 @@
         <div id="top-elements">
           <div id="right-icons">
             <div id="settings-container" (click)="showSidePanel(SidePanel.Settings)">
-              <img id="settings" src="../../assets/icons/phosphor-thin/gear_thin_icon.svg" />
+              <img id="settings" src="../../assets/icons/phosphor-thin/gear_thin_icon.svg"/>
             </div>
           </div>
         </div>
@@ -12,7 +12,6 @@
           <p class="author">Von Jamal Musical</p>
           <button class="center-button">Klicken Sie hier</button>
         </div>
-      
         <div id="side-panel" [class.show]="_showSidePanel" [class.hide]="_showSidePanel !== null && !_showSidePanel">
           <div class="background" (click)="hideSidePanel()"></div>
           <div id="content">
