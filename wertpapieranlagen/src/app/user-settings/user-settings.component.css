@@ -1,0 +1,9 @@
+.input-field[readonly] {
+  background-color: #f0f0f0; /* Light gray background */
+  color: #656565; /* Gray text color */
+  border: 1px solid #dcdcdc; /* Gray border */
+}
+
+input:focus {
+  outline: none;
+}
