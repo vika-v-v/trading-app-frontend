@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { WertpapierKaufService } from '../../services/wertpapier-kauf.service';
 import { FormsModule } from '@angular/forms';
+import { DepotDropdownService } from '../../services/depot-dropdown.service';
 
 @Component({
   selector: 'app-wertpapier-vorgang',
@@ -18,7 +19,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class WertpapierVorgangComponent {
 
-  
+
   WertpapierVorgang = WertpapierVorgang;
 
   @Input() wertpapierVorgang: WertpapierVorgang = WertpapierVorgang.Kaufen;
@@ -32,7 +33,7 @@ export class WertpapierVorgangComponent {
 
   currentDate!: string;
 
-  constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService){
+  constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService){
 
   }
 
@@ -41,7 +42,7 @@ export class WertpapierVorgangComponent {
   }
 
   kaufHinzufuegen(){
-    this.wertpapierKaufService.wertpapierkaufErfassen(this.httpClient, "Depot1", "01.01.2024", this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
+    this.wertpapierKaufService.wertpapierkaufErfassen(this.httpClient, this.depotDropdownService.getDepot(), this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
       response=>{
 
       },
@@ -52,7 +53,7 @@ export class WertpapierVorgangComponent {
   }
 
   verkaufHinzufuegen(){
-    this.wertpapierKaufService.wertpapierverkaufErfassen(this.httpClient, "Depot1", "01.01.2024", this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
+    this.wertpapierKaufService.wertpapierverkaufErfassen(this.httpClient, this.depotDropdownService.getDepot(), this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
       response=>{
 
       },
@@ -68,5 +69,10 @@ export class WertpapierVorgangComponent {
     const day = ('0' + date.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
   }
+
+  dateWithPoints(date: string): string {
+    return date.split('-').join('.');
+  }
+
 }
 

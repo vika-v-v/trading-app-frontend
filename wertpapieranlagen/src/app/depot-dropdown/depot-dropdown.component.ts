@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { DepotDropdownService } from '../services/depot-dropdown.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -21,6 +21,8 @@ export class DepotDropdownComponent implements OnInit, OnDestroy {
   searchTerm: string = '';
   private reloadSubscription: Subscription;
 
+  @Output() depotChanged: EventEmitter<string> = new EventEmitter<string>();
+
   constructor(private depotService: DepotDropdownService, private http: HttpClient) {
     this.reloadSubscription = new Subscription();
   }
@@ -41,8 +43,9 @@ export class DepotDropdownComponent implements OnInit, OnDestroy {
       (response) => {
         this.depots = response.data; // Anpassen an das zurückgegebene Format
         this.filteredDepots = this.depots.map(depot => ({ value: depot.depotId, label: depot.name }));
-        if(this.depotService.getDepot() == '') {
-          this.depotService.setDepot(this.filteredDepots[0].name);
+        if(this.depotService.getDepot() == '' || this.depotService.getDepot() == undefined) {
+          this.depotService.setDepot(this.filteredDepots[0].label);
+          this.depotChanged.emit(this.filteredDepots[0].label);
         }
       },
       (error) => {
@@ -66,6 +69,7 @@ export class DepotDropdownComponent implements OnInit, OnDestroy {
       const selectedDepot = this.depots.find(depot => depot.depotId === depotId);
       this.selectedDepot = selectedDepot;
       this.depotService.setDepot(selectedDepot.name);
+      this.depotChanged.emit(selectedDepot.name);
     }
   }
 }

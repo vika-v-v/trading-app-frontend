@@ -232,7 +232,7 @@ export class DepotService {
   }
 
   getDepot(http: HttpClient, depotName: string): Observable<any>{
-    const getDepotUrl = `${this.rootUrl}depot/getDepot?depotName=Depot1`;
+    const getDepotUrl = `${this.rootUrl}depot/getDepot?depotName=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`

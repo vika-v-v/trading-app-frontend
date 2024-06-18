@@ -41,8 +41,6 @@ export class HomePageComponent {
   WertpapierVorgang = WertpapierVorgang;
   GrafikTyp = GrafikTyp;
 
-  /* API-Endpoint: liste von Depots {[Depot1, Depot2]}*/
-  depots: string[] = ['Depot']; // Initialize depots as an array of strings
   expanded = false;
   _showSidePanel: boolean | null = null;
   sidePanel: SidePanel | null = null;
@@ -58,8 +56,6 @@ export class HomePageComponent {
   ]
 
   constructor(private http: HttpClient, private depotService: DepotService, private userService: UserService) {
-    /* API-Endpoint: liste von Depots aufrufen */
-    this.depotAendern('Depot1');
   }
 
   isPageVisible() {
@@ -73,11 +69,6 @@ export class HomePageComponent {
 
   hideSidePanel() {
     this._showSidePanel = false;
-  }
-
-  depotAnlegen() {
-    /* API-Endpoint: neues Depot anlegen */
-    this.depots.push('Depot' + (this.depots.length + 1));
   }
 
   ngAfterViewInit(): void {
@@ -115,6 +106,9 @@ export class HomePageComponent {
     this.depotService.getWertpapiere(this.http, neuesDepot).subscribe(response => {
       if (response && response.data) {
         this.wertpapiere = response.data;
+      }
+      else {
+        this.wertpapiere = [];
       }
     });
 
@@ -162,16 +156,18 @@ export class HomePageComponent {
   }
 
   getWertpapierenData() {
-    return this.wertpapiere.map(wertpapier => {
+    return Object.keys(this.wertpapiere).map((key: any) => {
+      const wertpapier = this.wertpapiere[key];
       return [
-        wertpapier.name,
+        key, // Assuming the key is the name of the wertpapier
         wertpapier.WertpapierArt,
         wertpapier.WertpapierAktuellerKurs,
         wertpapier.WertpapierAnteil,
         wertpapier.Gesamtwert
-      ]
+      ];
     });
   }
+
 
   mapWertpapierenData(response: any) {
     const data = response;
