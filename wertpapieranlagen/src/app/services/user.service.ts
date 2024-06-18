@@ -66,7 +66,7 @@ export class UserService {
     formData.append('email', email);
 
     return http.post(resetUrl, formData, httpOptions);
-}
+  }
 
   updateUserData(http: HttpClient, optionalData:
     {
@@ -90,18 +90,28 @@ export class UserService {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.token}`
       }),
-  };
+    };
 
-  const formData = new FormData();
+    const formData = new FormData();
 
-  Object.keys(optionalData).forEach(key => {
-    const value = optionalData[key as keyof typeof optionalData];
-    if (value !== null && value !== undefined) {
-      formData.append(key, value);
-    }
-  });
+    Object.keys(optionalData).forEach(key => {
+      const value = optionalData[key as keyof typeof optionalData];
+      if (value !== null && value !== undefined) {
+        formData.append(key, value);
+      }
+    });
 
-  return http.patch(resetUrl, formData, httpOptions);
-}
+    return http.patch(resetUrl, formData, httpOptions);
+  }
+
+  getUserData(http: HttpClient): Observable<any>{
+    const userUrl = `${this.rootUrl}users/me`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.getToken()}`
+      })
+    };
+    return http.get(userUrl, httpOptions);
+  }
 
 }
