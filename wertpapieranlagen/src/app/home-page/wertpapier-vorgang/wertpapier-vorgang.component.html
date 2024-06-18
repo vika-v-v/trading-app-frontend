@@ -41,6 +41,6 @@
   <div id="bottom-elements">
     <button (click)="kaufHinzufuegen()" class="vorgang-erfassen global-button" *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen">Kauf hinzufügen</button>
     <button (click)="verkaufHinzufuegen()"class="vorgang-erfassen global-button" *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen">Verkauf hinzufügen</button>
-    <button class="vorgang-abbrechen global-button">Abbrechen</button>
+    <button (click)="abbrechen()" class="vorgang-abbrechen global-button">Abbrechen</button>
   </div>
 </div>
