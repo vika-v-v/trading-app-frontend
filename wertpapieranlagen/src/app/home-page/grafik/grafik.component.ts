@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
 import { PopUpService } from '../../services/pop-up.service';
+import { GrafikOverviewComponent } from './grafik-overview/grafik-overview.component';
 
 interface Wertpapier {
   WertpapierDurchschnittspreis: string;
@@ -38,7 +39,8 @@ interface Data {
   imports: [
     FormsModule,
     CommonModule,
-    CustomDropdownComponent
+    CustomDropdownComponent,
+    GrafikOverviewComponent
   ],
   templateUrl: './grafik.component.html',
   styleUrls: ['./grafik.component.css']
@@ -70,7 +72,7 @@ export class GrafikComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['depotName']) {
       if(this.depotName !== null && this.depotName !== undefined && this.depotName !== '') {
-        this.generateDiagramm();
+        //this.generateDiagramm();
       }
     }
   }

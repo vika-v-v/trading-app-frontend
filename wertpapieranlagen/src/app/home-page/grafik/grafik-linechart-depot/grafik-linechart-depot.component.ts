@@ -25,115 +25,125 @@ export class GrafikLinechartDepotComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    if (this.depotName) {
-      this.generateLineChart_DepotWert();
-    }
+    //if (this.depotName && this.depotName != '') {
+    //  this.generateLineChart_DepotWert();
+    //}
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['depotName'] && this.depotName) {
+    if (changes['depotName'] && this.depotName && this.depotName != '') {
       this.generateLineChart_DepotWert();
     }
   }
 
   generateLineChart_DepotWert() {
     this.depotService.getDepot(this.http, this.getDepotName).subscribe(depotResponse => {
-      const depotData = depotResponse.data;
-      const depotNames = Object.keys(depotData);
+      this.generate(depotResponse);
+    },
+    error => {
+      if(error.error.statusCode == 200) {
+        this.generate(error.error);
+      }
+      console.error('Error while fetching depot data: ' + error);
+    });
+  }
 
-      const depotList = depotNames.map(depotName => ({
-        depot: depotName,
-        dates: depotData[depotName].Wertentwicklung.map((entry: any) => entry.Datum),
-        values: depotData[depotName].Wertentwicklung.map((entry: any) => parseFloat(entry.Depotwert))
-      }));
+  generate(depotResponse: any) {
+    const depotData = depotResponse.data;
+    const depotNames = Object.keys(depotData);
 
-      const datasets = depotList.map(depot => ({
-        label: depot.depot,
-        data: depot.values,
-        borderColor: this.getRandomColor(),
-        fill: false
-      }));
+    const depotList = depotNames.map(depotName => ({
+      depot: depotName,
+      dates: depotData[depotName].Wertentwicklung.map((entry: any) => entry.Datum),
+      values: depotData[depotName].Wertentwicklung.map((entry: any) => parseFloat(entry.Depotwert))
+    }));
 
-      const labels = depotList[0].dates;
+    const datasets = depotList.map(depot => ({
+      label: depot.depot,
+      data: depot.values,
+      borderColor: this.getRandomColor(),
+      fill: false
+    }));
 
-      const chartConfig: ChartConfiguration<'line', number[], string> = {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: datasets
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: {
-                color: 'black',
-                font: {
-                  family: 'Verdana, Geneva, Tahoma, sans-serif'
-                }
-              }
-            },
-            title: {
-              display: true,
-              text: 'Depotwertentwicklung',
+    const labels = depotList[0].dates;
+
+    const chartConfig: ChartConfiguration<'line', number[], string> = {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
               color: 'black',
               font: {
-                family: 'Verdana, Geneva, Tahoma, sans-serif',
-                size: 15
-              }
-            },
-            tooltip: {
-              callbacks: {
-                label: function (tooltipItem: any) {
-                  const label = tooltipItem.dataset.label || '';
-                  const value = tooltipItem.raw || 0;
-                  return `${label}: ${value.toFixed(2)}`;
-                }
-              },
-              titleFont: {
-                family: 'Verdana, Geneva, Tahoma, sans-serif',
-                size: 12
-              },
-              bodyFont: {
-                family: 'Verdana, Geneva, Tahoma, sans-serif',
-                size: 10
+                family: 'Verdana, Geneva, Tahoma, sans-serif'
               }
             }
           },
-          scales: {
-            x: {
-              ticks: {
-                color: 'black',
-                font: {
-                  family: 'Verdana, Geneva, Tahoma, sans-serif'
-                }
-              },
-              grid: {
-                color: 'rgba(0, 0, 0, 0.1)'
+          title: {
+            display: true,
+            text: 'Depotwertentwicklung',
+            color: 'black',
+            font: {
+              family: 'Verdana, Geneva, Tahoma, sans-serif',
+              size: 15
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function (tooltipItem: any) {
+                const label = tooltipItem.dataset.label || '';
+                const value = tooltipItem.raw || 0;
+                return `${label}: ${value.toFixed(2)}`;
               }
             },
-            y: {
-              ticks: {
-                color: 'black',
-                font: {
-                  family: 'Verdana, Geneva, Tahoma, sans-serif'
-                }
-              },
-              grid: {
-                color: 'rgba(0, 0, 0, 0.1)'
+            titleFont: {
+              family: 'Verdana, Geneva, Tahoma, sans-serif',
+              size: 12
+            },
+            bodyFont: {
+              family: 'Verdana, Geneva, Tahoma, sans-serif',
+              size: 10
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: 'black',
+              font: {
+                family: 'Verdana, Geneva, Tahoma, sans-serif'
               }
+            },
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)'
+            }
+          },
+          y: {
+            ticks: {
+              color: 'black',
+              font: {
+                family: 'Verdana, Geneva, Tahoma, sans-serif'
+              }
+            },
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)'
             }
           }
         }
-      };
-
-      if (this.chart) {
-        this.chart.destroy();
       }
-      this.chart = new Chart('lineChartDepotWertCanvas', chartConfig);
-    });
+    };
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+    this.chart = new Chart('lineChartDepotWertCanvas', chartConfig);
   }
 
   getRandomColor() {

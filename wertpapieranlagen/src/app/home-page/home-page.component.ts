@@ -17,6 +17,7 @@ import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.comp
 import { NotLoggedInComponent } from '../not-logged-in/not-logged-in.component';
 import { GrafikTyp } from './grafik/grafik-typ.enum';
 import { NonDepotExistingComponent } from './non-depot-existing/non-depot-existing.component';
+import { GrafikOverviewComponent } from './grafik/grafik-overview/grafik-overview.component';
 
 
 @Component({
@@ -30,7 +31,7 @@ import { NonDepotExistingComponent } from './non-depot-existing/non-depot-existi
     TaxSettingsComponent,
     HttpClientModule,
     TabelleComponent,
-    GrafikComponent,
+    GrafikOverviewComponent,
     DepotDropdownComponent,
     CustomDropdownComponent,
     NotLoggedInComponent,

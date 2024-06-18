@@ -23,11 +23,11 @@
 
   <div id="main-section">
     <div class="elementen-erste-linie">
-      <app-grafik [typ]="GrafikTyp.WertverlaufWertpapierwerte" [depotName]="currentDepotName" class="grafik"></app-grafik>
-      <app-grafik [typ]="GrafikTyp.PizzadiagrammWertpapierWert" [depotName]="currentDepotName" class="grafik"></app-grafik>
+      <app-grafik-overview [typ]="GrafikTyp.WertverlaufDepotwerte" [selectedDepotName]="currentDepotName" class="grafik"></app-grafik-overview>
+      <app-grafik-overview [typ]="GrafikTyp.PizzadiagrammWertpapierWert" [selectedDepotName]="currentDepotName" class="grafik"></app-grafik-overview>
     </div>
     <div class="elementen-zweite-linie">
-      <app-grafik [typ]="GrafikTyp.PizzadiagrammWertpapierMenge" [depotName]="currentDepotName" class="grafik"></app-grafik>
+      <app-grafik-overview [typ]="GrafikTyp.PizzadiagrammWertpapierMenge" [selectedDepotName]="currentDepotName" class="grafik"></app-grafik-overview>
       <app-tabelle id="wertpapieren-table" [tableHeader]="getWertpapieren()" [tableData]="wertpapierenData" [name]="'Wertpapiere'" [leerFehlermeldung]="'Noch keine Wertpapiere vorhanden.'"></app-tabelle>
     </div>
   </div>

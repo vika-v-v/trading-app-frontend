@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { GrafikLinechartDepotComponent } from '../grafik-linechart-depot/grafik-linechart-depot.component';
 import { GrafikPiechartNumberComponent } from '../grafik-piechart-number/grafik-piechart-number.component';
 import { GrafikPiechartValueComponent } from '../grafik-piechart-value/grafik-piechart-value.component';
@@ -14,13 +14,21 @@ import { GrafikTyp } from '../grafik-typ.enum';
 })
 export class GrafikOverviewComponent implements OnInit {
   grafikTyp = GrafikTyp;
-  selectedDepotName: string | null = null;
 
+  @Input() selectedDepotName: string | null = null;
   @Input() typ = GrafikTyp.WertverlaufDepotwerte;
+
+  name = 'Test';
 
   constructor() { }
 
   ngOnInit(): void {
-    this.selectedDepotName = 'MeinDepot'; // Beispiel Initialisierung, kann dynamisch gesetzt werden
+    //this.selectedDepotName = 'MeinDepot'; // Beispiel Initialisierung, kann dynamisch gesetzt werden
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['selectedDepotName'] && this.selectedDepotName && this.selectedDepotName != '') {
+      console.log('Depotname: ' + this.selectedDepotName);
+    }
   }
 }
