@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { WertpapierVorgang } from '../wertpapier-vorgang.enum';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -24,6 +24,7 @@ export class WertpapierVorgangComponent {
   WertpapierVorgang = WertpapierVorgang;
 
   @Input() wertpapierVorgang: WertpapierVorgang = WertpapierVorgang.Kaufen;
+  @Output() onAbbrechen = new EventEmitter<void>();
 
   depotname!: string;
   date!: string;
@@ -36,9 +37,7 @@ export class WertpapierVorgangComponent {
 
   currentDate!: string;
 
-  constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService){
-
-  }
+  constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService) {}
 
   ngOnInit() {
     this.currentDate = this.formatDate(new Date());
@@ -89,5 +88,8 @@ export class WertpapierVorgangComponent {
     return date.split('-').reverse().join('.');
   }
 
+  abbrechen() {
+    this.onAbbrechen.emit();
+  }
 }
 
