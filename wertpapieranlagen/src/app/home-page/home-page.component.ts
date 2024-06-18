@@ -53,6 +53,7 @@ export class HomePageComponent implements OnInit{
   depot: any = {};
 
   currentDepotName = '';
+  wertpapierenData: any[] = [];
 
   showNonDepotExistingComponent: boolean = false; 
 
@@ -128,9 +129,20 @@ export class HomePageComponent implements OnInit{
     this.depotService.getWertpapiere(this.http, neuesDepot).subscribe(response => {
       if (response && response.data) {
         this.wertpapiere = response.data;
+        this.wertpapierenData = Object.keys(this.wertpapiere).map((key: any) => {
+          const wertpapier = this.wertpapiere[key];
+          return [
+            key,
+            wertpapier.WertpapierArt,
+            wertpapier.WertpapierAktuellerKurs,
+            wertpapier.WertpapierAnteil,
+            wertpapier.Gesamtwert
+          ];
+        });
       }
       else {
         this.wertpapiere = [];
+        this.wertpapierenData = [];
       }
     });
 
@@ -178,20 +190,6 @@ export class HomePageComponent implements OnInit{
       { "wert": "Gesamtwert", "typ": FilterType.Decimal }
     ];
   }
-
-  getWertpapierenData() {
-    return Object.keys(this.wertpapiere).map((key: any) => {
-      const wertpapier = this.wertpapiere[key];
-      return [
-        key, // Assuming the key is the name of the wertpapier
-        wertpapier.WertpapierArt,
-        wertpapier.WertpapierAktuellerKurs,
-        wertpapier.WertpapierAnteil,
-        wertpapier.Gesamtwert
-      ];
-    });
-  }
-
 
   mapWertpapierenData(response: any) {
     const data = response;
