@@ -12,11 +12,6 @@
     </div>
 
     <div id="right-icons">
-      <!--div *ngIf="depots.length > 0" (click)="showSidePanel(SidePanel.DepotErstellen)">
-        <img
-          src="../../assets/icons/1904677_add_addition_calculate_charge_create_icon.svg"
-        />
-      </div-->
       <app-custom-dropdown [options]="selectTransactions" [alwaysSelectOption]="'Trasaktionen'" (selectionChange)="onSelectTransaction($event)"></app-custom-dropdown>
       <div id="settings-container" (click)="showSidePanel(SidePanel.Settings)">
         <img id="settings" src="../../assets/icons/phosphor-thin/gear_thin_icon.svg" />
@@ -65,9 +60,10 @@
     />
   </div>
 
-  <div id="bottom-elements">
-    <button id="export" class="global-button">Export</button>
-    <button id="depot-loeschen" class="global-button">Depot löschen</button>
+  <div id="depot-actions">
+    <button id="depot-erstellen" class="grey-text" (click)="showSidePanel(SidePanel.DepotErstellen)">Neues Depot erstellen</button>
+    <button id="depot-loeschen" class="grey-text">Depot löschen</button>
+    <button id="export" class="grey-text">Export</button>
   </div>
 
   <div id="side-panel" [class.show]="_showSidePanel" [class.hide]="_showSidePanel!= null && !_showSidePanel">

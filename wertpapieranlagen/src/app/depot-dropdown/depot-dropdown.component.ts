@@ -37,7 +37,6 @@ export class DepotDropdownComponent implements OnInit, OnDestroy {
   }
 
   loadDepots() {
-    this.filteredDepots = [{ value: '123', label: 'Keine Depots vorhanden' }, { value: '1234', label: 'Keine Depots vorhanden 2' }];
     this.depotService.getAllDepots(this.http).subscribe(
       (data) => {
         this.depots = data.data; // Anpassen an das zurückgegebene Format
