@@ -1,30 +1,34 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
 import { AutoLogoutService } from './auto-logout.service';
 import { UserService } from './user.service';
+import { PopUpService } from './pop-up.service';
 
 describe('AutoLogoutService', () => {
   let service: AutoLogoutService;
   let router: jasmine.SpyObj<Router>;
   let userService: jasmine.SpyObj<UserService>;
+  let popUpService: jasmine.SpyObj<PopUpService>;
 
   beforeEach(() => {
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     const userServiceSpy = jasmine.createSpyObj('UserService', ['setToken']);
+    const popUpServiceSpy = jasmine.createSpyObj('PopUpService', ['infoPopUp']);
 
     TestBed.configureTestingModule({
       providers: [
         AutoLogoutService,
         { provide: Router, useValue: routerSpy },
         { provide: UserService, useValue: userServiceSpy },
-
+        { provide: PopUpService, useValue: popUpServiceSpy },
       ]
     });
 
     service = TestBed.inject(AutoLogoutService);
     router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     userService = TestBed.inject(UserService) as jasmine.SpyObj<UserService>;
+    popUpService = TestBed.inject(PopUpService) as jasmine.SpyObj<PopUpService>;
   });
 
   afterEach(() => {
@@ -60,10 +64,12 @@ describe('AutoLogoutService', () => {
   it('should call autologout and navigate to login-seite', fakeAsync(() => {
     const autologoutSpy = spyOn(service as any, 'autologout').and.callThrough();
     service.startTimer();
-    tick(30 * 60 * 1000); // Simuliere 30 Minuten Inaktivität
+    tick(30 * 60 * 1000); // Simulate 30 minutes inactivity
     expect(autologoutSpy).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['login-seite']);
     expect(userService.setToken).toHaveBeenCalledWith('');
+    expect(popUpService.infoPopUp).toHaveBeenCalledWith('Sie wurden automatisch ausgeloggt.');
+    flush(); // Ensure all remaining timers are flushed
   }));
 
   it('should clear timers and event listeners on stop', () => {

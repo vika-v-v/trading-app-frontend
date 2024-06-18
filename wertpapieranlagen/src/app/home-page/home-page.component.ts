@@ -147,7 +147,6 @@ export class HomePageComponent implements OnInit{
     );
 
     //this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
-    /*Mögliche Lösung für this.wertpapiere @Thore*/
     this.depotService.getWertpapiere(this.http, neuesDepot).subscribe(
       response => {
         this.wertpapiere = response.data;
@@ -209,7 +208,7 @@ export class HomePageComponent implements OnInit{
   }
 
   getGesamtwert(){
-    return this.depot.gesamtwert || 0;
+    return parseFloat((this.depot.gesamtwert || 0).toFixed(2));
   }
 
   getGewinnVerlust(): number {
