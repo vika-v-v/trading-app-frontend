@@ -183,7 +183,7 @@ export class HomePageComponent {
   }
 
   getGesamtwert(){
-    return 50.12;
+    return this.depot.gesamtwert || 0;
   }
 
   getGewinnVerlust(): number {
