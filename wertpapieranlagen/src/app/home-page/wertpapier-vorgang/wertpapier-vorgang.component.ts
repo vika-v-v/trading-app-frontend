@@ -5,6 +5,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { WertpapierKaufService } from '../../services/wertpapier-kauf.service';
 import { FormsModule } from '@angular/forms';
 import { DepotDropdownService } from '../../services/depot-dropdown.service';
+import { PopUpService } from '../../services/pop-up.service';
 
 @Component({
   selector: 'app-wertpapier-vorgang',
@@ -27,13 +28,15 @@ export class WertpapierVorgangComponent {
   depotname!: string;
   date!: string;
   wertpapiername!: string;
+  kuerzel!: string;
   anzahl!: string;
   wertpapierPreis!: string;
   transaktionskosten!: string;
+  selectedWertpapierart: string = 'AKTIE';
 
   currentDate!: string;
 
-  constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService){
+  constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService){
 
   }
 
@@ -41,13 +44,25 @@ export class WertpapierVorgangComponent {
     this.currentDate = this.formatDate(new Date());
   }
 
-  kaufHinzufuegen(){
+  kaufHinzufuegen(attempt: number = 0) {
     this.wertpapierKaufService.wertpapierkaufErfassen(this.httpClient, this.depotDropdownService.getDepot(), this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
       response=>{
-
+        this.popupService.infoPopUp("Kauf erfolgreich hinzugefügt");
       },
       error=>{
-        console.log(error.message);
+        if(error.status == 404 && attempt < 3) {
+          this.wertpapierKaufService.wertpapierHinzufügen(this.httpClient, this.wertpapiername, this.kuerzel, this.selectedWertpapierart).subscribe(
+            response => {
+              this.kaufHinzufuegen(attempt + 1);
+            },
+            error => {
+              this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers");
+            }
+          )
+        }
+        else {
+          this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers");
+        }
       }
     );
   }
@@ -71,7 +86,7 @@ export class WertpapierVorgangComponent {
   }
 
   dateWithPoints(date: string): string {
-    return date.split('-').join('.');
+    return date.split('-').reverse().join('.');
   }
 
 }

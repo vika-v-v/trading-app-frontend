@@ -6,15 +6,19 @@
   <div id="information">
     <div id="wertpapierart" class="information-line">
       <p>Wertpapierart</p>
-      <select class="global-select">
-        <option>Aktie</option>
-        <option>ETF</option>
-        <option>Fond</option>
+      <select class="global-select"  [(ngModel)]="selectedWertpapierart">
+        <option value="AKTIE">Aktie</option>
+        <option value="ETF">ETF</option>
+        <option value="FOND">Fond</option>
       </select>
     </div>
     <div id="wertpapiername" class="information-line">
       <p>Wertpapiername</p>
       <input class="global-input" type="text" [(ngModel)]="wertpapiername"/>
+    </div>
+    <div id="kuerzel" class="information-line">
+      <p>Kürzel</p>
+      <input class="global-input" type="text" [(ngModel)]="kuerzel"/>
     </div>
     <div id="date" class="information-line">
       <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen"> Kaufdatum</p>

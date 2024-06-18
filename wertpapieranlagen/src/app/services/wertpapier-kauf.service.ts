@@ -58,6 +58,21 @@ export class WertpapierKaufService {
     return http.post(url,formData, httpOptions);
   }
 
+  wertpapierHinzufügen(http: HttpClient, name: string, kuerzel: string, art: string): Observable<any>{
+    const url = this.rootUrl + "wertpapier/add";
 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Authorization":`Bearer ${this.userService.getToken()}`,
+      })
+    };
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("kuerzel", kuerzel);
+    formData.append("art", art);
+
+    return http.post(url, formData, httpOptions);
+  }
 
 }
