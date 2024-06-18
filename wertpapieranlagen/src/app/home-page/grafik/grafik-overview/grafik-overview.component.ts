@@ -23,7 +23,7 @@ export class GrafikOverviewComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    //this.selectedDepotName = 'MeinDepot'; // Beispiel Initialisierung, kann dynamisch gesetzt werden
+    //this.selectedDepotName = 'Depot1'; // Beispiel Initialisierung, kann dynamisch gesetzt werden
   }
 
   ngOnChanges(changes: SimpleChanges) {

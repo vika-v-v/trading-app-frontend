@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
   imports: [],
   templateUrl: './grafik-piechart-value.component.html',
-  styleUrl: './grafik-piechart-value.component.css'
+  styleUrls: ['./grafik-piechart-value.component.css']
 })
 export class GrafikPiechartValueComponent implements OnInit, OnChanges {
   @Input() depotName: string | null = null;
@@ -25,12 +25,14 @@ export class GrafikPiechartValueComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     if (this.depotName) {
+      console.log('Initial depotName:', this.depotName);
       this.generatePizzaDiagrammValue();
     }
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['depotName'] && this.depotName) {
+      console.log('Changed depotName:', this.depotName);
       this.generatePizzaDiagrammValue();
     }
   }
@@ -41,22 +43,15 @@ export class GrafikPiechartValueComponent implements OnInit, OnChanges {
 
       const data = Object.keys(wertpapiere).map(key => ({
         name: key,
-        value: parseFloat(wertpapiere[key].GesamtwertKaufpreis)
+        value: parseFloat(wertpapiere[key].GesamtwertKaufpreis.replace(',', '.'))
       }));
 
-      const totalValue = data.reduce((sum, wp) => sum + wp.value, 0);
-
-      const percentages = data.map(wp => ({
-        name: wp.name,
-        percentage: (wp.value / totalValue) * 100
-      }));
-
-      const labels = percentages.map(wp => `${wp.name}: ${wp.percentage.toFixed(2)}%`);
+      const labels = data.map(wp => `${wp.name}: $${wp.value.toFixed(2)}`);
 
       const datasets = [{
-        data: percentages.map(wp => wp.percentage),
+        data: data.map(wp => wp.value),
         backgroundColor: data.map(() => this.getRandomColor()),
-        borderColor: data.map(() => 'rgba(0, 0, 0, 1)'),
+        borderColor: 'rgba(255, 255, 255, 1)',  // White border color
         borderWidth: 1
       }];
 
@@ -73,7 +68,7 @@ export class GrafikPiechartValueComponent implements OnInit, OnChanges {
             legend: {
               position: 'bottom',
               labels: {
-                color: 'black',
+                color: 'white',  // White text color
                 font: {
                   family: 'Verdana, Geneva, Tahoma, sans-serif'
                 }
@@ -81,8 +76,8 @@ export class GrafikPiechartValueComponent implements OnInit, OnChanges {
             },
             title: {
               display: true,
-              text: 'Gesamtwert der Wertpapiere in % (Stück)',
-              color: 'black',
+              text: 'Gesamtwert der Wertpapiere in USD',
+              color: 'white',  // White text color
               font: {
                 family: 'Verdana, Geneva, Tahoma, sans-serif',
                 size: 15
@@ -90,10 +85,10 @@ export class GrafikPiechartValueComponent implements OnInit, OnChanges {
             },
             tooltip: {
               callbacks: {
-                label: function(tooltipItem: any) {
+                label: function (tooltipItem: any) {
                   const label = tooltipItem.label || '';
                   const value = tooltipItem.raw || 0;
-                  return `${label}: ${value.toFixed(2)}%`;
+                  return `${label}: $${value.toFixed(2)}`;
                 }
               },
               titleFont: {
@@ -112,7 +107,13 @@ export class GrafikPiechartValueComponent implements OnInit, OnChanges {
       if (this.chart) {
         this.chart.destroy();
       }
-      this.chart = new Chart('canvas', chartConfig);
+
+      const canvas = document.getElementById('pieChartValues') as HTMLCanvasElement;
+      if (canvas) {
+        this.chart = new Chart(canvas, chartConfig);
+      } else {
+        console.error('Canvas element not found');
+      }
     });
   }
 

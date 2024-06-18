@@ -5,151 +5,102 @@ import { DepotDropdownService } from '../../../services/depot-dropdown.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-grafik-linechart-depot',
   standalone: true,
   imports: [],
+  selector: 'app-grafik-linechart-depot',
   templateUrl: './grafik-linechart-depot.component.html',
-  styleUrl: './grafik-linechart-depot.component.css'
+  styleUrls: ['./grafik-linechart-depot.component.css']
 })
-export class GrafikLinechartDepotComponent implements OnInit, OnChanges {
+export class GrafikLinechartDepotComponent implements OnChanges {
   @Input() depotName: string | null = null;
   private chart: Chart<'line', number[], string> | undefined;
-  private getDepotName = this.depotDropdownService.getDepot();
 
-  constructor(
-    private depotService: DepotService,
-    private http: HttpClient,
-    private depotDropdownService: DepotDropdownService
-  ) {
+  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService) {
     Chart.register(...registerables);
   }
 
-  ngOnInit() {
-    //if (this.depotName && this.depotName != '') {
-    //  this.generateLineChart_DepotWert();
-    //}
-  }
-
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['depotName'] && this.depotName && this.depotName != '') {
-      this.generateLineChart_DepotWert();
+    if (changes['depotName']) {
+      if (this.depotName) {
+        console.log('Input depotName:', this.depotName); // Ausgabe des Inputs auf der Konsole
+        this.generateLineChart_DepotWert();
+      }
     }
   }
 
-  generateLineChart_DepotWert() {
-    this.depotService.getDepot(this.http, this.getDepotName).subscribe(depotResponse => {
-      this.generate(depotResponse);
-    },
-    error => {
-      if(error.error.statusCode == 200) {
-        this.generate(error.error);
+  async generateLineChart_DepotWert() {
+    try {
+      const depotName = this.depotDropdownService.getDepot();
+      const input = await this.depotService.getWertverlauf(this.http, depotName).toPromise();
+
+      console.log(depotName);// Ausgabe des Inputs auf der Konsole
+      console.log(input);// Ausgabe des Inputs auf der Konsole
+
+      const xValues: string[] = [];
+      const yValues: number[] = [];
+
+      const data = input.data;
+
+      for (const date in data) {
+        xValues.push(date);
+        let dailySum = 0;
+
+        for (const stockName in data[date]) {
+          const stockData = data[date][stockName];
+          const averagePrice = parseFloat(stockData.GesamtwertKaufpreis.replace(',', '.'));
+          dailySum += averagePrice;
+        }
+
+        yValues.push(dailySum);
       }
-      console.error('Error while fetching depot data: ' + error);
-    });
-  }
 
-  generate(depotResponse: any) {
-    const depotData = depotResponse.data;
-    const depotNames = Object.keys(depotData);
-
-    const depotList = depotNames.map(depotName => ({
-      depot: depotName,
-      dates: depotData[depotName].Wertentwicklung.map((entry: any) => entry.Datum),
-      values: depotData[depotName].Wertentwicklung.map((entry: any) => parseFloat(entry.Depotwert))
-    }));
-
-    const datasets = depotList.map(depot => ({
-      label: depot.depot,
-      data: depot.values,
-      borderColor: this.getRandomColor(),
-      fill: false
-    }));
-
-    const labels = depotList[0].dates;
-
-    const chartConfig: ChartConfiguration<'line', number[], string> = {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: datasets
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: {
-              color: 'black',
-              font: {
-                family: 'Verdana, Geneva, Tahoma, sans-serif'
-              }
+      const chartConfig: ChartConfiguration<'line', number[], string> = {
+        type: 'line',
+        data: {
+          labels: xValues,
+          datasets: [
+            {
+              label: 'Depot Wert',
+              fill: false,
+              tension: 0,
+              backgroundColor: 'rgba(75, 192, 192, 1)',
+              borderColor: 'rgba(0, 0, 0, 1)',
+              data: yValues,
+              yAxisID: 'y'
             }
-          },
-          title: {
-            display: true,
-            text: 'Depotwertentwicklung',
-            color: 'black',
-            font: {
-              family: 'Verdana, Geneva, Tahoma, sans-serif',
-              size: 15
-            }
-          },
-          tooltip: {
-            callbacks: {
-              label: function (tooltipItem: any) {
-                const label = tooltipItem.dataset.label || '';
-                const value = tooltipItem.raw || 0;
-                return `${label}: ${value.toFixed(2)}`;
-              }
-            },
-            titleFont: {
-              family: 'Verdana, Geneva, Tahoma, sans-serif',
-              size: 12
-            },
-            bodyFont: {
-              family: 'Verdana, Geneva, Tahoma, sans-serif',
-              size: 10
-            }
-          }
+          ]
         },
-        scales: {
-          x: {
-            ticks: {
-              color: 'black',
-              font: {
-                family: 'Verdana, Geneva, Tahoma, sans-serif'
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              type: 'linear',
+              position: 'left',
+              ticks: {
+                stepSize: 5
+              },
+              grid: {
+                drawOnChartArea: true
               }
-            },
-            grid: {
-              color: 'rgba(0, 0, 0, 0.1)'
-            }
-          },
-          y: {
-            ticks: {
-              color: 'black',
-              font: {
-                family: 'Verdana, Geneva, Tahoma, sans-serif'
-              }
-            },
-            grid: {
-              color: 'rgba(0, 0, 0, 0.1)'
             }
           }
         }
+      };
+
+      if (this.chart) {
+        this.chart.destroy();
       }
-    };
 
-    if (this.chart) {
-      this.chart.destroy();
+      const canvas = document.getElementById('lineChartDepotWert') as HTMLCanvasElement;
+      console.log(canvas);
+      if (canvas) {
+        this.chart = new Chart(canvas, chartConfig);
+      } else {
+        console.error('Canvas element not found');
+      }
+    } catch (error) {
+      console.error('Fehler beim Abrufen des Wertverlaufs:', error);
     }
-    this.chart = new Chart('lineChartDepotWertCanvas', chartConfig);
-  }
-
-  getRandomColor() {
-    const r = Math.floor(Math.random() * 255);
-    const g = Math.floor(Math.random() * 255);
-    const b = Math.floor(Math.random() * 255);
-    return `rgba(${r},${g},${b},0.8)`;
   }
 }
