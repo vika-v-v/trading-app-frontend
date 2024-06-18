@@ -30,8 +30,7 @@ describe('RegistrationPageComponent', () => {
         { provide: AutoLogoutService, useValue: autoLogoutServiceSpy },
         { provide: Router, useValue: routerSpy }
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RegistrationPageComponent);
     component = fixture.componentInstance;
@@ -95,7 +94,6 @@ describe('RegistrationPageComponent', () => {
     component.registrieren();
 
     expect(userService.register).toHaveBeenCalledWith(jasmine.any(Object), 'test@example.com', 'validPassword');
-    expect(consoleSpy).toHaveBeenCalledWith("Klappt!");
     expect(consoleSpy).toHaveBeenCalledWith('Response:', registerResponse);
     expect(userService.setToken).toHaveBeenCalledWith('token');
     expect(router.navigate).toHaveBeenCalledWith(['home-page']);

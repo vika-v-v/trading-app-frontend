@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, ChangeDetectorRef} from '@angular/core';
 import { DepotDropdownService } from '../services/depot-dropdown.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -23,7 +23,7 @@ export class DepotDropdownComponent implements OnInit, OnDestroy {
 
   @Output() depotChanged: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private depotService: DepotDropdownService, private http: HttpClient) {
+  constructor(private depotService: DepotDropdownService, private http: HttpClient, private cdr: ChangeDetectorRef) {
     this.reloadSubscription = new Subscription();
   }
 
@@ -47,9 +47,11 @@ export class DepotDropdownComponent implements OnInit, OnDestroy {
           this.depotService.setDepot(this.filteredDepots[0].label);
           this.depotChanged.emit(this.filteredDepots[0].label);
         }
+        this.cdr.detectChanges(); // Trigger change detection manually
       },
       (error) => {
         this.errorMessage = 'Fehler beim Abrufen der Depots: ' + error.message;
+        this.cdr.detectChanges(); // Trigger change detection manually
       }
     );
   }

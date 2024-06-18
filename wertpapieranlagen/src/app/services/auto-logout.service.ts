@@ -1,6 +1,7 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
+import { PopUpService } from './pop-up.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class AutoLogoutService implements OnDestroy {
   constructor(
     private ngZone: NgZone,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private popUpService: PopUpService
   ) {}
 
   startTimer() {
@@ -98,8 +100,9 @@ export class AutoLogoutService implements OnDestroy {
 
   private autologout() {
     console.log('autologout');
+    this.stop();
     this.router.navigate(['login-seite']); // Navigation zur Anmeldeseite
     this.userService.setToken('');
-    this.stop();
+    this.popUpService.infoPopUp('Sie wurden automatisch ausgeloggt.');
   }
 }
