@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SidePanel } from './side-panel.enum';
 import { WertpapierVorgang } from './wertpapier-vorgang.enum';
 import { WertpapierVorgangComponent } from './wertpapier-vorgang/wertpapier-vorgang.component';
@@ -16,6 +16,8 @@ import { DepotDropdownComponent } from '../depot-dropdown/depot-dropdown.compone
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 import { NotLoggedInComponent } from '../not-logged-in/not-logged-in.component';
 import { GrafikTyp } from './grafik/grafik-typ.enum';
+import { NonDepotExistingComponent } from './non-depot-existing/non-depot-existing.component'; 
+
 
 @Component({
   selector: 'app-home-page',
@@ -31,12 +33,13 @@ import { GrafikTyp } from './grafik/grafik-typ.enum';
     GrafikComponent,
     DepotDropdownComponent,
     CustomDropdownComponent,
-    NotLoggedInComponent
+    NotLoggedInComponent,
+    NonDepotExistingComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
-export class HomePageComponent {
+export class HomePageComponent implements OnInit{
   SidePanel = SidePanel;
   WertpapierVorgang = WertpapierVorgang;
   GrafikTyp = GrafikTyp;
@@ -51,6 +54,8 @@ export class HomePageComponent {
 
   currentDepotName = '';
 
+  showNonDepotExistingComponent: boolean = false; 
+
   selectTransactions = [
     { "value": "Kauf", "label": "Kaufen" },
     { "value": "Verkauf", "label": "Verkaufen" },
@@ -58,6 +63,17 @@ export class HomePageComponent {
   ]
 
   constructor(private http: HttpClient, private depotService: DepotService, private userService: UserService) {
+  }
+
+  ngOnInit(): void {
+    if (this.getDepot() === null) {
+      // Wenn getDepot() null ist, setze eine Variable oder Flagge
+      this.showNonDepotExistingComponent = true;
+    }
+  }
+
+  getDepot(): any {
+    return //this.userService.getDepot();  // Annahme, dass der UserService dies bereitstellt
   }
 
   isPageVisible() {

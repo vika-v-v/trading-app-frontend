@@ -1,5 +1,7 @@
 
 <div id="container" *ngIf="isPageVisible(); else notLoggedInMessage">
+  <!-- Überprüfung und Anzeige der NonDepotExistingComponent -->
+  <app-non-depot-existing *ngIf="showNonDepotExistingComponent"></app-non-depot-existing>
   <div id="top-elements">
     <div id="left-elements">
       <div id="left-buttons">
