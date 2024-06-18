@@ -130,7 +130,7 @@ export class HomePageComponent implements OnInit{
         this.transaktionenData = Object.keys(this.transaktionen).map((key: any) => {
           const transaktion = this.transaktionen[key];
           return [
-            transaktion.transaktionsDatum,
+            transaktion.date,
             transaktion.wertpapier.name,
             transaktion.anzahl,
             transaktion.wertpapierPreis,

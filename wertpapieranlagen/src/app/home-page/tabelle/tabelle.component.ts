@@ -15,7 +15,7 @@ import { RangeSliderComponent } from './range-slider/range-slider.component';
   templateUrl: './tabelle.component.html',
   styleUrl: './tabelle.component.css'
 })
-export class TabelleComponent implements OnInit, OnChanges  { // implements AfterViewInit
+export class TabelleComponent implements OnChanges  {
   FilterType = FilterType;
 
   @Input() tableHeader: any[] = [];
@@ -38,11 +38,6 @@ export class TabelleComponent implements OnInit, OnChanges  { // implements Afte
 
   constructor(@Inject('SORTINGS_AND_FILTERS') private possibleFiltersAndSortings: any, private cdr: ChangeDetectorRef) { }
 
-
-  ngOnInit() {
-    this.initializeData();
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes['tableData']) {
       this.tableDataFormatted = [];
@@ -50,7 +45,7 @@ export class TabelleComponent implements OnInit, OnChanges  { // implements Afte
       this.initialTableDataFormatted = [];
       this.filterSortPopup = null;
 
-      if(this.tableData.length > 0 && this.tableHeader.length > 0) {
+      if(this.tableData.length > 0) {
         this.initializeData();
       }
     }
