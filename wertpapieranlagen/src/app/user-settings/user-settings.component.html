@@ -1,19 +1,23 @@
-<!--Author: Thore Böger-->
 <h1>User Settings</h1>
 <form>
-    <h2>Account Information</h2>
+  <h2>Account Information</h2>
 
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" name="name"><br>
+  <label for="name">Vor- und Nachname:</label><br>
+  <input type="text" id="name" name="name" [(ngModel)]="name" [readonly]="!isEditing" class="input-field"><br>
 
-    <label for="address">Address:</label><br>
-    <input type="text" id="address" name="address"><br>
+  <label for="address_a">Straße und Hausnummer:</label><br>
+  <input type="text" id="address_a" name="address_a" [(ngModel)]="address_a" [readonly]="!isEditing" class="input-field"><br>
 
-    <label for="phone">Phone Number:</label><br>
-    <input type="tel" id="phone" name="phone"><br>
+  <label for="address_b">PLZ und Ort:</label><br>
+  <input type="text" id="address_b" name="address_b" [(ngModel)]="address_b" [readonly]="!isEditing" class="input-field"><br>
 
-    <label for="email">Email Address:</label><br>
-    <input type="email" id="email" name="email"><br>
+  <label for="phone">Phone Number:</label><br>
+  <input type="tel" id="phone" name="phone" [(ngModel)]="phone" [readonly]="!isEditing" class="input-field"><br>
+
+  <label for="email">Email Address:</label><br>
+  <input type="email" id="email" name="email" [(ngModel)]="email" readonly class="input-field"><br>
+  <br>
+  <button type="button" (click)="toggleEdit()">{{ isEditing ? 'Speichern' : 'Bearbeiten' }}</button>
 </form>
 <h2>Settings</h2>
 <button type="button" (click)="naviagateToLoginPage()">Log Out</button>
