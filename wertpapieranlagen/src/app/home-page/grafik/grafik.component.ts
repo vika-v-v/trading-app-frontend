@@ -6,6 +6,8 @@ import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { Chart, ChartConfiguration, ChartTypeRegistry, registerables } from 'chart.js';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
+import { PopUpService } from '../../services/pop-up.service';
 
 interface Wertpapier {
   WertpapierDurchschnittspreis: string;
@@ -35,18 +37,21 @@ interface Data {
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    CustomDropdownComponent
   ],
   templateUrl: './grafik.component.html',
   styleUrls: ['./grafik.component.css']
 })
 export class GrafikComponent implements AfterViewInit {
-  grafikTypEnum = GrafikTyp;
+  grafikTyp = GrafikTyp;
   grafikTypValues: string[];
 
   private chart: Chart<'pie' | 'bar' | 'line', number[], string> | undefined;
   @Input() typ: GrafikTyp = GrafikTyp.PizzadiagrammWertpapierMenge;
-  name: string = 'Wertpapiermenge';
+  name: string = '';
+
+  wertpapiere: string[] = [];
 
   private BABY_BLUE = { light: '#bcd8f6', dark: '#A2BEDC' };
   private NAVY_BLUE = { light: '#133962', dark: '#042440' };
@@ -54,10 +59,10 @@ export class GrafikComponent implements AfterViewInit {
   private LAVENDER = { light: '#ab90be', dark: '#B793C9' };
   private ROSE_PINK = { light: '#e482b2', dark: '#D26B9D' };
 
-  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService) {
+  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService, private popUpService: PopUpService) {
     // Register Chart.js components
     Chart.register(...registerables);
-    this.grafikTypValues = Object.values(this.grafikTypEnum);
+    this.grafikTypValues = Object.values(this.grafikTyp);
   }
 
   ngAfterViewInit() {
@@ -70,7 +75,15 @@ export class GrafikComponent implements AfterViewInit {
       this.name = 'Wertpapierwert';
     } else if (this.typ === GrafikTyp.WertverlaufWertpapierwerte) {
       this.generateLineChart();
-      this.name = 'Wertpapierwerte';
+      this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(
+        response => {
+          this.wertpapiere = response.data;
+          this.popUpService.errorPopUp('Klappt');
+        },
+        error => {
+          this.popUpService.errorPopUp('Fehler beim Abrufen der Wertpapiere.');
+        });
+      this.name = 'Wertpapierwert';
     } else if (this.typ === GrafikTyp.PizzadiagrammWertpapierMenge) {
       this.generatePizzaDiagrammNumber();
       this.name = 'Wertpapiermenge';

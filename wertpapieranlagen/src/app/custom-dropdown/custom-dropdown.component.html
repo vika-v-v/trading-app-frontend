@@ -1,6 +1,6 @@
 <div class="dropdown-container" (clickOutside)="dropdownOpen = false">
   <div class="selected-option" (click)="toggleDropdown()">
-    <p class="grey-text">{{ selectedOption?.label || 'Select an option' }}</p>
+    <p class="grey-text">{{ selectedOption?.label }}</p>
     <img class="dropdown-icon" src="../../assets/icons/phosphor-thin/caret_down_thin_icon.svg" alt="Dropdown Icon">
   </div>
   <div class="options-container" *ngIf="dropdownOpen">
