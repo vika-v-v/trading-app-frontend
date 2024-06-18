@@ -30,7 +30,8 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 10px 0;
+  padding: 10px 0 5px;
+  margin-bottom: 0;
   display: flex;
   align-items: center;
 }
@@ -80,6 +81,7 @@
   margin-bottom: 2em;
 }
 
+
 #main-section, #bottom-section {
   display: flex;
   flex-direction: column;
@@ -88,13 +90,13 @@
   width: calc(100vw - 70px);
   max-width: calc(100vw - 70px);
   min-width: calc(100vw - 70px);
-  height: calc(100vh - 150px);
-  max-height: calc(100vh - 150px);
   box-sizing: border-box;
 }
 
 #main-section {
-  padding: 0 10px;
+  padding: 0 10px 10px;
+  height: calc(100vh - 150px);
+  max-height: calc(100vh - 150px);
 }
 
 .elementen-erste-linie, .elementen-zweite-linie {
@@ -103,10 +105,12 @@
   align-items: center;
   width: 100%;
   flex: 1;
+  height: calc((100vh - 150px) / 2);
+  max-height: calc((100vh - 150px) / 2);
 }
 
 .elementen-erste-linie {
-  margin-bottom: 20px; /* Space between rows */
+  margin-bottom: 5px; /* Space between rows */
 }
 
 .grafik, #wertpapieren-table {
@@ -115,9 +119,8 @@
   width: 50%;
   max-width: 50%;
   min-width: 50%;
-  height: 100%;
-  min-height: 100%;
-  max-height: 100%;
+  height: calc((100vh - 150px) / 2);
+  max-height: calc((100vh - 150px) / 2);
 }
 
 #expand-button {
@@ -232,7 +235,8 @@
   display: flex;
   justify-content: space-around;
   width: 50%;
-  margin: 10px auto;
+  margin: 20px auto;
+  margin-top: 35px;
 }
 
 #depotwerte .wert {
