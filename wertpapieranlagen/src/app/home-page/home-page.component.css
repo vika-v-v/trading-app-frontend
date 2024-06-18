@@ -140,8 +140,8 @@
 }
 
 #transaktionen-table {
-  width: 100%;
-  min-width: 100%;
+  width: calc(100vw - 70px);
+  min-width: calc(100vw - 70px);
 }
 
 #depot-actions {
