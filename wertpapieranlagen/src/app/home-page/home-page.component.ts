@@ -110,7 +110,20 @@ export class HomePageComponent {
 
   depotAendern(neuesDepot: string) {
     this.transactionen = this.depotService.getTransaktionen(this.http, neuesDepot).data;
-    this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
+    //this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
+    /*Mögliche Lösung für this.wertpapiere @Thore*/
+    this.depotService.getWertpapiere(this.http, neuesDepot).subscribe(response => {
+      if (response && response.data) {
+        this.wertpapiere = response.data;
+      }
+    });
+
+    /* Speichert Werte in this.depot */
+    this.depotService.getDepot(this.http, neuesDepot).subscribe(response => {
+      if (response && response.data) {
+        this.depot = response.data;
+      }
+    });
   }
 
   getTransaktionenHeader() {
