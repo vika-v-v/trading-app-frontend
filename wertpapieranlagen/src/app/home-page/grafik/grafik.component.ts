@@ -71,6 +71,9 @@ export class GrafikComponent implements AfterViewInit {
     } else if (this.typ === GrafikTyp.WertverlaufWertpapierwerte) {
       this.generateLineChart_WertpapierWert();
       this.name = 'Wertpapierwerte';
+    } else if (this.typ === GrafikTyp.WertverlaufDepotwerte) {
+      this.generateLineChart_DepotWert();
+      this.name = 'Wertpapierwerte';
     } else if (this.typ === GrafikTyp.PizzadiagrammWertpapierMenge) {
       this.generatePizzaDiagrammNumber();
       this.name = 'Wertpapiermenge';
@@ -80,7 +83,7 @@ export class GrafikComponent implements AfterViewInit {
     }
   }
 
-  // Funktion generatePizzaDiagrammNumber
+  // Funktion generatePizzaDiagrammNumber 
 generatePizzaDiagrammNumber() {
   this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
     const wertpapiere = response.data;
