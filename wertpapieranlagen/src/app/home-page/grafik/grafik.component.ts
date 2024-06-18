@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, SimpleChanges } from '@angular/core';
 import { GrafikTyp } from './grafik-typ.enum';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DepotService } from '../../services/depot.service';
@@ -43,12 +43,14 @@ interface Data {
   templateUrl: './grafik.component.html',
   styleUrls: ['./grafik.component.css']
 })
-export class GrafikComponent implements AfterViewInit {
+export class GrafikComponent {
   grafikTyp = GrafikTyp;
   grafikTypValues: string[];
 
   private chart: Chart<'pie' | 'bar' | 'line', number[], string> | undefined;
   @Input() typ: GrafikTyp = GrafikTyp.PizzadiagrammWertpapierMenge;
+  @Input() depotName: string | null = null;
+
   name: string = '';
 
   wertpapiere: string[] = [];
@@ -65,8 +67,12 @@ export class GrafikComponent implements AfterViewInit {
     this.grafikTypValues = Object.values(this.grafikTyp);
   }
 
-  ngAfterViewInit() {
-    this.generateDiagramm();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['depotName']) {
+      if(this.depotName !== null && this.depotName !== undefined && this.depotName !== '') {
+        this.generateDiagramm();
+      }
+    }
   }
 
   generateDiagramm() {
@@ -88,7 +94,7 @@ export class GrafikComponent implements AfterViewInit {
     }
   }
 
-  // Funktion generatePizzaDiagrammNumber 
+  // Funktion generatePizzaDiagrammNumber
 generatePizzaDiagrammNumber() {
   this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
     const wertpapiere = response.data;

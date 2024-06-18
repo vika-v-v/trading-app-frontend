@@ -40,9 +40,6 @@ export class DepotService {
     return http.get(getDepotWertverlaufUrl, httpOptions);
   }
 
-  // 1. get-anfrage schicken check
-  // 2. zu Observable machen check
-  // 3. in home-page subscribe auf das observable
   getWertpapiere(http: HttpClient, depotName: string): Observable<any> {
     const getWertpapiereURL= `${this.rootUrl}depot/getWertpapiere?depotName=` + depotName;
     const httpOptions = {
@@ -51,40 +48,6 @@ export class DepotService {
       })
     };
     return http.get(getWertpapiereURL, httpOptions);
-    // return {
-    //   "message": "Wertpapiere erfolgreich abgerufen",
-    //   "statusCode": 200,
-    //   "data": {
-    //     "Apple": {
-    //       "WertpapierDurchschnittspreis": "0.0",
-    //       "WertpapierArt": "AKTIE",
-    //       "WertpapierAnteil": "18.0",
-    //       "Gesamtwert": "0.0",
-    //       "WertpapierAktuellerKurs": "100.0"
-    //     },
-    //     "Tesla": {
-    //       "WertpapierDurchschnittspreis": "0.0",
-    //       "WertpapierArt": "AKTIE",
-    //       "WertpapierAnteil": "12.0",
-    //       "Gesamtwert": "0.0",
-    //       "WertpapierAktuellerKurs": "250.0"
-    //     },
-    //     "MSCI World iShares": {
-    //       "WertpapierDurchschnittspreis": "0.0",
-    //       "WertpapierArt": "ETF",
-    //       "WertpapierAnteil": "6.0",
-    //       "Gesamtwert": "0.0",
-    //       "WertpapierAktuellerKurs": "100.0"
-    //     },
-    //     "My Fond": {
-    //       "WertpapierDurchschnittspreis": "0.0",
-    //       "WertpapierArt": "FOND",
-    //       "WertpapierAnteil": "10.0",
-    //       "Gesamtwert": "0.0",
-    //       "WertpapierAktuellerKurs": "510.0"
-    //     }
-    //   }
-    // };
   }
 
   getTransaktionen(http: HttpClient, depotName: string) {

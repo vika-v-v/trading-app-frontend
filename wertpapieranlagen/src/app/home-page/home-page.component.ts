@@ -49,6 +49,8 @@ export class HomePageComponent {
   wertpapiere: any[] = [];
   depot: any = {};
 
+  currentDepotName = '';
+
   selectTransactions = [
     { "value": "Kauf", "label": "Kaufen" },
     { "value": "Verkauf", "label": "Verkaufen" },
@@ -100,6 +102,10 @@ export class HomePageComponent {
   }
 
   depotAendern(neuesDepot: string) {
+    if(!neuesDepot || neuesDepot === '') {
+      return;
+    }
+
     this.transactionen = this.depotService.getTransaktionen(this.http, neuesDepot).data;
     //this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
     /*Mögliche Lösung für this.wertpapiere @Thore*/
@@ -118,6 +124,8 @@ export class HomePageComponent {
         this.depot = response.data;
       }
     });
+
+    this.currentDepotName = neuesDepot;
   }
 
   getTransaktionenHeader() {

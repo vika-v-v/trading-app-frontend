@@ -21,11 +21,11 @@
 
   <div id="main-section">
     <div class="elementen-erste-linie">
-      <app-grafik [typ]="GrafikTyp.WertverlaufWertpapierwerte" class="grafik"></app-grafik>
-      <app-grafik [typ]="GrafikTyp.PizzadiagrammWertpapierWert" class="grafik"></app-grafik>
+      <app-grafik [typ]="GrafikTyp.WertverlaufWertpapierwerte" [depotName]="currentDepotName" class="grafik"></app-grafik>
+      <app-grafik [typ]="GrafikTyp.PizzadiagrammWertpapierWert" [depotName]="currentDepotName" class="grafik"></app-grafik>
     </div>
     <div class="elementen-zweite-linie">
-      <app-grafik [typ]="GrafikTyp.PizzadiagrammWertpapierMenge" class="grafik"></app-grafik>
+      <app-grafik [typ]="GrafikTyp.PizzadiagrammWertpapierMenge" [depotName]="currentDepotName" class="grafik"></app-grafik>
       <app-tabelle id="wertpapieren-table" [tableHeader]="getWertpapieren()" [tableData]="getWertpapierenData()" [name]="'Wertpapiere'"></app-tabelle>
     </div>
   </div>
