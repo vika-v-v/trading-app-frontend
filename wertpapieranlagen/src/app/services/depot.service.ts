@@ -50,6 +50,16 @@ export class DepotService {
     return http.get(getWertpapiereURL, httpOptions);
   }
 
+  getAlleWertpapiere(http: HttpClient): Observable<any> {
+    const getWertpapiereURL= `${this.rootUrl}wertpapier/getAllWertpapiere`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.userService.getToken()}`
+      })
+    };
+    return http.get(getWertpapiereURL, httpOptions);
+  }
+
   getTransaktionen(http: HttpClient, depotName: string): Observable<any> {
     const url = `${this.rootUrl}depot/getTransactions?depotName=${depotName}`;
     const httpOptions = {

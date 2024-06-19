@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { PopUpService } from '../../services/pop-up.service';
 import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
+import { DepotService } from '../../services/depot.service';
 
 @Component({
   selector: 'app-wertpapier-vorgang',
@@ -37,14 +38,24 @@ export class WertpapierVorgangComponent implements OnChanges {
   selectedWertpapierart: any;
   moeglicheWertpapierarten = [{'value': 'AKTIE', 'label': 'Aktie'}, {'value': 'ETF', 'label': 'ETF'}, {'value': 'FOND', 'label': 'Fond'}];
 
-  currentDate!: string;
+  alleWertpapiere: any[] = [];
 
-  constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService, private cdr: ChangeDetectorRef) {
+  previousKuerzel: string = '';
+  previousSelectedWertpapierart: any;
+
+  constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService, private depotService: DepotService) {
     this.selectedWertpapierart = this.moeglicheWertpapierarten[0];
-  }
+    this.previousSelectedWertpapierart = this.selectedWertpapierart;
+    this.date = this.formatDate(new Date());
 
-  ngOnInit() {
-    this.currentDate = this.formatDate(new Date());
+    this.depotService.getAlleWertpapiere(this.httpClient).subscribe(
+      response => {
+        this.alleWertpapiere = response.data;
+      },
+      error => {
+        console.log(error.message);
+      }
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -53,6 +64,24 @@ export class WertpapierVorgangComponent implements OnChanges {
         this.abbrechen();
       }
     }
+  }
+
+  wertpapiernameChange() {
+    if(this.wertpapiername) {
+      const wertpapier = this.alleWertpapiere.find(w => w.name.toLowerCase() == this.wertpapiername.toLowerCase());
+      if(wertpapier) {
+        this.kuerzel = wertpapier.kuerzel;
+        this.selectedWertpapierart = this.moeglicheWertpapierarten.find(w => w.value == wertpapier.wertpapierArt);
+      }
+      else {
+        this.kuerzel = this.previousKuerzel;
+        this.selectedWertpapierart = this.previousSelectedWertpapierart;
+      }
+    }
+  }
+
+  kuerzelChange() {
+    this.previousKuerzel = this.kuerzel;
   }
 
   kaufHinzufuegen(attempt: number = 0) {
@@ -98,6 +127,7 @@ export class WertpapierVorgangComponent implements OnChanges {
 
   changeWertpapierart(wertpapierart: string) {
     this.selectedWertpapierart = this.moeglicheWertpapierarten.find(w => w.value == wertpapierart);
+    this.previousSelectedWertpapierart = this.selectedWertpapierart;
   }
 
   formatDate(date: Date): string {

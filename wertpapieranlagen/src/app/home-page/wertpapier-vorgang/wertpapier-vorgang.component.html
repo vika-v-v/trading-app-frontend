@@ -7,7 +7,7 @@
 
     <div id="wertpapiername" class="information-line">
       <p class="grey-text">Wertpapiername</p>
-      <input type="text" placeholder="Apple" class="grey-text" [(ngModel)]="wertpapiername"/>
+      <input type="text" placeholder="Apple" class="grey-text" [(ngModel)]="wertpapiername" (ngModelChange)="wertpapiernameChange()"/>
     </div>
 
     <div id="wertpapierart" class="information-line">
@@ -17,26 +17,26 @@
 
     <div id="kuerzel" class="information-line">
       <p class="grey-text">Kürzel</p>
-      <input class="grey-text" type="text" placeholder="APL" [(ngModel)]="kuerzel"/>
+      <input class="grey-text" type="text" placeholder="AAPL" [(ngModel)]="kuerzel" (ngModelChange)="kuerzelChange()"/>
     </div>
 
     <div id="date" class="information-line">
       <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen" class="grey-text"> Kaufdatum</p>
       <p *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen" class="grey-text"> Verkaufsdatum</p>
-      <input type="date" [value]="currentDate" class="grey-text" [(ngModel)]="date"/>
+      <input type="date" class="grey-text" [(ngModel)]="date"/>
     </div>
 
     <div id="kurs" class="information-line">
       <p class="grey-text">Kurs</p>
-      <input class="grey-text" type="text" [(ngModel)]="wertpapierPreis"/>
+      <input class="grey-text" type="text" placeholder="100.55" [(ngModel)]="wertpapierPreis"/>
     </div>
     <div id="menge" class="information-line">
       <p class="grey-text">Menge</p>
-      <input class="grey-text" type="text" [(ngModel)]="anzahl"/>
+      <input class="grey-text" type="text" placeholder="10" [(ngModel)]="anzahl"/>
     </div>
     <div id="transaktionskosten" class="information-line">
       <p class="grey-text">Transaktionskosten</p>
-      <input class="grey-text" type="text" [(ngModel)]="transaktionskosten"/>
+      <input class="grey-text" type="text" placeholder="2.50" [(ngModel)]="transaktionskosten"/>
     </div>
   </div>
   <div class="side-panel-buttons">
