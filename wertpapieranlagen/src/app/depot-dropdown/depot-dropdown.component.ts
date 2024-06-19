@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { DepotDropdownService } from '../services/depot-dropdown.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Importiere FormsModule
+import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 
@@ -43,10 +43,13 @@ export class DepotDropdownComponent implements OnInit, OnDestroy {
       (response) => {
         this.depots = response.data; // Anpassen an das zurückgegebene Format
         this.filteredDepots = this.depots.map(depot => ({ value: depot.depotId, label: depot.name }));
-        if(this.depotService.getDepot() == '' || this.depotService.getDepot() == undefined) {
-          this.depotService.setDepot(this.filteredDepots[0].label);
-          this.depotChanged.emit(this.filteredDepots[0].label);
+        
+        if(!this.depotService.getDepot()) {
+          this.setInitialDepot();
+        } else {
+          this.selectedDepot = this.filteredDepots.find(depot => depot.label === this.depotService.getDepot());
         }
+        
         this.cdr.detectChanges(); // Trigger change detection manually
       },
       (error) => {
@@ -54,6 +57,14 @@ export class DepotDropdownComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges(); // Trigger change detection manually
       }
     );
+  }
+
+  setInitialDepot() {
+    if (this.filteredDepots.length > 0) {
+      this.selectedDepot = this.filteredDepots[0];
+      this.depotService.setDepot(this.selectedDepot.label);
+      this.depotChanged.emit(this.selectedDepot.label);
+    }
   }
 
   filterDepots() {

@@ -18,6 +18,9 @@ import { NotLoggedInComponent } from '../not-logged-in/not-logged-in.component';
 import { GrafikTyp } from './grafik/grafik-typ.enum';
 import { NonDepotExistingComponent } from './non-depot-existing/non-depot-existing.component';
 import { GrafikOverviewComponent } from './grafik/grafik-overview/grafik-overview.component';
+import { PopUpComponent } from '../pop-up/pop-up.component';
+import { PopUpService } from '../services/pop-up.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -35,7 +38,8 @@ import { GrafikOverviewComponent } from './grafik/grafik-overview/grafik-overvie
     DepotDropdownComponent,
     CustomDropdownComponent,
     NotLoggedInComponent,
-    NonDepotExistingComponent
+    NonDepotExistingComponent,
+    PopUpComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
@@ -65,7 +69,16 @@ export class HomePageComponent implements OnInit{
     { "value": "Dividende", "label": "Dividende erfassen" }
   ]
 
-  constructor(private http: HttpClient, private depotService: DepotService, private userService: UserService, private crd: ChangeDetectorRef) {
+  private popUpSubscription: Subscription;
+  private choiceConfirmed: boolean = false;
+
+  constructor(private http: HttpClient, private depotService: DepotService, private userService: UserService, private crd: ChangeDetectorRef, private popUpService: PopUpService) {
+    this.popUpSubscription = this.popUpService.popUpVisible$.subscribe(visible => {
+      if (!visible && this.choiceConfirmed) {
+        this.depotLoeschen();
+        this.choiceConfirmed = false;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -217,5 +230,34 @@ export class HomePageComponent implements OnInit{
 
   getGewinnVerlust(): number {
     return parseFloat((this.depot.depotGewinnVerlust || 0).toFixed(2));
+  }
+
+  startGetDepotExport(){
+    return this.depotService.getDataExport(this.http);
+  }
+
+  showDepotLoeschen() {
+    this.popUpService.choicePopUp('Sind Sie sicher, dass Sie das Depot "' + this.currentDepotName + '" löschen möchten?');
+  }
+
+  confirmChoice(confirm: boolean) {
+    this.choiceConfirmed = confirm;
+    this.popUpService.hidePopUp();
+  }
+
+  depotLoeschen() {
+    if (this.currentDepotName) {
+      this.depotService.deleteDepot(this.http, this.currentDepotName).subscribe({
+        next: (response) => {
+          console.log('Depot gelöscht:', response);
+          // Depot gelöscht, eventuell UI aktualisieren
+        },
+        error: (error) => {
+          console.error('Error deleting depot:', error);
+        }
+      });
+    } else {
+      console.error('No depot selected for deletion');
+    }
   }
 }

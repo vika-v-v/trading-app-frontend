@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { DepotService } from '../../../services/depot.service';
 import { DepotDropdownService } from '../../../services/depot-dropdown.service';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-grafik-piechart-number',
@@ -11,9 +12,10 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './grafik-piechart-number.component.html',
   styleUrls: ['./grafik-piechart-number.component.css']
 })
-export class GrafikPiechartNumberComponent implements OnInit, OnChanges {
+export class GrafikPiechartNumberComponent implements OnInit, OnChanges, OnDestroy {
   @Input() depotName: string | null = null;
   private chart: Chart<'pie', number[], string> | undefined;
+  private depotSubscription: Subscription | undefined;
 
   constructor(
     private depotService: DepotService,
@@ -28,6 +30,12 @@ export class GrafikPiechartNumberComponent implements OnInit, OnChanges {
       console.log('Initial depotName:', this.depotName);
       this.generateDiagramm();
     }
+
+    // Subscribe to depot changes
+    this.depotSubscription = this.depotDropdownService.getReloadObservable().subscribe(() => {
+      console.log('Depot changed, regenerating chart');
+      this.generateDiagramm();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -37,7 +45,18 @@ export class GrafikPiechartNumberComponent implements OnInit, OnChanges {
     }
   }
 
+  ngOnDestroy() {
+    // Unsubscribe from depot changes to avoid memory leaks
+    if (this.depotSubscription) {
+      this.depotSubscription.unsubscribe();
+    }
+  }
+
   generateDiagramm() {
+    if (this.chart) {
+      this.chart.destroy();  // Destroy the old chart first
+    }
+
     this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
       const wertpapiere = response.data;
 
@@ -103,10 +122,6 @@ export class GrafikPiechartNumberComponent implements OnInit, OnChanges {
           }
         }
       };
-
-      if (this.chart) {
-        this.chart.destroy();
-      }
 
       const canvas = document.getElementById('pieChartNumbers') as HTMLCanvasElement;
       if (canvas) {

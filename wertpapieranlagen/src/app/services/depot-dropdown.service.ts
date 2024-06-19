@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // Import für HttpHeaders hinzugefügt
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { UserService } from './user.service';
 
@@ -17,7 +17,9 @@ export class DepotDropdownService {
 
   setDepot(depot: string) {
     this.depot = depot;
+    this.reloadDepots(); // Notify subscribers of the change
   }
+
   getDepot(){
     return this.depot;
   }
@@ -33,12 +35,10 @@ export class DepotDropdownService {
   }
 
   reloadDepots() {
-    this.reloadSubject.next(); // Hinzugefügt
+    this.reloadSubject.next();
   }
 
   getReloadObservable(): Observable<void> {
-    return this.reloadSubject.asObservable(); // Hinzugefügt
+    return this.reloadSubject.asObservable();
   }
-
 }
-
