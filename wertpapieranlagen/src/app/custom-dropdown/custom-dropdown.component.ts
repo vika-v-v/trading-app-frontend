@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 // !TODO if clicked on the arrow, also open the dropdown
 @Component({
@@ -11,7 +11,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnIni
   templateUrl: './custom-dropdown.component.html',
   styleUrl: './custom-dropdown.component.css'
 })
-export class CustomDropdownComponent implements OnInit {
+export class CustomDropdownComponent implements OnInit, OnChanges {
   @Input() options: { value: string, label: string }[] = [];
   @Input() alwaysSelectOption: string | null = null;
   @Input() selectedOption: { value: string, label: string } | null = null;
@@ -24,6 +24,12 @@ export class CustomDropdownComponent implements OnInit {
   ngOnInit() {
     this.initializeDropdown();
     this.cdr.detectChanges(); // Force Angular to detect changes
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['selectedOption'] && this.selectedOption) {
+      this.selectOption(this.selectedOption);
+    }
   }
 
   private initializeDropdown() {

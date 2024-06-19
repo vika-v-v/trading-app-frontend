@@ -7,7 +7,7 @@
     </div>
     <div id="waehrung" class="information-line">
       <p class="grey-text">Währung</p>
-      <app-custom-dropdown class="dropdown" [options]="moeglicheWaehrungen" [selectedOption]="moeglicheWaehrungen[0]" (selectionChange)="changeWaehrung($event)"></app-custom-dropdown>
+      <app-custom-dropdown class="dropdown" [options]="moeglicheWaehrungen" [selectedOption]="selectedWaehrung" (selectionChange)="changeWaehrung($event)"></app-custom-dropdown>
     </div>
   </div>
   <div class="side-panel-buttons">
