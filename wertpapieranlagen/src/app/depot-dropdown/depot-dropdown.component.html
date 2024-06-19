@@ -1,7 +1,7 @@
 <div>
-  <app-custom-dropdown 
-  [options]="filteredDepots" 
-  [selectedOption]="selectedDepot" 
+  <app-custom-dropdown
+  [options]="filteredDepots"
+  [selectedOption]="filteredDepots[0]"
   (selectionChange)="onSelectDepot($event)">
 </app-custom-dropdown>
 </div>

@@ -17,7 +17,7 @@ export class DepotDropdownService {
 
   setDepot(depot: string) {
     this.depot = depot;
-    this.reloadDepots(); // Notify subscribers of the change
+    //this.reloadDepots(); // Notify subscribers of the change
   }
 
   getDepot(){

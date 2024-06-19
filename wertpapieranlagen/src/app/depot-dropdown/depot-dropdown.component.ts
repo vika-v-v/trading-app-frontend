@@ -43,13 +43,13 @@ export class DepotDropdownComponent implements OnInit, OnDestroy {
       (response) => {
         this.depots = response.data; // Anpassen an das zurückgegebene Format
         this.filteredDepots = this.depots.map(depot => ({ value: depot.depotId, label: depot.name }));
-        
+
         if(!this.depotService.getDepot()) {
           this.setInitialDepot();
         } else {
           this.selectedDepot = this.filteredDepots.find(depot => depot.label === this.depotService.getDepot());
         }
-        
+
         this.cdr.detectChanges(); // Trigger change detection manually
       },
       (error) => {
