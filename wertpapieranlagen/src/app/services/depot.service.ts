@@ -79,4 +79,24 @@ export class DepotService {
     };
     return http.get(getDepotUrl, httpOptions);
   }
+
+  deleteDepot(http: HttpClient, depotName: string): Observable<any>{
+    const deleteDepotUrl = `${this.rootUrl}depot/delete?depotName=${depotName}`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.userService.getToken()}`
+      })
+    };
+    return http.get(deleteDepotUrl, httpOptions);
+  }
+
+  getDataExport(http: HttpClient): Observable<any>{
+    const getDataExportURL = `${this.rootUrl}excel/download`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.userService.getToken()}`
+      })
+    };
+    return http.get(getDataExportURL, httpOptions);
+  }
 }
