@@ -1,25 +1,17 @@
 <div id="content">
-  <div id="header">
-    <p>Depot erstellen</p>
-  </div>
+  <p class="main-header grey-text" id="header">Depot erstellen</p>
   <div id="information">
     <div id="depotrname" class="information-line">
-      <p>Name</p>
-      <input [(ngModel)]="name" type="text" class="global-input" />
+      <p class="grey-text">Name</p>
+      <input [(ngModel)]="name" type="text" class="grey-text" placeholder="Mein Depot" />
     </div>
     <div id="waehrung" class="information-line">
-      <p>Währung</p>
-      <select [(ngModel)]="waehrung" class="global-select">
-        <option value="EUR">EUR - Euro</option>
-      </select>
+      <p class="grey-text">Währung</p>
+      <app-custom-dropdown class="dropdown" [options]="moeglicheWaehrungen" [selectedOption]="selectedWaehrung" (selectionChange)="changeWaehrung($event)"></app-custom-dropdown>
     </div>
-    <!--div id="date" class="information-line">
-      <p>Eröffnungsdatum</p>
-      <input type="date" [value]="currentDate" class="global-date" />
-    </div-->
   </div>
-  <div id="bottom-elements">
-    <button class="depot-erstellen global-button" (click)="depotErstellen()">Depot erstellen</button>
-    <button class="abbrechen global-button" (click)="abbrechen()">Abbrechen</button>
+  <div class="side-panel-buttons">
+    <button class="depot-erstellen grey-text" (click)="depotErstellen()">Depot erstellen</button>
+    <button class="abbrechen grey-text" (click)="abbrechen()">Abbrechen</button>
   </div>
 </div>

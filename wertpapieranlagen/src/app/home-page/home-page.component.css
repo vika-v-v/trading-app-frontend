@@ -195,7 +195,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.5s linear;
@@ -221,7 +221,7 @@
 #side-panel #content {
   opacity: 0;
   position: fixed;
-  background-color: white;
+  background: linear-gradient(180deg, rgb(32, 28, 25), rgba(16, 14, 12, 0.9), rgba(41, 37, 34, 0.7));
   z-index: -1;
   top: 0;
   right: 0;

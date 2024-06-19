@@ -72,13 +72,13 @@
     <div class="background" (click)="hideSidePanel()"></div>
     <div id="content">
       <div *ngIf="sidePanel === SidePanel.Kaufen">
-        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Kaufen" (onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
+        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Kaufen" [depotname]="currentDepotName" (onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
       </div>
       <div *ngIf="sidePanel === SidePanel.Verkaufen">
-        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Verkaufen" (onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
+        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Verkaufen" [depotname]="currentDepotName" (onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
       </div>
       <div *ngIf="sidePanel === SidePanel.DepotErstellen">
-        <app-depot-erstellen (onAbbrechen)="hideSidePanel()" (onAbbrechen)="hideSidePanel()"></app-depot-erstellen>
+        <app-depot-erstellen (onAbbrechen)="hideSidePanel()"></app-depot-erstellen>
       </div>
       <div *ngIf="sidePanel === SidePanel.Settings">
         <app-user-settings></app-user-settings>
