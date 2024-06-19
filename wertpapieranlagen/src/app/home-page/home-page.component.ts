@@ -90,6 +90,7 @@ export class HomePageComponent implements OnInit{
 
   hideSidePanel() {
     this._showSidePanel = false;
+    this.depotAktualisieren(this.currentDepotName);
   }
 
   ngAfterViewInit(): void {
@@ -120,7 +121,7 @@ export class HomePageComponent implements OnInit{
     this.expanded = !this.expanded;
   }
 
-  depotAendern(neuesDepot: string) {
+  depotAktualisieren(neuesDepot: string) {
     if(!neuesDepot || neuesDepot === '') {
       return;
     }

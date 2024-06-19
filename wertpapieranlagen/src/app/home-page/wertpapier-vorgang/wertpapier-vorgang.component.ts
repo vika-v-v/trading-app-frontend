@@ -47,12 +47,14 @@ export class WertpapierVorgangComponent {
     this.wertpapierKaufService.wertpapierkaufErfassen(this.httpClient, this.depotDropdownService.getDepot(), this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
       response=>{
         this.popupService.infoPopUp("Kauf erfolgreich hinzugefügt");
+        this.onAbbrechen.emit();
       },
       error=>{
         if(error.status == 404 && attempt < 3) {
           this.wertpapierKaufService.wertpapierHinzufügen(this.httpClient, this.wertpapiername, this.kuerzel, this.selectedWertpapierart).subscribe(
             response => {
               this.kaufHinzufuegen(attempt + 1);
+              this.onAbbrechen.emit();
             },
             error => {
               this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers");
