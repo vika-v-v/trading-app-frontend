@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SidePanel } from './side-panel.enum';
 import { WertpapierVorgang } from './wertpapier-vorgang.enum';
 import { WertpapierVorgangComponent } from './wertpapier-vorgang/wertpapier-vorgang.component';
@@ -53,7 +53,7 @@ export class HomePageComponent implements OnInit{
   wertpapiere: any[] = [];
   depot: any = {};
 
-  currentDepotName = '';
+  currentDepotName: string | null = null;
   wertpapierenData: any[] = [];
   transaktionenData: any[] = [];
 
@@ -65,7 +65,7 @@ export class HomePageComponent implements OnInit{
     { "value": "Dividende", "label": "Dividende erfassen" }
   ]
 
-  constructor(private http: HttpClient, private depotService: DepotService, private userService: UserService) {
+  constructor(private http: HttpClient, private depotService: DepotService, private userService: UserService, private crd: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -121,8 +121,10 @@ export class HomePageComponent implements OnInit{
     this.expanded = !this.expanded;
   }
 
-  depotAktualisieren(neuesDepot: string) {
-    if(!neuesDepot || neuesDepot === '') {
+  depotAktualisieren(neuesDepot: string | null) {
+    this.currentDepotName = null;
+    this.crd.detectChanges();
+    if(neuesDepot === null) {
       return;
     }
 
