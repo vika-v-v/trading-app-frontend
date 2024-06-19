@@ -15,8 +15,8 @@ import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.c
 })
 export class DepotErstellenComponent {
   name!: string;
-  selectedWaehrung: any;
 
+  selectedWaehrung: any;
   moeglicheWaehrungen = [{'value': 'EUR', 'label': 'EUR - Euro'}, {'value': 'USD', 'label': 'USD - US-Dollar'}];
 
   @Output() onAbbrechen = new EventEmitter<void>();

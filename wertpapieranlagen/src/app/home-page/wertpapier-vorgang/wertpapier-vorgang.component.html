@@ -1,46 +1,47 @@
 <div id="content">
   <div id="header">
-    <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen">Wertpapier kaufen</p>
-    <p *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen">Wertpapier verkaufen</p>
+    <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen" class="main-header grey-text">Kaufen</p>
+    <p *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen" class="main-header grey-text">Verkaufen</p>
   </div>
   <div id="information">
-    <div id="wertpapierart" class="information-line">
-      <p>Wertpapierart</p>
-      <select class="global-select"  [(ngModel)]="selectedWertpapierart">
-        <option value="AKTIE">Aktie</option>
-        <option value="ETF">ETF</option>
-        <option value="FOND">Fond</option>
-      </select>
-    </div>
+
     <div id="wertpapiername" class="information-line">
-      <p>Wertpapiername</p>
-      <input class="global-input" type="text" [(ngModel)]="wertpapiername"/>
+      <p class="grey-text">Wertpapiername</p>
+      <input type="text" placeholder="Apple" class="grey-text" [(ngModel)]="wertpapiername"/>
     </div>
+
+    <div id="wertpapierart" class="information-line">
+      <p class="grey-text">Wertpapierart</p>
+      <app-custom-dropdown class="dropdown" [options]="moeglicheWertpapierarten" [selectedOption]="selectedWertpapierart" (selectionChange)="changeWertpapierart($event)"></app-custom-dropdown>
+    </div>
+
     <div id="kuerzel" class="information-line">
-      <p>Kürzel</p>
-      <input class="global-input" type="text" [(ngModel)]="kuerzel"/>
+      <p class="grey-text">Kürzel</p>
+      <input class="grey-text" type="text" placeholder="APL" [(ngModel)]="kuerzel"/>
     </div>
+
     <div id="date" class="information-line">
-      <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen"> Kaufdatum</p>
-      <p *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen"> Verkaufsdatum</p>
-      <input type="date" [value]="currentDate" class="global-date" [(ngModel)]="date"/>
+      <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen" class="grey-text"> Kaufdatum</p>
+      <p *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen" class="grey-text"> Verkaufsdatum</p>
+      <input type="date" [value]="currentDate" class="grey-text" [(ngModel)]="date"/>
     </div>
+
     <div id="kurs" class="information-line">
-      <p>Kurs</p>
-      <input class="global-input" type="text" [(ngModel)]="wertpapierPreis"/>
+      <p class="grey-text">Kurs</p>
+      <input class="grey-text" type="text" [(ngModel)]="wertpapierPreis"/>
     </div>
     <div id="menge" class="information-line">
-      <p>Menge</p>
-      <input class="global-input" type="text" [(ngModel)]="anzahl"/>
+      <p class="grey-text">Menge</p>
+      <input class="grey-text" type="text" [(ngModel)]="anzahl"/>
     </div>
     <div id="transaktionskosten" class="information-line">
-      <p>Transaktionskosten</p>
-      <input class="global-input" type="text" [(ngModel)]="transaktionskosten"/>
+      <p class="grey-text">Transaktionskosten</p>
+      <input class="grey-text" type="text" [(ngModel)]="transaktionskosten"/>
     </div>
   </div>
-  <div id="bottom-elements">
-    <button (click)="kaufHinzufuegen()" class="vorgang-erfassen global-button" *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen">Kauf hinzufügen</button>
-    <button (click)="verkaufHinzufuegen()"class="vorgang-erfassen global-button" *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen">Verkauf hinzufügen</button>
-    <button (click)="abbrechen()" class="vorgang-abbrechen global-button">Abbrechen</button>
+  <div class="side-panel-buttons">
+    <button (click)="kaufHinzufuegen()" class="vorgang-erfassen grey-text" *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen">Kauf hinzufügen</button>
+    <button (click)="verkaufHinzufuegen()"class="vorgang-erfassen grey-text" *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen">Verkauf hinzufügen</button>
+    <button (click)="abbrechen()" class="vorgang-abbrechen grey-text">Abbrechen</button>
   </div>
 </div>
