@@ -28,7 +28,7 @@
     </div>
     <div class="elementen-zweite-linie">
       <app-grafik-overview [typ]="GrafikTyp.PizzadiagrammWertpapierMenge" [selectedDepotName]="currentDepotName" class="grafik"></app-grafik-overview>
-      <app-tabelle id="wertpapieren-table" [tableHeader]="getWertpapieren()" [tableData]="wertpapierenData" [name]="'Wertpapiere'" [leerFehlermeldung]="'Noch keine Wertpapiere vorhanden.'"></app-tabelle>
+      <app-tabelle id="wertpapieren-table" [tableHeader]="getWertpapieren()" [tableData]="wertpapierenData" [name]="'Wertpapiere'" [leerFehlermeldung]="'Noch keine Wertpapiere vorhanden.'" [currentDepotName]="currentDepotName"></app-tabelle>
     </div>
   </div>
 
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div id="transaktionen-table">
-      <app-tabelle  [tableHeader]="getTransaktionenHeader()" [tableData]="transaktionenData" [name]="'Transaktionen'" [leerFehlermeldung]="'Noch keine Transaktionen vorhanden.'"></app-tabelle>
+      <app-tabelle  [tableHeader]="getTransaktionenHeader()" [tableData]="transaktionenData" [name]="'Transaktionen'" [leerFehlermeldung]="'Noch keine Transaktionen vorhanden.'" [currentDepotName]="currentDepotName"></app-tabelle>
     </div>
   </div>
 

@@ -10,7 +10,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DepotService } from '../services/depot.service';
 import { TabelleComponent } from './tabelle/tabelle.component';
 import { FilterType } from './tabelle/filter-type.enum';
-import { GrafikComponent } from './grafik/grafik.component';
 import { UserService } from '../services/user.service';
 import { DepotDropdownComponent } from '../depot-dropdown/depot-dropdown.component';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
@@ -162,6 +161,7 @@ export class HomePageComponent implements OnInit{
         this.transaktionenData = [];
       }
     );
+
 
     //this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
     this.depotService.getWertpapiere(this.http, neuesDepot).subscribe(

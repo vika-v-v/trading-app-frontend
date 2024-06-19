@@ -15,13 +15,14 @@ import { RangeSliderComponent } from './range-slider/range-slider.component';
   templateUrl: './tabelle.component.html',
   styleUrl: './tabelle.component.css'
 })
-export class TabelleComponent implements OnChanges  {
+export class TabelleComponent implements OnInit, OnChanges  {
   FilterType = FilterType;
 
   @Input() tableHeader: any[] = [];
   @Input() tableData: any[] = [];
   @Input() name: string = '';
   @Input() leerFehlermeldung: string = 'Noch nicht vorhanden.';
+  @Input() currentDepotName: string | null = null;
 
   tableDataFormatted: any[] = [];
   tableHeaderFormatted: any[] = [];
@@ -33,19 +34,26 @@ export class TabelleComponent implements OnChanges  {
   currentIcon: HTMLElement | null = null;
   // TODO: wenn zweites mal geklicked nicht mehr anzeigen
 
+  initialized = false;
+
   @ViewChild('popup') popupRef!: ElementRef;
   @ViewChild('table') table!: ElementRef;
 
   constructor(@Inject('SORTINGS_AND_FILTERS') private possibleFiltersAndSortings: any) { }
 
+  ngOnInit () {
+    this.initializeData();
+    this.initialized = true;
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['tableData']) {
+    if (this.initialized && changes['currentDepotName']) {
       this.tableDataFormatted = [];
       this.tableHeaderFormatted = [];
       this.initialTableDataFormatted = [];
       this.filterSortPopup = null;
 
-      if(this.tableData.length > 0) {
+      if(this.currentDepotName) {
         this.initializeData();
       }
     }

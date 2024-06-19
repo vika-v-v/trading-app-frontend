@@ -4,6 +4,7 @@ import { DepotService } from '../../services/depot.service';
 import { FormsModule } from '@angular/forms';
 import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
+import { UpdateEverythingService } from '../../services/update-everything.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class DepotErstellenComponent {
 
   @Output() onAbbrechen = new EventEmitter<void>();
 
-  constructor(private httpClient: HttpClient, private depotDropdownService: DepotDropdownService, private depotService: DepotService){
+  constructor(private httpClient: HttpClient, private depotDropdownService: DepotDropdownService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService) {
     this.selectedWaehrung = this.moeglicheWaehrungen[0];
   }
 
@@ -38,8 +39,9 @@ export class DepotErstellenComponent {
   depotErstellen(){
     this.depotService.depotErstellen(this.httpClient, this.name, this.selectedWaehrung.value).subscribe(
       response=>{
+        this.updateEverythingService.updateAll();
         this.abbrechen();
-        this.depotDropdownService.reloadDepots();
+        //this.depotDropdownService.reloadDepots();
       },
       error=>{
         console.log(error.message);

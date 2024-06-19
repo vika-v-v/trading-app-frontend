@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
+import { UpdateEverythingService, Updateable } from '../services/update-everything.service'
 
 @Component({
   selector: 'app-depot-dropdown',
@@ -13,29 +14,34 @@ import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.comp
   standalone: true,
   imports: [CommonModule, FormsModule, CustomDropdownComponent]
 })
-export class DepotDropdownComponent implements OnInit, OnDestroy {
+export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy,
   depots: any[] = [];
   filteredDepots: any[] = [];
   selectedDepot: any;
   errorMessage: string = '';
   searchTerm: string = '';
-  private reloadSubscription: Subscription;
+  //private reloadSubscription: Subscription;
 
   @Output() depotChanged: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private depotService: DepotDropdownService, private http: HttpClient, private cdr: ChangeDetectorRef) {
-    this.reloadSubscription = new Subscription();
+  constructor(private depotService: DepotDropdownService, private http: HttpClient, private cdr: ChangeDetectorRef, private updateEverythingService: UpdateEverythingService) {
+    //this.reloadSubscription = new Subscription();
+    updateEverythingService.subscribeToUpdates(this);
   }
 
   ngOnInit(): void {
     this.loadDepots();
-    this.reloadSubscription = this.depotService.getReloadObservable().subscribe(() => {
-      this.loadDepots(); // Neu laden, wenn Benachrichtigung empfangen wird
-    });
+    //this.reloadSubscription = this.depotService.getReloadObservable().subscribe(() => {
+    //  this.loadDepots(); // Neu laden, wenn Benachrichtigung empfangen wird
+    //});
   }
 
-  ngOnDestroy(): void {
-    this.reloadSubscription.unsubscribe(); // Abonnements aufräumen
+  //ngOnDestroy(): void {
+  //  this.reloadSubscription.unsubscribe(); // Abonnements aufräumen
+  //}
+
+  update() {
+    this.loadDepots();
   }
 
   loadDepots() {
