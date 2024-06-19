@@ -13,3 +13,27 @@
 .main-header {
   letter-spacing: 12px;
 }
+
+.input-suggestion {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0);
+  z-index: 10;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  background-color: none;
+  background: none;
+}
+
+.suggestion-text {
+  color: grey;
+}
+
+#wertpapiername {
+  position: relative;
+}

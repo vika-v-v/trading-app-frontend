@@ -43,6 +43,8 @@ export class WertpapierVorgangComponent implements OnChanges {
   previousKuerzel: string = '';
   previousSelectedWertpapierart: any;
 
+  suggestion = "abc";
+
   constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService, private depotService: DepotService) {
     this.selectedWertpapierart = this.moeglicheWertpapierarten[0];
     this.previousSelectedWertpapierart = this.selectedWertpapierart;
@@ -78,6 +80,13 @@ export class WertpapierVorgangComponent implements OnChanges {
         this.selectedWertpapierart = this.previousSelectedWertpapierart;
       }
     }
+  }
+
+  updateSuggestion(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const userInput = inputElement.value;
+    const suggestion = "abc";
+    inputElement.placeholder = suggestion;
   }
 
   kuerzelChange() {

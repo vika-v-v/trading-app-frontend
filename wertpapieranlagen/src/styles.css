@@ -141,7 +141,7 @@ input {
   max-height: 1em;
 }
 
-.information-line > input {
+.information-line > input, .information-line > .input {
   text-align: left;
   font-size: 15px;
   background-color: #292621;
