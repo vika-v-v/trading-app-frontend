@@ -16,14 +16,23 @@ export class GrafikOverviewComponent implements OnInit {
   grafikTyp = GrafikTyp;
 
   @Input() selectedDepotName: string | null = null;
-  @Input() typ = GrafikTyp.WertverlaufDepotwerte;
+  @Input() typ!: GrafikTyp;
 
-  name = 'Test';
+  name = 'Grafik';
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
-    //this.selectedDepotName = 'Depot1'; // Beispiel Initialisierung, kann dynamisch gesetzt werden
+    if(this.typ == GrafikTyp.WertverlaufDepotwerte) {
+      this.name = 'Depotverlauf';
+    }
+    else if(this.typ == GrafikTyp.PizzadiagrammWertpapierWert) {
+      this.name = 'Gesamtwert der Wertpapiere';
+    }
+    else if(this.typ == GrafikTyp.PizzadiagrammWertpapierMenge) {
+      this.name = 'Wertpapieranteil';
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {

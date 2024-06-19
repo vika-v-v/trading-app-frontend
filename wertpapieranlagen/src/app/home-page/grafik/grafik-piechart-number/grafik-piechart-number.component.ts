@@ -68,7 +68,7 @@ export class GrafikPiechartNumberComponent implements OnInit, OnChanges {
             legend: {
               position: 'bottom',
               labels: {
-                color: 'white',  // White text color
+                color: '#DBD1D1',  // White text color
                 font: {
                   family: 'Verdana, Geneva, Tahoma, sans-serif'
                 }

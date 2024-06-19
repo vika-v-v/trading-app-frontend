@@ -64,7 +64,7 @@ export class GrafikLinechartDepotComponent implements OnChanges {
               fill: false,
               tension: 0,
               backgroundColor: 'rgba(75, 192, 192, 1)',
-              borderColor: 'rgba(0, 0, 0, 1)',
+              borderColor: '#B2A4A4',
               data: yValues,
               yAxisID: 'y'
             }
