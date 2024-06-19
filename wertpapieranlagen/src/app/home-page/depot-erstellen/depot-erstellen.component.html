@@ -10,8 +10,8 @@
       <app-custom-dropdown class="dropdown" [options]="moeglicheWaehrungen" [selectedOption]="moeglicheWaehrungen[0]" (selectionChange)="changeWaehrung($event)"></app-custom-dropdown>
     </div>
   </div>
-  <div id="bottom-elements">
-    <button class="depot-erstellen global-button" (click)="depotErstellen()">Depot erstellen</button>
-    <button class="abbrechen global-button" (click)="abbrechen()">Abbrechen</button>
+  <div class="side-panel-buttons">
+    <button class="depot-erstellen grey-text" (click)="depotErstellen()">Depot erstellen</button>
+    <button class="abbrechen grey-text" (click)="abbrechen()">Abbrechen</button>
   </div>
 </div>

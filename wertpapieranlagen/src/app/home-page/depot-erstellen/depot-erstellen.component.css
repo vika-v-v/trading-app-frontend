@@ -10,18 +10,6 @@
   font-size: 35px;
 }
 
-button {
-  margin: 10px;
-}
-
-#bottom-elements {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: calc(100% - 40px);
-  margin: 10px 20px;
-}
-
 .depot-erstellen, .abbrechen {
   width: 100%;
 }
