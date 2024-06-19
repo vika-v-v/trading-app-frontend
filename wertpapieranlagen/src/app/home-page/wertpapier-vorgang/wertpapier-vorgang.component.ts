@@ -43,7 +43,8 @@ export class WertpapierVorgangComponent implements OnChanges {
   previousKuerzel: string = '';
   previousSelectedWertpapierart: any;
 
-  suggestion = "abc";
+  suggestion = "";
+  allowSuggestions = false;
 
   constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService, private depotService: DepotService) {
     this.selectedWertpapierart = this.moeglicheWertpapierarten[0];
@@ -69,7 +70,8 @@ export class WertpapierVorgangComponent implements OnChanges {
   }
 
   wertpapiernameChange() {
-    if(this.wertpapiername) {
+    this.suggestion = '';
+    if(this.wertpapiername && this.wertpapiername != '') {
       const wertpapier = this.alleWertpapiere.find(w => w.name.toLowerCase() == this.wertpapiername.toLowerCase());
       if(wertpapier) {
         this.kuerzel = wertpapier.kuerzel;
@@ -79,15 +81,26 @@ export class WertpapierVorgangComponent implements OnChanges {
         this.kuerzel = this.previousKuerzel;
         this.selectedWertpapierart = this.previousSelectedWertpapierart;
       }
+      this.setSuggestion();
     }
   }
 
-  updateSuggestion(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const userInput = inputElement.value;
-    const suggestion = "abc";
-    inputElement.placeholder = suggestion;
+  onFocusWertpapiername() {
+    this.setSuggestion();
   }
+
+  onBlurWertpapiername() {
+    this.suggestion = '';
+  }
+
+  setSuggestion() {
+    this.suggestion = '';
+      const matchingWertpapier = this.alleWertpapiere.find(w => w.name.toLowerCase().startsWith(this.wertpapiername.toLowerCase()));
+      if (matchingWertpapier) {
+        this.suggestion = matchingWertpapier.name.replace(new RegExp('^' + this.wertpapiername, 'i'), '');
+      }
+  }
+
 
   kuerzelChange() {
     this.previousKuerzel = this.kuerzel;
