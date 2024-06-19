@@ -159,9 +159,9 @@ export class HomePageComponent implements OnInit{
           return [
             key,
             wertpapier.WertpapierArt,
-            wertpapier.WertpapierAktuellerKurs,
+            wertpapier.WertpapierPreisAktuell,
             wertpapier.WertpapierAnteil,
-            wertpapier.Gesamtwert
+            wertpapier.GesamtWertAktuell
           ];
         });
       },

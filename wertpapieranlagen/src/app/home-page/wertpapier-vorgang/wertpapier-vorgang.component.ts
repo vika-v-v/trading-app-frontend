@@ -21,7 +21,7 @@ import { DepotService } from '../../services/depot.service';
   templateUrl: './wertpapier-vorgang.component.html',
   styleUrl: './wertpapier-vorgang.component.css'
 })
-export class WertpapierVorgangComponent implements OnChanges {
+export class WertpapierVorgangComponent {
   WertpapierVorgang = WertpapierVorgang;
 
   @Input() wertpapierVorgang: WertpapierVorgang = WertpapierVorgang.Kaufen;
@@ -59,14 +59,6 @@ export class WertpapierVorgangComponent implements OnChanges {
         console.log(error.message);
       }
     );
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if(changes['depotname']) {
-      if(!this.depotname) {
-        this.abbrechen();
-      }
-    }
   }
 
   wertpapiernameChange() {
@@ -124,7 +116,7 @@ export class WertpapierVorgangComponent implements OnChanges {
 
     this.wertpapierKaufService.wertpapierkaufErfassen(this.httpClient, this.depotname, this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
       response=>{
-        this.popupService.infoPopUp("Kauf erfolgreich hinzugefügt");
+        this.popupService.infoPopUp("Kauf erfolgreich hinzugefügt.");
         this.abbrechen();
       },
       error=>{
@@ -134,12 +126,12 @@ export class WertpapierVorgangComponent implements OnChanges {
               this.kaufHinzufuegen(attempt + 1);
             },
             error => {
-              this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers");
+              this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers.");
             }
           )
         }
         else {
-          this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers");
+          this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers.");
         }
       }
     );
@@ -148,10 +140,11 @@ export class WertpapierVorgangComponent implements OnChanges {
   verkaufHinzufuegen(){
     this.wertpapierKaufService.wertpapierverkaufErfassen(this.httpClient, this.depotDropdownService.getDepot(), this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
       response=>{
-
+        this.popupService.infoPopUp("Verkauf erfolgreich hinzugefügt.");
+        this.abbrechen();
       },
       error=>{
-        console.log(error.message);
+        this.popupService.errorPopUp("Fehler beim Verkauf des Wertpapiers.");
       }
     );
   }
@@ -174,7 +167,13 @@ export class WertpapierVorgangComponent implements OnChanges {
 
   abbrechen() {
     this.selectedWertpapierart = this.moeglicheWertpapierarten[0];
-    //this.cdr.detectChanges();
+    this.wertpapiername = '';
+    this.kuerzel = '';
+    this.anzahl = '';
+    this.wertpapierPreis = '';
+    this.transaktionskosten = '';
+    this.date = this.formatDate(new Date());
+
     this.onAbbrechen.emit();
   }
 }

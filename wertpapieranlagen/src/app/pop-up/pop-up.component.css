@@ -1,6 +1,5 @@
 .infoErrorPopUp {
   color: white;
-  height: 10vh;
   width: 50vw;
   display: flex;
   align-items: center;
@@ -11,10 +10,10 @@
 .symbol {
   position: absolute;
   left: 2rem;
-  font-size: 3em; /* Symbol 3 mal so groß */
+  font-size: 2em; /* Symbol 3 mal so groß */
 }
 .text {
-  font-size: 1.5em; /* Text 1.5 mal vergrößern */
+  font-size: 1.2em; /* Text 1.5 mal vergrößern */
   margin-left: 7rem; /* Abstand von der linken Seite, um Platz für das Symbol zu lassen */
   text-align: center; /* Text rechtsbündig ausrichten */
   width: 80%; /* Breite entsprechend anpassen */

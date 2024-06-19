@@ -29,7 +29,7 @@
                   item.wert.substring(0, item.highlightedRange.start)
                 }}</span>
                 <span
-                  ><mark class="grey-text">{{
+                  ><mark>{{
                     item.wert.substring(
                       item.highlightedRange.start,
                       item.highlightedRange.end
@@ -58,7 +58,7 @@
   #popup
   *ngIf="filterSortPopup != null"
   class="filter-sort-popup"
-  [ngStyle]="{ 'top.px': popupPosition.top, 'left.px': popupPosition.left }"
+  [ngStyle]="popupPosition"
 >
   <div class="popup-content">
     <!-- Sortings -->
