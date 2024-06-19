@@ -95,12 +95,21 @@ export class WertpapierVorgangComponent implements OnChanges {
 
   setSuggestion() {
     this.suggestion = '';
-      const matchingWertpapier = this.alleWertpapiere.find(w => w.name.toLowerCase().startsWith(this.wertpapiername.toLowerCase()));
-      if (matchingWertpapier) {
-        this.suggestion = matchingWertpapier.name.replace(new RegExp('^' + this.wertpapiername, 'i'), '');
-      }
+    const matchingWertpapier = this.alleWertpapiere.find(w => w.name.toLowerCase().startsWith(this.wertpapiername.toLowerCase()));
+    if (matchingWertpapier) {
+      this.suggestion = matchingWertpapier.name.replace(new RegExp('^' + this.wertpapiername, 'i'), '');
+    }
   }
 
+  onKeydown(event: KeyboardEvent) {
+    if ((event.key === 'Tab' || event.key === 'Enter') && this.suggestion) {
+      const wertpapier = this.alleWertpapiere.find(w => w.name.toLowerCase() == (this.wertpapiername + this.suggestion).toLowerCase());
+      this.wertpapiername = wertpapier.name;
+      this.suggestion = '';
+      this.wertpapiernameChange();
+      event.preventDefault();
+    }
+  }
 
   kuerzelChange() {
     this.previousKuerzel = this.kuerzel;

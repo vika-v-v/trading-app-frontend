@@ -7,7 +7,7 @@
 
     <div id="wertpapiername" class="information-line">
       <p class="grey-text">Wertpapiername</p>
-      <input type="text" placeholder="Apple" class="grey-text" [(ngModel)]="wertpapiername" (ngModelChange)="wertpapiernameChange()" (focus)="onFocusWertpapiername()" (blur)="onBlurWertpapiername()">
+      <input type="text" placeholder="Apple" class="grey-text" [(ngModel)]="wertpapiername" (ngModelChange)="wertpapiernameChange()" (focus)="onFocusWertpapiername()" (blur)="onBlurWertpapiername()" (keydown)="onKeydown($event)">
       <div class="input-suggestion input">
         {{ wertpapiername }}<span class="suggestion-text">{{ suggestion }}</span>
       </div>
