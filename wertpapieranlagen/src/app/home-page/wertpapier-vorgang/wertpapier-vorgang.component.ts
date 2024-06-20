@@ -28,12 +28,12 @@ export class WertpapierVorgangComponent {
   @Input() depotname: string | null = null;
   @Output() onAbbrechen = new EventEmitter<void>();
 
-  date!: string;
-  wertpapiername!: string;
-  kuerzel!: string;
-  anzahl!: string;
-  wertpapierPreis!: string;
-  transaktionskosten!: string;
+  date: string = '';
+  wertpapiername: string = '';
+  kuerzel: string = '';
+  anzahl: string = '';
+  wertpapierPreis: string = '';
+  transaktionskosten: string = '';
 
   selectedWertpapierart: any;
   moeglicheWertpapierarten = [{'value': 'AKTIE', 'label': 'Aktie'}, {'value': 'ETF', 'label': 'ETF'}, {'value': 'FOND', 'label': 'Fond'}];
@@ -45,6 +45,7 @@ export class WertpapierVorgangComponent {
 
   suggestion = "";
   allowSuggestions = false;
+  invalidFields: any = {};
 
   constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService, private depotService: DepotService) {
     this.selectedWertpapierart = this.moeglicheWertpapierarten[0];
@@ -107,7 +108,25 @@ export class WertpapierVorgangComponent {
     this.previousKuerzel = this.kuerzel;
   }
 
+  validateInputs() {
+    this.invalidFields = {
+      wertpapiername: !this.wertpapiername,
+      kuerzel: !this.kuerzel,
+      date: !this.date,
+      wertpapierPreis: !this.wertpapierPreis,
+      anzahl: !this.anzahl,
+      transaktionskosten: !this.transaktionskosten
+    };
+
+    return Object.values(this.invalidFields).every(value => !value);
+  }
+
   kaufHinzufuegen(attempt: number = 0) {
+    if (!this.validateInputs()) {
+      this.popupService.errorPopUp('Bitte alle Felder ausfüllen.');
+      return;
+    }
+
     if(!this.depotname) {
       this.popupService.errorPopUp("Kein Depot ausgewählt");
       this.abbrechen();
@@ -138,6 +157,11 @@ export class WertpapierVorgangComponent {
   }
 
   verkaufHinzufuegen(){
+    if (!this.validateInputs()) {
+      this.popupService.errorPopUp('Bitte alle Felder ausfüllen.');
+      return;
+    }
+
     this.wertpapierKaufService.wertpapierverkaufErfassen(this.httpClient, this.depotDropdownService.getDepot(), this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
       response=>{
         this.popupService.infoPopUp("Verkauf erfolgreich hinzugefügt.");
