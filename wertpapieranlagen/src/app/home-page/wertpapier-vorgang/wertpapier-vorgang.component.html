@@ -7,7 +7,8 @@
 
     <div id="wertpapiername" class="information-line">
       <p class="grey-text">Wertpapiername</p>
-      <input type="text" placeholder="Apple" class="grey-text" [(ngModel)]="wertpapiername" (ngModelChange)="wertpapiernameChange()" (focus)="onFocusWertpapiername()" (blur)="onBlurWertpapiername()" (keydown)="onKeydown($event)">
+      <input type="text" placeholder="Apple" class="grey-text" [(ngModel)]="wertpapiername" (ngModelChange)="wertpapiernameChange()" (focus)="onFocusWertpapiername()" (blur)="onBlurWertpapiername()" (keydown)="onKeydown($event)"
+             [ngClass]="{'input-error': invalidFields.wertpapiername}">
       <div class="input-suggestion input">
         {{ wertpapiername }}<span class="suggestion-text">{{ suggestion }}</span>
       </div>
@@ -20,31 +21,36 @@
 
     <div id="kuerzel" class="information-line">
       <p class="grey-text">Kürzel</p>
-      <input class="grey-text" type="text" placeholder="AAPL" [(ngModel)]="kuerzel" (ngModelChange)="kuerzelChange()"/>
+      <input class="grey-text" type="text" placeholder="AAPL" [(ngModel)]="kuerzel" (ngModelChange)="kuerzelChange()"
+             [ngClass]="{'input-error': invalidFields.kuerzel}"/>
     </div>
 
     <div id="date" class="information-line">
       <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen" class="grey-text"> Kaufdatum</p>
       <p *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen" class="grey-text"> Verkaufsdatum</p>
-      <input type="date" class="grey-text" [(ngModel)]="date"/>
+      <input type="date" class="grey-text" [(ngModel)]="date"
+             [ngClass]="{'input-error': invalidFields.date}"/>
     </div>
 
     <div id="kurs" class="information-line">
       <p class="grey-text">Kurs</p>
-      <input class="grey-text" type="text" placeholder="100.55" [(ngModel)]="wertpapierPreis"/>
+      <input class="grey-text" type="text" placeholder="100.55" [(ngModel)]="wertpapierPreis"
+             [ngClass]="{'input-error': invalidFields.wertpapierPreis}"/>
     </div>
     <div id="menge" class="information-line">
       <p class="grey-text">Menge</p>
-      <input class="grey-text" type="text" placeholder="10" [(ngModel)]="anzahl"/>
+      <input class="grey-text" type="text" placeholder="10" [(ngModel)]="anzahl"
+             [ngClass]="{'input-error': invalidFields.anzahl}"/>
     </div>
     <div id="transaktionskosten" class="information-line">
       <p class="grey-text">Transaktionskosten</p>
-      <input class="grey-text" type="text" placeholder="2.50" [(ngModel)]="transaktionskosten"/>
+      <input class="grey-text" type="text" placeholder="2.50" [(ngModel)]="transaktionskosten"
+             [ngClass]="{'input-error': invalidFields.transaktionskosten}"/>
     </div>
   </div>
   <div class="side-panel-buttons">
     <button (click)="kaufHinzufuegen()" class="vorgang-erfassen grey-text" *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen">Kauf hinzufügen</button>
-    <button (click)="verkaufHinzufuegen()"class="vorgang-erfassen grey-text" *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen">Verkauf hinzufügen</button>
+    <button (click)="verkaufHinzufuegen()" class="vorgang-erfassen grey-text" *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen">Verkauf hinzufügen</button>
     <button (click)="abbrechen()" class="vorgang-abbrechen grey-text">Abbrechen</button>
   </div>
 </div>

@@ -58,8 +58,9 @@ export class UserSettingsComponent implements OnInit {
   toggleEdit() {
     if (this.isEditing) {
       this.saveChanges();
+    } else {
+      this.isEditing = true;
     }
-    this.isEditing = !this.isEditing;
   }
 
   saveChanges() {

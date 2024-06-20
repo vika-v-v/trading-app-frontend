@@ -248,3 +248,37 @@
 .column {
   text-align: center;
 }
+
+/* Styles für Info Icon*/
+.tooltip {
+  position: relative;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 14em;
+  background-color: #7c7c7c;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 105%;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  right: 100%; /* To the left of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #7c7c7c transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

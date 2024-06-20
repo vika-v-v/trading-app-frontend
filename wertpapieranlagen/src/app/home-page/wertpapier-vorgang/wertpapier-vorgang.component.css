@@ -26,7 +26,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
-  background-color: none;
+
   background: none;
 }
 
@@ -36,4 +36,8 @@
 
 #wertpapiername {
   position: relative;
+}
+
+.input-error {
+  border: 1px solid red;
 }
