@@ -18,6 +18,7 @@ import { PopUpService } from '../services/pop-up.service';
 export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy,
   depots: any[] = [];
   filteredDepots: any[] = [];
+  firstDepot: any;
   selectedDepot: any;
   errorMessage: string = '';
   searchTerm: string = '';
@@ -57,6 +58,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
           if(this.firstLoad) {
             this.setInitialDepot();
             this.updateEverythingService.updateAll();
+            this.firstDepot = this.filteredDepots[0];
           }
           this.firstLoad = false;
         }

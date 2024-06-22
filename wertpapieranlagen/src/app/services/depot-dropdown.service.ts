@@ -18,9 +18,9 @@ export class DepotDropdownService {
 
   setDepot(depot: string) {
     if(depot != this.depot) {
+      this.depot = depot;
       this.updateEverythingService.updateAll();
     }
-    this.depot = depot;
 
     //this.updateEverythingService.updateAll();
     //this.reloadDepots(); // Notify subscribers of the change
