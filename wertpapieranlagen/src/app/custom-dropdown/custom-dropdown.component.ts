@@ -11,26 +11,28 @@ import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnCha
   templateUrl: './custom-dropdown.component.html',
   styleUrl: './custom-dropdown.component.css'
 })
-export class CustomDropdownComponent implements OnInit, OnChanges {
+export class CustomDropdownComponent implements OnInit { // , OnChanges
   @Input() options: { value: string, label: string }[] = [];
   @Input() alwaysSelectOption: string | null = null;
   @Input() selectedOption: { value: string, label: string } | null = null;
   @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
 
   dropdownOpen: boolean = false;
+  initalized: boolean = false;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.initializeDropdown();
-    this.cdr.detectChanges(); // Force Angular to detect changes
+    //this.cdr.detectChanges(); // Force Angular to detect changes
   }
 
+  /*
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['selectedOption'] && this.selectedOption) {
+    if(this.initalized && changes['selectedOption'] && this.selectedOption) {
       this.selectOption(this.selectedOption);
     }
-  }
+  }*/
 
   private initializeDropdown() {
     if (this.alwaysSelectOption != null) {
@@ -38,6 +40,8 @@ export class CustomDropdownComponent implements OnInit, OnChanges {
     } else if (this.selectedOption == null) {
       this.selectedOption = { value: "none", label: "Wählen Sie eine Option aus..." };
     }
+
+    this.initalized = true;
   }
 
   toggleDropdown(): void {

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 import { UpdateEverythingService, Updateable } from '../services/update-everything.service'
+import { PopUpService } from '../services/pop-up.service';
 
 @Component({
   selector: 'app-depot-dropdown',
@@ -26,7 +27,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
 
   @Output() depotChanged: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private depotService: DepotDropdownService, private http: HttpClient, private cdr: ChangeDetectorRef, private updateEverythingService: UpdateEverythingService) {
+  constructor(private depotService: DepotDropdownService, private http: HttpClient, private cdr: ChangeDetectorRef, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {
     //this.reloadSubscription = new Subscription();
     updateEverythingService.subscribeToUpdates(this);
   }
@@ -70,6 +71,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
       },
       (error) => {
         this.errorMessage = 'Fehler beim Abrufen der Depots: ' + error.message;
+        this.popupService.errorPopUp(this.errorMessage);
         //this.cdr.detectChanges(); // Trigger change detection manually
       }
     );
