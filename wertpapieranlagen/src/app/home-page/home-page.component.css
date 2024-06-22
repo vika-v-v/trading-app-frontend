@@ -107,7 +107,7 @@
   flex: 1;
   height: calc((100vh - 150px) / 2);
   max-height: calc((100vh - 150px) / 2);
-  z-index: 10;
+
 }
 
 .elementen-erste-linie {
