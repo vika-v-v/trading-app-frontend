@@ -22,6 +22,8 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
   searchTerm: string = '';
   //private reloadSubscription: Subscription;
 
+  firstLoad: boolean = true;
+
   @Output() depotChanged: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private depotService: DepotDropdownService, private http: HttpClient, private cdr: ChangeDetectorRef, private updateEverythingService: UpdateEverythingService) {
@@ -31,6 +33,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
 
   ngOnInit(): void {
     this.loadDepots();
+
     //this.reloadSubscription = this.depotService.getReloadObservable().subscribe(() => {
     //  this.loadDepots(); // Neu laden, wenn Benachrichtigung empfangen wird
     //});
@@ -50,6 +53,11 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
         this.depots = response.data; // Anpassen an das zurückgegebene Format
         if(this.depots.length > 0) {
           this.filteredDepots = this.depots.map(depot => ({ value: depot.depotId, label: depot.name }));
+          this.setInitialDepot();
+          if(this.firstLoad) {
+            this.updateEverythingService.updateAll();
+          }
+          this.firstLoad = false;
         }
 
         //if(!this.depotService.getDepot()) {
@@ -71,7 +79,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
     if (this.filteredDepots.length > 0) {
       this.selectedDepot = this.filteredDepots[0];
       this.depotService.setDepot(this.selectedDepot.label);
-      this.depotChanged.emit(this.selectedDepot.label);
+      //this.depotChanged.emit(this.selectedDepot.label);
     }
   }
 

@@ -22,7 +22,6 @@ export class TabelleComponent implements OnInit, OnChanges  {
   @Input() tableData: any[] = [];
   @Input() name: string = '';
   @Input() leerFehlermeldung: string = 'Noch nicht vorhanden.';
-  @Input() currentDepotName: string | null = null;
 
   tableDataFormatted: any[] = [];
   tableHeaderFormatted: any[] = [];
@@ -47,15 +46,13 @@ export class TabelleComponent implements OnInit, OnChanges  {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.initialized && changes['currentDepotName']) {
+    if (this.initialized && changes['tableData']) {
       this.tableDataFormatted = [];
       this.tableHeaderFormatted = [];
       this.initialTableDataFormatted = [];
       this.filterSortPopup = null;
 
-      if(this.currentDepotName) {
-        this.initializeData();
-      }
+      this.initializeData();
     }
   }
 

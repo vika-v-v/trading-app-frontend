@@ -8,6 +8,7 @@ import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { PopUpService } from '../../services/pop-up.service';
 import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
 import { DepotService } from '../../services/depot.service';
+import { UpdateEverythingService } from '../../services/update-everything.service';
 
 @Component({
   selector: 'app-wertpapier-vorgang',
@@ -25,7 +26,6 @@ export class WertpapierVorgangComponent {
   WertpapierVorgang = WertpapierVorgang;
 
   @Input() wertpapierVorgang: WertpapierVorgang = WertpapierVorgang.Kaufen;
-  @Input() depotname: string | null = null;
   @Output() onAbbrechen = new EventEmitter<void>();
 
   date!: string;
@@ -46,7 +46,7 @@ export class WertpapierVorgangComponent {
   suggestion = "";
   allowSuggestions = false;
 
-  constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService, private depotService: DepotService) {
+  constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService) {
     this.selectedWertpapierart = this.moeglicheWertpapierarten[0];
     this.previousSelectedWertpapierart = this.selectedWertpapierart;
     this.date = this.formatDate(new Date());
@@ -108,16 +108,17 @@ export class WertpapierVorgangComponent {
   }
 
   kaufHinzufuegen(attempt: number = 0) {
-    if(!this.depotname) {
+    if(!this.depotDropdownService.getDepot()) {
       this.popupService.errorPopUp("Kein Depot ausgewählt");
       this.abbrechen();
       return;
     }
 
-    this.wertpapierKaufService.wertpapierkaufErfassen(this.httpClient, this.depotname, this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
+    this.wertpapierKaufService.wertpapierkaufErfassen(this.httpClient, this.depotDropdownService.getDepot(), this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
       response=>{
         this.popupService.infoPopUp("Kauf erfolgreich hinzugefügt.");
         this.abbrechen();
+        this.updateEverythingService.updateAll();
       },
       error=>{
         if(error.status == 404 && attempt < 3) {

@@ -28,7 +28,7 @@
     </div>
     <div class="elementen-zweite-linie">
       <app-grafik-overview [typ]="GrafikTyp.PizzadiagrammWertpapierMenge" [selectedDepotName]="currentDepotName" class="grafik"></app-grafik-overview>
-      <app-tabelle id="wertpapieren-table" [tableHeader]="getWertpapieren()" [tableData]="wertpapierenData" [name]="'Wertpapiere'" [leerFehlermeldung]="'Noch keine Wertpapiere vorhanden.'" [currentDepotName]="currentDepotName"></app-tabelle>
+      <app-tabelle id="wertpapieren-table" [tableHeader]="getWertpapieren()" [tableData]="wertpapierenData" [name]="'Wertpapiere'" [leerFehlermeldung]="'Noch keine Wertpapiere vorhanden.'"></app-tabelle>
     </div>
   </div>
 
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div id="transaktionen-table">
-      <app-tabelle  [tableHeader]="getTransaktionenHeader()" [tableData]="transaktionenData" [name]="'Transaktionen'" [leerFehlermeldung]="'Noch keine Transaktionen vorhanden.'" [currentDepotName]="currentDepotName"></app-tabelle>
+      <app-tabelle  [tableHeader]="getTransaktionenHeader()" [tableData]="transaktionenData" [name]="'Transaktionen'" [leerFehlermeldung]="'Noch keine Transaktionen vorhanden.'"></app-tabelle>
     </div>
   </div>
 
@@ -72,10 +72,10 @@
     <div class="background" (click)="hideSidePanel()"></div>
     <div id="content">
       <div *ngIf="sidePanel === SidePanel.Kaufen">
-        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Kaufen" [depotname]="currentDepotName" (onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
+        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Kaufen" (onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
       </div>
       <div *ngIf="sidePanel === SidePanel.Verkaufen">
-        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Verkaufen" [depotname]="currentDepotName" (onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
+        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Verkaufen"(onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
       </div>
       <div *ngIf="sidePanel === SidePanel.DepotErstellen">
         <app-depot-erstellen (onAbbrechen)="hideSidePanel()"></app-depot-erstellen>
