@@ -3,6 +3,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, 
 import { FilterType } from './filter-type.enum';
 import { FormsModule } from '@angular/forms';
 import { RangeSliderComponent } from './range-slider/range-slider.component';
+import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
 
 @Component({
   selector: 'app-tabelle',
@@ -10,7 +11,8 @@ import { RangeSliderComponent } from './range-slider/range-slider.component';
   imports: [
     CommonModule,
     FormsModule,
-    RangeSliderComponent
+    RangeSliderComponent,
+    CustomDropdownComponent
   ],
   templateUrl: './tabelle.component.html',
   styleUrl: './tabelle.component.css'
@@ -34,6 +36,8 @@ export class TabelleComponent implements OnInit, OnChanges  {
   // TODO: wenn zweites mal geklicked nicht mehr anzeigen
 
   initialized = false;
+
+  selectedDropdownOption: string = '';
 
   @ViewChild('popup') popupRef!: ElementRef;
   @ViewChild('table') table!: ElementRef;
@@ -238,6 +242,7 @@ export class TabelleComponent implements OnInit, OnChanges  {
   getFilterSortPopupOptions(): any {
     for (let filterSorting of this.tableHeaderFormatted) {
       if (filterSorting == this.filterSortPopup) {
+        this.selectedDropdownOption = filterSorting.filters[0].selected;
         return filterSorting;
       }
     }

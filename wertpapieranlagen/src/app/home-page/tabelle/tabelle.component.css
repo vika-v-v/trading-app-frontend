@@ -156,14 +156,6 @@ th {
   color: #DBD1D1; /* Color of the check mark */
 }
 
-
-#leer-fehlermeldung {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .textfield {
   text-align: left;
   font-size: 15px;
@@ -172,4 +164,15 @@ th {
   border-radius: 4px;
   margin-right: 0;
   padding-right: 0;
+}
+
+.dropdown-filter > label {
+  margin-right: 10px;
+}
+
+#leer-fehlermeldung {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

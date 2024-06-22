@@ -74,18 +74,12 @@
 
     <!-- Filters -->
     <div *ngFor="let filterOption of getFilterSortPopupOptions().filters">
-      <div *ngIf="filterOption.typ === 'Dropdown'" class="filter">
+
+      <div *ngIf="filterOption.typ === 'Dropdown'" class="filter dropdown-filter">
         <label class="grey-text">{{ filterOption.name }}</label>
-        <select
-          *ngIf="filterOption.optionen"
-          [(ngModel)]="filterOption.selected"
-          (ngModelChange)="filterSelected()"
-        >
-          <option *ngFor="let option of filterOption.optionen" [value]="option" class="grey-text">
-            {{ option }}
-          </option>
-        </select>
+        <app-custom-dropdown [options]="filterOption.optionen" [selectedOption]="selectedDropdownOption" (selectionChange)="filterOption.selected = $event; filterSelected()"></app-custom-dropdown>
       </div>
+
       <div *ngIf="filterOption.typ === 'Textfeld'" class="filter">
         <label class="grey-text">{{ filterOption.name }}</label>
         <input class="grey-text textfield"

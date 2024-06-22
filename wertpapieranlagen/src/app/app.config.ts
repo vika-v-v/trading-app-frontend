@@ -35,7 +35,7 @@ export const appConfig: ApplicationConfig = {
             {
               "Name": "Zeitraum",
               "Typ": "Dropdown",
-              "Optionen": ["Heute", "Gestern", "Diese Woche", "Dieser Monat", "Dieses Jahr", "Alle Perioden"],
+              "Optionen": ["Alle Perioden", "Heute", "Gestern", "Diese Woche", "Dieser Monat", "Dieses Jahr"],
               "DefaultSelected": "Alle Perioden"
             }
           ]
