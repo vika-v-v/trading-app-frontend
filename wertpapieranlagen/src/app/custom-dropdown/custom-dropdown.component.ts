@@ -12,9 +12,9 @@ import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnCha
   styleUrl: './custom-dropdown.component.css'
 })
 export class CustomDropdownComponent implements OnInit { // , OnChanges
-  @Input() options: { value: string, label: string }[] = [];
+  @Input() options: string[] = [];
   @Input() alwaysSelectOption: string | null = null;
-  @Input() selectedOption: { value: string, label: string } | null = null;
+  @Input() selectedOption: string | null = null;
   @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
 
   dropdownOpen: boolean = false;
@@ -36,9 +36,9 @@ export class CustomDropdownComponent implements OnInit { // , OnChanges
 
   private initializeDropdown() {
     if (this.alwaysSelectOption != null) {
-      this.selectedOption = { value: this.alwaysSelectOption, label: this.alwaysSelectOption };
+      this.selectedOption = this.alwaysSelectOption;
     } else if (this.selectedOption == null) {
-      this.selectedOption = { value: "none", label: "Wählen Sie eine Option aus..." };
+      this.selectedOption = "Wählen Sie eine Option aus...";
     }
 
     this.initalized = true;
@@ -48,13 +48,13 @@ export class CustomDropdownComponent implements OnInit { // , OnChanges
     this.dropdownOpen = !this.dropdownOpen;
   }
 
-  selectOption(option: { value: string, label: string }): void {
+  selectOption(option: string): void {
     if (this.alwaysSelectOption == null) {
       this.selectedOption = option;
     } else {
-      this.selectedOption = { value: this.alwaysSelectOption, label: this.alwaysSelectOption };
+      this.selectedOption = this.alwaysSelectOption;
     }
-    this.selectionChange.emit(option.value);
+    this.selectionChange.emit(option);
     this.dropdownOpen = false;
   }
 }

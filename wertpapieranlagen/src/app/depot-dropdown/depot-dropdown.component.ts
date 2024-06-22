@@ -16,10 +16,10 @@ import { PopUpService } from '../services/pop-up.service';
   imports: [CommonModule, FormsModule, CustomDropdownComponent]
 })
 export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy,
-  depots: any[] = [];
-  filteredDepots: any[] = [];
-  firstDepot: any;
-  selectedDepot: any;
+  depots: string[] = [];
+  filteredDepots: string[] = [];
+  firstDepot: string = '';
+  //selectedDepot: string = '';
   errorMessage: string = '';
   searchTerm: string = '';
   //private reloadSubscription: Subscription;
@@ -52,9 +52,10 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
   loadDepots() {
     this.depotService.getAllDepots(this.http).subscribe(
       (response) => {
-        this.depots = response.data; // Anpassen an das zurückgegebene Format
-        if(this.depots.length > 0) {
-          this.filteredDepots = this.depots.map(depot => ({ value: depot.depotId, label: depot.name }));
+        //this.depots = response.data; // Anpassen an das zurückgegebene Format
+        let data = response.data;
+        if(data.length > 0) {
+          this.filteredDepots = data.map((depot: any) =>  depot.name);
           if(this.firstLoad) {
             this.setInitialDepot();
             this.updateEverythingService.updateAll();
@@ -81,8 +82,8 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
 
   setInitialDepot() {
     if (this.filteredDepots.length > 0) {
-      this.selectedDepot = this.filteredDepots[0];
-      this.depotService.setDepot(this.selectedDepot.label);
+      //this.selectedDepot = this.filteredDepots[0];
+      this.depotService.setDepot(this.filteredDepots[0]);
       //this.depotChanged.emit(this.selectedDepot.label);
     }
   }
@@ -92,19 +93,15 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
       this.filteredDepots = this.depots;
     } else {
       this.filteredDepots = this.depots.filter(depot =>
-        depot.name.toLowerCase().includes(this.searchTerm.trim().toLowerCase())
+        depot.toLowerCase().includes(this.searchTerm.trim().toLowerCase())
       );
     }
   }
 
-  onSelectDepot(depotId: string) {
-    if (depotId) {
-      const selectedDepot = this.depots.find(depot => depot.depotId === depotId);
-      if(!selectedDepot) { return; }
-      this.selectedDepot = selectedDepot;
-      this.depotService.setDepot(selectedDepot.name);
-
-      //this.depotChanged.emit(selectedDepot.name);
+  onSelectDepot(depot: string) {
+    if (depot) {
+      //this.selectedDepot = depot;
+      this.depotService.setDepot(depot);
     }
   }
 }

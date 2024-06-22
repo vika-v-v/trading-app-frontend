@@ -35,8 +35,8 @@ export class WertpapierVorgangComponent {
   wertpapierPreis: string = '';
   transaktionskosten: string = '';
 
-  selectedWertpapierart: any;
-  moeglicheWertpapierarten = [{'value': 'AKTIE', 'label': 'Aktie'}, {'value': 'ETF', 'label': 'ETF'}, {'value': 'FOND', 'label': 'Fond'}];
+  selectedWertpapierart: string;
+  moeglicheWertpapierarten = ['Aktie', 'ETF','Fond'];
 
   alleWertpapiere: any[] = [];
 
@@ -68,7 +68,16 @@ export class WertpapierVorgangComponent {
       const wertpapier = this.alleWertpapiere.find(w => w.name.toLowerCase() == this.wertpapiername.toLowerCase());
       if(wertpapier) {
         this.kuerzel = wertpapier.kuerzel;
-        this.selectedWertpapierart = this.moeglicheWertpapierarten.find(w => w.value == wertpapier.wertpapierArt);
+
+        if(wertpapier.wertpapierArt == 'ETF') {
+          this.selectedWertpapierart = 'ETF';
+        }
+        else if(wertpapier.wertpapierArt == 'FOND') {
+          this.selectedWertpapierart = 'Fond';
+        }
+        else {
+          this.selectedWertpapierart = 'Aktie';
+        }
       }
       else {
         this.kuerzel = this.previousKuerzel;
@@ -141,7 +150,7 @@ export class WertpapierVorgangComponent {
       },
       error=>{
         if(error.status == 404 && attempt < 3) {
-          this.wertpapierKaufService.wertpapierHinzufügen(this.httpClient, this.wertpapiername, this.kuerzel, this.selectedWertpapierart.value).subscribe(
+          this.wertpapierKaufService.wertpapierHinzufügen(this.httpClient, this.wertpapiername, this.kuerzel, this.selectedWertpapierart).subscribe(
             response => {
               this.kaufHinzufuegen(attempt + 1);
             },
@@ -176,7 +185,7 @@ export class WertpapierVorgangComponent {
   }
 
   changeWertpapierart(wertpapierart: string) {
-    this.selectedWertpapierart = this.moeglicheWertpapierarten.find(w => w.value == wertpapierart);
+    this.selectedWertpapierart = wertpapierart;
     this.previousSelectedWertpapierart = this.selectedWertpapierart;
   }
 

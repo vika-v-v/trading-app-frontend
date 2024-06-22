@@ -14,9 +14,9 @@ import { UpdateEverythingService, Updateable } from '../../../services/update-ev
   styleUrls: ['./grafik-piechart-value.component.css']
 })
 export class GrafikPiechartValueComponent implements Updateable { // OnInit, OnChanges, OnDestroy {
-  @Input() depotName: string | null = null;
+  //@Input() depotName: string | null = null;
   private chart: Chart<'pie', number[], string> | undefined;
-  private depotSubscription: Subscription | undefined;
+  //private depotSubscription: Subscription | undefined;
 
   constructor(
     private depotService: DepotService,

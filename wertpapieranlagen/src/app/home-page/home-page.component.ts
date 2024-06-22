@@ -64,11 +64,7 @@ export class HomePageComponent implements OnInit, Updateable {
 
   showNonDepotExistingComponent: boolean = false;
 
-  selectTransactions = [
-    { "value": "Kauf", "label": "Kaufen" },
-    { "value": "Verkauf", "label": "Verkaufen" },
-    { "value": "Dividende", "label": "Dividende erfassen" }
-  ]
+  selectTransactions = ["Kaufen", "Verkaufen", "Dividende erfassen"];
 
   private popUpSubscription: Subscription;
   private choiceConfirmed: boolean = false;
@@ -113,10 +109,10 @@ export class HomePageComponent implements OnInit, Updateable {
   }
 
   onSelectTransaction(selectedTransaction: string) {
-    if (selectedTransaction === 'Kauf') {
+    if (selectedTransaction === 'Kaufen') {
       this.showSidePanel(SidePanel.Kaufen);
     }
-    if (selectedTransaction === 'Verkauf') {
+    if (selectedTransaction === 'Verkaufen') {
       this.showSidePanel(SidePanel.Verkaufen);
     }
   }

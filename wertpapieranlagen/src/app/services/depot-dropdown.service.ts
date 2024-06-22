@@ -17,7 +17,7 @@ export class DepotDropdownService {
   }
 
   setDepot(depot: string) {
-    if(depot != this.depot) {
+    if(depot != this.depot && depot != '' && depot != null && depot != undefined) {
       this.depot = depot;
       this.updateEverythingService.updateAll();
     }
