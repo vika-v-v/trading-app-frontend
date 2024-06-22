@@ -54,8 +54,8 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
         this.depots = response.data; // Anpassen an das zurückgegebene Format
         if(this.depots.length > 0) {
           this.filteredDepots = this.depots.map(depot => ({ value: depot.depotId, label: depot.name }));
-          this.setInitialDepot();
           if(this.firstLoad) {
+            this.setInitialDepot();
             this.updateEverythingService.updateAll();
           }
           this.firstLoad = false;
