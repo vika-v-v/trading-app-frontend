@@ -139,58 +139,50 @@ export class HomePageComponent implements OnInit, Updateable {
     //  return;
     //}
 
-    if (this.depotDropdownService.getDepot() && this.depotDropdownService.getDepot() != undefined && this.depotDropdownService.getDepot() != '') {
-
-      this.depotService.getTransaktionen(this.http, this.depotDropdownService.getDepot()).subscribe(
-        response => {
-          this.transaktionen = response.data;
-          this.transaktionenData = Object.keys(this.transaktionen).map((key: any) => {
-            const transaktion = this.transaktionen[key];
-            return [
-              transaktion.date,
-              transaktion.wertpapier.name,
-              transaktion.anzahl,
-              transaktion.wertpapierPreis,
-              transaktion.transaktionskosten,
-              transaktion.transaktionsart,
-              transaktion.gesamtkosten
-            ];
-          });
-        },
-        error => {
-          this.transaktionen = [];
-          this.transaktionenData = [];
-        }
-      );
+    this.depotService.getTransaktionen(this.http, this.depotDropdownService.getDepot()).subscribe(
+      response => {
+        this.transaktionen = response.data;
+        this.transaktionenData = Object.keys(this.transaktionen).map((key: any) => {
+          const transaktion = this.transaktionen[key];
+          return [
+            transaktion.date,
+            transaktion.wertpapier.name,
+            isNaN(transaktion.anzahl) ? parseFloat(transaktion.anzahl.replace(',', '.')) : transaktion.anzahl,
+            isNaN(transaktion.wertpapierPreis) ? parseFloat(transaktion.wertpapierPreis.replace(',', '.')) : transaktion.wertpapierPreis,
+            isNaN(transaktion.transaktionskosten) ? parseFloat(transaktion.transaktionskosten.replace(',', '.')) : transaktion.transaktionskosten,
+            transaktion.transaktionsart,
+            isNaN(transaktion.gesamtkosten) ? parseFloat(transaktion.gesamtkosten.replace(',', '.')) : transaktion.gesamtkosten
+          ];
+        });
+      },
+      error => {
+        this.transaktionen = [];
+        this.transaktionenData = [];
+      }
+    );
 
 
-      //this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
-      this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(
-        response => {
-          this.wertpapiere = response.data;
-          this.wertpapierenData = Object.keys(this.wertpapiere).map((key: any) => {
-            const wertpapier = this.wertpapiere[key];
-            return [
-              key,
-              wertpapier.WertpapierArt,
-              wertpapier.WertpapierPreisAktuell,
-              wertpapier.WertpapierAnteil,
-              wertpapier.GesamtWertAktuell
-            ];
-          });
-        },
-        error => {
-          this.wertpapiere = [];
-          this.wertpapierenData = [];
-        }
-      );
-    }
-    else {
-      this.wertpapiere = [];
-      this.wertpapierenData = [];
-      this.transaktionen = [];
-      this.transaktionenData = [];
-    }
+    //this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
+    this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(
+      response => {
+        this.wertpapiere = response.data;
+        this.wertpapierenData = Object.keys(this.wertpapiere).map((key: any) => {
+          const wertpapier = this.wertpapiere[key];
+          return [
+            key,
+            wertpapier.WertpapierArt,
+            isNaN(wertpapier.WertpapierPreisAktuell) ? parseFloat(wertpapier.WertpapierPreisAktuell.replace(',', '.')) : wertpapier.WertpapierPreisAktuell,
+            isNaN(wertpapier.WertpapierAnteil) ? parseFloat(wertpapier.WertpapierAnteil.replace(',', '.')) : wertpapier.WertpapierAnteil,
+            isNaN(wertpapier.GesamtWertAktuell) ? parseFloat(wertpapier.GesamtWertAktuell.replace(',', '.')) : wertpapier.GesamtWertAktuell
+          ];
+        });
+      },
+      error => {
+        this.wertpapiere = [];
+        this.wertpapierenData = [];
+      }
+    );
+
 
     /* Speichert Werte in this.depot */
     this.depotService.getDepot(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
@@ -213,7 +205,7 @@ export class HomePageComponent implements OnInit, Updateable {
       { "wert": "Gesamtkosten", "typ": FilterType.Decimal }];
   }
 
-  getWertpapieren() {
+  getWertpapierenHeader() {
     return [
       { "wert": "Name", "typ": FilterType.Text },
       { "wert": "Art", "typ": FilterType.Object },
@@ -221,15 +213,6 @@ export class HomePageComponent implements OnInit, Updateable {
       { "wert": "Anteil", "typ": FilterType.Decimal },
       { "wert": "Gesamtwert", "typ": FilterType.Decimal }
     ];
-  }
-
-  mapWertpapierenData(response: any) {
-    const data = response;
-    const mappedData = Object.keys(data).map((key: any) => ({
-      name: key,
-      ...data[key]
-    }));
-    return mappedData;
   }
 
   getGesamtwert(): string {
