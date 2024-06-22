@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-not-logged-in',
@@ -9,4 +10,13 @@ import { Component } from '@angular/core';
 })
 export class NotLoggedInComponent {
 
+  constructor(private router: Router) {}
+
+  naviagateToLoginPage() {
+    this.router.navigate(['login-seite']);
+  }
+
+  navigateToRegistrationPage() {
+    this.router.navigate(['registration-page']);
+  }
 }

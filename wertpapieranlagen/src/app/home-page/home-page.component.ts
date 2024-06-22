@@ -236,12 +236,14 @@ export class HomePageComponent implements OnInit, Updateable {
     return mappedData;
   }
 
-  getGesamtwert() {
-    return parseFloat((this.depot.gesamtwert || 0).toFixed(2));
+  getGesamtwert(): string {
+    let value = parseFloat((this.depot.gesamtwert || 0).toFixed(2));
+    return value.toFixed(2);
   }
 
-  getGewinnVerlust(): number {
-    return parseFloat((this.depot.depotGewinnVerlust || 0).toFixed(2));
+  getGewinnVerlust(): string {
+    let value = parseFloat((this.depot.depotGewinnVerlust || 0).toFixed(2));
+    return value.toFixed(2);
   }
 
   startGetDepotExport() {

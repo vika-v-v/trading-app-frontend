@@ -7,8 +7,10 @@
       <div id="left-buttons">
         <app-depot-dropdown></app-depot-dropdown>
         <div>
-          <p class="grey-text" id="gesamtwert-text">{{ getGesamtwert() }} EUR</p>
-          <img id="gesamtwert-info-icon" src="../../assets/icons/phosphor-thin/info_thin_icon.svg">
+          <p class="grey-text" id="gesamtwert-text">{{ getGesamtwert() }} USD</p>
+          <div class="tooltip"> <img id="gesamtwert-info-icon" src="../../assets/icons/phosphor-thin/info_thin_icon.svg">
+            <span class="tooltiptext">Gesamtwert des Depot</span>
+          </div>
         </div>
       </div>
     </div>
@@ -37,11 +39,11 @@
     <div id="depotwerte">
       <div class="column">
         <p class="grey-text">Gesamtwert vom Depot</p>
-        <p class="grey-text wert">{{ getGesamtwert() }} EUR</p>
+        <p class="grey-text wert">{{ getGesamtwert() }} USD</p>
       </div>
       <div class="column">
         <p class="grey-text">Gewinn/Verlust</p>
-        <p class="grey-text wert">{{ getGewinnVerlust() }} EUR</p>
+        <p class="grey-text wert">{{ getGewinnVerlust() }} USD</p>
       </div>
     </div>
     <div id="transaktionen-table">
