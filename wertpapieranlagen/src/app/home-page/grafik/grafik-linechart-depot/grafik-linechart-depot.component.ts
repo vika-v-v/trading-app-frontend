@@ -3,6 +3,7 @@ import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { DepotService } from '../../../services/depot.service';
 import { DepotDropdownService } from '../../../services/depot-dropdown.service';
 import { HttpClient } from '@angular/common/http';
+import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
 
 @Component({
   standalone: true,
@@ -11,14 +12,20 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './grafik-linechart-depot.component.html',
   styleUrls: ['./grafik-linechart-depot.component.css']
 })
-export class GrafikLinechartDepotComponent implements OnChanges {
-  @Input() depotName: string | null = null;
+export class GrafikLinechartDepotComponent implements Updateable { // implements OnChanges {
+  //@Input() depotName: string | null = null;
   private chart: Chart<'line', number[], string> | undefined;
 
-  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService) {
+  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService, private updateEverythingService: UpdateEverythingService) {
     Chart.register(...registerables);
+    updateEverythingService.subscribeToUpdates(this);
   }
 
+  update(): void {
+    this.generateLineChart_DepotWert();
+  }
+
+  /*
   ngOnChanges(changes: SimpleChanges) {
     if (changes['depotName']) {
       if (this.depotName) {
@@ -26,7 +33,7 @@ export class GrafikLinechartDepotComponent implements OnChanges {
         this.generateLineChart_DepotWert();
       }
     }
-  }
+  }*/
 
   async generateLineChart_DepotWert() {
     try {

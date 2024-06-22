@@ -197,11 +197,11 @@ export class HomePageComponent implements OnInit, Updateable {
     }
 
     /* Speichert Werte in this.depot */
-    //this.depotService.getDepot(this.http, neuesDepot).subscribe(response => {
-    //  if (response && response.data) {
-    //    this.depot = response.data;
-    //  }
-    //});
+    this.depotService.getDepot(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
+      if (response && response.data) {
+        this.depot = response.data;
+      }
+    });
     //
     //this.currentDepotName = neuesDepot;
   }

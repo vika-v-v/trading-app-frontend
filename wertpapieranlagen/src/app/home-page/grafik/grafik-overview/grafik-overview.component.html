@@ -6,7 +6,7 @@
   </div>
   <div class="grafik-overview-container">
     <div *ngIf="typ == grafikTyp.WertverlaufDepotwerte">
-      <app-grafik-linechart-depot [depotName]="selectedDepotName" class="grafik"></app-grafik-linechart-depot>
+      <app-grafik-linechart-depot class="grafik"></app-grafik-linechart-depot>
     </div>
     <div *ngIf="typ == grafikTyp.PizzadiagrammWertpapierMenge">
       <app-grafik-piechart-number [depotName]="selectedDepotName" class="grafik"></app-grafik-piechart-number>

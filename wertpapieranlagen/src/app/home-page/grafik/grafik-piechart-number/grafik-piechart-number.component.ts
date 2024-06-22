@@ -4,6 +4,7 @@ import { DepotService } from '../../../services/depot.service';
 import { DepotDropdownService } from '../../../services/depot-dropdown.service';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
 
 @Component({
   selector: 'app-grafik-piechart-number',
@@ -12,7 +13,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './grafik-piechart-number.component.html',
   styleUrls: ['./grafik-piechart-number.component.css']
 })
-export class GrafikPiechartNumberComponent implements OnInit, OnChanges, OnDestroy {
+export class GrafikPiechartNumberComponent implements Updateable { // OnChanges, OnDestroy, OnInit,
   @Input() depotName: string | null = null;
   private chart: Chart<'pie', number[], string> | undefined;
   private depotSubscription: Subscription | undefined;
@@ -20,11 +21,18 @@ export class GrafikPiechartNumberComponent implements OnInit, OnChanges, OnDestr
   constructor(
     private depotService: DepotService,
     private http: HttpClient,
-    private depotDropdownService: DepotDropdownService
+    private depotDropdownService: DepotDropdownService,
+    private updateEverythingService: UpdateEverythingService
   ) {
     Chart.register(...registerables);
+    updateEverythingService.subscribeToUpdates(this);
   }
 
+  update(): void {
+    this.generateDiagramm();
+  }
+
+  /*
   ngOnInit() {
     if (this.depotName) {
       console.log('Initial depotName:', this.depotName);
@@ -50,7 +58,7 @@ export class GrafikPiechartNumberComponent implements OnInit, OnChanges, OnDestr
     if (this.depotSubscription) {
       this.depotSubscription.unsubscribe();
     }
-  }
+  }*/
 
   generateDiagramm() {
     if (this.chart) {
