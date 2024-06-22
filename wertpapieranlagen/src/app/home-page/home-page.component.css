@@ -124,7 +124,9 @@
 }
 
 #wertpapieren-table {
-  transform: translateY(32px);
+  transform: translateY(4px);
+  height: calc((100vh - 150px) / 2 - 60px);
+  max-height: calc((100vh - 150px) / 2 - 60px);
 }
 
 #expand-button {
@@ -149,11 +151,10 @@
 #transaktionen-table-container {
   width: calc(100vw - 70px);
   min-width: calc(100vw - 70px);
-  height: calc(100vh - 100px);
-  max-height: calc(100vh - 100px);
+  height: calc(100vh - 140px);
+  max-height: calc(100vh - 140px);
+  margin-bottom: 40px;
 }
-
-
 
 #depot-actions {
   display: flex;
