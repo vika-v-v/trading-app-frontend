@@ -33,14 +33,10 @@ input {
 }
 
 .global-button {
-  padding: 10px;
-  background-color: #D9D9D9;
-  cursor: pointer;
-  border: 1.5px solid black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 3px;
+  background-color: #443f37;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 7px;
 }
 
 .global-input, .global-date {

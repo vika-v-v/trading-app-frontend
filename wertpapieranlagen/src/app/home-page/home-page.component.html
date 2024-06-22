@@ -65,9 +65,9 @@
   </div>
 
   <div id="depot-actions">
-    <button id="depot-erstellen" class="grey-text" (click)="showSidePanel(SidePanel.DepotErstellen)">Neues Depot erstellen</button>
-    <button id="depot-loeschen" class="grey-text" (click)="showDepotLoeschen()">Depot löschen</button>
-    <button id="export" class="grey-text" (click)="startGetDepotExport()">Export</button>
+    <button id="depot-erstellen" class="grey-text global-button" (click)="showSidePanel(SidePanel.DepotErstellen)">Neues Depot erstellen</button>
+    <button id="depot-loeschen" class="grey-text global-button" (click)="showDepotLoeschen()">Depot löschen</button>
+    <button id="export" class="grey-text global-button" (click)="startGetDepotExport()">Export</button>
   </div>
 
   <div id="side-panel" [class.show]="_showSidePanel" [class.hide]="_showSidePanel!= null && !_showSidePanel">

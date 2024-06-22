@@ -64,38 +64,38 @@
     <!-- Sortings -->
     <div
       *ngFor="let sorting of getFilterSortPopupOptions().sortings"
-      class="option"
+      class="option global-button"
       (click)="toggleSorting(sorting, getFilterSortPopupOptions())"
       [ngClass]="{ selected: sorting.selected }"
     >
       <img [src]="sorting.imagesrc" alt="icon" />
-      <div>{{ sorting.name }}</div>
+      <div class="grey-text">{{ sorting.name }}</div>
     </div>
 
     <!-- Filters -->
     <div *ngFor="let filterOption of getFilterSortPopupOptions().filters">
       <div *ngIf="filterOption.typ === 'Dropdown'" class="filter">
-        <label>{{ filterOption.name }}</label>
+        <label class="grey-text">{{ filterOption.name }}</label>
         <select
           *ngIf="filterOption.optionen"
           [(ngModel)]="filterOption.selected"
           (ngModelChange)="filterSelected()"
         >
-          <option *ngFor="let option of filterOption.optionen" [value]="option">
+          <option *ngFor="let option of filterOption.optionen" [value]="option" class="grey-text">
             {{ option }}
           </option>
         </select>
       </div>
       <div *ngIf="filterOption.typ === 'Textfeld'" class="filter">
-        <label>{{ filterOption.name }}</label>
-        <input
+        <label class="grey-text">{{ filterOption.name }}</label>
+        <input class="grey-text textfield"
           type="text"
           [(ngModel)]="filterOption.selected"
           (ngModelChange)="filterSelected()"
         />
       </div>
       <div *ngIf="filterOption.typ === 'Slider'" class="filter slider-filter">
-        <label>{{ filterOption.name }}</label>
+        <label class="grey-text">{{ filterOption.name }}</label>
         <app-range-slider
           [min]="filterOption.min"
           [max]="filterOption.max"
@@ -110,14 +110,14 @@
         *ngIf="filterOption.typ === 'Checkbox'"
         class="filter checkbox-filter"
       >
-        <label>{{ filterOption.name }}</label>
+        <label class="grey-text">{{ filterOption.name }}</label>
         <div *ngFor="let option of filterOption.optionen">
           <input
             type="checkbox"
             [checked]="option.selected"
             (change)="option.selected = !option.selected; filterSelected()"
           />
-          <label>{{ option.name }}</label>
+          <label class="grey-text">{{ option.name }}</label>
         </div>
       </div>
     </div>

@@ -4,8 +4,8 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { FilterType } from './home-page/tabelle/filter-type.enum';
 
-let arrowUp = '../../../assets/icons/4829871_arrows_up_upload_icon.svg';
-let arrowDown = '../../../assets/icons/4829873_arrow_down_download_icon.svg';
+let arrowUp = '../../../assets/icons/phosphor-thin/arrow_up_thin_icon.svg';
+let arrowDown = '../../../assets/icons/phosphor-thin/arrow_down_thin_icon.svg';
 
 export const appConfig: ApplicationConfig = {
   providers: [

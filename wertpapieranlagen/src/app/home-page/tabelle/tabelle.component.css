@@ -84,17 +84,18 @@ th {
 
 .popup-content {
   font-size: small;
-  border: 1px solid black;
+  border: 1.5px solid #dbd1d1a1;
+  border-radius: 4px;
   padding: 5px;
-  box-shadow: rgb(161, 161, 161) 1.5px 1.5px 1px 1px;
-  background-color: white;
+  box-shadow: #1a1512 1.5px 1.5px 1px 1px;
+  background-color: #322a23;
 }
 
 .option {
-  border: 1px solid black;
-  border-radius: 2px;
   padding: 5px;
   margin: 5px;
+  margin-right: 10px;
+  background-color: #51463d;
 }
 
 .filter-sort-popup {
@@ -103,7 +104,7 @@ th {
 }
 
 .selected {
-  background-color: rgb(203, 203, 203);
+  background-color: #6e6052;
 }
 
 .slider-filter {
@@ -127,4 +128,14 @@ th {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.textfield {
+  text-align: left;
+  font-size: 15px;
+  background-color: #3d352e;
+  border: none;
+  border-radius: 4px;
+  margin-right: 0;
+  padding-right: 0;
 }
