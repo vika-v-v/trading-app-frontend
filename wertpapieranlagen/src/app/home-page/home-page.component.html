@@ -46,8 +46,8 @@
         <p class="grey-text wert">{{ getGewinnVerlust() }} USD</p>
       </div>
     </div>
-    <div id="transaktionen-table">
-      <app-tabelle  [tableHeader]="getTransaktionenHeader()" [tableData]="transaktionenData" [name]="'Transaktionen'" [leerFehlermeldung]="'Noch keine Transaktionen vorhanden.'"></app-tabelle>
+    <div id="transaktionen-table-container">
+      <app-tabelle [tableHeader]="getTransaktionenHeader()" [tableData]="transaktionenData" [name]="'Transaktionen'" [leerFehlermeldung]="'Noch keine Transaktionen vorhanden.'"></app-tabelle>
     </div>
   </div>
 

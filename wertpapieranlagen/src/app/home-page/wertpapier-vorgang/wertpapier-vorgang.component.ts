@@ -150,17 +150,17 @@ export class WertpapierVorgangComponent {
       },
       error=>{
         if(error.status == 404 && attempt < 3) {
-          this.wertpapierKaufService.wertpapierHinzufügen(this.httpClient, this.wertpapiername, this.kuerzel, this.selectedWertpapierart).subscribe(
+          this.wertpapierKaufService.wertpapierHinzufügen(this.httpClient, this.wertpapiername, this.kuerzel, this.selectedWertpapierart.toUpperCase()).subscribe(
             response => {
               this.kaufHinzufuegen(attempt + 1);
             },
             error => {
-              this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers.");
+              this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers: " + error.error.message);
             }
           )
         }
         else {
-          this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers.");
+          this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers: " + error.error.message);
         }
       }
     );
