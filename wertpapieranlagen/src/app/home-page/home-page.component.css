@@ -14,7 +14,7 @@
   background-attachment: local;
   background-repeat: no-repeat;
   background-color: #0e0c0a;
-  z-index: -1; /* Ensure background stays behind other content */
+  z-index: -1;  /*Ensure background stays behind other content */
   overflow-x: hidden;
 }
 
@@ -107,6 +107,7 @@
   flex: 1;
   height: calc((100vh - 150px) / 2);
   max-height: calc((100vh - 150px) / 2);
+  z-index: 10;
 }
 
 .elementen-erste-linie {
@@ -124,10 +125,9 @@
 }
 
 #wertpapieren-table {
-  transform: translateY(4px);
-  height: calc((100vh - 150px) / 2 - 60px);
-  max-height: calc((100vh - 150px) / 2 - 60px);
+  transform: translateY(2px);
 }
+
 
 #expand-button {
   height: 40px;
@@ -151,9 +151,9 @@
 #transaktionen-table-container {
   width: calc(100vw - 70px);
   min-width: calc(100vw - 70px);
-  height: calc(100vh - 140px);
-  max-height: calc(100vh - 140px);
-  margin-bottom: 40px;
+  height: calc(100vh - 85px);
+  max-height: calc(100vh - 85px);
+  margin-bottom: 5px;
 }
 
 #depot-actions {

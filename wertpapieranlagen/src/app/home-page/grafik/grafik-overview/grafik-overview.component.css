@@ -22,7 +22,7 @@
   width: 100%;
   height: calc((100vh - 150px) / 2 - 30px);
   max-height: calc((100vh - 150px) / 2 - 30px);
-  background-color: #1b1612ca;
+  background-color: #15110e;
   border-radius: 4px;
   overflow: hidden;
 }
