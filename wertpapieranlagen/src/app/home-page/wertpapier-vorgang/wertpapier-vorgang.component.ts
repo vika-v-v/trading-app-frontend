@@ -143,6 +143,7 @@ export class WertpapierVorgangComponent {
       response=>{
         this.popupService.infoPopUp("Verkauf erfolgreich hinzugefügt.");
         this.abbrechen();
+        this.updateEverythingService.updateAll();
       },
       error=>{
         this.popupService.errorPopUp("Fehler beim Verkauf des Wertpapiers.");
