@@ -46,7 +46,7 @@ table {
 
 th, td {
   max-width: 100%;
-  border: 0.5px solid #dbd1d1a3;
+  border: 0.5px solid #dbd1d15d;
   padding: 7px;
   font-size: small;
 }
@@ -84,7 +84,7 @@ th {
 
 .popup-content {
   font-size: small;
-  border: 1.5px solid #dbd1d1a1;
+  border: 1px solid #dbd1d1a1;
   border-radius: 4px;
   padding: 5px;
   box-shadow: #1a1512 1.5px 1.5px 1px 1px;
@@ -119,9 +119,43 @@ th {
   gap: 5px;
 }
 
-.checkbox-filter label {
-  margin-bottom: 3px;
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  gap: 7px; /* Increase the gap between checkbox and label text */
 }
+
+.custom-checkbox {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #6e6052;
+  border: 0.5px solid #dbd1d174;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  align-items: center;
+}
+
+.custom-checkbox:checked {
+  background-color: #3a3128; /* Change the selection color */
+  border: 0.5px solid #dbd1d174;
+}
+
+.custom-checkbox:checked::before {
+  content: '\2714'; /* Unicode character for check mark */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  color: #DBD1D1; /* Color of the check mark */
+}
+
 
 #leer-fehlermeldung {
   height: 100%;

@@ -106,18 +106,17 @@
           (value2Change)="filterSelected()"
         ></app-range-slider>
       </div>
-      <div
-        *ngIf="filterOption.typ === 'Checkbox'"
-        class="filter checkbox-filter"
-      >
+      <div *ngIf="filterOption.typ === 'Checkbox'" class="filter checkbox-filter">
         <label class="grey-text">{{ filterOption.name }}</label>
-        <div *ngFor="let option of filterOption.optionen">
+        <div *ngFor="let option of filterOption.optionen" class="checkbox-option">
           <input
             type="checkbox"
             [checked]="option.selected"
             (change)="option.selected = !option.selected; filterSelected()"
+            class="custom-checkbox"
+            id="{{option.name}}"
           />
-          <label class="grey-text">{{ option.name }}</label>
+          <label class="grey-text" for="{{option.name}}">{{ option.name }}</label>
         </div>
       </div>
     </div>
