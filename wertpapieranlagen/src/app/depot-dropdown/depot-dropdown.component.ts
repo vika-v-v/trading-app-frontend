@@ -48,19 +48,21 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
     this.depotService.getAllDepots(this.http).subscribe(
       (response) => {
         this.depots = response.data; // Anpassen an das zurückgegebene Format
-        this.filteredDepots = this.depots.map(depot => ({ value: depot.depotId, label: depot.name }));
-
-        if(!this.depotService.getDepot()) {
-          this.setInitialDepot();
-        } else {
-          this.selectedDepot = this.filteredDepots.find(depot => depot.label === this.depotService.getDepot());
+        if(this.depots.length > 0) {
+          this.filteredDepots = this.depots.map(depot => ({ value: depot.depotId, label: depot.name }));
         }
 
-        this.cdr.detectChanges(); // Trigger change detection manually
+        //if(!this.depotService.getDepot()) {
+        //  this.setInitialDepot();
+        //} else {
+        //  this.selectedDepot = this.filteredDepots.find(depot => depot.label === this.depotService.getDepot());
+        //}
+
+        //this.cdr.detectChanges(); // Trigger change detection manually
       },
       (error) => {
         this.errorMessage = 'Fehler beim Abrufen der Depots: ' + error.message;
-        this.cdr.detectChanges(); // Trigger change detection manually
+        //this.cdr.detectChanges(); // Trigger change detection manually
       }
     );
   }
@@ -86,9 +88,11 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
   onSelectDepot(depotId: string) {
     if (depotId) {
       const selectedDepot = this.depots.find(depot => depot.depotId === depotId);
+      if(!selectedDepot) { return; }
       this.selectedDepot = selectedDepot;
       this.depotService.setDepot(selectedDepot.name);
-      this.depotChanged.emit(selectedDepot.name);
+
+      //this.depotChanged.emit(selectedDepot.name);
     }
   }
 }

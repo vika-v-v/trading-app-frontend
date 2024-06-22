@@ -20,6 +20,8 @@ import { GrafikOverviewComponent } from './grafik/grafik-overview/grafik-overvie
 import { PopUpComponent } from '../pop-up/pop-up.component';
 import { PopUpService } from '../services/pop-up.service';
 import { Subscription } from 'rxjs';
+import { UpdateEverythingService, Updateable } from '../services/update-everything.service';
+import { DepotDropdownService } from '../services/depot-dropdown.service';
 
 
 @Component({
@@ -43,7 +45,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
-export class HomePageComponent implements OnInit{
+export class HomePageComponent implements OnInit, Updateable {
   SidePanel = SidePanel;
   WertpapierVorgang = WertpapierVorgang;
   GrafikTyp = GrafikTyp;
@@ -71,7 +73,8 @@ export class HomePageComponent implements OnInit{
   private popUpSubscription: Subscription;
   private choiceConfirmed: boolean = false;
 
-  constructor(private http: HttpClient, private depotService: DepotService, private userService: UserService, private crd: ChangeDetectorRef, private popUpService: PopUpService) {
+  constructor(private http: HttpClient, private depotService: DepotService, private depotDropdownService: DepotDropdownService, private userService: UserService, private crd: ChangeDetectorRef, private popUpService: PopUpService, private updateEverythingService: UpdateEverythingService) {
+    updateEverythingService.subscribeToUpdates(this);
     this.popUpSubscription = this.popUpService.popUpVisible$.subscribe(visible => {
       if (!visible && this.choiceConfirmed) {
         this.depotLoeschen();
@@ -102,7 +105,7 @@ export class HomePageComponent implements OnInit{
 
   hideSidePanel() {
     this._showSidePanel = false;
-    this.depotAktualisieren(this.currentDepotName);
+    //this.depotAktualisieren(this.currentDepotName);
   }
 
   ngAfterViewInit(): void {
@@ -110,10 +113,10 @@ export class HomePageComponent implements OnInit{
   }
 
   onSelectTransaction(selectedTransaction: string) {
-    if(selectedTransaction === 'Kauf') {
+    if (selectedTransaction === 'Kauf') {
       this.showSidePanel(SidePanel.Kaufen);
     }
-    if(selectedTransaction === 'Verkauf') {
+    if (selectedTransaction === 'Verkauf') {
       this.showSidePanel(SidePanel.Verkaufen);
     }
   }
@@ -133,65 +136,74 @@ export class HomePageComponent implements OnInit{
     this.expanded = !this.expanded;
   }
 
-  depotAktualisieren(neuesDepot: string | null) {
-    this.currentDepotName = null;
-    this.crd.detectChanges();
-    if(neuesDepot === null) {
-      return;
+  update() {
+    //this.currentDepotName = null;
+    //this.crd.detectChanges();
+    //if(neuesDepot === null) {
+    //  return;
+    //}
+
+    if (this.depotDropdownService.getDepot() && this.depotDropdownService.getDepot() != undefined && this.depotDropdownService.getDepot() != '') {
+
+      this.depotService.getTransaktionen(this.http, this.depotDropdownService.getDepot()).subscribe(
+        response => {
+          this.transaktionen = response.data;
+          this.transaktionenData = Object.keys(this.transaktionen).map((key: any) => {
+            const transaktion = this.transaktionen[key];
+            return [
+              transaktion.date,
+              transaktion.wertpapier.name,
+              transaktion.anzahl,
+              transaktion.wertpapierPreis,
+              transaktion.transaktionskosten,
+              transaktion.transaktionsart,
+              transaktion.gesamtkosten
+            ];
+          });
+        },
+        error => {
+          this.transaktionen = [];
+          this.transaktionenData = [];
+        }
+      );
+
+
+      //this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
+      this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(
+        response => {
+          this.wertpapiere = response.data;
+          this.wertpapierenData = Object.keys(this.wertpapiere).map((key: any) => {
+            const wertpapier = this.wertpapiere[key];
+            return [
+              key,
+              wertpapier.WertpapierArt,
+              wertpapier.WertpapierPreisAktuell,
+              wertpapier.WertpapierAnteil,
+              wertpapier.GesamtWertAktuell
+            ];
+          });
+        },
+        error => {
+          this.wertpapiere = [];
+          this.wertpapierenData = [];
+        }
+      );
+    }
+    else {
+      this.wertpapiere = [];
+      this.wertpapierenData = [];
+      this.transaktionen = [];
+      this.transaktionenData = [];
     }
 
-    this.depotService.getTransaktionen(this.http, neuesDepot).subscribe(
-      response => {
-        this.transaktionen = response.data;
-        this.transaktionenData = Object.keys(this.transaktionen).map((key: any) => {
-          const transaktion = this.transaktionen[key];
-          return [
-            transaktion.date,
-            transaktion.wertpapier.name,
-            transaktion.anzahl,
-            transaktion.wertpapierPreis,
-            transaktion.transaktionskosten,
-            transaktion.transaktionsart,
-            transaktion.gesamtkosten
-          ];
-        });
-      },
-      error => {
-        this.transaktionen = [];
-        this.transaktionenData = [];
-      }
-    );
-
-
-    //this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
-    this.depotService.getWertpapiere(this.http, neuesDepot).subscribe(
-      response => {
-        this.wertpapiere = response.data;
-        this.wertpapierenData = Object.keys(this.wertpapiere).map((key: any) => {
-          const wertpapier = this.wertpapiere[key];
-          return [
-            key,
-            wertpapier.WertpapierArt,
-            wertpapier.WertpapierPreisAktuell,
-            wertpapier.WertpapierAnteil,
-            wertpapier.GesamtWertAktuell
-          ];
-        });
-      },
-      error => {
-        this.wertpapiere = [];
-        this.wertpapierenData = [];
-      }
-    );
-
     /* Speichert Werte in this.depot */
-    this.depotService.getDepot(this.http, neuesDepot).subscribe(response => {
-      if (response && response.data) {
-        this.depot = response.data;
-      }
-    });
-
-    this.currentDepotName = neuesDepot;
+    //this.depotService.getDepot(this.http, neuesDepot).subscribe(response => {
+    //  if (response && response.data) {
+    //    this.depot = response.data;
+    //  }
+    //});
+    //
+    //this.currentDepotName = neuesDepot;
   }
 
   getTransaktionenHeader() {
@@ -224,7 +236,7 @@ export class HomePageComponent implements OnInit{
     return mappedData;
   }
 
-  getGesamtwert(){
+  getGesamtwert() {
     return parseFloat((this.depot.gesamtwert || 0).toFixed(2));
   }
 
@@ -232,7 +244,7 @@ export class HomePageComponent implements OnInit{
     return parseFloat((this.depot.depotGewinnVerlust || 0).toFixed(2));
   }
 
-  startGetDepotExport(){
+  startGetDepotExport() {
     return this.depotService.getDataExport(this.http);
   }
 
