@@ -61,12 +61,12 @@ export class PopUpComponent implements OnDestroy {
 
   choiceYes(){
     this.popUpService.hidePopUp();
-    return true;
+    this.popUpService.resolveChoice(true);
   }
 
   choiceNo(){
     this.popUpService.hidePopUp();
-    return false;
+    this.popUpService.resolveChoice(false);
   }
 }
 

@@ -149,7 +149,7 @@ input {
   border-radius: 4px;
 }
 
-.information-line > input[readonly], .information-line > .input[readonly] {
+.information-line > input[readonly], .information-line > .input[readonly], .information-line > input[disabled], .information-line > .input[disabled] {
   background-color: #2a2722;
   color: #a8a3a3;
 }

@@ -30,6 +30,11 @@ export class RegistrationPageComponent {
 
   constructor(private router: Router, private userService: UserService, private http: HttpClient, private passwordUtils: PasswordUtilsService, private autoLogoutService: AutoLogoutService) {}
 
+  checkPasswordAndMatch() {
+    this.checkPassword();
+    this.checkPasswordMatch();
+  }
+
   checkPassword() {
     this.passwordStrengthWidth = this.passwordUtils.checkPassword(this.password).width;
     this.passwordStrengthColor = this.passwordUtils.checkPassword(this.password).color;
