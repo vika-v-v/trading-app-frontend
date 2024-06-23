@@ -18,50 +18,58 @@
   </div>
 
   <div *ngIf="kontoeinstellungenAngezeigt" id="kontoeinstellungen">
-    <div id="kurs" class="information-line">
-      <p class="grey-text">Vor- und Nachname</p>
-      <input class="grey-text input-field" type="text" id="name" [(ngModel)]="name" [readonly]="!isEditing"/>
+    <div *ngFor="let line of configuration.kontoeinstellungen">
+      <div class="information-line">
+        <p class="grey-text" [class.inline]="line.showInline">{{line.label}}</p>
+        <input class="grey-text input-field" type="text" id="{{line.id}}" [(ngModel)]="line.currentValue" [readonly]="!line.currentlyEditing" [placeholder]="line.placeholder"/>
+        <div class="edit-icons">
+          <img *ngIf="!line.currentlyEditing" (click)="line.currentlyEditing = true;" class="icon" src="../../assets/icons/phosphor-thin/pencil_simple_thin_icon.svg"/>
+          <img *ngIf="line.currentlyEditing" (click)="line.currentlyEditing = false; line.lastSavedValue = line.currentValue; saveData(line.id, line.currentValue) " class="icon" src="../../assets/icons/phosphor-thin/check_thin_icon.svg"/>
+          <img *ngIf="line.currentlyEditing" (click)="line.currentlyEditing = false; line.currentValue = line.lastSavedValue;" class="icon" src="../../assets/icons/phosphor-thin/x_thin_icon.svg"/>
+        </div>
+      </div>
     </div>
 
-    <div id="menge" class="information-line">
-      <p class="grey-text">Menge</p>
-      <input class="grey-text" type="number" placeholder="10"/>
+    <div id="buttons">
+      <button class="grey-text global-button" (click)="naviagateToLoginPage()">Ausloggen</button>
+      <button *ngIf="!changePasswordShown" class="grey-text global-button" (click)="changePasswordShown = true;">Passwort ändern</button>
+    </div>
+
+    <div *ngIf="changePasswordShown" id="changePassword">
+      <div class="information-line">
+        <p class="grey-text inline">Altes Passwort</p>
+        <input class="grey-text input-field" type="password" [(ngModel)]="altesPasswort" (ngModelChange)="this.fehlermeldungPasswort = '';"/>
+      </div>
+      <div class="information-line inline">
+        <p class="grey-text">Neues Passwort</p>
+        <input class="grey-text input-field" type="password" [(ngModel)]="neuesPasswort" (ngModelChange)="checkPassword(neuesPasswort)"/>
+      </div>
+      <div class="information-line">
+        <p class="grey-text">Neues&nbsp;Passwort noch&nbsp;einmal</p>
+        <input class="grey-text input-field" type="password" [(ngModel)]="neuesPasswortWiederholung"/>
+      </div>
+      <div class="information-line">
+        <div class="password-strength">
+          <div class="strength-bar" [ngStyle]="{'width': passwordStrengthWidth, 'background-color': passwordStrengthColor}"></div>
+          <div class="password-strength-text grey-text">{{ passwordStrengthText }}</div>
+        </div>
+      </div>
+      <div *ngIf="fehlermeldungPasswort != ''" class="passwort-fehlermeldung">
+        {{fehlermeldungPasswort}}
+      </div>
+      <div class="information-line" id="passwort-buttons">
+        <button class="global-button grey-text" (click)="passwortAendern()">Ändern</button>
+        <button class="global-button grey-text" (click)="passwortAendernAbbrechen()">Abbrechen</button>
+      </div>
     </div>
   </div>
 
   <div *ngIf="steuereinstellungenAngezeigt" id="steuereinstellungen">
-    <div id="kurs" class="information-line">
-      <p class="grey-text">Kurs</p>
-      <input class="grey-text" type="number" placeholder="100.55"/>
-    </div>
-
-    <div id="menge" class="information-line">
-      <p class="grey-text">Menge</p>
-      <input class="grey-text" type="number" placeholder="10"/>
-    </div>
+    <app-tax-settings (resetClicked)="hideSteuerrechner()"></app-tax-settings>
   </div>
 </div>
 
-<form>
-  <h2>Account Information</h2>
 
-  <label for="name">Vor- und Nachname:</label><br>
-  <input type="text" id="name" name="name" [(ngModel)]="name" [readonly]="!isEditing" class="input-field"><br>
-
-  <label for="address_a">Straße und Hausnummer:</label><br>
-  <input type="text" id="address_a" name="address_a" [(ngModel)]="address_a" [readonly]="!isEditing" class="input-field"><br>
-
-  <label for="address_b">PLZ und Ort:</label><br>
-  <input type="text" id="address_b" name="address_b" [(ngModel)]="address_b" [readonly]="!isEditing" class="input-field"><br>
-
-  <label for="phone">Phone Number:</label><br>
-  <input type="tel" id="phone" name="phone" [(ngModel)]="phone" [readonly]="!isEditing" class="input-field"><br>
-
-  <label for="email">Email Address:</label><br>
-  <input type="email" id="email" name="email" [(ngModel)]="email" readonly class="input-field"><br>
-  <br>
-  <button type="button" (click)="toggleEdit()">{{ isEditing ? 'Speichern' : 'Bearbeiten' }}</button>
-</form>
 <h2>Settings</h2>
 <button type="button" (click)="naviagateToLoginPage()">Log Out</button>
 <button (click)="showSteuerrechner()">Steuerrechner</button>

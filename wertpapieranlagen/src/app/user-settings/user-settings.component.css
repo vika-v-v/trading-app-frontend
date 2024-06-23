@@ -4,10 +4,11 @@
   justify-content: flex-start;
   gap: 10px;
   margin: 0 20px;
+  overflow: show;
 }
 
 #header {
-  margin: 10px 10px 5px;
+  margin: 10px 10px 0;
   text-align: center;
   vertical-align: middle;
   font-size: 25px;
@@ -18,7 +19,7 @@
 }
 
 #list-of-contents {
-  width: max(35%, 300px);
+  width: max(25%, 250px);
   margin-top: 8px;
 }
 
@@ -40,28 +41,120 @@
   height: 25px;
 }
 
+.edit-icons {
+  max-width: fit-content;
+  margin: 0;
+  padding: 2px;
+  display: inline-flex;
+  gap: 3px;
+}
+
 #kontoeinstellungen, #steuereinstellungen {
   width: 70%;
+  height: calc(100vh - 155px);
+  max-height: calc(100vh - 155px);
   float: left;
   justify-content: flex-start;
+  overflow-x: show;
+  overflow-y: auto;
+  z-index: 2;
 }
 
 .information-line > p {
-  max-width: 30%;
-  width: 30%;
+  max-width: 80px;
+  overflow: show;
 }
 
-.information-line > input {
-  max-width: 65%;
-  width: 65%;
-  float: left;
+.inline {
+  white-space: nowrap;
 }
 
-.information-line {
-  margin-left: 0;
+#buttons > button {
+  width: 90%;
+  max-width: 90%;
+  font-size: 15px;
+  margin: 5px 20px;
+  padding: 6px 10px;
+
+}
+
+#buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#passwort-buttons > button {
+  width: 90%;
+  max-width: 90%;
+}
+
+.password-strength {
+  width: 90%;
+  max-width: 90%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+
+}
+
+.passwort-fehlermeldung {
+  color: rgb(205, 33, 33);
+  font-size: 15px;
+}
+
+#changePassword > .information-line {
   display: flex;
   justify-content: flex-start;
-  align-items: start;
+  align-items: center;
+}
+
+#changePassword > .information-line > input {
+  width: min(50%, 300px);
+  max-width: min(50%, 300px);
+}
+
+
+/*
+display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+#passwort-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+#passwort-buttons > button {
+  width: 90%;
+}
+
+#changePassword {
+  overflow: show;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.password-strength {
+  width: 90%;
+  max-width: 90%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.passwort-fehlermeldung {
+  color: rgb(205, 33, 33);
+  font-size: 15px;
+}*/
+
+p {
+  overflow: show;
 }
 
 input:focus {
