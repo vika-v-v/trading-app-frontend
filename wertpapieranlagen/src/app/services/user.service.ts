@@ -114,7 +114,7 @@ export class UserService {
     return http.get(userUrl, httpOptions);
   }
 
-  getAccountvalue(http: HttpClient): Observable<any>{
+  getAccountValue(http: HttpClient): Observable<any>{
     const accountValueURL = `${this.rootUrl}users/account-values`;
     const httpOptions = {
       headers: new HttpHeaders({

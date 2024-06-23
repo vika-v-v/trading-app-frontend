@@ -22,18 +22,34 @@ export class TaxSettingsComponent implements OnInit {
   steuerbelastung = 0;
   kapitalgewinne_netto = 0;
 
-  constructor(private userService: UserService, private http: HttpClient) {}
-
+  constructor(private http: HttpClient, private userService: UserService) {}
 
   ngOnInit() {
-    this.fillVerlustverrechnungstopf();
-    this.fillBruttoKapitalgewinne();
-    this.calculateSteuerbelastung();
-    this.fillNettoKapitalgewinne();
+    this.getUserData();
+  }
+
+  async getUserData() {
+    try {
+      const userdata = await this.userService.getUserData(this.http).toPromise();
+      const data = JSON.parse(userdata);
+      if (data && data.data && data.data.dataMap1) {
+        this.verlustverrechnungstopf = data.data.dataMap1.verlustverrechnungstopf;
+        this.steuerfreibetrag = data.data.dataMap1.freibetrag;
+        this.steuersatz = data.data.dataMap1.steuersatz * 100; // Umwandlung in Prozent
+        this.soli = data.data.dataMap1.soli * 100; // Umwandlung in Prozent
+        this.kirchensteuer = data.data.dataMap1.kirchensteuer * 100; // Umwandlung in Prozent
+
+        await this.fillBruttoKapitalgewinne();
+        this.calculateSteuerbelastung();
+        this.fillNettoKapitalgewinne();
+      }
+    } catch (error) {
+      console.error('Error fetching user data', error);
+    }
   }
 
   getAccountValue() {
-    return this.userService.getAccountvalue(this.http).toPromise();
+    return this.userService.getAccountValue(this.http).toPromise();
   }
 
   async fillVerlustverrechnungstopf() {
@@ -66,8 +82,7 @@ export class TaxSettingsComponent implements OnInit {
   }
 
   fillNettoKapitalgewinne() {
-    // Hier sollte die Logik zur Bereitstellung der Daten implementiert werden
-    this.kapitalgewinne_netto = this.kapitalgewinne_brutto - this.steuerbelastung; // Berechnung der Netto Kapitalgewinne
+    this.kapitalgewinne_netto = this.kapitalgewinne_brutto - this.steuerbelastung;
   }
 
   onReset() {
@@ -87,3 +102,4 @@ export class TaxSettingsComponent implements OnInit {
     this.fillNettoKapitalgewinne();
   }
 }
+
