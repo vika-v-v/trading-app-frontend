@@ -145,6 +145,11 @@ input {
   border-radius: 4px;
 }
 
+.information-line > input[readonly], .information-line > .input[readonly] {
+  background-color: #34322b;
+  color: #b3aaaa;
+}
+
 .information-line > .dropdown {
   margin-left: 0;
   padding-left: 0;

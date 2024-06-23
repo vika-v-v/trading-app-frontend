@@ -151,8 +151,8 @@
 #transaktionen-table-container {
   width: calc(100vw - 70px);
   min-width: calc(100vw - 70px);
-  height: calc(100vh - 85px);
-  max-height: calc(100vh - 85px);
+  height: calc(100vh - 120px);
+  max-height: calc(100vh - 120px);
   margin-bottom: 5px;
 }
 
@@ -192,7 +192,7 @@
   }
 }
 
-/* Background Styling */
+/* Side-Panel Styling */
 .background {
   content: "";
   position: fixed;

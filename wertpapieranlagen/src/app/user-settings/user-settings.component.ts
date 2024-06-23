@@ -33,6 +33,9 @@ export class UserSettingsComponent implements OnInit {
   phone: string = '';
   email: string = '';
 
+  kontoeinstellungenAngezeigt = true;
+  steuereinstellungenAngezeigt = false;
+
   constructor(private router: Router, private userService: UserService, private autoLogoutService: AutoLogoutService, private http: HttpClient) {}
 
   ngOnInit(): void {

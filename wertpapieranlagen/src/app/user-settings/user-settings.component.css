@@ -1,9 +1,71 @@
-.input-field[readonly] {
-  background-color: #f0f0f0; /* Light gray background */
-  color: #656565; /* Gray text color */
-  border: 1px solid #dcdcdc; /* Gray border */
+#content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 0 20px;
+}
+
+#header {
+  margin: 10px 10px 5px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 25px;
+}
+
+.main-header {
+  letter-spacing: 8px;
+}
+
+#list-of-contents {
+  width: max(35%, 300px);
+  margin-top: 8px;
+}
+
+.line {
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  gap: 7px;
+  margin: 0 10px 15px 10px;
+}
+
+.line > button {
+  width: calc(100% - 32px);
+  max-width: calc(100% - 32px);
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
+}
+
+#kontoeinstellungen, #steuereinstellungen {
+  width: 70%;
+  float: left;
+  justify-content: flex-start;
+}
+
+.information-line > p {
+  max-width: 30%;
+  width: 30%;
+}
+
+.information-line > input {
+  max-width: 65%;
+  width: 65%;
+  float: left;
+}
+
+.information-line {
+  margin-left: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: start;
 }
 
 input:focus {
   outline: none;
 }
+
+

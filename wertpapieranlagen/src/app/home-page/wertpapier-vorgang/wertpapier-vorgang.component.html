@@ -37,11 +37,13 @@
       <input class="grey-text" type="number" placeholder="100.55" [(ngModel)]="wertpapierPreis"
              [ngClass]="{'input-error': invalidFields.wertpapierPreis}"/>
     </div>
+
     <div id="menge" class="information-line">
       <p class="grey-text">Menge</p>
       <input class="grey-text" type="number" placeholder="10" [(ngModel)]="anzahl"
              [ngClass]="{'input-error': invalidFields.anzahl}"/>
     </div>
+
     <div id="transaktionskosten" class="information-line">
       <p class="grey-text">Transaktionskosten</p>
       <input class="grey-text" type="number" placeholder="2.50" [(ngModel)]="transaktionskosten"

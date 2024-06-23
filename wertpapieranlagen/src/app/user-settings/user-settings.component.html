@@ -1,4 +1,47 @@
-<h1>User Settings</h1>
+<div id="header">
+  <h1 class="main-header grey-text">Einstellungen</h1>
+</div>
+<div id="content">
+  <div id="list-of-contents">
+    <div class="line">
+      <button class="global-button grey-text" (click)="kontoeinstellungenAngezeigt = true; steuereinstellungenAngezeigt = false;" >Kontoeinstellungen</button>
+      <ng-container *ngIf="kontoeinstellungenAngezeigt">
+        <img class="icon" src="../../assets/icons/phosphor-thin/caret_left_thin_icon.svg" alt="caret-left"/>
+      </ng-container>
+    </div>
+    <div class="line">
+      <button class="global-button grey-text" (click)="kontoeinstellungenAngezeigt = false; steuereinstellungenAngezeigt = true;">Steuereinstellungen</button>
+      <ng-container *ngIf="steuereinstellungenAngezeigt">
+        <img class="icon" src="../../assets/icons/phosphor-thin/caret_left_thin_icon.svg" alt="caret-left"/>
+      </ng-container>
+    </div>
+  </div>
+
+  <div *ngIf="kontoeinstellungenAngezeigt" id="kontoeinstellungen">
+    <div id="kurs" class="information-line">
+      <p class="grey-text">Vor- und Nachname</p>
+      <input class="grey-text input-field" type="text" id="name" [(ngModel)]="name" [readonly]="!isEditing"/>
+    </div>
+
+    <div id="menge" class="information-line">
+      <p class="grey-text">Menge</p>
+      <input class="grey-text" type="number" placeholder="10"/>
+    </div>
+  </div>
+
+  <div *ngIf="steuereinstellungenAngezeigt" id="steuereinstellungen">
+    <div id="kurs" class="information-line">
+      <p class="grey-text">Kurs</p>
+      <input class="grey-text" type="number" placeholder="100.55"/>
+    </div>
+
+    <div id="menge" class="information-line">
+      <p class="grey-text">Menge</p>
+      <input class="grey-text" type="number" placeholder="10"/>
+    </div>
+  </div>
+</div>
+
 <form>
   <h2>Account Information</h2>
 
