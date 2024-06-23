@@ -229,18 +229,18 @@ input.invalid-password, input.password-mismatch {
 /* Scrollbar */
 
 ::-webkit-scrollbar-track {
-  background: #43342b;
+  background: #3f3732;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #7b6252;
+  background-color: #74665d;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #d3a78b; /* Change the color of the scrollbar thumb when hovered */
+  background: rgb(168, 148, 136); /* Change the color of the scrollbar thumb when hovered */
 }
 
 /* For Firefox */
 html {
-  scrollbar-color: #7b6252 #43342b; /* Set the color of the scrollbar thumb and track */
+  scrollbar-color: #74665d #3f3732; /* Set the color of the scrollbar thumb and track */
 }

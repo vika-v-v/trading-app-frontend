@@ -40,7 +40,12 @@ export class LoginSeiteComponent {
       },
       error => {
         console.error('Error:', error);
-        this.popUpService.errorPopUp("E-Mail oder Passwort falsch!")
+        if(error.error.statusCode == 404) {
+          this.popUpService.errorPopUp("E-Mail oder Passwort falsch!");
+        }
+        else {
+          this.popUpService.errorPopUp("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        }
       }
     );
   }

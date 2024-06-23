@@ -98,6 +98,9 @@
 .passwort-fehlermeldung {
   color: rgb(205, 33, 33);
   font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #changePassword > .information-line {
