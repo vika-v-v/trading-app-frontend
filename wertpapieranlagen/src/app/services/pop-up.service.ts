@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,8 @@ export class PopUpService {
   private popUpVisibleSubject = new BehaviorSubject<boolean>(false);
   popUpVisible$ = this.popUpVisibleSubject.asObservable();
 
-  private choiceResolver: ((value: boolean) => void) | null = null;
+  private choiceResponseSubject: Subject<boolean> = new Subject<boolean>();
+  choiceResponse$ = this.choiceResponseSubject.asObservable();
 
   constructor() { }
 
@@ -31,19 +32,16 @@ export class PopUpService {
     }, 3000);
   }
 
-  choicePopUp(text: string): Promise<boolean> {
+  choicePopUp(text: string): Observable<boolean> {
     this.anzeigenPopupSubject.next({ text, type: 'choice' });
     this.popUpVisibleSubject.next(true);
-    return new Promise<boolean>((resolve) => {
-      this.choiceResolver = resolve;
-    });
+    this.choiceResponseSubject = new Subject<boolean>(); // Re-initialize the subject
+    return this.choiceResponseSubject.asObservable();
   }
 
-  resolveChoice(result: boolean) {
-    if (this.choiceResolver) {
-      this.choiceResolver(result);
-      this.choiceResolver = null;
-    }
+  respondToChoice(response: boolean) {
+    this.choiceResponseSubject.next(response);
+    this.choiceResponseSubject.complete();
     this.popUpVisibleSubject.next(false);
   }
 
