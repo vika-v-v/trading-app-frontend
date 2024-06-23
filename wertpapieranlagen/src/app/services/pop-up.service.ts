@@ -11,6 +11,8 @@ export class PopUpService {
   private popUpVisibleSubject = new BehaviorSubject<boolean>(false);
   popUpVisible$ = this.popUpVisibleSubject.asObservable();
 
+  private choiceResolver: ((value: boolean) => void) | null = null;
+
   constructor() { }
 
   errorPopUp(text: string) {
@@ -29,9 +31,20 @@ export class PopUpService {
     }, 3000);
   }
 
-  choicePopUp(text: string) {
+  choicePopUp(text: string): Promise<boolean> {
     this.anzeigenPopupSubject.next({ text, type: 'choice' });
     this.popUpVisibleSubject.next(true);
+    return new Promise<boolean>((resolve) => {
+      this.choiceResolver = resolve;
+    });
+  }
+
+  resolveChoice(result: boolean) {
+    if (this.choiceResolver) {
+      this.choiceResolver(result);
+      this.choiceResolver = null;
+    }
+    this.popUpVisibleSubject.next(false);
   }
 
   hidePopUp() {
