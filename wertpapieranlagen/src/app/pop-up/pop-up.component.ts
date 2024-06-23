@@ -18,7 +18,7 @@ export class PopUpComponent implements OnDestroy {
   text!: string;
   symbol!: string;
   popupColor!: string;
-  choicePopUpVisible: boolean = true;
+  choicePopUpVisible: boolean = false; // Changed initial value to false
   private popupSubscription: Subscription;
 
   constructor(private popUpService: PopUpService) {
@@ -59,12 +59,10 @@ export class PopUpComponent implements OnDestroy {
   }
 
   choiceYes() {
-    this.popUpService.hidePopUp();
-    this.popUpService.resolveChoice(true);
+    this.popUpService.respondToChoice(true);
   }
 
   choiceNo() {
-    this.popUpService.hidePopUp();
-    this.popUpService.resolveChoice(false);
+    this.popUpService.respondToChoice(false);
   }
 }
