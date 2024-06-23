@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PopUpService} from '../services/pop-up.service';
+import { HomePageComponent } from '../home-page/home-page.component';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class PopUpComponent implements OnDestroy {
   choicePopUpVisible: boolean = true;
   private popupSubscription: Subscription;
 
-  constructor(private popUpService: PopUpService) {
+  constructor(private popUpService: PopUpService, private homePageComponent: HomePageComponent) {
     this.popupSubscription = this.popUpService.anzeigenPopup$.subscribe(({ text, type }) => {
       if (type === 'fehler') {
         this.errorPopUp(text);
