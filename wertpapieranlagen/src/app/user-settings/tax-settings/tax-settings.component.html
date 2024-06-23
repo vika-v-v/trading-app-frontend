@@ -1,5 +1,68 @@
 <!-- Author: Thore Böger -->
-<h1>Steuerrechner</h1>
+<div class="content">
+  <p class="grey-text" id="header">Steuerrechner</p>
+  <div class="information-line">
+    <p class="grey-text">Steuersatz</p>
+    <input type="number" id="steuersatz" name="steuersatz" class="grey-text" [(ngModel)]="steuersatz" (ngModelChange)="onInputChange()">
+    <p class="grey-text after-input-symbol">%</p>
+  </div>
+
+  <div class="information-line">
+    <p class="grey-text">Steuerfreibetrag</p>
+    <input type="number" id="steuerfreibetrag" name="steuerfreibetrag" class="grey-text" [(ngModel)]="steuerfreibetrag" (ngModelChange)="onInputChange()">
+    <p class="grey-text after-input-symbol">EUR</p>
+  </div>
+
+  <div class="information-line">
+    <p class="grey-text">Solidaritätsbeitrag</p>
+    <input type="number" id="soli" name="soli" class="grey-text" [(ngModel)]="soli" disabled>
+    <p class="grey-text after-input-symbol">%</p>
+  </div>
+
+  <div class="information-line">
+    <p class="grey-text">Kirchensteuer</p>
+    <input type="number" id="kirchensteuer" name="kirchensteuer" class="grey-text" [(ngModel)]="kirchensteuer" (ngModelChange)="onInputChange()">
+    <p class="grey-text after-input-symbol">%</p>
+  </div>
+
+  <div class="information-line">
+    <p class="grey-text">Verlust-verrechnungstopf</p>
+    <input id="verlustverrechnungstopf" name="verlustverrechnungstopf" class="grey-text" [(ngModel)]="verlustverrechnungstopf" disabled>
+    <p class="grey-text after-input-symbol">EUR</p>
+  </div>
+
+  <div class="information-line">
+    <p class="grey-text">Brutto Kapitalgewinne</p>
+    <input id="kapitalgewinne_brutto" name="kapitalgewinne_brutto" class="grey-text" [(ngModel)]="kapitalgewinne_brutto" disabled>
+    <p class="grey-text after-input-symbol">EUR</p>
+  </div>
+
+  <div class="information-line">
+    <p class="grey-text">Steuerbelastung</p>
+    <input id="steuerbelastung" name="steuerbelastung" class="grey-text" [(ngModel)]="steuerbelastung" disabled>
+    <p class="grey-text after-input-symbol">EUR</p>
+  </div>
+
+  <div class="information-line">
+    <p class="grey-text">Netto Kapitalgewinne</p>
+    <input id="kapitalgewinne_netto" name="kapitalgewinne_netto" class="grey-text" [(ngModel)]="kapitalgewinne_netto" disabled>
+    <p class="grey-text after-input-symbol">EUR</p>
+  </div>
+
+  <div id="buttons">
+    <button class="global-button grey-text" (click)="calculateSteuerbelastung(); onSubmit($event)">Berechnen</button>
+    <button class="global-button grey-text" (click)="onReset()">Abbrechen</button>
+    <button class="global-button grey-text" (click)="steuerinfoAngezeigt = !steuerinfoAngezeigt">
+      {{steuerinfoAngezeigt ? "Steuerinfo schließen" : "Steuerinfo anzeigen"}}
+    </button>
+  </div>
+
+  <div *ngIf="steuerinfoAngezeigt" id="steuerinfo">
+    <p class="grey-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id nibh magna. Integer molestie ligula eu felis euismod tincidunt id nec ipsum. Nunc ex nunc, varius vitae lorem sit amet, semper pulvinar est. Nunc tellus dolor, condimentum vitae tortor sit amet, sodales maximus metus. Nulla facilisi. Etiam tincidunt lacinia commodo. Duis ornare, tortor sit amet faucibus dignissim, quam orci tristique metus, a tempus massa diam eget odio. Cras condimentum dignissim velit, et vestibulum felis bibendum nec. Pellentesque a massa quam. Fusce sagittis hendrerit neque, a ornare turpis elementum sit amet. Sed nec feugiat tellus, a mattis ipsum. Praesent in nibh dapibus, porta felis eget, venenatis diam. Sed ac eros aliquet, venenatis tellus eu, porta dui. Nulla lorem dui, vehicula sit amet venenatis in, finibus et odio. Aenean egestas arcu fermentum lectus posuere, ac fringilla ipsum tempor.</p>
+  </div>
+</div>
+
+<!--
 <form (submit)="onSubmit($event)">
     <table>
         <tr>
@@ -51,3 +114,4 @@
 <div id="Steuerinfo">
     <p>Hier sind einige Steuerinformationen...</p>
 </div>
+-->

@@ -61,8 +61,7 @@
 }
 
 .information-line > p {
-  max-width: 80px;
-  overflow: show;
+  max-width: max(100px, 30%);
 }
 
 .inline {
@@ -75,7 +74,6 @@
   font-size: 15px;
   margin: 5px 20px;
   padding: 6px 10px;
-
 }
 
 #buttons {

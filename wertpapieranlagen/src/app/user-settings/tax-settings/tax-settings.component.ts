@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 interface AccountValues {
   verlustverrechnungstopf: number;
@@ -15,7 +16,7 @@ interface AccountValues {
 @Component({
   selector: 'app-tax-settings',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './tax-settings.component.html',
   styleUrls: ['./tax-settings.component.css']
 })
@@ -29,6 +30,8 @@ export class TaxSettingsComponent implements OnInit {
   kapitalgewinne_brutto: number = 340000;
   steuerbelastung: number = 0;
   kapitalgewinne_netto: number = 0;
+
+  steuerinfoAngezeigt = false;
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
