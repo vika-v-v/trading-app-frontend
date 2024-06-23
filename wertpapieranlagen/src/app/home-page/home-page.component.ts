@@ -61,6 +61,7 @@ export class HomePageComponent implements OnInit, Updateable {
   currentDepotName: string | null = null;
   wertpapierenData: any[] = [];
   transaktionenData: any[] = [];
+  flagDepotLoeschen: boolean | null = null;
 
   showNonDepotExistingComponent: boolean = false;
 
@@ -194,7 +195,7 @@ export class HomePageComponent implements OnInit, Updateable {
       }
     });
     //
-    //this.currentDepotName = neuesDepot;
+    this.currentDepotName = this.depotDropdownService.getDepot();
   }
 
   getTransaktionenHeader() {
@@ -229,10 +230,12 @@ export class HomePageComponent implements OnInit, Updateable {
   }
 
   startGetDepotExport() {
+    console.log("Export gestartet");
     return this.depotService.getDataExport(this.http);
   }
 
   showDepotLoeschen() {
+    this.flagDepotLoeschen = true;
     this.popUpService.choicePopUp('Sind Sie sicher, dass Sie das Depot "' + this.currentDepotName + '" löschen möchten?');
   }
 
@@ -242,10 +245,11 @@ export class HomePageComponent implements OnInit, Updateable {
   }
 
   depotLoeschen() {
-    if (this.currentDepotName) {
+    if (this.flagDepotLoeschen == true && this.currentDepotName) {
       this.depotService.deleteDepot(this.http, this.currentDepotName).subscribe({
         next: (response) => {
           console.log('Depot gelöscht:', response);
+          this.flagDepotLoeschen = false;
           // Depot gelöscht, eventuell UI aktualisieren
         },
         error: (error) => {

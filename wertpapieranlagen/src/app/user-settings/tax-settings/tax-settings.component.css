@@ -1,0 +1,54 @@
+.after-input-symbol {
+  max-width: 1em;
+  width: 1em;
+  margin: 1px;
+  margin-right: 10px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.information-line > input {
+  width: 100%;
+}
+
+.information-line > p {
+  max-width: max(120px, 30%);
+}
+
+#header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin: 10px;
+  font-size: 20px;
+  font-style: italic;
+  border-bottom: 1px solid #dbd1d15d;
+  position: sticky;
+}
+
+#buttons > button {
+  width: 90%;
+  max-width: 90%;
+  font-size: 15px;
+  margin: 5px 20px;
+  padding: 6px 10px;
+}
+
+#buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#steuerinfo {
+  font-size: 14px;
+  background-color: #322926;
+  margin: 5px 20px;
+  padding: 5px 20px;
+  border-radius: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  text-align: justify;
+}

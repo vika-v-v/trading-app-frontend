@@ -149,7 +149,7 @@ input {
   border-radius: 4px;
 }
 
-.information-line > input[readonly], .information-line > .input[readonly] {
+.information-line > input[readonly], .information-line > .input[readonly], .information-line > input[disabled], .information-line > .input[disabled] {
   background-color: #2a2722;
   color: #a8a3a3;
 }
@@ -224,4 +224,23 @@ input {
 
 input.invalid-password, input.password-mismatch {
   border: 2px solid rgb(135, 0, 0);
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar-track {
+  background: #43342b;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #7b6252;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d3a78b; /* Change the color of the scrollbar thumb when hovered */
+}
+
+/* For Firefox */
+html {
+  scrollbar-color: #7b6252 #43342b; /* Set the color of the scrollbar thumb and track */
 }
