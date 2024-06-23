@@ -114,4 +114,14 @@ export class UserService {
     return http.get(userUrl, httpOptions);
   }
 
+  getAccountValue(http: HttpClient): Observable<any>{
+    const accountValueURL = `${this.rootUrl}users/account-values`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.getToken()}`
+      })
+    };
+    return http.get(accountValueURL, httpOptions);
+  }
+
 }
