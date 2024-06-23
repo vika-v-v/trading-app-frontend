@@ -61,7 +61,6 @@ export class HomePageComponent implements OnInit, Updateable {
   currentDepotName: string | null = null;
   wertpapierenData: any[] = [];
   transaktionenData: any[] = [];
-  flagDepotLoeschen: boolean | null = null;
 
   showNonDepotExistingComponent: boolean = false;
 
@@ -74,7 +73,6 @@ export class HomePageComponent implements OnInit, Updateable {
     updateEverythingService.subscribeToUpdates(this);
     this.popUpSubscription = this.popUpService.popUpVisible$.subscribe(visible => {
       if (!visible && this.choiceConfirmed) {
-        this.depotLoeschen();
         this.choiceConfirmed = false;
       }
     });
@@ -234,30 +232,29 @@ export class HomePageComponent implements OnInit, Updateable {
     return this.depotService.getDataExport(this.http);
   }
 
-  showDepotLoeschen() {
-    this.flagDepotLoeschen = true;
-    this.popUpService.choicePopUp('Sind Sie sicher, dass Sie das Depot "' + this.currentDepotName + '" löschen möchten?');
+  async showDepotLoeschen() {
+    console.log("Loeschen gestartet" + this.currentDepotName);
+    const userResponse = await this.popUpService.choicePopUp('Sind Sie sicher, dass Sie das Depot "' + this.currentDepotName + '" löschen möchten?').toPromise();
+      if (userResponse) {
+        console.log('Löschen bestätigt');
+        if (this.currentDepotName) {
+          this.depotService.deleteDepot(this.http, this.currentDepotName).subscribe({
+            next: (response) => {
+              console.log('Depot gelöscht:', response);
+            },
+            error: (error) => {
+              console.error('Error deleting depot:', error);
+            }
+          });
+        }
+      } else {
+        console.log('Löschen abgebrochen');
+      }
+    this.updateEverythingService.updateAll();
   }
 
   confirmChoice(confirm: boolean) {
     this.choiceConfirmed = confirm;
     this.popUpService.hidePopUp();
-  }
-
-  depotLoeschen() {
-    if (this.flagDepotLoeschen == true && this.currentDepotName) {
-      this.depotService.deleteDepot(this.http, this.currentDepotName).subscribe({
-        next: (response) => {
-          console.log('Depot gelöscht:', response);
-          this.flagDepotLoeschen = false;
-          // Depot gelöscht, eventuell UI aktualisieren
-        },
-        error: (error) => {
-          console.error('Error deleting depot:', error);
-        }
-      });
-    } else {
-      console.error('No depot selected for deletion');
-    }
   }
 }

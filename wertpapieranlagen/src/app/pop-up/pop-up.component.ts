@@ -1,11 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PopUpService} from '../services/pop-up.service';
-import { HomePageComponent } from '../home-page/home-page.component';
-
+import { PopUpService } from '../services/pop-up.service';
 
 @Component({
   selector: 'app-pop-up',
@@ -21,10 +18,10 @@ export class PopUpComponent implements OnDestroy {
   text!: string;
   symbol!: string;
   popupColor!: string;
-  choicePopUpVisible: boolean = true;
+  choicePopUpVisible: boolean = false; // Changed initial value to false
   private popupSubscription: Subscription;
 
-  constructor(private popUpService: PopUpService, private homePageComponent: HomePageComponent) {
+  constructor(private popUpService: PopUpService) {
     this.popupSubscription = this.popUpService.anzeigenPopup$.subscribe(({ text, type }) => {
       if (type === 'fehler') {
         this.errorPopUp(text);
@@ -37,7 +34,9 @@ export class PopUpComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.popupSubscription.unsubscribe();
+    if (this.popupSubscription) {
+      this.popupSubscription.unsubscribe();
+    }
   }
 
   private errorPopUp(text: string) {
@@ -59,15 +58,11 @@ export class PopUpComponent implements OnDestroy {
     this.text = text;
   }
 
-  choiceYes(){
-    this.popUpService.hidePopUp();
-    this.popUpService.resolveChoice(true);
+  choiceYes() {
+    this.popUpService.respondToChoice(true);
   }
 
-  choiceNo(){
-    this.popUpService.hidePopUp();
-    this.popUpService.resolveChoice(false);
+  choiceNo() {
+    this.popUpService.respondToChoice(false);
   }
 }
-
-
