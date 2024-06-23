@@ -3,7 +3,7 @@
   <div id="information">
     <div id="depotrname" class="information-line">
       <p class="grey-text">Name</p>
-      <input [(ngModel)]="name" type="text" class="grey-text" placeholder="Mein Depot" />
+      <input [(ngModel)]="name" type="text" class="grey-text" placeholder="Mein Depot" (input)="nameFieldInvalid"  [ngClass]="{'input-error': nameFieldInvalid}"/>
     </div>
     <div id="waehrung" class="information-line">
       <p class="grey-text">Währung</p>
