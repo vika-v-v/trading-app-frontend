@@ -1,53 +1,53 @@
 <!-- Author: Thore Böger -->
 <h1>Steuerrechner</h1>
-    <form>
-        <table>
-            <tr>
-                <td><label for="steuersatz">Steuersatz</label></td>
-                <td><input type="number" id="steuersatz" name="steuersatz" value="20.01"></td>
-                <td>%</td>
-            </tr>
-            <tr>
-                <td><label for="steuerfreibetrag">Steuerfreibetrag</label></td>
-                <td><input type="number" id="steuerfreibetrag" name="steuerfreibetrag" value="1000"></td>
-                <td>EUR</td>
-            </tr>
-            <tr>
-              <td><label for="soli">Solidaritätsbeitrag</label></td>
-              <td><input type="number" id="soli" name="soli" value="5.5" disabled></td>
-              <td>%</td>
-          </tr>
-            <tr>
-                <td><label for="kirchensteuer">Kirchensteuer</label></td>
-                <td><input type="number" id="kirchensteuer" name="kirchensteuer" value="6"></td>
-                <td>%</td>
-            </tr>
-            <tr>
-                <td><label for="verlustverrechnungstopf">Verlustverrechnungstopf</label></td>
-                <td><input id="verlustverrechnungstopf" name="verlustverrechnungstopf" disabled></td>
-                <td>EUR</td>
-            </tr>
-            <tr>
-                <td><label for="kapitalgewinne_brutto">Brutto Kapitalgewinne</label></td>
-                <td><input id="kapitalgewinne_brutto" name="kapitalgewinne_brutto" disabled></td>
-                <td>EUR</td>
-            </tr>
-            <tr>
-                <td><label for="steuerbelastung">Steuerbelastung</label></td>
-                <td><input id="steuerbelastung" name="steuerbelastung" disabled></td>
-                <td>EUR</td>
-            </tr>
-            <tr>
-                <td><label for="kapitalgewinne_netto">Netto Kapitalgewinne</label></td>
-                <td><input id="kapitalgewinne_netto" name="kapitalgewinne_netto" disabled></td>
-                <td>EUR</td>
-            </tr>
-        </table>
+<form (submit)="onSubmit($event)">
+    <table>
+        <tr>
+            <td><label for="steuersatz">Steuersatz</label></td>
+            <td><input type="number" id="steuersatz" name="steuersatz" [(ngModel)]="steuersatz" (ngModelChange)="onInputChange()"></td>
+            <td>%</td>
+        </tr>
+        <tr>
+            <td><label for="steuerfreibetrag">Steuerfreibetrag</label></td>
+            <td><input type="number" id="steuerfreibetrag" name="steuerfreibetrag" [(ngModel)]="steuerfreibetrag" (ngModelChange)="onInputChange()"></td>
+            <td>EUR</td>
+        </tr>
+        <tr>
+          <td><label for="soli">Solidaritätsbeitrag</label></td>
+          <td><input type="number" id="soli" name="soli" [(ngModel)]="soli" disabled></td>
+          <td>%</td>
+        </tr>
+        <tr>
+            <td><label for="kirchensteuer">Kirchensteuer</label></td>
+            <td><input type="number" id="kirchensteuer" name="kirchensteuer" [(ngModel)]="kirchensteuer" (ngModelChange)="onInputChange()"></td>
+            <td>%</td>
+        </tr>
+        <tr>
+            <td><label for="verlustverrechnungstopf">Verlustverrechnungstopf</label></td>
+            <td><input id="verlustverrechnungstopf" name="verlustverrechnungstopf" [(ngModel)]="verlustverrechnungstopf" disabled></td>
+            <td>EUR</td>
+        </tr>
+        <tr>
+            <td><label for="kapitalgewinne_brutto">Brutto Kapitalgewinne</label></td>
+            <td><input id="kapitalgewinne_brutto" name="kapitalgewinne_brutto" [(ngModel)]="kapitalgewinne_brutto" disabled></td>
+            <td>EUR</td>
+        </tr>
+        <tr>
+            <td><label for="steuerbelastung">Steuerbelastung</label></td>
+            <td><input id="steuerbelastung" name="steuerbelastung" [(ngModel)]="steuerbelastung" disabled></td>
+            <td>EUR</td>
+        </tr>
+        <tr>
+            <td><label for="kapitalgewinne_netto">Netto Kapitalgewinne</label></td>
+            <td><input id="kapitalgewinne_netto" name="kapitalgewinne_netto" [(ngModel)]="kapitalgewinne_netto" disabled></td>
+            <td>EUR</td>
+        </tr>
+    </table>
 
-        <input type="submit" value="Berechnen">
-        <input type="reset" value="Abbrechen" (click)="onReset()">
-        <button type="button" onclick="toggleSteuerinfo()">Steuerinfo anzeigen</button>
-    </form>
-    <div id="Steuerinfo">
-        <p>Hier sind einige Steuerinformationen...</p>
-    </div>
+    <input type="submit" value="Berechnen" (click)="calculateSteuerbelastung()">
+    <input type="reset" value="Abbrechen" (click)="onReset()">
+    <button type="button" (click)="toggleSteuerinfo()">Steuerinfo anzeigen</button>
+</form>
+<div id="Steuerinfo">
+    <p>Hier sind einige Steuerinformationen...</p>
+</div>

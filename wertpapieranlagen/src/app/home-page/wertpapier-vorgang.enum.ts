@@ -1,4 +1,5 @@
 export enum WertpapierVorgang {
   Kaufen = 'kaufen',
-  Verkaufen = 'verkaufen'
+  Verkaufen = 'verkaufen',
+  DividendeErfassen = 'dividende erfassen'
 }

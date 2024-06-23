@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { GrafikLinechartDepotComponent } from '../grafik-linechart-depot/grafik-linechart-depot.component';
+import { GrafikLinechartWertpapierComponent } from '../grafik-linechart-wertpapier/grafik-linechart-wertpapier.component';
 import { GrafikPiechartNumberComponent } from '../grafik-piechart-number/grafik-piechart-number.component';
 import { GrafikPiechartValueComponent } from '../grafik-piechart-value/grafik-piechart-value.component';
 import { CommonModule } from '@angular/common';
@@ -10,7 +11,7 @@ import { GrafikTyp } from '../grafik-typ.enum';
   templateUrl: './grafik-overview.component.html',
   styleUrls: ['./grafik-overview.component.css'],
   standalone: true,
-  imports: [CommonModule, GrafikLinechartDepotComponent, GrafikPiechartNumberComponent, GrafikPiechartValueComponent]
+  imports: [CommonModule, GrafikLinechartDepotComponent, GrafikPiechartNumberComponent, GrafikPiechartValueComponent, GrafikLinechartWertpapierComponent]
 })
 export class GrafikOverviewComponent implements OnInit {
   grafikTyp = GrafikTyp;
@@ -32,6 +33,9 @@ export class GrafikOverviewComponent implements OnInit {
     }
     else if(this.typ == GrafikTyp.PizzadiagrammWertpapierMenge) {
       this.name = 'Wertpapieranteil';
+    }
+    else if(this.typ == GrafikTyp.WertverlaufWertpapierwerte) {
+      this.name = 'Aktien-Wertverlauf';
     }
   }
 

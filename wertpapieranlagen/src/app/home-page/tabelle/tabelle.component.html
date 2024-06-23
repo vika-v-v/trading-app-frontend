@@ -4,50 +4,52 @@
     <p class="name grey-text">{{ name }}</p>
   </div>
   <div id="table-container">
-    <table #table>
-      <thead>
-        <tr>
-          <th *ngFor="let data of tableHeaderFormatted">
-            <div class="header-content">
-              <div class="grey-text">{{ data.wert }}</div>
-              <img
-                #icon
-                (click)="showFilterSortPopup(data, icon)"
-                [src]="getArrowSrc(data)"
-                alt="icon"
-              />
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let data of tableDataFormatted">
-          <tr *ngIf="data.shown">
-            <td *ngFor="let item of data.row">
-              <div *ngIf="item.highlightedRange && filterSortPopup != null">
-                <span class="grey-text">{{
-                  item.wert.substring(0, item.highlightedRange.start)
-                }}</span>
-                <span
-                  ><mark>{{
-                    item.wert.substring(
-                      item.highlightedRange.start,
-                      item.highlightedRange.end
-                    )
-                  }}</mark></span
-                >
-                <span class="grey-text">{{
-                  item.wert.substring(item.highlightedRange.end, item.wert.length)
-                }}</span>
+    <div id="table-content-container">
+      <table #table>
+        <thead>
+          <tr>
+            <th *ngFor="let data of tableHeaderFormatted">
+              <div class="header-content">
+                <div class="grey-text">{{ data.wert }}</div>
+                <img
+                  #icon
+                  (click)="showFilterSortPopup(data, icon)"
+                  [src]="getArrowSrc(data)"
+                  alt="icon"
+                />
               </div>
-              <div *ngIf="!item.highlightedRange || filterSortPopup == null" class="grey-text">
-                {{ item.wert }}
-              </div>
-            </td>
+            </th>
           </tr>
-        </ng-container>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of tableDataFormatted">
+            <tr *ngIf="data.shown">
+              <td *ngFor="let item of data.row">
+                <div *ngIf="item.highlightedRange && filterSortPopup != null">
+                  <span class="grey-text">{{
+                    item.wert.substring(0, item.highlightedRange.start)
+                  }}</span>
+                  <span
+                    ><mark>{{
+                      item.wert.substring(
+                        item.highlightedRange.start,
+                        item.highlightedRange.end
+                      )
+                    }}</mark></span
+                  >
+                  <span class="grey-text">{{
+                    item.wert.substring(item.highlightedRange.end, item.wert.length)
+                  }}</span>
+                </div>
+                <div *ngIf="!item.highlightedRange || filterSortPopup == null" class="grey-text">
+                  {{ item.wert }}
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
     <div *ngIf="tableDataFormatted.length == 0" id="leer-fehlermeldung">
       <p class="grey-text">{{leerFehlermeldung}}</p>
     </div>
@@ -64,38 +66,32 @@
     <!-- Sortings -->
     <div
       *ngFor="let sorting of getFilterSortPopupOptions().sortings"
-      class="option"
+      class="option global-button"
       (click)="toggleSorting(sorting, getFilterSortPopupOptions())"
       [ngClass]="{ selected: sorting.selected }"
     >
       <img [src]="sorting.imagesrc" alt="icon" />
-      <div>{{ sorting.name }}</div>
+      <div class="grey-text">{{ sorting.name }}</div>
     </div>
 
     <!-- Filters -->
     <div *ngFor="let filterOption of getFilterSortPopupOptions().filters">
-      <div *ngIf="filterOption.typ === 'Dropdown'" class="filter">
-        <label>{{ filterOption.name }}</label>
-        <select
-          *ngIf="filterOption.optionen"
-          [(ngModel)]="filterOption.selected"
-          (ngModelChange)="filterSelected()"
-        >
-          <option *ngFor="let option of filterOption.optionen" [value]="option">
-            {{ option }}
-          </option>
-        </select>
+
+      <div *ngIf="filterOption.typ === 'Dropdown'" class="filter dropdown-filter">
+        <label class="grey-text">{{ filterOption.name }}</label>
+        <app-custom-dropdown [options]="filterOption.optionen" [selectedOption]="selectedDropdownOption" (selectionChange)="filterOption.selected = $event; filterSelected()"></app-custom-dropdown>
       </div>
+
       <div *ngIf="filterOption.typ === 'Textfeld'" class="filter">
-        <label>{{ filterOption.name }}</label>
-        <input
+        <label class="grey-text">{{ filterOption.name }}</label>
+        <input class="grey-text textfield"
           type="text"
           [(ngModel)]="filterOption.selected"
           (ngModelChange)="filterSelected()"
         />
       </div>
       <div *ngIf="filterOption.typ === 'Slider'" class="filter slider-filter">
-        <label>{{ filterOption.name }}</label>
+        <label class="grey-text">{{ filterOption.name }}</label>
         <app-range-slider
           [min]="filterOption.min"
           [max]="filterOption.max"
@@ -106,18 +102,17 @@
           (value2Change)="filterSelected()"
         ></app-range-slider>
       </div>
-      <div
-        *ngIf="filterOption.typ === 'Checkbox'"
-        class="filter checkbox-filter"
-      >
-        <label>{{ filterOption.name }}</label>
-        <div *ngFor="let option of filterOption.optionen">
+      <div *ngIf="filterOption.typ === 'Checkbox'" class="filter checkbox-filter">
+        <label class="grey-text">{{ filterOption.name }}</label>
+        <div *ngFor="let option of filterOption.optionen" class="checkbox-option">
           <input
             type="checkbox"
             [checked]="option.selected"
             (change)="option.selected = !option.selected; filterSelected()"
+            class="custom-checkbox"
+            id="{{option.name}}"
           />
-          <label>{{ option.name }}</label>
+          <label class="grey-text" for="{{option.name}}">{{ option.name }}</label>
         </div>
       </div>
     </div>

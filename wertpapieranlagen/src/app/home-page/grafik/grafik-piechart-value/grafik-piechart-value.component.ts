@@ -4,6 +4,7 @@ import { DepotService } from '../../../services/depot.service';
 import { DepotDropdownService } from '../../../services/depot-dropdown.service';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
 
 @Component({
   selector: 'app-grafik-piechart-value',
@@ -12,19 +13,26 @@ import { Subscription } from 'rxjs';
   templateUrl: './grafik-piechart-value.component.html',
   styleUrls: ['./grafik-piechart-value.component.css']
 })
-export class GrafikPiechartValueComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() depotName: string | null = null;
+export class GrafikPiechartValueComponent implements Updateable { // OnInit, OnChanges, OnDestroy {
+  //@Input() depotName: string | null = null;
   private chart: Chart<'pie', number[], string> | undefined;
-  private depotSubscription: Subscription | undefined;
+  //private depotSubscription: Subscription | undefined;
 
   constructor(
     private depotService: DepotService,
     private http: HttpClient,
     private depotDropdownService: DepotDropdownService,
+    private updateEverythingService: UpdateEverythingService
   ) {
     Chart.register(...registerables);
+    updateEverythingService.subscribeToUpdates(this);
   }
 
+  update(): void {
+    this.generatePizzaDiagrammValue();
+  }
+
+  /*
   ngOnInit() {
     if (this.depotName) {
       console.log('Initial depotName:', this.depotName);
@@ -50,7 +58,7 @@ export class GrafikPiechartValueComponent implements OnInit, OnChanges, OnDestro
     if (this.depotSubscription) {
       this.depotSubscription.unsubscribe();
     }
-  }
+  }*/
 
   generatePizzaDiagrammValue() {
     if (this.chart) {

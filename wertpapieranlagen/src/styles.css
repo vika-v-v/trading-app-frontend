@@ -33,14 +33,10 @@ input {
 }
 
 .global-button {
-  padding: 10px;
-  background-color: #D9D9D9;
-  cursor: pointer;
-  border: 1.5px solid black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 3px;
+  background-color: #443f37;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 7px;
 }
 
 .global-input, .global-date {
@@ -125,6 +121,7 @@ input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: row;
   margin: 0 20px;
 }
 
@@ -139,14 +136,22 @@ input {
   text-align: right;
   font-size: 15px;
   max-height: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .information-line > input, .information-line > .input {
   text-align: left;
   font-size: 15px;
-  background-color: #292621;
+  background-color: #3a352e;
   border: none;
   border-radius: 4px;
+}
+
+.information-line > input[readonly], .information-line > .input[readonly] {
+  background-color: #2a2722;
+  color: #a8a3a3;
 }
 
 .information-line > .dropdown {

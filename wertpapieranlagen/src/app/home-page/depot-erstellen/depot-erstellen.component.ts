@@ -4,6 +4,8 @@ import { DepotService } from '../../services/depot.service';
 import { FormsModule } from '@angular/forms';
 import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
+import { UpdateEverythingService } from '../../services/update-everything.service';
+import { PopUpService } from '../../services/pop-up.service';
 
 
 @Component({
@@ -17,11 +19,11 @@ export class DepotErstellenComponent {
   name!: string;
 
   selectedWaehrung: any;
-  moeglicheWaehrungen = [{'value': 'EUR', 'label': 'EUR - Euro'}, {'value': 'USD', 'label': 'USD - US-Dollar'}];
+  moeglicheWaehrungen = ['Euro', 'US-Dollar'];
 
   @Output() onAbbrechen = new EventEmitter<void>();
 
-  constructor(private httpClient: HttpClient, private depotDropdownService: DepotDropdownService, private depotService: DepotService){
+  constructor(private httpClient: HttpClient, private depotDropdownService: DepotDropdownService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {
     this.selectedWaehrung = this.moeglicheWaehrungen[0];
   }
 
@@ -32,17 +34,19 @@ export class DepotErstellenComponent {
   }
 
   changeWaehrung(waehrung: string) {
-    this.selectedWaehrung = this.moeglicheWaehrungen.find(w => w.value == waehrung);
+    this.selectedWaehrung = waehrung;
   }
 
   depotErstellen(){
-    this.depotService.depotErstellen(this.httpClient, this.name, this.selectedWaehrung.value).subscribe(
+    let waehrungKuerzel = this.selectedWaehrung === 'Euro' ? 'EUR' : 'USD';
+    this.depotService.depotErstellen(this.httpClient, this.name, waehrungKuerzel).subscribe(
       response=>{
+        this.updateEverythingService.updateAll();
         this.abbrechen();
-        this.depotDropdownService.reloadDepots();
+        //this.depotDropdownService.reloadDepots();
       },
       error=>{
-        console.log(error.message);
+        this.popupService.errorPopUp("Fehler beim Erstellen des Depots: " + error.error.message);
       }
     );
   }

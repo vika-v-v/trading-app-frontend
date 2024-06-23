@@ -3,6 +3,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, 
 import { FilterType } from './filter-type.enum';
 import { FormsModule } from '@angular/forms';
 import { RangeSliderComponent } from './range-slider/range-slider.component';
+import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
 
 @Component({
   selector: 'app-tabelle',
@@ -10,12 +11,13 @@ import { RangeSliderComponent } from './range-slider/range-slider.component';
   imports: [
     CommonModule,
     FormsModule,
-    RangeSliderComponent
+    RangeSliderComponent,
+    CustomDropdownComponent
   ],
   templateUrl: './tabelle.component.html',
   styleUrl: './tabelle.component.css'
 })
-export class TabelleComponent implements OnChanges  {
+export class TabelleComponent implements OnInit, OnChanges  {
   FilterType = FilterType;
 
   @Input() tableHeader: any[] = [];
@@ -33,21 +35,28 @@ export class TabelleComponent implements OnChanges  {
   currentIcon: HTMLElement | null = null;
   // TODO: wenn zweites mal geklicked nicht mehr anzeigen
 
+  initialized = false;
+
+  selectedDropdownOption: string = '';
+
   @ViewChild('popup') popupRef!: ElementRef;
   @ViewChild('table') table!: ElementRef;
 
   constructor(@Inject('SORTINGS_AND_FILTERS') private possibleFiltersAndSortings: any) { }
 
+  ngOnInit () {
+    this.initializeData();
+    this.initialized = true;
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['tableData']) {
+    if (this.initialized && changes['tableData']) {
       this.tableDataFormatted = [];
       this.tableHeaderFormatted = [];
       this.initialTableDataFormatted = [];
       this.filterSortPopup = null;
 
-      if(this.tableData.length > 0) {
-        this.initializeData();
-      }
+      this.initializeData();
     }
   }
 
@@ -233,6 +242,7 @@ export class TabelleComponent implements OnChanges  {
   getFilterSortPopupOptions(): any {
     for (let filterSorting of this.tableHeaderFormatted) {
       if (filterSorting == this.filterSortPopup) {
+        this.selectedDropdownOption = filterSorting.filters[0].selected;
         return filterSorting;
       }
     }

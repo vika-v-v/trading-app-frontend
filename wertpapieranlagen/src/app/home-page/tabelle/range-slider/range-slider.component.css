@@ -26,8 +26,8 @@ input[type="range"]::-webkit-slider-thumb {
   height: 15px;
   border-radius: 50%;
   cursor: pointer;
-  background: #e4e4e4;
-  border: 1px solid black;
+  background: #dbd1d1;
+  border: 1px solid #a39d9d86;
 }
 
 input[type="range"]::-moz-range-thumb {
@@ -36,15 +36,15 @@ input[type="range"]::-moz-range-thumb {
   height: 15px;
   border-radius: 50%;
   cursor: pointer;
-  background: #e4e4e4; /* Change thumb color to red */
-  border: 1px solid black;
+  background: #dbd1d1; /* Change thumb color to red */
+  border: 1px solid #a39d9d86;
 }
 
 .slider-track {
   position: absolute;
   height: 6px;
-  background: #cecece; /* Change track background color to red */
-  border: 1px solid black;
+  background: #978879; /* Change track background color to red */
+  border: 1px solid #dbd1d186;
   z-index: 1;
   pointer-events: none;
 }
@@ -53,8 +53,8 @@ input[type="range"]::-moz-range-thumb {
   width: 100%;
   position: absolute;
   height: 6px;
-  background: #f3f3f3; /* Change track background color to red */
-  border: 1px solid black;
+  background: #51463d; /* Change track background color to red */
+  border: 1px solid #dbd1d186;
   z-index: 0;
   pointer-events: none;
   border-radius: 5px;

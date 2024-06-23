@@ -8,6 +8,7 @@ import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { PopUpService } from '../../services/pop-up.service';
 import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
 import { DepotService } from '../../services/depot.service';
+import { UpdateEverythingService } from '../../services/update-everything.service';
 
 @Component({
   selector: 'app-wertpapier-vorgang',
@@ -25,7 +26,6 @@ export class WertpapierVorgangComponent {
   WertpapierVorgang = WertpapierVorgang;
 
   @Input() wertpapierVorgang: WertpapierVorgang = WertpapierVorgang.Kaufen;
-  @Input() depotname: string | null = null;
   @Output() onAbbrechen = new EventEmitter<void>();
 
   date: string = '';
@@ -34,9 +34,10 @@ export class WertpapierVorgangComponent {
   anzahl: string = '';
   wertpapierPreis: string = '';
   transaktionskosten: string = '';
+  dividende: string = '';
 
-  selectedWertpapierart: any;
-  moeglicheWertpapierarten = [{'value': 'AKTIE', 'label': 'Aktie'}, {'value': 'ETF', 'label': 'ETF'}, {'value': 'FOND', 'label': 'Fond'}];
+  selectedWertpapierart: string;
+  moeglicheWertpapierarten = ['Aktie', 'ETF','Fond'];
 
   alleWertpapiere: any[] = [];
 
@@ -47,7 +48,7 @@ export class WertpapierVorgangComponent {
   allowSuggestions = false;
   invalidFields: any = {};
 
-  constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService, private depotService: DepotService) {
+  constructor(private httpClient: HttpClient, private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService) {
     this.selectedWertpapierart = this.moeglicheWertpapierarten[0];
     this.previousSelectedWertpapierart = this.selectedWertpapierart;
     this.date = this.formatDate(new Date());
@@ -68,7 +69,16 @@ export class WertpapierVorgangComponent {
       const wertpapier = this.alleWertpapiere.find(w => w.name.toLowerCase() == this.wertpapiername.toLowerCase());
       if(wertpapier) {
         this.kuerzel = wertpapier.kuerzel;
-        this.selectedWertpapierart = this.moeglicheWertpapierarten.find(w => w.value == wertpapier.wertpapierArt);
+
+        if(wertpapier.wertpapierArt == 'ETF') {
+          this.selectedWertpapierart = 'ETF';
+        }
+        else if(wertpapier.wertpapierArt == 'FOND') {
+          this.selectedWertpapierart = 'Fond';
+        }
+        else {
+          this.selectedWertpapierart = 'Aktie';
+        }
       }
       else {
         this.kuerzel = this.previousKuerzel;
@@ -127,30 +137,31 @@ export class WertpapierVorgangComponent {
       return;
     }
 
-    if(!this.depotname) {
+    if(!this.depotDropdownService.getDepot()) {
       this.popupService.errorPopUp("Kein Depot ausgewählt");
       this.abbrechen();
       return;
     }
 
-    this.wertpapierKaufService.wertpapierkaufErfassen(this.httpClient, this.depotname, this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
+    this.wertpapierKaufService.wertpapierkaufErfassen(this.httpClient, this.depotDropdownService.getDepot(), this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
       response=>{
         this.popupService.infoPopUp("Kauf erfolgreich hinzugefügt.");
         this.abbrechen();
+        this.updateEverythingService.updateAll();
       },
       error=>{
         if(error.status == 404 && attempt < 3) {
-          this.wertpapierKaufService.wertpapierHinzufügen(this.httpClient, this.wertpapiername, this.kuerzel, this.selectedWertpapierart.value).subscribe(
+          this.wertpapierKaufService.wertpapierHinzufügen(this.httpClient, this.wertpapiername, this.kuerzel, this.selectedWertpapierart.toUpperCase()).subscribe(
             response => {
               this.kaufHinzufuegen(attempt + 1);
             },
             error => {
-              this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers.");
+              this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers: " + error.error.message);
             }
           )
         }
         else {
-          this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers.");
+          this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers: " + error.error.message);
         }
       }
     );
@@ -166,6 +177,7 @@ export class WertpapierVorgangComponent {
       response=>{
         this.popupService.infoPopUp("Verkauf erfolgreich hinzugefügt.");
         this.abbrechen();
+        this.updateEverythingService.updateAll();
       },
       error=>{
         this.popupService.errorPopUp("Fehler beim Verkauf des Wertpapiers.");
@@ -174,7 +186,7 @@ export class WertpapierVorgangComponent {
   }
 
   changeWertpapierart(wertpapierart: string) {
-    this.selectedWertpapierart = this.moeglicheWertpapierarten.find(w => w.value == wertpapierart);
+    this.selectedWertpapierart = wertpapierart;
     this.previousSelectedWertpapierart = this.selectedWertpapierart;
   }
 
@@ -200,5 +212,27 @@ export class WertpapierVorgangComponent {
 
     this.onAbbrechen.emit();
   }
+
+  dividendeHinzufuegen() {
+    if (!this.wertpapiername || !this.dividende || !this.date) {
+      this.invalidFields = {
+        wertpapiername: !this.wertpapiername,
+        dividende: !this.dividende,
+        date: !this.date
+      };
+      return;
+    }
+  
+    // Logik zum Hinzufügen der Dividende hier einfügen
+    const dividendeDetails = {
+      wertpapiername: this.wertpapiername,
+      dividende: this.dividende,
+      date: this.date
+    };
+    console.log('Dividende hinzufügen:', dividendeDetails);
+    // Hier kann der Aufruf zum Backend-Server erfolgen, um die Dividende zu erfassen
+    this.abbrechen();
+  }
+  
 }
 

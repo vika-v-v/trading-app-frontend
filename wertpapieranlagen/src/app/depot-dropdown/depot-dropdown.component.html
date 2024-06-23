@@ -1,7 +1,9 @@
 <div>
   <app-custom-dropdown
-  [options]="filteredDepots"
-  [selectedOption]="filteredDepots[0]"
-  (selectionChange)="onSelectDepot($event)">
-</app-custom-dropdown>
+    [options]="filteredDepots"
+    [selectedOption]="firstDepot"
+    (selectionChange)="onSelectDepot($event)">
+  </app-custom-dropdown>
 </div>
+
+<app-aktien-dropdown [selectedDepot]="firstDepot"></app-aktien-dropdown>
