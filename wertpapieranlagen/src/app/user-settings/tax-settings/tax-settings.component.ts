@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-tax-settings',
@@ -20,6 +22,9 @@ export class TaxSettingsComponent implements OnInit {
   steuerbelastung = 0;
   kapitalgewinne_netto = 0;
 
+  constructor(private userService: UserService, private http: HttpClient) {}
+
+
   ngOnInit() {
     this.fillVerlustverrechnungstopf();
     this.fillBruttoKapitalgewinne();
@@ -27,14 +32,26 @@ export class TaxSettingsComponent implements OnInit {
     this.fillNettoKapitalgewinne();
   }
 
-  fillVerlustverrechnungstopf() {
-    // Hier sollte die Logik zur Bereitstellung der Daten implementiert werden
-    this.verlustverrechnungstopf = 500; // Beispielwert
+  getAccountValue() {
+    return this.userService.getAccountvalue(this.http).toPromise();
   }
 
-  fillBruttoKapitalgewinne() {
-    // Hier sollte die Logik zur Bereitstellung der Daten implementiert werden
-    this.kapitalgewinne_brutto = 2000; // Beispielwert
+  async fillVerlustverrechnungstopf() {
+    try {
+      const accountvalue = await this.getAccountValue();
+      this.verlustverrechnungstopf = accountvalue.data.verlustverrechnungstopf;
+    } catch (error) {
+      console.error('Error fetching user data', error);
+    }
+  }
+
+  async fillBruttoKapitalgewinne() {
+    try {
+      const accountvalue = await this.getAccountValue();
+      this.kapitalgewinne_brutto = accountvalue.data.accountValue;
+    } catch (error) {
+      console.error('Error fetching user data', error);
+    }
   }
 
   calculateSteuerbelastung() {
