@@ -6,17 +6,18 @@ import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
 import { UpdateEverythingService } from '../../services/update-everything.service';
 import { PopUpService } from '../../services/pop-up.service';
-
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-depot-erstellen',
   standalone: true,
-  imports: [FormsModule, CustomDropdownComponent],
+  imports: [FormsModule, CustomDropdownComponent, CommonModule],
   templateUrl: './depot-erstellen.component.html',
   styleUrl: './depot-erstellen.component.css'
 })
 export class DepotErstellenComponent {
-  name!: string;
+  name: string = '';
+  nameFieldInvalid!: boolean;
 
   selectedWaehrung: any;
   moeglicheWaehrungen = ['Euro', 'US-Dollar'];
@@ -37,7 +38,17 @@ export class DepotErstellenComponent {
     this.selectedWaehrung = waehrung;
   }
 
+  checkName(){
+    this.nameFieldInvalid = !this.name;
+    return this.nameFieldInvalid;
+  }
+
   depotErstellen(){
+    if(this.checkName()){
+      this.popupService.errorPopUp('Bitte alle Felder ausfüllen.');
+      return;
+    }
+
     let waehrungKuerzel = this.selectedWaehrung === 'Euro' ? 'EUR' : 'USD';
     this.depotService.depotErstellen(this.httpClient, this.name, waehrungKuerzel).subscribe(
       response=>{

@@ -9,3 +9,7 @@
   vertical-align: middle;
   font-size: 35px;
 }
+
+.input-error {
+  border: 1px solid red;
+}
