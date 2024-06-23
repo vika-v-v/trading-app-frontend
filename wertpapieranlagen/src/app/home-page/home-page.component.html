@@ -72,7 +72,7 @@
 
   <div id="side-panel" [class.show]="_showSidePanel" [class.hide]="_showSidePanel!= null && !_showSidePanel">
     <div class="background" (click)="hideSidePanel()"></div>
-    <div id="content">
+    <div id="content" [ngStyle]="{'width': sidePanel === SidePanel.Settings ? '55%' : '35%'}">
       <div *ngIf="sidePanel === SidePanel.Kaufen">
         <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Kaufen" (onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
       </div>
