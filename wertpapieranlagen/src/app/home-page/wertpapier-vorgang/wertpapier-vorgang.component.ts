@@ -156,12 +156,22 @@ export class WertpapierVorgangComponent {
               this.kaufHinzufuegen(attempt + 1);
             },
             error => {
-              this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers: " + error.error.message);
+              if(error.error.message) {
+                this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers: " + error.error.message);
+              }
+              else {
+                this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers. Versuchen Sie bitte später erneut.");
+              }
             }
           )
         }
         else {
-          this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers: " + error.error.message);
+          if(error.error.message) {
+            this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers: " + error.error.message);
+          }
+          else {
+            this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers. Versuchen Sie bitte später erneut.");
+          }
         }
       }
     );
@@ -222,7 +232,7 @@ export class WertpapierVorgangComponent {
       };
       return;
     }
-  
+
     // Logik zum Hinzufügen der Dividende hier einfügen
     const dividendeDetails = {
       wertpapiername: this.wertpapiername,
@@ -233,6 +243,6 @@ export class WertpapierVorgangComponent {
     // Hier kann der Aufruf zum Backend-Server erfolgen, um die Dividende zu erfassen
     this.abbrechen();
   }
-  
+
 }
 

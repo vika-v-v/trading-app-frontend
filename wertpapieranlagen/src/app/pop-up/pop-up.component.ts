@@ -49,7 +49,7 @@ export class PopUpComponent implements OnDestroy {
   private infoPopUp(text: string) {
     this.choicePopUpVisible = false;
     this.symbol = '&#9432;';
-    this.popupColor = '#9c9c9c';
+    this.popupColor = '#473d3d';
     this.text = text;
   }
 

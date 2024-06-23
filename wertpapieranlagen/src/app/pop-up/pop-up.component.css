@@ -1,24 +1,57 @@
-.infoErrorPopUp {
+/*.infoErrorPopUp {
   color: white;
-  width: 50vw;
+  width: max-content;
+  height: 30px;
   display: flex;
   align-items: center;
+  flex-direction: row;
+  gap: 10px;
   padding: 1rem;
-  border-radius: 8px; /* Abgerundete Ecken */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Schatten für mehr Tiefe */
+  border-radius: 8px; /* Abgerundete Ecken
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Schatten für mehr Tiefe
+  position: absolute;
 }
 .symbol {
-  position: absolute;
   left: 2rem;
-  font-size: 2em; /* Symbol 3 mal so groß */
+  font-size: 2em; /* Symbol 3 mal so groß
 }
 .text {
-  font-size: 1.2em; /* Text 1.5 mal vergrößern */
-  margin-left: 7rem; /* Abstand von der linken Seite, um Platz für das Symbol zu lassen */
-  text-align: center; /* Text rechtsbündig ausrichten */
-  width: 80%; /* Breite entsprechend anpassen */
+  font-size: 1.2em; /* Text 1.5 mal vergrößern
+  margin-left: 20px; /* Abstand von der linken Seite, um Platz für das Symbol zu lassen
+  text-align: center; /* Text rechtsbündig ausrichten
+
+}*/
+
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
+.infoErrorPopUp {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  color: #DBD1D1;
+  padding: 12px 80px;
+  border-radius: 4px;
+  box-shadow: 6px 6px 2px rgb(17, 13, 13);
+  z-index: 1000;
+}
+
+.symbol {
+  margin-right: 20px;
+  font-size: 17px;
+}
+
+.text {
+  margin: 0;
+  font-size: 17px;
+}
 
 
 
