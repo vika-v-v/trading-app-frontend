@@ -40,13 +40,13 @@
              [ngClass]="{'input-error': invalidFields.wertpapierPreis}"/>
     </div>
 
-    <div id="menge" class="information-line">
+    <div id="menge" class="information-line" *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen">
       <p class="grey-text">Menge</p>
       <input class="grey-text" type="number" placeholder="10" [(ngModel)]="anzahl"
              [ngClass]="{'input-error': invalidFields.anzahl}"/>
     </div>
 
-    <div id="transaktionskosten" class="information-line">
+    <div id="transaktionskosten" class="information-line" *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen">
       <p class="grey-text">Transaktionskosten</p>
       <input class="grey-text" type="number" placeholder="2.50" [(ngModel)]="transaktionskosten"
              [ngClass]="{'input-error': invalidFields.transaktionskosten}"/>
