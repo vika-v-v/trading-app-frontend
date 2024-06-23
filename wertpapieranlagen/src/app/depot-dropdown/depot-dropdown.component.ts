@@ -7,13 +7,14 @@ import { Subscription } from 'rxjs';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 import { UpdateEverythingService, Updateable } from '../services/update-everything.service'
 import { PopUpService } from '../services/pop-up.service';
+import { AktienDropdownComponent } from '../aktien-dropdown/aktien-dropdown.component'; // Importiere die AktienDropdownComponent
 
 @Component({
   selector: 'app-depot-dropdown',
   templateUrl: './depot-dropdown.component.html',
   styleUrls: ['./depot-dropdown.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, CustomDropdownComponent]
+  imports: [CommonModule, FormsModule, CustomDropdownComponent, AktienDropdownComponent]
 })
 export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy,
   depots: string[] = [];
@@ -32,6 +33,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
     //this.reloadSubscription = new Subscription();
     updateEverythingService.subscribeToUpdates(this);
   }
+
 
   ngOnInit(): void {
     this.loadDepots();

@@ -26,7 +26,7 @@
   <div id="main-section">
     <div class="elementen-erste-linie">
       <app-grafik-overview [typ]="GrafikTyp.WertverlaufDepotwerte" [selectedDepotName]="currentDepotName" class="grafik"></app-grafik-overview>
-      <app-grafik-overview [typ]="GrafikTyp.PizzadiagrammWertpapierWert" [selectedDepotName]="currentDepotName" class="grafik"></app-grafik-overview>
+      <app-grafik-overview [typ]="GrafikTyp.WertverlaufWertpapierwerte" [selectedDepotName]="currentDepotName" class="grafik"></app-grafik-overview>
     </div>
     <div class="elementen-zweite-linie">
       <app-grafik-overview [typ]="GrafikTyp.PizzadiagrammWertpapierMenge" [selectedDepotName]="currentDepotName" class="grafik"></app-grafik-overview>
@@ -78,6 +78,9 @@
       </div>
       <div *ngIf="sidePanel === SidePanel.Verkaufen">
         <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Verkaufen"(onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
+      </div>
+      <div *ngIf="sidePanel === SidePanel.DividendeErfassen">
+        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.DividendeErfassen"(onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
       </div>
       <div *ngIf="sidePanel === SidePanel.DepotErstellen">
         <app-depot-erstellen (onAbbrechen)="hideSidePanel()"></app-depot-erstellen>

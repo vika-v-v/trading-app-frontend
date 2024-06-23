@@ -115,6 +115,9 @@ export class HomePageComponent implements OnInit, Updateable {
     if (selectedTransaction === 'Verkaufen') {
       this.showSidePanel(SidePanel.Verkaufen);
     }
+    if (selectedTransaction === 'Dividende erfassen') {
+      this.showSidePanel(SidePanel.DividendeErfassen);
+    }
   }
 
   fillCanvas(): void {

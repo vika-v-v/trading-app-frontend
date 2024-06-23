@@ -34,6 +34,7 @@ export class WertpapierVorgangComponent {
   anzahl: string = '';
   wertpapierPreis: string = '';
   transaktionskosten: string = '';
+  dividende: string = '';
 
   selectedWertpapierart: string;
   moeglicheWertpapierarten = ['Aktie', 'ETF','Fond'];
@@ -211,5 +212,27 @@ export class WertpapierVorgangComponent {
 
     this.onAbbrechen.emit();
   }
+
+  dividendeHinzufuegen() {
+    if (!this.wertpapiername || !this.dividende || !this.date) {
+      this.invalidFields = {
+        wertpapiername: !this.wertpapiername,
+        dividende: !this.dividende,
+        date: !this.date
+      };
+      return;
+    }
+  
+    // Logik zum Hinzufügen der Dividende hier einfügen
+    const dividendeDetails = {
+      wertpapiername: this.wertpapiername,
+      dividende: this.dividende,
+      date: this.date
+    };
+    console.log('Dividende hinzufügen:', dividendeDetails);
+    // Hier kann der Aufruf zum Backend-Server erfolgen, um die Dividende zu erfassen
+    this.abbrechen();
+  }
+  
 }
 

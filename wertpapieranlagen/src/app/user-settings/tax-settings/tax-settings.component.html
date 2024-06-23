@@ -1,6 +1,6 @@
 <!-- Author: Thore Böger -->
 <h1>Steuerrechner</h1>
-<form>
+<form (submit)="onSubmit($event)">
     <table>
         <tr>
             <td><label for="steuersatz">Steuersatz</label></td>
@@ -44,7 +44,7 @@
         </tr>
     </table>
 
-    <input type="submit" value="Berechnen">
+    <input type="submit" value="Berechnen" (click)="calculateSteuerbelastung()">
     <input type="reset" value="Abbrechen" (click)="onReset()">
     <button type="button" (click)="toggleSteuerinfo()">Steuerinfo anzeigen</button>
 </form>

@@ -2,8 +2,10 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { DepotService } from '../../../services/depot.service';
 import { DepotDropdownService } from '../../../services/depot-dropdown.service';
+import { UserService } from '../../../services/user.service';
 import { HttpClient } from '@angular/common/http';
 import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   standalone: true,
@@ -15,8 +17,10 @@ import { UpdateEverythingService, Updateable } from '../../../services/update-ev
 export class GrafikLinechartDepotComponent implements Updateable { // implements OnChanges {
   //@Input() depotName: string | null = null;
   private chart: Chart<'line', number[], string> | undefined;
+  private xValues: string[] = [];
+  private yValues: number[] = [];
 
-  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService, private updateEverythingService: UpdateEverythingService) {
+  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService, private updateEverythingService: UpdateEverythingService, private userService: UserService) {
     Chart.register(...registerables);
     updateEverythingService.subscribeToUpdates(this);
   }
@@ -37,34 +41,25 @@ export class GrafikLinechartDepotComponent implements Updateable { // implements
 
   async generateLineChart_DepotWert() {
     try {
-      const depotName = this.depotDropdownService.getDepot();
-      const input = await this.depotService.getWertverlauf(this.http, depotName).toPromise();
+      const depotId = this.depotDropdownService.getDepot();
+      const response = await this.http.get<any>(`/api/depots/${depotId}`)
+        .pipe(
+          map((data: any) => data.data.historischeDepotgesamtwerte)
+        )
+        .toPromise();
 
-      console.log(depotName);// Ausgabe des Inputs auf der Konsole
-      console.log(input);// Ausgabe des Inputs auf der Konsole
+      this.xValues = [];
+      this.yValues = [];
 
-      const xValues: string[] = [];
-      const yValues: number[] = [];
-
-      const data = input.data;
-
-      for (const date in data) {
-        xValues.push(date);
-        let dailySum = 0;
-
-        for (const stockName in data[date]) {
-          const stockData = data[date][stockName];
-          const averagePrice = parseFloat(stockData.GesamtwertKaufpreis.replace(',', '.'));
-          dailySum += averagePrice;
-        }
-
-        yValues.push(dailySum);
+      for (const date in response) {
+        this.xValues.push(date);
+        this.yValues.push(response[date]);
       }
 
       const chartConfig: ChartConfiguration<'line', number[], string> = {
         type: 'line',
         data: {
-          labels: xValues,
+          labels: this.xValues,
           datasets: [
             {
               label: 'Depot Wert',
@@ -72,7 +67,7 @@ export class GrafikLinechartDepotComponent implements Updateable { // implements
               tension: 0,
               backgroundColor: 'rgba(75, 192, 192, 1)',
               borderColor: '#B2A4A4',
-              data: yValues,
+              data: this.yValues,
               yAxisID: 'y'
             }
           ]
@@ -85,7 +80,7 @@ export class GrafikLinechartDepotComponent implements Updateable { // implements
               type: 'linear',
               position: 'left',
               ticks: {
-                stepSize: 5
+                stepSize: 50 // Anpassen je nach Bedarf für die Schrittweite der Y-Achse
               },
               grid: {
                 drawOnChartArea: true
@@ -100,14 +95,13 @@ export class GrafikLinechartDepotComponent implements Updateable { // implements
       }
 
       const canvas = document.getElementById('lineChartDepotWert') as HTMLCanvasElement;
-      console.log(canvas);
       if (canvas) {
         this.chart = new Chart(canvas, chartConfig);
       } else {
         console.error('Canvas element not found');
       }
     } catch (error) {
-      console.error('Fehler beim Abrufen des Wertverlaufs:', error);
+      console.error('Error fetching historical depot data:', error);
     }
   }
 }
