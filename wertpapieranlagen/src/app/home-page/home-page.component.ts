@@ -61,7 +61,6 @@ export class HomePageComponent implements OnInit, Updateable {
   currentDepotName: string | null = null;
   wertpapierenData: any[] = [];
   transaktionenData: any[] = [];
-  flagDepotLoeschen: boolean | null = null;
 
   showNonDepotExistingComponent: boolean = false;
 
@@ -74,7 +73,6 @@ export class HomePageComponent implements OnInit, Updateable {
     updateEverythingService.subscribeToUpdates(this);
     this.popUpSubscription = this.popUpService.popUpVisible$.subscribe(visible => {
       if (!visible && this.choiceConfirmed) {
-        this.depotLoeschen();
         this.choiceConfirmed = false;
       }
     });
@@ -235,7 +233,7 @@ export class HomePageComponent implements OnInit, Updateable {
   }
 
   showDepotLoeschen() {
-    this.flagDepotLoeschen = true;
+    console.log("Loeschen gestartet" + this.currentDepotName);
     this.popUpService.choicePopUp('Sind Sie sicher, dass Sie das Depot "' + this.currentDepotName + '" löschen möchten?');
   }
 
@@ -245,19 +243,21 @@ export class HomePageComponent implements OnInit, Updateable {
   }
 
   depotLoeschen() {
-    if (this.flagDepotLoeschen == true && this.currentDepotName) {
-      this.depotService.deleteDepot(this.http, this.currentDepotName).subscribe({
-        next: (response) => {
-          console.log('Depot gelöscht:', response);
-          this.flagDepotLoeschen = false;
-          // Depot gelöscht, eventuell UI aktualisieren
-        },
-        error: (error) => {
-          console.error('Error deleting depot:', error);
-        }
-      });
-    } else {
-      console.error('No depot selected for deletion');
-    }
+    console.log('Depot löschen');
+    this.updateEverythingService.updateAll();
+    // if (this.flagDepotLoeschen == true && this.currentDepotName) {
+    //   this.depotService.deleteDepot(this.http, this.currentDepotName).subscribe({
+    //     next: (response) => {
+    //       console.log('Depot gelöscht:', response);
+    //       this.flagDepotLoeschen = false;
+    //       // Depot gelöscht, eventuell UI aktualisieren
+    //     },
+    //     error: (error) => {
+    //       console.error('Error deleting depot:', error);
+    //     }
+    //   });
+    // } else {
+    //   console.error('No depot selected for deletion');
+    // }
   }
 }
