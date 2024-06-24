@@ -1,7 +1,7 @@
 <div id="canvas-container">
   <div id="header-container">
     <p class="name grey-text">{{ name }}</p>
-    <div *ngIf="this.typ === grafikTyp.WertverlaufWertpapierwerte">
+    <div *ngIf="this.typ === grafikTyp.WertverlaufWertpapierWerte">
     </div>
   </div>
   <app-grafik-overview [typ]="typ" [selectedDepotName]="depotName"></app-grafik-overview>

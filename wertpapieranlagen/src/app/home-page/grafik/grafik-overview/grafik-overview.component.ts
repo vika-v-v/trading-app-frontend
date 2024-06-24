@@ -34,7 +34,7 @@ export class GrafikOverviewComponent implements OnInit {
     else if(this.typ == GrafikTyp.PizzadiagrammWertpapierMenge) {
       this.name = 'Wertpapieranteil';
     }
-    else if(this.typ == GrafikTyp.WertverlaufWertpapierwerte) {
+    else if(this.typ == GrafikTyp.WertverlaufWertpapierWerte) {
       this.name = 'Aktien-Wertverlauf';
     }
   }

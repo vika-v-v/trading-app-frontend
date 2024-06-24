@@ -92,14 +92,7 @@ export class TaxSettingsComponent implements OnInit {
   }
 
   onReset() {
-    this.steuersatz = 0;
-    this.steuerfreibetrag = 0;
-    this.soli = 0;
-    this.kirchensteuer = 0;
-    this.verlustverrechnungstopf = 0;
-    this.kapitalgewinne_brutto = 0;
-    this.steuerbelastung = 0;
-    this.kapitalgewinne_netto = 0;
+    this.fetchAccountValues();
   }
 
   onSubmit(event: Event) {
