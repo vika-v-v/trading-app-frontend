@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { PasswordUtilsService } from '../services/password-utils.service';
 import { AutoLogoutService } from '../services/auto-logout.service';
+import { PopUpService } from '../services/pop-up.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
@@ -14,12 +15,14 @@ describe('RegistrationPageComponent', () => {
   let userService: jasmine.SpyObj<UserService>;
   let passwordUtils: jasmine.SpyObj<PasswordUtilsService>;
   let autoLogoutService: jasmine.SpyObj<AutoLogoutService>;
+  let popUpService: jasmine.SpyObj<PopUpService>;
   let router: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
     const userServiceSpy = jasmine.createSpyObj('UserService', ['register', 'setToken']);
     const passwordUtilsSpy = jasmine.createSpyObj('PasswordUtilsService', ['checkPassword', 'checkPasswordMatch']);
     const autoLogoutServiceSpy = jasmine.createSpyObj('AutoLogoutService', ['startTimer']);
+    const popUpServiceSpy = jasmine.createSpyObj('PopUpService', ['errorPopUp', 'infoPopUp']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
@@ -28,6 +31,7 @@ describe('RegistrationPageComponent', () => {
         { provide: UserService, useValue: userServiceSpy },
         { provide: PasswordUtilsService, useValue: passwordUtilsSpy },
         { provide: AutoLogoutService, useValue: autoLogoutServiceSpy },
+        { provide: PopUpService, useValue: popUpServiceSpy },
         { provide: Router, useValue: routerSpy }
       ]
     }).compileComponents();
@@ -37,6 +41,7 @@ describe('RegistrationPageComponent', () => {
     userService = TestBed.inject(UserService) as jasmine.SpyObj<UserService>;
     passwordUtils = TestBed.inject(PasswordUtilsService) as jasmine.SpyObj<PasswordUtilsService>;
     autoLogoutService = TestBed.inject(AutoLogoutService) as jasmine.SpyObj<AutoLogoutService>;
+    popUpService = TestBed.inject(PopUpService) as jasmine.SpyObj<PopUpService>;
     router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     fixture.detectChanges();
   });
@@ -75,35 +80,37 @@ describe('RegistrationPageComponent', () => {
     component.password = '';
     component.isPasswordInvalid = true;
 
-    const consoleSpy = spyOn(console, 'log');
     component.registrieren();
 
-    expect(consoleSpy).toHaveBeenCalledWith("Ungültige Eingaben!");
+    expect(popUpService.errorPopUp).toHaveBeenCalledWith("Ungültige Eingaben!");
     expect(userService.register).not.toHaveBeenCalled();
   });
 
   it('should call UserService register on valid inputs', () => {
     component.email = 'test@example.com';
     component.password = 'validPassword';
+    component.password2 = 'validPassword';
     component.isPasswordInvalid = false;
+    component.doPasswordsMatch = true;
 
     const registerResponse = { statusCode: 201, data: 'token' };
     userService.register.and.returnValue(of(registerResponse));
 
-    const consoleSpy = spyOn(console, 'log');
     component.registrieren();
 
     expect(userService.register).toHaveBeenCalledWith(jasmine.any(Object), 'test@example.com', 'validPassword');
-    expect(consoleSpy).toHaveBeenCalledWith('Response:', registerResponse);
     expect(userService.setToken).toHaveBeenCalledWith('token');
     expect(router.navigate).toHaveBeenCalledWith(['home-page']);
     expect(autoLogoutService.startTimer).toHaveBeenCalled();
+    expect(popUpService.infoPopUp).toHaveBeenCalledWith("Registrierung erfolgreich.");
   });
 
   it('should handle register error', () => {
     component.email = 'test@example.com';
     component.password = 'validPassword';
+    component.password2 = 'validPassword';
     component.isPasswordInvalid = false;
+    component.doPasswordsMatch = true;
 
     const errorResponse = new Error('Test error');
     userService.register.and.returnValue(throwError(() => errorResponse));

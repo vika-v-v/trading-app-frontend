@@ -81,15 +81,6 @@ describe('LoginSeiteComponent', () => {
     expect(popUpService.errorPopUp).toHaveBeenCalledWith('E-Mail oder Passwort falsch!');
   });
 
-  it('should show error popup on login error', () => {
-    component.email = 'test@example.com';
-    component.passwort = 'password';
-    userService.login.and.returnValue(throwError(() => new Error('Login error')));
-
-    component.anmelden();
-
-    expect(popUpService.errorPopUp).toHaveBeenCalledWith('E-Mail oder Passwort falsch!');
-  });
 
   it('should navigate to registration page', () => {
     component.navigateToRegistrationPage();

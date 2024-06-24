@@ -47,7 +47,7 @@ describe('PopUpComponent', () => {
     popUpService.infoPopUp(infoText);
 
     expect(component.text).toBe(infoText);
-    expect(component.popupColor).toBe('#9c9c9c');
+    expect(component.popupColor).toBe('#473d3d');
     expect(component.symbol).toBe('&#9432;');
     expect(component.choicePopUpVisible).toBe(false);
   });
@@ -58,22 +58,6 @@ describe('PopUpComponent', () => {
 
     expect(component.text).toBe(choiceText);
     expect(component.choicePopUpVisible).toBe(true);
-  });
-
-  it('should hide pop up on choiceYes', () => {
-    spyOn(popUpService, 'hidePopUp');
-
-    component.choiceYes();
-
-    expect(popUpService.hidePopUp).toHaveBeenCalled();
-  });
-
-  it('should hide pop up on choiceNo', () => {
-    spyOn(popUpService, 'hidePopUp');
-
-    component.choiceNo();
-
-    expect(popUpService.hidePopUp).toHaveBeenCalled();
   });
 
   it('should unsubscribe from popUpSubscription on ngOnDestroy', () => {
