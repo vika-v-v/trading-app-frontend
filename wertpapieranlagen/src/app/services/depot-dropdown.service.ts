@@ -64,7 +64,7 @@ export class DepotDropdownService {
   }
 
   getAktien(http: HttpClient, depotName: string): Observable<string[]> {
-    const getAktienURL = `${this.rootUrl}depot/getDepot?depot=ThoresDepot`;
+    const getAktienURL = `${this.rootUrl}depot/getDepot?depotName=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`

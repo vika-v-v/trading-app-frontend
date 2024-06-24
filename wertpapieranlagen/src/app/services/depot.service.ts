@@ -110,7 +110,21 @@ export class DepotService {
     return http.get(getDepotHistoryURL, httpOptions);
   }
 
-  getAktien(){
-    
+  addDividende(http: HttpClient, depotName: string, wertpapierName: string, dividende: string, date: string): Observable<any>{
+    //Achtung anpassen richtigen Api-Call wählen
+    const addDividendeURL = `${this.rootUrl}depot/addDividende`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.userService.getToken()}`
+      })
+    };
+
+    const formData = new FormData();
+    formData.append('depotName', depotName);
+    formData.append('wertpapierName', wertpapierName);
+    formData.append('dividende', dividende);
+    formData.append('date', date);
+
+    return http.post(addDividendeURL, formData, httpOptions);
   }
 }

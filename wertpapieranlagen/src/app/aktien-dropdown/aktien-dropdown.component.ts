@@ -19,9 +19,19 @@ export class AktienDropdownComponent implements OnInit, OnDestroy, OnChanges {
   errorMessage: string = '';
   private subscription: Subscription = new Subscription();
 
-  constructor(private depotService: DepotDropdownService, private http: HttpClient) {}
+  constructor(private depotDropDownService: DepotDropdownService, private http: HttpClient) {}
 
   ngOnInit(): void {
+    this.setDepot();
+    this.loadAktien();
+  }
+
+  setDepot(){
+    this.selectedDepot = this.depotDropDownService.getDepot();
+  }
+
+  update(): void {
+    this.setDepot();
     this.loadAktien();
   }
 
@@ -30,9 +40,8 @@ export class AktienDropdownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.selectedDepot) {
-      this.loadAktien();
-    }
+    this.setDepot();
+    this.loadAktien();
   }
 
   loadAktien() {
@@ -42,7 +51,7 @@ export class AktienDropdownComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     this.subscription.add(
-      this.depotService.getAktien(this.http, this.selectedDepot).subscribe(
+      this.depotDropDownService.getAktien(this.http, this.selectedDepot).subscribe(
         (response) => {
           this.aktien = response; // Direktes Zuweisen der Aktiennamen
         },

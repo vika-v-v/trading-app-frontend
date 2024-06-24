@@ -240,8 +240,17 @@ export class WertpapierVorgangComponent {
       date: this.date
     };
     console.log('Dividende hinzufügen:', dividendeDetails);
-    // Hier kann der Aufruf zum Backend-Server erfolgen, um die Dividende zu erfassen
-    this.abbrechen();
+
+    this.depotService.addDividende(this.httpClient, "ThoresDepot", "Microsoft", "12", "01.01.2024").subscribe(
+      response=>{
+        this.popupService.infoPopUp("Dividende erfolgreich hinzugefügt.");
+        this.abbrechen();
+        this.updateEverythingService.updateAll();
+      },
+      error=>{
+        this.popupService.errorPopUp("Fehler beim Erfassen der Dividende.");
+      }
+    );
   }
 
 }
