@@ -114,7 +114,7 @@
   margin-bottom: 5px; /* Space between rows */
 }
 
-.grafik, #wertpapieren-table {
+.grafik {
   flex: 1; /* Allows graphics to take equal space */
   margin: 0 10px; /* Space between graphics */
   width: 50%;
@@ -125,7 +125,13 @@
 }
 
 #wertpapieren-table {
-  transform: translateY(2px);
+  flex: 1;
+  margin: 0 10px;
+  width: 50%;
+  max-width: 50%;
+  min-width: 50%;
+  height: calc((100vh - 150px) / 2);
+  max-height: calc((100vh - 150px) / 2);
 }
 
 

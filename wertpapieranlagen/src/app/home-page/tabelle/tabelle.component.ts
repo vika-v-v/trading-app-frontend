@@ -54,7 +54,7 @@ export class TabelleComponent implements OnInit, OnChanges  {
       this.tableDataFormatted = [];
       this.tableHeaderFormatted = [];
       this.initialTableDataFormatted = [];
-      this.filterSortPopup = null;
+      //this.filterSortPopup = null;
 
       this.initializeData();
     }

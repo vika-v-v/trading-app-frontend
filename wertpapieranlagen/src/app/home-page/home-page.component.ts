@@ -149,11 +149,11 @@ export class HomePageComponent implements OnInit, Updateable {
           return [
             transaktion.date,
             transaktion.wertpapier.name,
-            isNaN(transaktion.anzahl) ? parseFloat(transaktion.anzahl.replace(',', '.')) : transaktion.anzahl,
-            isNaN(transaktion.wertpapierPreis) ? parseFloat(transaktion.wertpapierPreis.replace(',', '.')) : transaktion.wertpapierPreis,
-            isNaN(transaktion.transaktionskosten) ? parseFloat(transaktion.transaktionskosten.replace(',', '.')) : transaktion.transaktionskosten,
+            Number(transaktion.anzahl),
+            Number(transaktion.wertpapierPreis),
+            Number(transaktion.transaktionskosten),
             transaktion.transaktionsart,
-            isNaN(transaktion.gesamtkosten) ? parseFloat(transaktion.gesamtkosten.replace(',', '.')) : transaktion.gesamtkosten
+            Number(transaktion.gesamtkosten)
           ];
         });
       },
@@ -173,9 +173,9 @@ export class HomePageComponent implements OnInit, Updateable {
           return [
             key,
             wertpapier.WertpapierArt,
-            isNaN(wertpapier.WertpapierPreisAktuell) ? parseFloat(wertpapier.WertpapierPreisAktuell.replace(',', '.')) : wertpapier.WertpapierPreisAktuell,
-            isNaN(wertpapier.WertpapierAnteil) ? parseFloat(wertpapier.WertpapierAnteil.replace(',', '.')) : wertpapier.WertpapierAnteil,
-            isNaN(wertpapier.GesamtWertAktuell) ? parseFloat(wertpapier.GesamtWertAktuell.replace(',', '.')) : wertpapier.GesamtWertAktuell
+            Number(wertpapier.WertpapierPreisAktuell),
+            Number(wertpapier.WertpapierAnteil),
+            Number(wertpapier.GesamtWertAktuell)
           ];
         });
       },
