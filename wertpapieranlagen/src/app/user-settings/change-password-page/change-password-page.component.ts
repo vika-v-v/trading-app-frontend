@@ -6,6 +6,7 @@ import { PasswordUtilsService } from '../../services/password-utils.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { PopUpService } from '../../services/pop-up.service';
 
 @Component({
   selector: 'app-change-password-page',
@@ -27,7 +28,7 @@ export class ChangePasswordPageComponent {
   passwordStrengthColor: string = '#ddd';
   isPasswordInvalid: boolean = false;
 
-  constructor(private router: Router, private userService: UserService, private http: HttpClient, private passwordUtils: PasswordUtilsService) {}
+  constructor(private router: Router, private userService: UserService, private http: HttpClient, private passwordUtils: PasswordUtilsService, private popUpService: PopUpService) {}
 
   checkPasswordAndMatch() {
     this.checkPassword();
@@ -55,16 +56,15 @@ export class ChangePasswordPageComponent {
   }
 
   changePassword() {
-    if(this.password === undefined || this.isPasswordInvalid) {
-      console.log("Ungültige Eingaben!");
+    if(this.password == '' || this.isPasswordInvalid || !this.doPasswordsMatch || this.password2 == '') {
+      this.popUpService.errorPopUp("Ungültige Eingaben!");
     } else {
       this.userService.updateUserData(this.http, {password: this.password}).subscribe(
         response => {
-          console.log("Klappt!");
           console.log('Response:', response);
 
           if(response.statusCode === 200) {
-            console.log("Passwort erfolgreich geändert.");
+            this.popUpService.infoPopUp("Passwort erfolgreich geändert.");
           }
         },
         error => {

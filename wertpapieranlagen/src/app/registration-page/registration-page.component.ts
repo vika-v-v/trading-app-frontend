@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AutoLogoutService } from '../services/auto-logout.service';
+import { PopUpService } from '../services/pop-up.service';
 
 @Component({
   selector: 'app-registration-page',
@@ -28,7 +29,7 @@ export class RegistrationPageComponent {
   passwordStrengthColor: string = '#ddd';
   isPasswordInvalid: boolean = false;
 
-  constructor(private router: Router, private userService: UserService, private http: HttpClient, private passwordUtils: PasswordUtilsService, private autoLogoutService: AutoLogoutService) {}
+  constructor(private router: Router, private userService: UserService, private http: HttpClient, private passwordUtils: PasswordUtilsService, private autoLogoutService: AutoLogoutService, private popUpService: PopUpService) {}
 
   checkPasswordAndMatch() {
     this.checkPassword();
@@ -47,8 +48,8 @@ export class RegistrationPageComponent {
   }
 
   registrieren() {
-    if(this.password === '' || this.isPasswordInvalid || this.email === '') {
-      console.log("Ungültige Eingaben!");
+    if(this.password == '' || this.isPasswordInvalid || !this.doPasswordsMatch || this.password2 == '' || this.email == '') {
+      this.popUpService.errorPopUp("Ungültige Eingaben!");
     } else {
       this.userService.register(this.http, this.email, this.password).subscribe(
         response => {
@@ -57,6 +58,7 @@ export class RegistrationPageComponent {
           if(response.statusCode === 200 || response.statusCode === 201) {
             this.naviagateToHomePage();
             this.userService.setToken(response.data);
+            this.popUpService.infoPopUp("Registrierung erfolgreich.");
           }
         },
         error => {

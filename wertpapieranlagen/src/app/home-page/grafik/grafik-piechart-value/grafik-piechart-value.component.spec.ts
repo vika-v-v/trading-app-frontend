@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientModule } from '@angular/common/http';
 import { GrafikPiechartValueComponent } from './grafik-piechart-value.component';
 
 describe('GrafikPiechartValueComponent', () => {
@@ -8,10 +8,15 @@ describe('GrafikPiechartValueComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GrafikPiechartValueComponent]
-    })
-    .compileComponents();
-    
+      declarations: [],
+      imports: [
+        HttpClientModule
+      ],
+      providers: [
+        { provide: 'ROOT_URL', useValue: 'https://example.com/api' }
+      ]
+    }).compileComponents();
+
     fixture = TestBed.createComponent(GrafikPiechartValueComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

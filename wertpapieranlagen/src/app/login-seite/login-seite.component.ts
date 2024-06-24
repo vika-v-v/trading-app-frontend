@@ -28,10 +28,9 @@ export class LoginSeiteComponent {
 
     this.userService.login(this.http, this.email, this.passwort).subscribe(
       response => {
-        console.log("Klappt!");
         console.log('Response:', response);
 
-        if(response.statusCode === 200) {
+        if(response.statusCode == 200) {
           this.naviagateToHomePage();
           this.userService.setToken(response.data);
         } else {
