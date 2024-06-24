@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { DepotService } from '../../../services/depot.service';
 import { DepotDropdownService } from '../../../services/depot-dropdown.service';
@@ -7,6 +7,16 @@ import { HttpClient } from '@angular/common/http';
 import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
 import { map } from 'rxjs/operators';
 
+interface ApiResponse {
+  message: string;
+  statusCode: number;
+  data: Data;
+}
+
+interface Data {
+  [key: string]: number;
+}
+
 @Component({
   standalone: true,
   imports: [],
@@ -14,8 +24,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './grafik-linechart-depot.component.html',
   styleUrls: ['./grafik-linechart-depot.component.css']
 })
-export class GrafikLinechartDepotComponent implements Updateable { // implements OnChanges {
-  //@Input() depotName: string | null = null;
+export class GrafikLinechartDepotComponent implements Updateable {
   private chart: Chart<'line', number[], string> | undefined;
   private xValues: string[] = [];
   private yValues: number[] = [];
@@ -29,31 +38,21 @@ export class GrafikLinechartDepotComponent implements Updateable { // implements
     this.generateLineChart_DepotWert();
   }
 
-  /*
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['depotName']) {
-      if (this.depotName) {
-        console.log('Input depotName:', this.depotName); // Ausgabe des Inputs auf der Konsole
-        this.generateLineChart_DepotWert();
-      }
-    }
-  }*/
-
   async generateLineChart_DepotWert() {
     try {
-      const depotId = this.depotDropdownService.getDepot();
-      const response = await this.http.get<any>(`/api/depots/${depotId}`)
-        .pipe(
-          map((data: any) => data.data.historischeDepotgesamtwerte)
-        )
-        .toPromise();
+      const depotName = this.depotDropdownService.getDepot();
+      const response: ApiResponse = await this.depotService.getDepotHistory(this.http, depotName).toPromise();
 
       this.xValues = [];
       this.yValues = [];
 
-      for (const date in response) {
-        this.xValues.push(date);
-        this.yValues.push(response[date]);
+      const data = response.data;
+
+      for (const date in data) {
+        if (data.hasOwnProperty(date)) {
+          this.xValues.push(date);
+          this.yValues.push(data[date]);
+        }
       }
 
       const chartConfig: ChartConfiguration<'line', number[], string> = {
@@ -66,21 +65,19 @@ export class GrafikLinechartDepotComponent implements Updateable { // implements
               fill: false,
               tension: 0,
               backgroundColor: 'rgba(75, 192, 192, 1)',
-              borderColor: '#B2A4A4',
+              borderColor: 'rgba(255, 255, 255, 1)',
               data: this.yValues,
               yAxisID: 'y'
             }
           ]
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
           scales: {
             y: {
               type: 'linear',
               position: 'left',
               ticks: {
-                stepSize: 50 // Anpassen je nach Bedarf für die Schrittweite der Y-Achse
+                stepSize: 50
               },
               grid: {
                 drawOnChartArea: true

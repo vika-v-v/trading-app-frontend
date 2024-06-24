@@ -34,7 +34,7 @@ export class GrafikLinechartWertpapierComponent implements Updateable {
 
   async generateLineChart_WertpapierWert() {
     try {
-      const depotName = this.depotDropdownService.getDepot();
+      const depotName = 'ThoresDepot';//this.depotDropdownService.getDepot();
       const input = await this.depotService.getWertverlauf(this.http, depotName).toPromise();
       const xValues: string[] = [];
       const yValues: number[] = [];

@@ -10,7 +10,7 @@
   <div class="information-line">
     <p class="grey-text">Steuerfreibetrag</p>
     <input type="number" id="steuerfreibetrag" name="steuerfreibetrag" class="grey-text" [(ngModel)]="steuerfreibetrag" (ngModelChange)="onInputChange()">
-    <p class="grey-text after-input-symbol">EUR</p>
+    <p class="grey-text after-input-symbol">USD</p>
   </div>
 
   <div class="information-line">
@@ -28,25 +28,25 @@
   <div class="information-line">
     <p class="grey-text">Verlust-verrechnungstopf</p>
     <input id="verlustverrechnungstopf" name="verlustverrechnungstopf" class="grey-text" [(ngModel)]="verlustverrechnungstopf" disabled>
-    <p class="grey-text after-input-symbol">EUR</p>
+    <p class="grey-text after-input-symbol">USD</p>
   </div>
 
   <div class="information-line">
     <p class="grey-text">Brutto Kapitalgewinne</p>
     <input id="kapitalgewinne_brutto" name="kapitalgewinne_brutto" class="grey-text" [(ngModel)]="kapitalgewinne_brutto" disabled>
-    <p class="grey-text after-input-symbol">EUR</p>
+    <p class="grey-text after-input-symbol">USD</p>
   </div>
 
   <div class="information-line">
     <p class="grey-text">Steuerbelastung</p>
     <input id="steuerbelastung" name="steuerbelastung" class="grey-text" [(ngModel)]="steuerbelastung" disabled>
-    <p class="grey-text after-input-symbol">EUR</p>
+    <p class="grey-text after-input-symbol">USD</p>
   </div>
 
   <div class="information-line">
     <p class="grey-text">Netto Kapitalgewinne</p>
     <input id="kapitalgewinne_netto" name="kapitalgewinne_netto" class="grey-text" [(ngModel)]="kapitalgewinne_netto" disabled>
-    <p class="grey-text after-input-symbol">EUR</p>
+    <p class="grey-text after-input-symbol">USD</p>
   </div>
 
   <div id="buttons">
@@ -58,7 +58,29 @@
   </div>
 
   <div *ngIf="steuerinfoAngezeigt" id="steuerinfo">
-    <p class="grey-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id nibh magna. Integer molestie ligula eu felis euismod tincidunt id nec ipsum. Nunc ex nunc, varius vitae lorem sit amet, semper pulvinar est. Nunc tellus dolor, condimentum vitae tortor sit amet, sodales maximus metus. Nulla facilisi. Etiam tincidunt lacinia commodo. Duis ornare, tortor sit amet faucibus dignissim, quam orci tristique metus, a tempus massa diam eget odio. Cras condimentum dignissim velit, et vestibulum felis bibendum nec. Pellentesque a massa quam. Fusce sagittis hendrerit neque, a ornare turpis elementum sit amet. Sed nec feugiat tellus, a mattis ipsum. Praesent in nibh dapibus, porta felis eget, venenatis diam. Sed ac eros aliquet, venenatis tellus eu, porta dui. Nulla lorem dui, vehicula sit amet venenatis in, finibus et odio. Aenean egestas arcu fermentum lectus posuere, ac fringilla ipsum tempor.</p>
+    <p class="grey-text">
+    Die Berechnung der Kapitalertragsteuer erfolgt durch die Anwendung eines festen Steuersatzes auf die Erträge aus Kapitalanlagen, abzüglich bestimmter Freibeträge und anderer Abzüge. Hier ist eine kurze Übersicht, wie diese Steuer in der Anwendung funktioniert:
+  <br><br>
+      1. <strong>Brutto-Kapitalgewinne</strong>: Dies sind die gesamten Erträge, die durch Investitionen wie Zinsen, Dividenden oder Gewinne aus dem Verkauf von Wertpapieren erzielt werden. In diesem Beispiel beträgt der Brutto-Kapitalgewinn {{ kapitalgewinne_brutto | currency:'USD':'symbol':'1.2-2' }}.
+      <br><br>
+      2. <strong>Verlustverrechnungstopf</strong>: Verluste aus früheren Investitionen können verwendet werden, um die Brutto-Kapitalgewinne zu reduzieren. In diesem Fall beträgt der Verlustverrechnungstopf {{ verlustverrechnungstopf | currency:'USD':'symbol':'1.2-2' }}.
+      <br><br>
+      3. <strong>Zu versteuerndes Einkommen</strong>: Dies wird berechnet, indem der Verlustverrechnungstopf von den Brutto-Kapitalgewinnen abgezogen wird. Das zu versteuernde Einkommen beträgt daher {{ (kapitalgewinne_brutto - verlustverrechnungstopf) | currency:'USD':'symbol':'1.2-2' }}.
+      <br><br>
+      4. <strong>Steuerfreibetrag</strong>: Jeder Steuerzahler hat einen Steuerfreibetrag, der von den zu versteuernden Kapitalgewinnen abgezogen wird. In diesem Beispiel beträgt der Steuerfreibetrag {{ steuerfreibetrag | currency:'USD':'symbol':'1.2-2' }}.
+      <br><br>
+      5. <strong>Gesamtsteuersatz</strong>: Der Gesamtsteuersatz setzt sich aus der Kapitalertragsteuer ({{ steuersatz }}%), dem Solidaritätszuschlag ({{ soli }}% auf die Kapitalertragsteuer) und eventuell der Kirchensteuer ({{ kirchensteuer }}%) zusammen.
+      <br><br>
+      6. <strong>Steuerbelastung</strong>: Die Steuerbelastung wird berechnet, indem das zu versteuernde Einkommen (nach Abzug des Steuerfreibetrags) mit dem Gesamtsteuersatz multipliziert wird. In diesem Fall beträgt die Steuerbelastung {{ steuerbelastung | currency:'USD':'symbol':'1.2-2' }}.
+      <br><br>
+      7. <strong>Netto-Kapitalgewinne</strong>: Dies sind die Kapitalgewinne nach Abzug der Steuerbelastung. Hier beträgt der Netto-Kapitalgewinn {{ kapitalgewinne_netto | currency:'USD':'symbol':'1.2-2' }}.
+      <br><br>
+      8. <strong>Währungs-Hinweis</strong>: Bitte beachten Sie, dass der Steuerrechner hier in US-Dollar rechnet. Diese Funktion soll eine Unterstützung zur Kalkulation der Steuerlast sein und soll ausdrücklich nicht als Rechengrundlage für die Steuererklärung dienen!
+
+      <br><br>
+      Zusammengefasst, wird die Steuerbelastung auf Kapitalerträge berechnet, indem der Verlustverrechnungstopf und der Steuerfreibetrag von den Brutto-Kapitalgewinnen abgezogen werden. Das verbleibende zu versteuernde Einkommen wird dann mit dem Gesamtsteuersatz multipliziert, um die Steuerbelastung zu ermitteln. Die Netto-Kapitalgewinne ergeben sich schließlich durch Abzug der Steuerbelastung von den Brutto-Kapitalgewinnen.
+  </p>
+  
   </div>
 </div>
 

@@ -20,7 +20,7 @@ export class DepotErstellenComponent {
   nameFieldInvalid!: boolean;
 
   selectedWaehrung: any;
-  moeglicheWaehrungen = ['Euro', 'US-Dollar'];
+  moeglicheWaehrungen = ['US-Dollar'];
 
   @Output() onAbbrechen = new EventEmitter<void>();
 
@@ -49,8 +49,8 @@ export class DepotErstellenComponent {
       return;
     }
 
-    let waehrungKuerzel = this.selectedWaehrung === 'Euro' ? 'EUR' : 'USD';
-    this.depotService.depotErstellen(this.httpClient, this.name, waehrungKuerzel).subscribe(
+    //let waehrungKuerzel = this.selectedWaehrung === 'Euro' ? 'EUR' : 'USD';
+    this.depotService.depotErstellen(this.httpClient, this.name, "USD").subscribe(
       response=>{
         this.updateEverythingService.updateAll();
         this.abbrechen();

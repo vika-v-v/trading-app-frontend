@@ -30,7 +30,7 @@ export class DepotService {
   }
 
   getWertverlauf(http: HttpClient, depotName: string): Observable<any>{
-    const getDepotWertverlaufUrl = `${this.rootUrl}depot/getWertpapierDepotHistorie?depotName=` + depotName;
+    const getDepotWertverlaufUrl = `${this.rootUrl}depot/getWertpapierDepotHistorie?depotName=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`
@@ -41,7 +41,7 @@ export class DepotService {
   }
 
   getWertpapiere(http: HttpClient, depotName: string): Observable<any> {
-    const getWertpapiereURL= `${this.rootUrl}depot/getWertpapiere?depotName=` + depotName;
+    const getWertpapiereURL= `${this.rootUrl}depot/getWertpapiere?depotName=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`
@@ -98,5 +98,19 @@ export class DepotService {
       })
     };
     return http.get(getDataExportURL, httpOptions);
+  }
+
+  getDepotHistory(http: HttpClient, depotName: string): Observable<any>{
+    const getDepotHistoryURL = `${this.rootUrl}depot/getDepotGesamtwertHistorie?depotName=${depotName}`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.userService.getToken()}`
+      })
+    };
+    return http.get(getDepotHistoryURL, httpOptions);
+  }
+
+  getAktien(){
+    
   }
 }
