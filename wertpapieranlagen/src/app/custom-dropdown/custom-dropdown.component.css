@@ -6,10 +6,8 @@
   border: none;
   border-radius: 4px;
   padding: 4px 8px;
-
   background-color: #443f37;
   cursor: pointer;
-  width: fit-content;
 }
 
 .selected-option {
@@ -33,24 +31,50 @@
 }
 
 .options-container {
-  border-radius: 4px;
   position: absolute;
   top: 120%;
   left: 0;
-  width: fit-content;
-  min-width: 100%;
   background-color: #322e28;
-  padding: 0;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  min-width: 100%;
+  box-shadow: 5px 5px 10px #0b0908af;
+  border-radius: 4px;
+}
+
+.options-container :first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.options-container :last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border: none;
 }
 
 .option {
   cursor: pointer;
-  height: auto;
-  padding: 1px;
+  padding: 0 15px;
   margin: 0;
-  border-radius: 4px;
-  width: 100%;
+  width: 100%;  /* Ensures it fits within the container */
+  font-size: 14px;
+  height: auto;
+  text-align: center; /* assuming you want text centered based on .option-text */
+  box-sizing: border-box;
+  position: relative;
+}
+
+.option::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0; /* Position it at the bottom */
+  height: 1.5px; /* Height of the border */
+  background: linear-gradient(to right, #0e0c0a00, #0e0c0a, #0e0c0a00); /* Gradient from red to blue */
 }
 
 .option-text {

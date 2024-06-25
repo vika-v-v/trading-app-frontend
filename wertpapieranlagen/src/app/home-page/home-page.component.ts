@@ -160,7 +160,7 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        this.tabellenZuruecksetzen(error.error.message);
+        this.tabellenZuruecksetzen(error.error.statusCode == 200 ? null : error.error.message);
       }
     );
 
@@ -181,7 +181,7 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        this.tabellenZuruecksetzen(error.error.message);
+        this.tabellenZuruecksetzen(error.error.statusCode == 200 ? null : error.error.message);
       }
     );
 
@@ -198,7 +198,7 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        this.tabellenZuruecksetzen(error.error.message);
+        this.tabellenZuruecksetzen(error.error.statusCode == 200 ? null : error.error.message);
       }
     );
 

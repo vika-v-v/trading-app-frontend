@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 // !TODO if clicked on the arrow, also open the dropdown
 @Component({
@@ -19,6 +19,8 @@ export class CustomDropdownComponent implements OnInit { // , OnChanges
 
   dropdownOpen: boolean = false;
   initalized: boolean = false;
+
+  @ViewChild('dropdown') dropdown!: ElementRef;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -56,5 +58,16 @@ export class CustomDropdownComponent implements OnInit { // , OnChanges
     }
     this.selectionChange.emit(option);
     this.dropdownOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClick(event: Event) {
+    const targetElement = event.target as HTMLElement;
+
+    if (this.dropdown) {
+      if (!this.dropdown.nativeElement.contains(targetElement)) {
+        this.dropdownOpen = false;
+      }
+    }
   }
 }

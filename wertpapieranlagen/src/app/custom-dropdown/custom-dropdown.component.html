@@ -1,5 +1,5 @@
 <div class="dropdown-container" (clickOutside)="dropdownOpen = false">
-  <div class="selected-option" (click)="toggleDropdown()">
+  <div class="selected-option" (click)="toggleDropdown()" #dropdown>
     <p class="grey-text">{{ selectedOption }}</p>
     <img class="dropdown-icon" src="../../assets/icons/phosphor-thin/caret_down_thin_icon.svg" alt="Dropdown Icon">
   </div>
