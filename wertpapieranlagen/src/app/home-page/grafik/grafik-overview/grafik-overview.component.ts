@@ -5,13 +5,14 @@ import { GrafikPiechartNumberComponent } from '../grafik-piechart-number/grafik-
 import { GrafikPiechartValueComponent } from '../grafik-piechart-value/grafik-piechart-value.component';
 import { CommonModule } from '@angular/common';
 import { GrafikTyp } from '../grafik-typ.enum';
+import { AktienDropdownComponent } from '../../../aktien-dropdown/aktien-dropdown.component';
 
 @Component({
   selector: 'app-grafik-overview',
   templateUrl: './grafik-overview.component.html',
   styleUrls: ['./grafik-overview.component.css'],
   standalone: true,
-  imports: [CommonModule, GrafikLinechartDepotComponent, GrafikPiechartNumberComponent, GrafikPiechartValueComponent, GrafikLinechartWertpapierComponent]
+  imports: [CommonModule, GrafikLinechartDepotComponent, GrafikPiechartNumberComponent, GrafikPiechartValueComponent, GrafikLinechartWertpapierComponent, AktienDropdownComponent]
 })
 export class GrafikOverviewComponent implements OnInit {
   grafikTyp = GrafikTyp;

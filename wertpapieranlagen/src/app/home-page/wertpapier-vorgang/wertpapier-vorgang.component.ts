@@ -234,6 +234,11 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
     return `${year}-${month}-${day}`;
   }
 
+  formatDateForAPI(date: string): string {
+    const [year, month, day] = date.split('-');
+    return `${day}.${month}.${year}`;
+  }
+
   dateWithPoints(date: string): string {
     return date.split('-').reverse().join('.');
   }
@@ -268,7 +273,9 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
     };
     console.log('Dividende hinzufügen:', dividendeDetails);
 
-    this.depotService.addDividende(this.httpClient, "ThoresDepot", "Microsoft", "12", "01.01.2024").subscribe(
+    this.date = this.formatDateForAPI(this.date);
+
+    this.depotService.addDividende(this.httpClient, this.depotDropdownService.getDepot(), this.wertpapiername, this.dividende, this.date).subscribe(
       response=>{
         this.popupService.infoPopUp("Dividende erfolgreich hinzugefügt.");
         this.abbrechen();

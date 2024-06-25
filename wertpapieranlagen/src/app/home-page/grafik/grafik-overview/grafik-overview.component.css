@@ -26,3 +26,16 @@
   border-radius: 4px;
   overflow: hidden;
 }
+
+#header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 25px;
+}
+
+.aktien-dropdown{
+  margin-bottom: 5px;
+}
