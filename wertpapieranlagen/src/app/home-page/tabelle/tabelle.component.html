@@ -1,7 +1,8 @@
 <!-- Author: Viktoriia Vovchenko -->
 <div id="container">
-  <div *ngIf="name != ''" id="name-container">
-    <p class="name grey-text">{{ name }}</p>
+  <div id="top-elements-container">
+    <p *ngIf="name != ''" class="name grey-text">{{ name }}</p>
+    <button *ngIf="aenderungenLoeschenAngezeigt()" (click)="aenderungenLoeschen()" class="global-button grey-text">Änderungen löschen</button>
   </div>
   <div id="table-container">
     <div id="table-content-container">

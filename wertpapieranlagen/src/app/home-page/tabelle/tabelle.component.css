@@ -11,6 +11,25 @@
   max-height: 100%;
 }
 
+#top-elements-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+}
+
+
+#top-elements-container > button {
+  font-size: x-small;
+  padding: 6px 10px;
+  height: min-content;
+  vertical-align: bottom;
+  margin-bottom: 1px;
+  border-radius: 10px;
+}
+
+
 .name {
   display: flex;
   justify-content: start;

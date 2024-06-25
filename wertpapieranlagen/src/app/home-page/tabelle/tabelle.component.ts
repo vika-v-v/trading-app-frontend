@@ -55,7 +55,6 @@ export class TabelleComponent implements OnInit, OnChanges  {
       this.tableDataFormatted = [];
       this.tableHeaderFormatted = [];
       this.initialTableDataFormatted = [];
-      //this.filterSortPopup = null;
 
       this.initializeData();
     }
@@ -236,6 +235,29 @@ export class TabelleComponent implements OnInit, OnChanges  {
 
     return arrow;
   }
+
+  aenderungenLoeschenAngezeigt(): boolean {
+    let angezeigt = false;
+
+    this.tableHeaderFormatted.forEach((h: any) => {
+      h.sortings.forEach((s: any) => {
+        if(s.selected || h.filterUsed) {
+          angezeigt = true;
+          return;
+        }
+      });
+    });
+
+    return angezeigt;
+  }
+
+  aenderungenLoeschen() {
+    this.tableDataFormatted = [];
+    this.tableHeaderFormatted = [];
+    this.initialTableDataFormatted = [];
+    this.initializeData();
+  }
+
 
   headerSelected(header: any): boolean {
     if (header.sortings == undefined) return false;
