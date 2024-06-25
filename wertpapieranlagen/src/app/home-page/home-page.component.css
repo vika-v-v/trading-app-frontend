@@ -105,33 +105,22 @@
   align-items: center;
   width: 100%;
   flex: 1;
-  height: calc((100vh - 150px) / 2);
-  max-height: calc((100vh - 150px) / 2);
-
+  height: calc((100vh - 160px) / 2);
+  max-height: calc((100vh - 160px) / 2);
 }
 
 .elementen-erste-linie {
-  margin-bottom: 5px; /* Space between rows */
+  margin-bottom: 15px; /* Space between rows */
 }
 
-.grafik {
+.grafik, #wertpapieren-table {
   flex: 1; /* Allows graphics to take equal space */
   margin: 0 10px; /* Space between graphics */
   width: 50%;
   max-width: 50%;
   min-width: 50%;
-  height: calc((100vh - 150px) / 2);
-  max-height: calc((100vh - 150px) / 2);
-}
-
-#wertpapieren-table {
-  flex: 1;
-  margin: 0 10px;
-  width: 50%;
-  max-width: 50%;
-  min-width: 50%;
-  height: calc((100vh - 150px) / 2);
-  max-height: calc((100vh - 150px) / 2);
+  height: calc((100vh - 160px) / 2);
+  max-height: calc((100vh - 160px) / 2);
 }
 
 

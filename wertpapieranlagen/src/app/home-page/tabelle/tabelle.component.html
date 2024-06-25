@@ -2,8 +2,14 @@
 <div id="container">
   <div id="top-elements-container">
     <p *ngIf="name != ''" class="name grey-text">{{ name }}</p>
-    <button *ngIf="aenderungenLoeschenAngezeigt()" (click)="aenderungenLoeschen()" class="global-button grey-text">Änderungen löschen</button>
+    <div id="table-actions">
+      <button *ngIf="aenderungenLoeschenAngezeigt()" (click)="aenderungenLoeschen()" class="global-button grey-text">
+        Änderungen löschen
+      </button>
+      <img src="../../../assets/icons/phosphor-thin/arrows_out_thin_icon.svg" />
+    </div>
   </div>
+
   <div id="table-container">
     <div *ngIf="tableDataFormatted.length > 0" id="table-content-container">
       <table #table>
