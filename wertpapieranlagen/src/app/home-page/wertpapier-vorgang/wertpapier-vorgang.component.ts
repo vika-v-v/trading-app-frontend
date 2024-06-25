@@ -191,14 +191,7 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
           this.wertpapierKaufService.wertpapierHinzufügen(this.httpClient, this.wertpapiername, this.kuerzel, this.selectedWertpapierart.toUpperCase()).subscribe(
             response => {
               this.kaufHinzufuegen(attempt + 1);
-            },
-            error => {
-              if(error.error.message) {
-                this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers: " + error.error.message);
-              }
-              else {
-                this.popupService.errorPopUp("Fehler beim Kauf des Wertpapiers. Versuchen Sie bitte später erneut.");
-              }
+              this.abbrechen();
             }
           )
         }

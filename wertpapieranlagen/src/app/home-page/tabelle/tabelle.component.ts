@@ -149,38 +149,37 @@ export class TabelleComponent implements OnInit, OnChanges  {
   }
 
   showFilterSortPopup(column: any, placeNear: HTMLElement) {
-  this.filterSortPopup = column;
-  this.currentIcon = placeNear;
+    this.filterSortPopup = column;
+    this.currentIcon = placeNear;
 
-  const rect = placeNear.getBoundingClientRect();
-  const scrollTop = window.scrollY || document.documentElement.scrollTop;
-  const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+    const rect = placeNear.getBoundingClientRect();
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
 
-  // Default position to the right of the element
-  let popupLeft = rect.left + scrollLeft;
-  let popupTop = rect.bottom + 5 + scrollTop;
+    // Default position to the right of the element
+    let popupLeft = rect.left + scrollLeft;
+    let popupTop = rect.bottom + 5 + scrollTop;
 
-  // Ensure the popup is positioned after it is rendered to get accurate dimensions
-  setTimeout(() => {
-    const popupWidth = this.popupRef.nativeElement.offsetWidth;
-    const popupHeight = this.popupRef.nativeElement.offsetHeight;
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
+    // Ensure the popup is positioned after it is rendered to get accurate dimensions
+    setTimeout(() => {
+      const popupWidth = this.popupRef.nativeElement.offsetWidth;
+      const popupHeight = this.popupRef.nativeElement.offsetHeight;
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
 
-    // Adjust horizontal position if the popup would overflow the viewport
-    if (popupLeft + popupWidth > screenWidth) {
-      popupLeft = rect.right - popupWidth + scrollLeft;
-    }
+      // Adjust horizontal position if the popup would overflow the viewport
+      if (popupLeft + popupWidth > screenWidth) {
+        popupLeft = rect.right - popupWidth + scrollLeft;
+      }
 
-    // Adjust vertical position if the popup would overflow the viewport
-    if (popupTop + popupHeight > screenHeight) {
-      popupTop = rect.top - popupHeight + scrollTop;
-    }
+      // Adjust vertical position if the popup would overflow the viewport
+      if (popupTop + popupHeight > screenHeight) {
+        popupTop = rect.top - popupHeight + scrollTop;
+      }
 
-    this.popupPosition = { top: `${popupTop}px`, left: `${popupLeft}px` };
-  }, 0);
-
-}
+      this.popupPosition = { top: `${popupTop}px`, left: `${popupLeft}px` };
+    }, 0);
+  }
 
 
   @HostListener('document:click', ['$event'])
