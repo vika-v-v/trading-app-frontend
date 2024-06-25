@@ -4,6 +4,7 @@ import { FilterType } from './filter-type.enum';
 import { FormsModule } from '@angular/forms';
 import { RangeSliderComponent } from './range-slider/range-slider.component';
 import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-tabelle',
@@ -213,19 +214,27 @@ export class TabelleComponent implements OnInit, OnChanges  {
   }
 
   getArrowSrc(header: any) {
-    const greyArrow = "../../../assets/icons/2_1063886_grey_arrow_arrow down_arrow square_down_square_icon.svg";
-    const whiteArrow = "../../../assets/icons/andere/1063886_white_arrow_arrow down_arrow square_down_square_icon.svg";
-    const lightGreyArrow = "../../../assets/icons/3_1063886_light_grey_arrow_arrow down_arrow square_down_square_icon.svg";
+    const arrow = "../../../assets/icons/andere/box_arrow_down.svg";
+    const arrowWithPoint = "../../../assets/icons/andere/box_arrow_down_with_point.svg";
+    const arrowWithSort = "../../../assets/icons/andere/box_arrow_down_with_sort.svg";
+    const arrowWithPointAndSort = "../../../assets/icons/andere/box_arrow_down_with_point_and_sort.svg";
 
-    let resultArrow = whiteArrow;
+    let filterUsed = false;
+    let sortingUsed = false;
 
-    if (header.filterUsed) resultArrow = lightGreyArrow;
+    if (header.filterUsed) filterUsed = true;
 
     for(let sorting of header.sortings) {
-      if (sorting.selected) resultArrow = greyArrow;
+      if (sorting.selected) sortingUsed = true;
     }
 
-    return resultArrow;
+    if(filterUsed && sortingUsed) return arrowWithPointAndSort;
+
+    if(filterUsed) return arrowWithPoint;
+
+    if(sortingUsed) return arrowWithSort;
+
+    return arrow;
   }
 
   headerSelected(header: any): boolean {

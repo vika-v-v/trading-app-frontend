@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <defs/>
+  <g fill="#dbd1d1" class="fill-121313" style="" transform="matrix(0.478275, 0, 0, 0.478275, 8.245858, 8.658251)">
+    <path d="M30 0H2a2 2 0 0 0-2 2v28a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 30H2V2h28v28z"/>
+    <path clip-rule="evenodd" d="M27 12.106c0-.564-.489-1.01-1.044-.995H6.013c-.887-.024-1.38 1.07-.742 1.702l9.999 9.9c.394.39 1.031.376 1.429 0l9.991-9.892a.988.988 0 0 0 .31-.715zm-11.016 8.485L8.418 13.1H23.55l-7.566 7.491z" fill-rule="evenodd"/>
+  </g>
+  <ellipse style="fill: rgba(216, 216, 216, 0); stroke: rgb(219, 209, 209);" cx="27.34" cy="4.196" rx="3.217" ry="3.217"/>
+</svg>
