@@ -171,6 +171,7 @@
   background-color: #2b2621a9;
   padding: 10px;
   border-radius: 4px;
+  z-index: 1;
 }
 
 #depot-actions > * {
