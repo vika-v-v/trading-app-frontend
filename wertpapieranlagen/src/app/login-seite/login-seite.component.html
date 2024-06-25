@@ -4,8 +4,8 @@
     <h1 class="main-header" id="login-text">Login</h1>
     <div id="content-container">
       <div class="yellow-input-group">
-        <input name="email" type="email" placeholder="E-Mail Adresse" required [(ngModel)]="email"/>
-        <input name="passwort" type="password" placeholder="Passwort" required [(ngModel)]="passwort"/>
+        <input class="yellow-auto-fill-input" name="email" type="email" placeholder="E-Mail Adresse" required [(ngModel)]="email"/>
+        <input class="yellow-auto-fill-input" name="passwort" type="password" placeholder="Passwort" required [(ngModel)]="passwort"/>
       </div>
       <button class="yellow-button" (click)="anmelden()">Anmelden</button>
       <div class="bottom-links">

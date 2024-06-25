@@ -244,3 +244,13 @@ input.invalid-password, input.password-mismatch {
 html {
   scrollbar-color: #74665d #3f3732; /* Set the color of the scrollbar thumb and track */
 }
+
+/* Auto-fill */
+.yellow-auto-fill-input:-webkit-autofill,
+.yellow-auto-fill-input:-webkit-autofill:hover,
+.yellow-auto-fill-input:-webkit-autofill:focus,
+.yellow-auto-fill-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px #815b09 inset !important;
+  box-shadow: 0 0 0px 1000px #815b09 inset !important;
+  -webkit-text-fill-color: white !important;
+}

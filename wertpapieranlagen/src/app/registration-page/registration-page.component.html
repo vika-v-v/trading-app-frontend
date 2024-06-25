@@ -4,13 +4,13 @@
     <div id="content-container">
       <h1 class="main-header" id="registrieren-text">Registrieren</h1>
       <div class="yellow-input-group">
-        <input name="email" type="email" placeholder="E-Mail Adresse" required [(ngModel)]="email">
+        <input class="yellow-auto-fill-input" name="email" type="email" placeholder="E-Mail Adresse" required [(ngModel)]="email">
 
         <div *ngIf="isPasswordInvalid" class="invalid-password-message">Ungültiges Passwort</div>
-        <input name="passwort" type="password" placeholder="Passwort" required [(ngModel)]="password" (input)="checkPasswordAndMatch()" [ngClass]="{'invalid-password': isPasswordInvalid}">
+        <input class="yellow-auto-fill-input" name="passwort" type="password" placeholder="Passwort" required [(ngModel)]="password" (input)="checkPasswordAndMatch()" [ngClass]="{'invalid-password': isPasswordInvalid}">
 
         <div *ngIf="!doPasswordsMatch && password2.length > 0" id="password-match-error">Passwörter stimmen nicht überein</div>
-        <input name="passwort wiederholen" type="password" placeholder="Passwort wiederholen" required [(ngModel)]="password2" (input)="checkPasswordMatch()" [ngClass]="{'password-mismatch': !doPasswordsMatch && password2.length > 0}" #password2Field>
+        <input class="yellow-auto-fill-input" name="passwort wiederholen" type="password" placeholder="Passwort wiederholen" required [(ngModel)]="password2" (input)="checkPasswordMatch()" [ngClass]="{'password-mismatch': !doPasswordsMatch && password2.length > 0}" #password2Field>
 
         <div class="password-strength">
           <div class="strength-bar" [ngStyle]="{'width': passwordStrengthWidth, 'background-color': passwordStrengthColor}"></div>
