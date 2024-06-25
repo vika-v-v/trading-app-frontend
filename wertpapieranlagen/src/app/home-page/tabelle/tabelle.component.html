@@ -5,7 +5,7 @@
     <button *ngIf="aenderungenLoeschenAngezeigt()" (click)="aenderungenLoeschen()" class="global-button grey-text">Änderungen löschen</button>
   </div>
   <div id="table-container">
-    <div id="table-content-container">
+    <div *ngIf="tableDataFormatted.length > 0" id="table-content-container">
       <table #table>
         <thead>
           <tr>
