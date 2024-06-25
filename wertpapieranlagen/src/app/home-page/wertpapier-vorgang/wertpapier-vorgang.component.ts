@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { WertpapierVorgang } from '../wertpapier-vorgang.enum';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -8,7 +8,7 @@ import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { PopUpService } from '../../services/pop-up.service';
 import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
 import { DepotService } from '../../services/depot.service';
-import { UpdateEverythingService } from '../../services/update-everything.service';
+import { UpdateEverythingService, Updateable } from '../../services/update-everything.service';
 
 @Component({
   selector: 'app-wertpapier-vorgang',
@@ -22,7 +22,7 @@ import { UpdateEverythingService } from '../../services/update-everything.servic
   templateUrl: './wertpapier-vorgang.component.html',
   styleUrl: './wertpapier-vorgang.component.css'
 })
-export class WertpapierVorgangComponent {
+export class WertpapierVorgangComponent implements OnInit, Updateable {
   WertpapierVorgang = WertpapierVorgang;
 
   @Input() wertpapierVorgang: WertpapierVorgang = WertpapierVorgang.Kaufen;
@@ -52,15 +52,40 @@ export class WertpapierVorgangComponent {
     this.selectedWertpapierart = this.moeglicheWertpapierarten[0];
     this.previousSelectedWertpapierart = this.selectedWertpapierart;
     this.date = this.formatDate(new Date());
+    this.updateEverythingService.subscribeToUpdates(this);
+  }
 
+  ngOnInit(): void {
+    this.updateAlleWertpapiere();
+  }
+
+  update(): void {
+    this.updateAlleWertpapiere();
+  }
+
+  updateAlleWertpapiere(): void {
     this.depotService.getAlleWertpapiere(this.httpClient).subscribe(
       response => {
         this.alleWertpapiere = response.data;
       },
       error => {
-        console.log(error.message);
+        this.popupService.errorPopUp("Fehler beim Laden der Wertpapiere: " + error.error.message);
       }
     );
+
+    if(this.wertpapierVorgang != WertpapierVorgang.Kaufen) {
+      this.depotService.getWertpapiere(this.httpClient, this.depotDropdownService.getDepot()).subscribe(
+        response => {
+          let wertpapiere = response.data;
+
+          let wertpapierNames = Object.keys(wertpapiere);
+          this.alleWertpapiere = this.alleWertpapiere.filter(w => wertpapierNames.includes(w.name));
+        },
+        error => {
+          this.popupService.errorPopUp("Fehler beim Laden der Wertpapiere: " + error.error.message);
+        }
+      );
+    }
   }
 
   wertpapiernameChange() {
@@ -89,7 +114,9 @@ export class WertpapierVorgangComponent {
   }
 
   onFocusWertpapiername() {
-    this.setSuggestion();
+    if(this.wertpapiername && this.wertpapiername != '') {
+      this.setSuggestion();
+    }
   }
 
   onBlurWertpapiername() {

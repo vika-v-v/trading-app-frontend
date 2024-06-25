@@ -56,11 +56,13 @@ export class HomePageComponent implements OnInit, Updateable {
 
   transaktionen: any[] = [];
   wertpapiere: any[] = [];
+  dividende: any[] = [];
   depot: any = {};
 
   currentDepotName: string | null = null;
   wertpapierenData: any[] = [];
   transaktionenData: any[] = [];
+  dividendenData: any[] = [];
 
   showNonDepotExistingComponent: boolean = false;
 
@@ -158,8 +160,7 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        this.transaktionen = [];
-        this.transaktionenData = [];
+        this.tabellenZuruecksetzen(error.error.message);
       }
     );
 
@@ -180,8 +181,24 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        this.wertpapiere = [];
-        this.wertpapierenData = [];
+        this.tabellenZuruecksetzen(error.error.message);
+      }
+    );
+
+    this.depotService.getDividenden(this.http, this.depotDropdownService.getDepot()).subscribe(
+      response => {
+        this.dividende = response.data;
+        this.dividendenData = Object.keys(this.dividende).map((key: any) => {
+          const dividende = this.dividende[key];
+          return [
+            dividende.dividendenDatum,
+            Number(dividende.dividende),
+            dividende.wertpapierName
+          ];
+        });
+      },
+      error => {
+        this.tabellenZuruecksetzen(error.error.message);
       }
     );
 
@@ -195,6 +212,14 @@ export class HomePageComponent implements OnInit, Updateable {
     //
     this.currentDepotName = this.depotDropdownService.getDepot();
   }
+
+  tabellenZuruecksetzen(fehler: string | null = null) {
+    this.wertpapiere = [];
+    this.wertpapierenData = [];
+    this.dividendenData = [];
+    if(fehler) this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + fehler);
+  }
+
 
   getTransaktionenHeader() {
     return [
@@ -214,6 +239,14 @@ export class HomePageComponent implements OnInit, Updateable {
       { "wert": "Kurs", "typ": FilterType.Decimal },
       { "wert": "Anteil", "typ": FilterType.Decimal },
       { "wert": "Gesamtwert", "typ": FilterType.Decimal }
+    ];
+  }
+
+  getDividendenHeader() {
+    return [
+      { "wert": "Datum", "typ": FilterType.Date },
+      { "wert": "Aktie", "typ": FilterType.Text },
+      { "wert": "Dividende", "typ": FilterType.Decimal }
     ];
   }
 

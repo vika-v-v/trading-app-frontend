@@ -70,6 +70,16 @@ export class DepotService {
     return http.get(url, httpOptions);
   }
 
+  getDividenden(http: HttpClient, depotName: string): Observable<any> {
+    const url = `${this.rootUrl}depot/getDividenden?depotName=${depotName}`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.userService.getToken()}`
+      })
+    };
+    return http.get(url, httpOptions);
+  }
+
   getDepot(http: HttpClient, depotName: string): Observable<any>{
     const getDepotUrl = `${this.rootUrl}depot/getDepot?depotName=${depotName}`;
     const httpOptions = {

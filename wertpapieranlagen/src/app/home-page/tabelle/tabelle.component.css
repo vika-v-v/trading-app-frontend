@@ -86,7 +86,6 @@ th {
   background-color: #24201d;
   position: sticky;
   top: 0;
-  z-index: 2;
   border-top: 0px solid #dbd1d15d;
 }
 
@@ -137,7 +136,6 @@ th {
 
 .filter-sort-popup {
   position: fixed;
-  z-index: 1000;
 }
 
 .selected {

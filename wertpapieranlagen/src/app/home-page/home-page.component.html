@@ -49,6 +49,9 @@
     <div id="transaktionen-table-container">
       <app-tabelle [tableHeader]="getTransaktionenHeader()" [tableData]="transaktionenData" [name]="'Transaktionen'" [leerFehlermeldung]="'Noch keine Transaktionen vorhanden.'"></app-tabelle>
     </div>
+    <div id="dividende-table-container">
+      <app-tabelle [tableHeader]="getDividendenHeader()" [tableData]="dividendenData" [name]="'Dividenden'" [leerFehlermeldung]="'Noch keine Divienden vorhanden.'"></app-tabelle>
+    </div>
   </div>
 
   <div id="expand-button">

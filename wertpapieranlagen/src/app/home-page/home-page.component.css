@@ -157,8 +157,16 @@
 #transaktionen-table-container {
   width: calc(100vw - 70px);
   min-width: calc(100vw - 70px);
-  height: calc(100vh - 120px);
-  max-height: calc(100vh - 120px);
+  height: calc((100vh - 120px) * 0.6);
+  max-height: calc((100vh - 120px) * 0.6);
+  margin-bottom: 10px;
+}
+
+#dividende-table-container {
+  width: calc(100vw - 70px);
+  min-width: calc(100vw - 70px);
+  height: calc((100vh - 120px) * 0.4);
+  max-height: calc((100vh - 120px) * 0.4);
   margin-bottom: 5px;
 }
 
@@ -210,6 +218,7 @@
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.5s linear;
+  z-index: 2;
 }
 
 #side-panel.show .background {
