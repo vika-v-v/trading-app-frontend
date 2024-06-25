@@ -250,6 +250,7 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
     this.anzahl = '';
     this.wertpapierPreis = '';
     this.transaktionskosten = '';
+    this.dividende = '';
     this.date = this.formatDate(new Date());
 
     this.onAbbrechen.emit();

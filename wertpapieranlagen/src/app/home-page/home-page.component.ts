@@ -192,8 +192,8 @@ export class HomePageComponent implements OnInit, Updateable {
           const dividende = this.dividende[key];
           return [
             dividende.dividendenDatum,
-            Number(dividende.dividende),
-            dividende.wertpapierName
+            dividende.wertpapierName,
+            Number(dividende.dividende)
           ];
         });
       },

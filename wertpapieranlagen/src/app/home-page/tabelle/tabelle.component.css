@@ -136,6 +136,7 @@ th {
 
 .filter-sort-popup {
   position: fixed;
+  z-index: 1;
 }
 
 .selected {
