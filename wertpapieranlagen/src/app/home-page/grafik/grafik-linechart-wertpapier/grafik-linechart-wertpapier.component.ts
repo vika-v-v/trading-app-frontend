@@ -1,10 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { DepotService } from '../../../services/depot.service';
 import { DepotDropdownService } from '../../../services/depot-dropdown.service';
-import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
-import { Observable } from 'rxjs';
 
 interface ApiResponse {
   message: string;
@@ -35,9 +33,8 @@ export class GrafikLinechartWertpapierComponent implements OnChanges {
   private yValues: number[] = [];
   @Input() aktienName!: string;
 
-  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService, private updateEverythingService: UpdateEverythingService) {
+  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService) {
     Chart.register(...registerables);
-    //updateEverythingService.subscribeToUpdates(this);
 
     // Registriere den Service-Observer für Änderungen des ausgewählten Aktiennamens
     this.depotDropdownService.getAktie().subscribe((aktie) => {
@@ -48,29 +45,19 @@ export class GrafikLinechartWertpapierComponent implements OnChanges {
     });
   }
 
-  // update(): void {
-  //   // Aktualisierung des Diagramms
-  //   this.depotDropdownService.getAktie().subscribe((aktie) => {
-  //     if (aktie) {
-  //       this.aktienName = aktie;
-  //       this.generateLineChart_WertpapierWert();
-  //     }
-  //   });
-  // }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes['aktienName']) {
-      console.log(this.aktienName);
+      console.log('AktienName:', this.aktienName);  // Debugging
+      this.generateLineChart_WertpapierWert();
     }
   }
-
 
   generateLineChart_WertpapierWert() {
     const depotName = this.depotDropdownService.getDepot();
     console.log('Depot Name:', depotName);  // Debugging
 
     this.depotService.getWertverlauf(this.http, depotName).subscribe(
-      (response) => {
+      (response: ApiResponse) => {
         console.log('Response:', response);  // Debugging
 
         this.xValues = [];
@@ -133,7 +120,9 @@ export class GrafikLinechartWertpapierComponent implements OnChanges {
         } else {
           console.error('Canvas element not found');
         }
-
+      },
+      (error) => {
+        console.error('Error fetching historical stock data:', error);
       }
     );
   }

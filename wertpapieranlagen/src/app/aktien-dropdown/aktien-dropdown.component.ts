@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
@@ -17,6 +17,8 @@ import { DepotService } from '../services/depot.service';
 export class AktienDropdownComponent implements OnInit, Updateable {
   aktien: string[] = [];
   selectedOption: string | null = null;
+
+  @Input() selectedDepotName: string | null = null;
 
   @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
 
