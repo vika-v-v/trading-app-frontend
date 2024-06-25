@@ -81,7 +81,7 @@ export class GrafikComponent {
     if (this.typ === GrafikTyp.PizzadiagrammWertpapierWert) {
       this.generatePizzaDiagrammValue();
       this.name = 'Wertpapierwert';
-    } else if (this.typ === GrafikTyp.WertverlaufWertpapierwerte) {
+    } else if (this.typ === GrafikTyp.WertverlaufWertpapierWerte) {
       this.generateLineChart_WertpapierWert();
       this.name = 'Wertpapierwerte';
     } else if (this.typ === GrafikTyp.WertverlaufDepotwerte) {

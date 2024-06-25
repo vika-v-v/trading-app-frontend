@@ -1,8 +1,7 @@
 <div>
-    <app-custom-dropdown
-      [options]="aktien"
-      [selectedOption]="aktien[0]"
-      (selectionChange)="onSelectAktie($event)">
-    </app-custom-dropdown>
+  <app-custom-dropdown
+    [options]="aktien"
+    [selectedOption]="selectedAktie || 'Bitte Aktie wählen'"
+    (selectionChange)="onSelectAktie($event)">
+  </app-custom-dropdown>
 </div>
-  

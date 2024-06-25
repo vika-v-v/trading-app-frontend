@@ -34,6 +34,8 @@ export class DepotDropdownService {
   private rootUrl: string;
   private depot: string = '';
   private reloadSubject = new BehaviorSubject<void>(undefined);
+  private selectedAktieSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+
 
   constructor(@Inject('ROOT_URL') rootUrl: string, private userService: UserService, private updateEverythingService: UpdateEverythingService) {
     this.rootUrl = rootUrl;
@@ -96,5 +98,13 @@ export class DepotDropdownService {
 
   getReloadObservable(): Observable<void> {
     return this.reloadSubject.asObservable();
+  }
+
+  setAktie(aktie: string | null): void {
+    this.selectedAktieSubject.next(aktie);
+  }
+
+  getAktie(): Observable<string | null> {
+    return this.selectedAktieSubject.asObservable();
   }
 }

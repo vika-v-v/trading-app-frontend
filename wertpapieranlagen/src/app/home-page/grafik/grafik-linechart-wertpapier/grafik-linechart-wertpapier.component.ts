@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { DepotService } from '../../../services/depot.service';
 import { DepotDropdownService } from '../../../services/depot-dropdown.service';
 import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
+import { Observable } from 'rxjs';
 
 interface ApiResponse {
   message: string;
@@ -29,25 +30,42 @@ interface ApiResponse {
   styleUrls: ['./grafik-linechart-wertpapier.component.css']
 })
 export class GrafikLinechartWertpapierComponent implements Updateable {
-  @Input() aktienname: string = 'Apple'; // Default to 'Apple'
   private chart: Chart<'line', number[], string> | undefined;
   private xValues: string[] = [];
   private yValues: number[] = [];
+  private aktienName: string = "";
 
   constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService, private updateEverythingService: UpdateEverythingService) {
     Chart.register(...registerables);
     updateEverythingService.subscribeToUpdates(this);
+
+    // Registriere den Service-Observer für Änderungen des ausgewählten Aktiennamens
+    this.depotDropdownService.getAktie().subscribe((aktie) => {
+      if (aktie) {
+        this.aktienName = aktie;
+        this.generateLineChart_WertpapierWert();
+      }
+    });
   }
 
   update(): void {
-    this.generateLineChart_WertpapierWert();
+    // Aktualisierung des Diagramms
+    this.depotDropdownService.getAktie().subscribe((aktie) => {
+      if (aktie) {
+        this.aktienName = aktie;
+        this.generateLineChart_WertpapierWert();
+      }
+    });
   }
 
   async generateLineChart_WertpapierWert() {
-    console.log("Aktie Verlauf darstellt");
     try {
       const depotName = this.depotDropdownService.getDepot();
+      console.log('Depot Name:', depotName);  // Debugging
+      console.log('Ausgewählte Aktie:', this.aktienName);  // Debugging
+
       const response: ApiResponse = await this.depotService.getWertverlauf(this.http, depotName).toPromise();
+      console.log('Response:', response);  // Debugging
 
       this.xValues = [];
       this.yValues = [];
@@ -57,12 +75,15 @@ export class GrafikLinechartWertpapierComponent implements Updateable {
       for (const date in data) {
         if (data.hasOwnProperty(date)) {
           const stocks = data[date];
-          if (stocks.hasOwnProperty(this.aktienname)) {
+          if (stocks.hasOwnProperty(this.aktienName)) {
             this.xValues.push(date);
-            this.yValues.push(parseFloat(stocks[this.aktienname].WertpapierDurchschnittspreis.replace(',', '.')));
+            this.yValues.push(parseFloat(stocks[this.aktienName].WertpapierDurchschnittspreis.replace(',', '.')));
           }
         }
       }
+
+      console.log('X Values:', this.xValues);  // Debugging
+      console.log('Y Values:', this.yValues);  // Debugging
 
       const chartConfig: ChartConfiguration<'line', number[], string> = {
         type: 'line',
@@ -70,7 +91,7 @@ export class GrafikLinechartWertpapierComponent implements Updateable {
           labels: this.xValues,
           datasets: [
             {
-              label: `${this.aktienname} Durchschnittspreis`,
+              label: `${this.aktienName} Durchschnittspreis`,
               fill: false,
               tension: 0,
               backgroundColor: 'rgba(75, 192, 192, 1)',
@@ -86,7 +107,7 @@ export class GrafikLinechartWertpapierComponent implements Updateable {
               type: 'linear',
               position: 'left',
               ticks: {
-                stepSize: 10
+                stepSize: 1
               },
               grid: {
                 drawOnChartArea: true
