@@ -163,7 +163,8 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        if(!(error.error.statusCode == 200 || error.statusCode == 200)) {
+        let statusCode = error.error.statusCode || error.statusCode;
+        if (!(statusCode >= 200 && statusCode < 300)) {
           this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
         }
       }
@@ -186,7 +187,8 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        if(!(error.error.statusCode == 200 || error.statusCode == 200)) {
+        let statusCode = error.error.statusCode || error.statusCode;
+        if (!(statusCode >= 200 && statusCode < 300)) {
           this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
         }
       }
@@ -205,7 +207,8 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        if(!(error.error.statusCode == 200 || error.statusCode == 200)) {
+        let statusCode = error.error.statusCode || error.statusCode;
+        if (!(statusCode >= 200 && statusCode < 300)) {
           this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
         }
       }
@@ -219,7 +222,8 @@ export class HomePageComponent implements OnInit, Updateable {
       }
     },
     error => {
-      if(error.error.statusCode == 200 || error.statusCode == 200) {
+      let statusCode = error.statusCode || error.error.statusCode;
+      if (!(statusCode >= 200 && statusCode < 300)) {
         this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
       }
     });

@@ -71,7 +71,10 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
         this.updateAlleWertpapiereInDiesemDepot();
       },
       error => {
-        this.popupService.errorPopUp("Fehler beim Laden der Wertpapiere: " + error.error.message);
+        let statusCode = error.status || (error.error && error.error.status);
+        if (!(statusCode >= 200 && statusCode < 300)) {
+          this.popupService.errorPopUp('Fehler beim Laden der Wertpapiere: ' + error.error.message);
+        }
       }
     );
   }
@@ -85,7 +88,10 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
         this.wertpapiereInDiesemDepot = this.alleWertpapiere.filter(w => wertpapierNames.includes(w.name));
       },
       error => {
-        this.popupService.errorPopUp("Fehler beim Laden der Wertpapiere: " + error.error.message);
+        let statusCode = error.status || (error.error && error.error.status);
+        if (!(statusCode >= 200 && statusCode < 300)) {
+          this.popupService.errorPopUp('Fehler beim Laden der Wertpapiere: ' + error.error.message);
+        }
       }
     );
   }
