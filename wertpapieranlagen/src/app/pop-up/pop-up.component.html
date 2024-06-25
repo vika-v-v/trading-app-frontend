@@ -1,12 +1,15 @@
+<div *ngIf="choicePopUpVisible" class="background"></div>
 <div class="container">
   <div class="infoErrorPopUp" [ngStyle]="{'background-color': popupColor}" *ngIf="!choicePopUpVisible">
     <span class="symbol" [innerHTML]="symbol"></span>
     <p class="text">{{ text }}</p>
   </div>
   <div class="choicePopUp" *ngIf="choicePopUpVisible">
-    <p>{{ text }}</p>
-    <button (click)="choiceYes()">Ja</button>
-    <button (click)="choiceNo()">Nein</button>
+    <p class="grey-text">{{ text }}</p>
+    <div class="buttons">
+      <button (click)="choiceYes()" class="global-button grey-text">Ja</button>
+      <button (click)="choiceNo()" class="global-button grey-text">Nein</button>
+    </div>
   </div>
 </div>
 
