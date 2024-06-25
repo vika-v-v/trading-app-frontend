@@ -1,81 +1,57 @@
-import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 import { DepotDropdownService } from '../services/depot-dropdown.service';
+import { UpdateEverythingService, Updateable } from '../services/update-everything.service';
+import { DepotService } from '../services/depot.service';
+
 
 @Component({
   selector: 'app-aktien-dropdown',
   templateUrl: './aktien-dropdown.component.html',
   styleUrls: ['./aktien-dropdown.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, CustomDropdownComponent]
+  imports: [CommonModule, CustomDropdownComponent]
 })
-export class AktienDropdownComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() selectedDepot: string = '';
+export class AktienDropdownComponent implements OnInit, Updateable {
   aktien: string[] = [];
-  errorMessage: string = '';
-  private subscription: Subscription = new Subscription();
-  selectedAktie: string | null = null;
+  selectedOption: string | null = null;
 
-  constructor(private depotDropDownService: DepotDropdownService, private http: HttpClient) {}
+  @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
+
+  constructor(private http: HttpClient, private depotDropdownService: DepotDropdownService, private updateEverythingService: UpdateEverythingService, private depotService: DepotService) {
+    this.updateEverythingService.subscribeToUpdates(this);
+  }
 
   ngOnInit(): void {
-    this.setDepot();
     this.loadAktien();
   }
 
-  setDepot(){
-    this.selectedDepot = this.depotDropDownService.getDepot();
-  }
-
-  update(): void {
-    this.setDepot();
+  update(){
     this.loadAktien();
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  ngOnChanges(): void {
-    this.setDepot();
-    this.loadAktien();
-  }
-
-  loadAktien() {
-    if (!this.selectedDepot) {
-      this.aktien = ['Bitte Depot wählen!'];
-      return;
-    }
-
-    this.subscription.add(
-      this.depotDropDownService.getAktien(this.http, this.selectedDepot).subscribe(
-        (response) => {
-          this.aktien = ['Bitte Aktie wählen', ...response]; // Platzhalter hinzufügen
-        },
-        (error) => {
-          this.errorMessage = 'Fehler beim Abrufen der Aktien: ' + error.message;
-          console.error(this.errorMessage);
+  loadAktien(): void {
+    this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(
+      (response) => {
+        this.aktien = Object.keys(response.data);
+        if(!this.selectedOption || !this.aktien.includes(this.selectedOption)){
+          this.selectedOption = this.aktien[0];
+            this.selectionChange.emit(this.selectedOption);
         }
-      )
+      },
+      (error) => {
+        console.error('Fehler beim Abrufen der Aktien:', error);
+      }
     );
   }
 
-  onSelectAktie(aktie: string) {
-    // Handle the selection of an aktie
-    if (aktie === 'Bitte Aktie wählen') {
-      this.selectedAktie = null;
-    } else {
-      this.selectedAktie = aktie;
-      this.depotDropDownService.setAktie(aktie); // Aktualisiere den ausgewählten Aktiennamen im Service
+  onSelectAktie(aktie: string): void {
+    if(aktie != this.selectedOption){
+      this.selectionChange.emit(aktie);
     }
-    console.log('Selected aktie:', aktie);
-  }
-
-  getAktie(): string | null {
-    return this.selectedAktie;
+    this.selectedOption = aktie;
+    console.log('Ausgewählte Aktie:', aktie);
   }
 }

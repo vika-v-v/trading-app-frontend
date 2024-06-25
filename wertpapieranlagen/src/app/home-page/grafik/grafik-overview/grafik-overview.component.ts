@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { GrafikLinechartDepotComponent } from '../grafik-linechart-depot/grafik-linechart-depot.component';
 import { GrafikLinechartWertpapierComponent } from '../grafik-linechart-wertpapier/grafik-linechart-wertpapier.component';
 import { GrafikPiechartNumberComponent } from '../grafik-piechart-number/grafik-piechart-number.component';
@@ -16,6 +16,8 @@ import { AktienDropdownComponent } from '../../../aktien-dropdown/aktien-dropdow
 })
 export class GrafikOverviewComponent implements OnInit {
   grafikTyp = GrafikTyp;
+  wertpapierName!: string;
+  
 
   @Input() selectedDepotName: string | null = null;
   @Input() typ!: GrafikTyp;
@@ -44,5 +46,9 @@ export class GrafikOverviewComponent implements OnInit {
     if (changes['selectedDepotName'] && this.selectedDepotName && this.selectedDepotName != '') {
       console.log('Depotname: ' + this.selectedDepotName);
     }
+  }
+
+  wertpapierUpdate(aktie: string){
+    this.wertpapierName = aktie;
   }
 }

@@ -2,7 +2,7 @@
   <div id="header-container">
     <p class="name grey-text">{{ name }}</p>
     <div class="aktien-dropdown" *ngIf="this.typ === grafikTyp.WertverlaufWertpapierWerte">
-    <app-aktien-dropdown></app-aktien-dropdown>
+    <app-aktien-dropdown (selectionChange)="wertpapierUpdate($event)"></app-aktien-dropdown>
     </div>
   </div>
   <div class="grafik-overview-container">
@@ -16,7 +16,7 @@
       <app-grafik-piechart-value class="grafik"></app-grafik-piechart-value>
     </div>
     <div *ngIf="typ == grafikTyp.WertverlaufWertpapierWerte">
-      <app-grafik-linechart-wertpapier class="grafik"></app-grafik-linechart-wertpapier>
+      <app-grafik-linechart-wertpapier class="grafik" [aktienName]="wertpapierName"></app-grafik-linechart-wertpapier>
     </div>
   </div>
 </div>
