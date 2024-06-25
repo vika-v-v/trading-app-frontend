@@ -40,6 +40,8 @@ export class TabelleComponent implements OnInit, OnChanges  {
 
   selectedDropdownOption: string = '';
 
+  wideOpen: boolean = false;
+
   @ViewChild('popup') popupRef!: ElementRef;
   @ViewChild('table') table!: ElementRef;
 
