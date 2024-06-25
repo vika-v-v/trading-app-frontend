@@ -40,6 +40,7 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
   moeglicheWertpapierarten = ['Aktie', 'ETF','Fond'];
 
   alleWertpapiere: any[] = [];
+  wertpapiereInDiesemDepot: any[] = [];
 
   previousKuerzel: string = '';
   previousSelectedWertpapierart: any;
@@ -67,25 +68,26 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
     this.depotService.getAlleWertpapiere(this.httpClient).subscribe(
       response => {
         this.alleWertpapiere = response.data;
+        this.updateAlleWertpapiereInDiesemDepot();
       },
       error => {
         this.popupService.errorPopUp("Fehler beim Laden der Wertpapiere: " + error.error.message);
       }
     );
+  }
 
-    if(this.wertpapierVorgang != WertpapierVorgang.Kaufen) {
-      this.depotService.getWertpapiere(this.httpClient, this.depotDropdownService.getDepot()).subscribe(
-        response => {
-          let wertpapiere = response.data;
+  updateAlleWertpapiereInDiesemDepot() {
+    this.depotService.getWertpapiere(this.httpClient, this.depotDropdownService.getDepot()).subscribe(
+      response => {
+        let wertpapiere = response.data;
 
-          let wertpapierNames = Object.keys(wertpapiere);
-          this.alleWertpapiere = this.alleWertpapiere.filter(w => wertpapierNames.includes(w.name));
-        },
-        error => {
-          this.popupService.errorPopUp("Fehler beim Laden der Wertpapiere: " + error.error.message);
-        }
-      );
-    }
+        let wertpapierNames = Object.keys(wertpapiere);
+        this.wertpapiereInDiesemDepot = this.alleWertpapiere.filter(w => wertpapierNames.includes(w.name));
+      },
+      error => {
+        this.popupService.errorPopUp("Fehler beim Laden der Wertpapiere: " + error.error.message);
+      }
+    );
   }
 
   wertpapiernameChange() {
@@ -125,7 +127,9 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
 
   setSuggestion() {
     this.suggestion = '';
-    const matchingWertpapier = this.alleWertpapiere.find(w => w.name.toLowerCase().startsWith(this.wertpapiername.toLowerCase()));
+    const matchingWertpapier = this.wertpapierVorgang == WertpapierVorgang.Kaufen ?
+                                      this.alleWertpapiere.find(w => w.name.toLowerCase().startsWith(this.wertpapiername.toLowerCase())) :
+                                      this.wertpapiereInDiesemDepot.find(w => w.name.toLowerCase().startsWith(this.wertpapiername.toLowerCase()));
     if (matchingWertpapier) {
       this.suggestion = matchingWertpapier.name.replace(new RegExp('^' + this.wertpapiername, 'i'), '');
     }

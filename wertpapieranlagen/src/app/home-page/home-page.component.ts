@@ -142,6 +142,9 @@ export class HomePageComponent implements OnInit, Updateable {
     //if(neuesDepot === null) {
     //  return;
     //}
+    this.transaktionenData = [];
+    this.wertpapierenData = [];
+    this.dividendenData = [];
 
     this.depotService.getTransaktionen(this.http, this.depotDropdownService.getDepot()).subscribe(
       response => {
@@ -160,7 +163,9 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        this.tabellenZuruecksetzen((error.error.statusCode == 200 || error.statusCode == 200) ? null : error.error.message);
+        if(!(error.error.statusCode == 200 || error.statusCode == 200)) {
+          this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
+        }
       }
     );
 
@@ -181,7 +186,9 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        this.tabellenZuruecksetzen((error.error.statusCode == 200 || error.statusCode == 200) ? null : error.error.message);
+        if(!(error.error.statusCode == 200 || error.statusCode == 200)) {
+          this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
+        }
       }
     );
 
@@ -198,7 +205,9 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        this.tabellenZuruecksetzen((error.error.statusCode == 200 || error.statusCode == 200) ? null : error.error.message);
+        if(!(error.error.statusCode == 200 || error.statusCode == 200)) {
+          this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
+        }
       }
     );
 
@@ -208,18 +217,15 @@ export class HomePageComponent implements OnInit, Updateable {
       if (response && response.data) {
         this.depot = response.data;
       }
+    },
+    error => {
+      if(error.error.statusCode == 200 || error.statusCode == 200) {
+        this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
+      }
     });
     //
     this.currentDepotName = this.depotDropdownService.getDepot();
   }
-
-  tabellenZuruecksetzen(fehler: string | null = null) {
-    this.transaktionenData = [];
-    this.wertpapierenData = [];
-    this.dividendenData = [];
-    if(fehler) this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + fehler);
-  }
-
 
   getTransaktionenHeader() {
     return [
