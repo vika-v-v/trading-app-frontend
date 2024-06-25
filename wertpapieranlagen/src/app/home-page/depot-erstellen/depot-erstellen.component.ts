@@ -52,6 +52,8 @@ export class DepotErstellenComponent {
     //let waehrungKuerzel = this.selectedWaehrung === 'Euro' ? 'EUR' : 'USD';
     this.depotService.depotErstellen(this.httpClient, this.name, "USD").subscribe(
       response=>{
+        this.popupService.infoPopUp("Depot erfolgreich erstellt.");
+        this.depotDropdownService.setDepot(this.name);
         this.updateEverythingService.updateAll();
         this.abbrechen();
         //this.depotDropdownService.reloadDepots();

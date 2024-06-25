@@ -91,13 +91,13 @@ export class DepotService {
   }
 
   deleteDepot(http: HttpClient, depotName: string): Observable<any>{
-    const deleteDepotUrl = `${this.rootUrl}depot/delete?depotName=${depotName}`;
+    const deleteDepotUrl = `${this.rootUrl}depot/delete?name=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`
       })
     };
-    return http.get(deleteDepotUrl, httpOptions);
+    return http.delete(deleteDepotUrl, httpOptions);
   }
 
   getDataExport(http: HttpClient): Observable<any>{

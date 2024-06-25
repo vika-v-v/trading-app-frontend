@@ -160,7 +160,7 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        this.tabellenZuruecksetzen(error.error.statusCode == 200 ? null : error.error.message);
+        this.tabellenZuruecksetzen((error.error.statusCode == 200 || error.statusCode == 200) ? null : error.error.message);
       }
     );
 
@@ -181,7 +181,7 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        this.tabellenZuruecksetzen(error.error.statusCode == 200 ? null : error.error.message);
+        this.tabellenZuruecksetzen((error.error.statusCode == 200 || error.statusCode == 200) ? null : error.error.message);
       }
     );
 
@@ -198,7 +198,7 @@ export class HomePageComponent implements OnInit, Updateable {
         });
       },
       error => {
-        this.tabellenZuruecksetzen(error.error.statusCode == 200 ? null : error.error.message);
+        this.tabellenZuruecksetzen((error.error.statusCode == 200 || error.statusCode == 200) ? null : error.error.message);
       }
     );
 
@@ -214,7 +214,7 @@ export class HomePageComponent implements OnInit, Updateable {
   }
 
   tabellenZuruecksetzen(fehler: string | null = null) {
-    this.wertpapiere = [];
+    this.transaktionenData = [];
     this.wertpapierenData = [];
     this.dividendenData = [];
     if(fehler) this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + fehler);
@@ -274,8 +274,17 @@ export class HomePageComponent implements OnInit, Updateable {
           this.depotService.deleteDepot(this.http, this.currentDepotName).subscribe({
             next: (response) => {
               console.log('Depot gelöscht:', response);
+              this.popUpService.infoPopUp('Depot "' + this.currentDepotName + '" wurde gelöscht.');
+              this.depotDropdownService.getAllDepots(this.http).subscribe(response => {
+                this.depotDropdownService.setDepot(response.data[response.data.length - 1].name);
+              },
+              error => {
+                console.error('Fehler beim Abrufen aller Depots: ', error.error.message);
+              });
+              this.updateEverythingService.updateAll();
             },
             error: (error) => {
+              this.popUpService.errorPopUp('Fehler beim Löschen des Depots: ' + error.error.message);
               console.error('Error deleting depot:', error);
             }
           });
@@ -283,7 +292,7 @@ export class HomePageComponent implements OnInit, Updateable {
       } else {
         console.log('Löschen abgebrochen');
       }
-    this.updateEverythingService.updateAll();
+
   }
 
   confirmChoice(confirm: boolean) {

@@ -18,8 +18,7 @@ import { PopUpService } from '../services/pop-up.service';
 export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy,
   depots: string[] = [];
   filteredDepots: string[] = [];
-  firstDepot: string = '';
-  //selectedDepot: string = '';
+  selectedDepot: string = '';
   errorMessage: string = '';
   searchTerm: string = '';
   //private reloadSubscription: Subscription;
@@ -29,24 +28,18 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
   @Output() depotChanged: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private depotService: DepotDropdownService, private http: HttpClient, private cdr: ChangeDetectorRef, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {
-    //this.reloadSubscription = new Subscription();
     updateEverythingService.subscribeToUpdates(this);
   }
 
 
   ngOnInit(): void {
     this.loadDepots();
-
-    //this.reloadSubscription = this.depotService.getReloadObservable().subscribe(() => {
-    //  this.loadDepots(); // Neu laden, wenn Benachrichtigung empfangen wird
-    //});
   }
 
-  //ngOnDestroy(): void {
-  //  this.reloadSubscription.unsubscribe(); // Abonnements aufräumen
-  //}
-
   update() {
+    if(this.selectedDepot != this.depotService.getDepot()) {
+      this.selectedDepot = this.depotService.getDepot();
+    }
     this.loadDepots();
   }
 
@@ -58,9 +51,9 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
         if(data.length > 0) {
           this.filteredDepots = data.map((depot: any) =>  depot.name);
           if(this.firstLoad) {
+
             this.setInitialDepot();
             this.updateEverythingService.updateAll();
-            this.firstDepot = this.filteredDepots[0];
           }
           this.firstLoad = false;
         }
@@ -83,9 +76,8 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
 
   setInitialDepot() {
     if (this.filteredDepots.length > 0) {
-      //this.selectedDepot = this.filteredDepots[0];
-      this.depotService.setDepot(this.filteredDepots[0]);
-      //this.depotChanged.emit(this.selectedDepot.label);
+      this.selectedDepot = this.filteredDepots[this.filteredDepots.length - 1];
+      this.depotService.setDepot(this.selectedDepot);
     }
   }
 
@@ -101,7 +93,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
 
   onSelectDepot(depot: string) {
     if (depot) {
-      //this.selectedDepot = depot;
+      this.selectedDepot = depot;
       this.depotService.setDepot(depot);
     }
   }
