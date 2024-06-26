@@ -122,6 +122,21 @@ export class UserSettingsComponent implements OnInit {
     }
   }
 
+  deleteAccount() {
+    this.popupService.choicePopUp("Möchten Sie Ihr Konto wirklich löschen?").subscribe((response: any) => {
+      if(response) {
+        this.userService.deleteUser(this.http).subscribe(response => {
+          this.popupService.infoPopUp("Konto erfolgreich gelöscht.");
+          this.router.navigate(['login-seite']);
+        },
+        error => {
+          this.popupService.errorPopUp("Fehler beim Löschen des Kontos: " + error.error.message);
+        });
+      }
+    }
+    );
+  }
+
   passwortAendern() {
     const email = this.configuration.kontoeinstellungen.find((setting: any) => setting.id === 'email')!.lastSavedValue;
     this.userService.login(this.http, email, this.altesPasswort).subscribe((response: any) => {

@@ -114,6 +114,11 @@
   max-width: min(50%, 300px);
 }
 
+.danger-button {
+  color: rgb(255, 208, 208);
+  background: linear-gradient(to right, #690000, #450000);
+}
+
 
 /*
 display: flex;

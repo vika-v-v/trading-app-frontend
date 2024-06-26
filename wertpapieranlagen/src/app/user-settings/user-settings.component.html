@@ -32,6 +32,7 @@
 
     <div id="buttons">
       <button class="grey-text global-button" (click)="naviagateToLoginPage()">Ausloggen</button>
+      <button class="grey-text global-button danger-button" (click)="deleteAccount()">Konto löschen</button>
       <button *ngIf="!changePasswordShown" class="grey-text global-button" (click)="changePasswordShown = true;">Passwort ändern</button>
     </div>
 
