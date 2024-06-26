@@ -18,7 +18,8 @@
         </div>
       </div>
 
-      <button class="yellow-button" id="registrieren-button" (click)="registrieren()">Registrieren</button>
+      <button class="yellow-button" id="registrieren-button" (click)="registrieren()" *ngIf="!loadingShown">Registrieren</button>
+      <button class="yellow-button" id="loading-button" *ngIf="loadingShown"><img src="../../assets/icons/phosphor-thin/spinner_thin_icon.svg"/> </button>
       <div class="bottom-links">
         <p>Du hast bereits ein Konto? <span id="anmelden-link" class="bottom-link" (click)="naviagateToLoginPage()">Melde dich an!</span></p>
       </div>

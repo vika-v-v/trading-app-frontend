@@ -29,6 +29,8 @@ export class RegistrationPageComponent {
   passwordStrengthColor: string = '#ddd';
   isPasswordInvalid: boolean = false;
 
+  loadingShown: boolean = false;
+
   constructor(private router: Router, private userService: UserService, private http: HttpClient, private passwordUtils: PasswordUtilsService, private autoLogoutService: AutoLogoutService, private popUpService: PopUpService) {}
 
   checkPasswordAndMatch() {
@@ -51,6 +53,8 @@ export class RegistrationPageComponent {
     if(this.password == '' || this.isPasswordInvalid || !this.doPasswordsMatch || this.password2 == '' || this.email == '') {
       this.popUpService.errorPopUp("Ungültige Eingaben!");
     } else {
+      this.loadingShown = true;
+
       this.userService.register(this.http, this.email, this.password).subscribe(
         response => {
           console.log('Response:', response);
@@ -60,9 +64,11 @@ export class RegistrationPageComponent {
             this.userService.setToken(response.data);
             this.popUpService.infoPopUp("Registrierung erfolgreich.");
           }
+          this.loadingShown = false;
         },
         error => {
           console.error('Error:', error);
+          this.loadingShown = false;
         }
       );
     }

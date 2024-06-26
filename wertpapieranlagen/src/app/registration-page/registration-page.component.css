@@ -41,3 +41,22 @@
 #registrieren-button {
   margin-top: 2.5vh;
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+#loading-button > img {
+  width: calc(1em + 10px);
+  animation: spin 1s linear infinite;
+}
+
+#loading-button {
+  padding: 5px 2px;
+}
