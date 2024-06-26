@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnChanges, OnInit, Output, Input, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
@@ -15,13 +15,20 @@ import { DepotService } from '../services/depot.service';
   imports: [CommonModule, CustomDropdownComponent]
 })
 export class AktienDropdownComponent implements OnInit, Updateable {
+  @Input() selectedDepot: string | null = null;
+  @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
+  
   aktien: string[] = [];
   selectedOption: string | null = null;
 
-  @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
-
   constructor(private http: HttpClient, private depotDropdownService: DepotDropdownService, private updateEverythingService: UpdateEverythingService, private depotService: DepotService) {
     this.updateEverythingService.subscribeToUpdates(this);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['selectedDepot'] && !changes['selectedDepot'].firstChange) {
+      this.loadAktien();
+    }
   }
 
   ngOnInit(): void {
@@ -33,6 +40,7 @@ export class AktienDropdownComponent implements OnInit, Updateable {
   }
 
   loadAktien(): void {
+    console.log('Load Aktien called with selectedDepot:', this.selectedDepot);
     this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(
       (response) => {
         this.aktien = Object.keys(response.data);
@@ -53,5 +61,9 @@ export class AktienDropdownComponent implements OnInit, Updateable {
     }
     this.selectedOption = aktie;
     console.log('Ausgewählte Aktie:', aktie);
+  }
+
+  handleSelectionChange(aktie: string): void {
+    this.selectionChange.emit(aktie);
   }
 }

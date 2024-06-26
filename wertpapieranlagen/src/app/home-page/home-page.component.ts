@@ -59,6 +59,9 @@ export class HomePageComponent implements OnInit, Updateable {
   dividende: any[] = [];
   depot: any = {};
 
+  selectedDepot: string | null = null;
+  selectedAktie: string | null = null;
+
   currentDepotName: string | null = null;
   wertpapierenData: any[] = [];
   transaktionenData: any[] = [];
@@ -340,6 +343,23 @@ export class HomePageComponent implements OnInit, Updateable {
         this.popUpService.errorPopUp('Fehler beim Export: ' + error.error.message);
       }
     );
+  }
+
+  selectedDepotChange(depot: string): void {
+    this.selectedDepot = depot;
+    this.selectedAktie = null; // Zurücksetzen der ausgewählten Aktie beim Ändern des Depots
+  }
+
+  selectedAktieChange(aktie: string): void {
+    this.selectedAktie = aktie;
+  }
+
+  handleDepotChange(depot: string): void {
+    this.selectedDepot = depot;
+  }
+
+  handleAktieChange(aktie: string): void {
+    console.log('Selected Aktie in HomePage:', aktie);
   }
 
 }

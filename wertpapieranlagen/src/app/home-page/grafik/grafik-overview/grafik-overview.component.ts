@@ -26,6 +26,9 @@ export class GrafikOverviewComponent implements OnInit, Updateable {
   @Input() selectedDepotName: string | null = null;
   @Input() typ!: GrafikTyp;
 
+  @Input() selectedDepot: string | null = null;
+  @Output() selectedAktieChange: EventEmitter<string> = new EventEmitter<string>();
+
   name = 'Grafik';
 
   wertpapiereVorhanden: boolean = true;
@@ -69,5 +72,9 @@ export class GrafikOverviewComponent implements OnInit, Updateable {
 
   wertpapierUpdate(aktie: string){
     this.wertpapierName = aktie;
+  }
+
+  handleAktieChange(aktie: string): void {
+    this.selectedAktieChange.emit(aktie);
   }
 }

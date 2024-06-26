@@ -17,7 +17,7 @@
         <app-grafik-piechart-value class="grafik"></app-grafik-piechart-value>
       </div>
       <div *ngIf="typ == grafikTyp.WertverlaufWertpapierWerte">
-        <app-grafik-linechart-wertpapier class="grafik" [aktienName]="wertpapierName"></app-grafik-linechart-wertpapier>
+        <app-grafik-linechart-wertpapier [selectedDepot]="selectedDepot" class="grafik" [aktienName]="wertpapierName"></app-grafik-linechart-wertpapier>
       </div>
     </div>
     <div *ngIf="!wertpapiereVorhanden" id="leer-fehlermeldung">

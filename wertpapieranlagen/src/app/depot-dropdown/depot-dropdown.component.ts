@@ -26,6 +26,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
   firstLoad: boolean = true;
 
   @Output() depotChanged: EventEmitter<string> = new EventEmitter<string>();
+  @Output() selectedDepotChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private depotService: DepotDropdownService, private http: HttpClient, private cdr: ChangeDetectorRef, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {
     updateEverythingService.subscribeToUpdates(this);
@@ -95,6 +96,11 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
     if (depot) {
       this.selectedDepot = depot;
       this.depotService.setDepot(depot);
+      this.selectedDepotChange.emit(depot);
     }
+  }
+
+  handleDepotChange(depot: string): void {
+    this.selectedDepotChange.emit(depot);
   }
 }

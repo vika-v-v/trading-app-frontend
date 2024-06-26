@@ -31,7 +31,11 @@ export class GrafikLinechartWertpapierComponent implements OnChanges {
   private chart: Chart<'line', number[], string> | undefined;
   private xValues: string[] = [];
   private yValues: number[] = [];
+
   @Input() aktienName!: string;
+
+  @Input() selectedDepot: string | null = null;
+  @Input() selectedAktie: string | null = null;
 
   constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService) {
     Chart.register(...registerables);
@@ -50,9 +54,13 @@ export class GrafikLinechartWertpapierComponent implements OnChanges {
       console.log('AktienName:', this.aktienName);  // Debugging
       this.generateLineChart_WertpapierWert();
     }
+    if ((changes['selectedDepot'] || changes['selectedAktie'])) {
+      this.generateLineChart_WertpapierWert();
+    }
   }
 
   generateLineChart_WertpapierWert() {
+    console.log('Generate Line Chart called with selectedDepot:', this.selectedDepot, 'and selectedAktie:', this.selectedAktie);
     const depotName = this.depotDropdownService.getDepot();
     console.log('Depot Name:', depotName);  // Debugging
 
