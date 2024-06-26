@@ -124,4 +124,13 @@ export class UserService {
     return http.get(accountValueURL, httpOptions);
   }
 
+  getDepots(http: HttpClient): Observable<any>{
+    const getAllDepotsURL = `${this.rootUrl}depot/getAllDepots`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.getToken()}`
+      })
+    };
+    return http.get(getAllDepotsURL, httpOptions);
+  }
 }

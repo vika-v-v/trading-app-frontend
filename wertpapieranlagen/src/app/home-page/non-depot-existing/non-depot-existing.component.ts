@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { SidePanel } from '../side-panel.enum';
 import { UserService } from '../../services/user.service';
 import { UserSettingsComponent } from '../../user-settings/user-settings.component';
+import { DepotErstellenComponent } from '../depot-erstellen/depot-erstellen.component';
 
 @Component({
   selector: 'app-non-depot-existing',
   standalone: true,
-  imports: [CommonModule, UserSettingsComponent],  // UserSettingsComponent hier importieren
+  imports: [CommonModule, UserSettingsComponent, DepotErstellenComponent],  // Import DepotErstellenComponent hier hinzufügen
   templateUrl: './non-depot-existing.component.html',
   styleUrls: ['./non-depot-existing.component.css']
 })

@@ -1,103 +1,108 @@
-
 <div id="container" *ngIf="isPageVisible(); else notLoggedInMessage">
   <!-- Überprüfung und Anzeige der NonDepotExistingComponent -->
-  <app-non-depot-existing *ngIf="showNonDepotExistingComponent"></app-non-depot-existing>
-  <div id="top-elements">
-    <div id="left-elements">
-      <div id="left-buttons">
-        <app-depot-dropdown></app-depot-dropdown>
-        <div>
-          <p class="grey-text" id="gesamtwert-text">{{ getGesamtwert() }} USD</p>
-          <div class="tooltip"> <img id="gesamtwert-info-icon" src="../../assets/icons/phosphor-thin/info_thin_icon.svg">
-            <span class="tooltiptext">Gesamtwert des Depot</span>
+  <app-non-depot-existing *ngIf="showNonDepotExistingComponent == true"></app-non-depot-existing>
+  <div *ngIf="!showNonDepotExistingComponent">
+    <div id="top-elements">
+      <div id="left-elements">
+        <div id="left-buttons">
+          <app-depot-dropdown></app-depot-dropdown>
+          <div>
+            <p class="grey-text" id="gesamtwert-text">{{ getGesamtwert() }} USD</p>
+            <div class="tooltip"> <img id="gesamtwert-info-icon"
+                src="../../assets/icons/phosphor-thin/info_thin_icon.svg">
+              <span class="tooltiptext">Gesamtwert des Depot</span>
+            </div>
           </div>
+        </div>
+      </div>
+
+      <div id="right-icons">
+        <app-custom-dropdown [options]="selectTransactions" [alwaysSelectOption]="'Transaktionen'"
+          (selectionChange)="onSelectTransaction($event)"></app-custom-dropdown>
+        <div id="settings-container" (click)="showSidePanel(SidePanel.Settings)">
+          <img id="settings" src="../../assets/icons/phosphor-thin/gear_thin_icon.svg" />
         </div>
       </div>
     </div>
 
-    <div id="right-icons">
-      <app-custom-dropdown [options]="selectTransactions" [alwaysSelectOption]="'Transaktionen'" (selectionChange)="onSelectTransaction($event)"></app-custom-dropdown>
-      <div id="settings-container" (click)="showSidePanel(SidePanel.Settings)">
-        <img id="settings" src="../../assets/icons/phosphor-thin/gear_thin_icon.svg" />
+    <div id="main-section">
+      <div class="elementen-erste-linie">
+        <app-grafik-overview [typ]="GrafikTyp.WertverlaufDepotwerte" [selectedDepotName]="currentDepotName"
+          class="grafik"></app-grafik-overview>
+        <app-grafik-overview [typ]="GrafikTyp.WertverlaufWertpapierWerte" [selectedDepotName]="currentDepotName"
+          class="grafik"></app-grafik-overview>
+      </div>
+      <div class="elementen-zweite-linie">
+        <app-grafik-overview [typ]="GrafikTyp.PizzadiagrammWertpapierWert" [selectedDepotName]="currentDepotName"
+          class="grafik"></app-grafik-overview>
+        <app-tabelle id="wertpapieren-table" [tableHeader]="getWertpapierenHeader()" [tableData]="wertpapierenData"
+          [name]="'Wertpapiere'" [leerFehlermeldung]="'Noch keine Wertpapiere vorhanden.'"></app-tabelle>
       </div>
     </div>
-  </div>
 
-  <div id="main-section">
-    <div class="elementen-erste-linie">
-      <app-grafik-overview [typ]="GrafikTyp.WertverlaufDepotwerte" [selectedDepotName]="currentDepotName" class="grafik"></app-grafik-overview>
-      <app-grafik-overview [typ]="GrafikTyp.WertverlaufWertpapierWerte" [selectedDepotName]="currentDepotName" class="grafik"></app-grafik-overview>
-    </div>
-    <div class="elementen-zweite-linie">
-      <app-grafik-overview [typ]="GrafikTyp.PizzadiagrammWertpapierWert" [selectedDepotName]="currentDepotName" class="grafik"></app-grafik-overview>
-      <app-tabelle id="wertpapieren-table"  [tableHeader]="getWertpapierenHeader()" [tableData]="wertpapierenData" [name]="'Wertpapiere'" [leerFehlermeldung]="'Noch keine Wertpapiere vorhanden.'"></app-tabelle>
-    </div>
-  </div>
+    <div id="bottom-section">
+      <div *ngIf="expanded">
+        <div id="depotwerte">
+          <div class="column">
+            <p class="grey-text">Gesamtwert vom Depot</p>
+            <p class="grey-text wert">{{ getGesamtwert() }} USD</p>
+          </div>
+          <div class="column">
+            <p class="grey-text">Gewinn/Verlust</p>
+            <p class="grey-text wert">{{ getGewinnVerlust() }} USD</p>
+          </div>
+        </div>
+        <div id="transaktionen-table-container">
+          <app-tabelle [tableHeader]="getTransaktionenHeader()" [tableData]="transaktionenData" [name]="'Transaktionen'"
+            [leerFehlermeldung]="'Noch keine Transaktionen vorhanden.'"></app-tabelle>
+        </div>
+        <div id="dividende-table-container">
+          <app-tabelle [tableHeader]="getDividendenHeader()" [tableData]="dividendenData" [name]="'Dividenden'"
+            [leerFehlermeldung]="'Noch keine Divienden vorhanden.'"></app-tabelle>
+        </div>
+      </div>
 
-  <div id="bottom-section">
-  <div *ngIf="expanded">
-    <div id="depotwerte">
-      <div class="column">
-        <p class="grey-text">Gesamtwert vom Depot</p>
-        <p class="grey-text wert">{{ getGesamtwert() }} USD</p>
+      <div id="expand-button">
+        <img *ngIf="!expanded" src="../../assets/icons/phosphor-thin/caret_down_thin_icon.svg"
+          (click)="toggleExpand()" />
+        <img *ngIf="expanded" src="../../assets/icons/phosphor-thin/caret_up_thin_icon.svg" (click)="toggleExpand()" />
       </div>
-      <div class="column">
-        <p class="grey-text">Gewinn/Verlust</p>
-        <p class="grey-text wert">{{ getGewinnVerlust() }} USD</p>
-      </div>
-    </div>
-    <div id="transaktionen-table-container">
-      <app-tabelle [tableHeader]="getTransaktionenHeader()" [tableData]="transaktionenData" [name]="'Transaktionen'" [leerFehlermeldung]="'Noch keine Transaktionen vorhanden.'"></app-tabelle>
-    </div>
-    <div id="dividende-table-container">
-      <app-tabelle [tableHeader]="getDividendenHeader()" [tableData]="dividendenData" [name]="'Dividenden'" [leerFehlermeldung]="'Noch keine Divienden vorhanden.'"></app-tabelle>
-    </div>
-  </div>
 
-  <div id="expand-button">
-    <img
-      *ngIf="!expanded"
-      src="../../assets/icons/phosphor-thin/caret_down_thin_icon.svg"
-      (click)="toggleExpand()"
-    />
-    <img
-      *ngIf="expanded"
-      src="../../assets/icons/phosphor-thin/caret_up_thin_icon.svg"
-      (click)="toggleExpand()"
-    />
-  </div>
+      <div id="depot-actions">
+        <button id="depot-erstellen" class="grey-text global-button"
+          (click)="showSidePanel(SidePanel.DepotErstellen)">Neues Depot erstellen</button>
+        <button id="depot-loeschen" class="grey-text global-button" (click)="showDepotLoeschen()">Depot löschen</button>
+        <button id="export" class="grey-text global-button" (click)="startGetDepotExport()">Export</button>
+      </div>
 
-  <div id="depot-actions">
-    <button id="depot-erstellen" class="grey-text global-button" (click)="showSidePanel(SidePanel.DepotErstellen)">Neues Depot erstellen</button>
-    <button id="depot-loeschen" class="grey-text global-button" (click)="showDepotLoeschen()">Depot löschen</button>
-    <button id="export" class="grey-text global-button" (click)="startGetDepotExport()">Export</button>
-  </div>
-
-  <div id="side-panel" [class.show]="_showSidePanel" [class.hide]="_showSidePanel!= null && !_showSidePanel">
-    <div class="background" (click)="hideSidePanel()"></div>
-    <div id="content" [ngStyle]="{'width': sidePanel === SidePanel.Settings ? '55%' : '35%'}">
-      <div *ngIf="sidePanel === SidePanel.Kaufen">
-        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Kaufen" (onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
-      </div>
-      <div *ngIf="sidePanel === SidePanel.Verkaufen">
-        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Verkaufen"(onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
-      </div>
-      <div *ngIf="sidePanel === SidePanel.DividendeErfassen">
-        <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.DividendeErfassen"(onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
-      </div>
-      <div *ngIf="sidePanel === SidePanel.DepotErstellen">
-        <app-depot-erstellen (onAbbrechen)="hideSidePanel()"></app-depot-erstellen>
-      </div>
-      <div *ngIf="sidePanel === SidePanel.Settings">
-        <app-user-settings></app-user-settings>
+      <div id="side-panel" [class.show]="_showSidePanel" [class.hide]="_showSidePanel!= null && !_showSidePanel">
+        <div class="background" (click)="hideSidePanel()"></div>
+        <div id="content" [ngStyle]="{'width': sidePanel === SidePanel.Settings ? '55%' : '35%'}">
+          <div *ngIf="sidePanel === SidePanel.Kaufen">
+            <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Kaufen"
+              (onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
+          </div>
+          <div *ngIf="sidePanel === SidePanel.Verkaufen">
+            <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.Verkaufen"
+              (onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
+          </div>
+          <div *ngIf="sidePanel === SidePanel.DividendeErfassen">
+            <app-wertpapier-vorgang [wertpapierVorgang]="WertpapierVorgang.DividendeErfassen"
+              (onAbbrechen)="hideSidePanel()"></app-wertpapier-vorgang>
+          </div>
+          <div *ngIf="sidePanel === SidePanel.DepotErstellen">
+            <app-depot-erstellen (onAbbrechen)="hideSidePanel()"></app-depot-erstellen>
+          </div>
+          <div *ngIf="sidePanel === SidePanel.Settings">
+            <app-user-settings></app-user-settings>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
 <!--Wird anstelle der Homepage angezeigt, wenn kein Token hinterlegt ist-->
 <ng-template #notLoggedInMessage>
   <app-not-logged-in></app-not-logged-in>
 </ng-template>
-

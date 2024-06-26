@@ -64,7 +64,7 @@ export class HomePageComponent implements OnInit, Updateable {
   transaktionenData: any[] = [];
   dividendenData: any[] = [];
 
-  showNonDepotExistingComponent: boolean = false;
+  showNonDepotExistingComponent: boolean = true;
 
   selectTransactions = ["Kaufen", "Verkaufen", "Dividende erfassen"];
 
@@ -81,14 +81,8 @@ export class HomePageComponent implements OnInit, Updateable {
   }
 
   ngOnInit(): void {
-    if (this.getDepot() === null) {
-      // Wenn getDepot() null ist, setze eine Variable oder Flagge
-      this.showNonDepotExistingComponent = true;
-    }
-  }
-
-  getDepot(): any {
-    return //this.userService.getDepot();  // Annahme, dass der UserService dies bereitstellt
+    this.showNonDepotExistingComponent = true;
+    this.getNumberofDepots();
   }
 
   isPageVisible() {
@@ -137,6 +131,8 @@ export class HomePageComponent implements OnInit, Updateable {
   }
 
   update() {
+    this.showNonDepotExistingComponent = true;
+    this.getNumberofDepots();
     //this.currentDepotName = null;
     //this.crd.detectChanges();
     //if(neuesDepot === null) {
@@ -309,4 +305,23 @@ export class HomePageComponent implements OnInit, Updateable {
     this.choiceConfirmed = confirm;
     this.popUpService.hidePopUp();
   }
+
+  getNumberofDepots() {
+    this.userService.getDepots(this.http).subscribe(
+      (response) => {
+        // Überprüfen, ob die Nachricht "Keine Depots gefunden" ist
+        if (response.message === "Keine Depots gefunden") {
+          this.showNonDepotExistingComponent = true;
+        } else {
+          this.showNonDepotExistingComponent = false;
+        }
+      },
+      (error) => {
+        console.error('Fehler beim Abrufen der Depots:', error);
+        // Bei Fehler showNonDepotExistingComponent auf true setzen
+        this.showNonDepotExistingComponent = true;
+      }
+    );
+  }
+  
 }
