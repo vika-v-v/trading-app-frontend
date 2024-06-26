@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgPlural } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SidePanel } from './side-panel.enum';
 import { WertpapierVorgang } from './wertpapier-vorgang.enum';
@@ -64,7 +64,7 @@ export class HomePageComponent implements OnInit, Updateable {
   transaktionenData: any[] = [];
   dividendenData: any[] = [];
 
-  showNonDepotExistingComponent: boolean = true;
+  showNonDepotExistingComponent: boolean = false;
 
   selectTransactions = ["Kaufen", "Verkaufen", "Dividende erfassen"];
 
@@ -81,7 +81,6 @@ export class HomePageComponent implements OnInit, Updateable {
   }
 
   ngOnInit(): void {
-    this.showNonDepotExistingComponent = true;
     this.getNumberofDepots();
   }
 
@@ -131,7 +130,6 @@ export class HomePageComponent implements OnInit, Updateable {
   }
 
   update() {
-    this.showNonDepotExistingComponent = true;
     this.getNumberofDepots();
     //this.currentDepotName = null;
     //this.crd.detectChanges();
