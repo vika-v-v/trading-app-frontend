@@ -123,6 +123,7 @@ table {
   text-align: left;
   table-layout: auto;
   position: relative;
+  border: none;
   border-left: 0.5px solid #dbd1d15d;
   border-right: 0.5px solid #dbd1d15d;
 }
@@ -161,7 +162,7 @@ tr > th {
   border-top: 0.5px solid #dbd1d15d;
 }
 
-tr > th::after, thead::after {
+tr > th::after {
   content: '';
   position: absolute;
   left: 0;

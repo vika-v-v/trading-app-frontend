@@ -101,15 +101,6 @@ export class GrafikPiechartValueComponent implements Updateable { // OnInit, OnC
                 }
               }
             },
-            title: {
-              display: true,
-              text: 'Gesamtwert der Wertpapiere in USD',
-              color: 'white',  // White text color
-              font: {
-                family: 'Verdana, Geneva, Tahoma, sans-serif',
-                size: 15
-              }
-            },
             tooltip: {
               callbacks: {
                 label: function (tooltipItem: any) {

@@ -1,4 +1,5 @@
 .container {
-  height: calc((100vh - 150px) / 2 - 30px);
-  max-height: calc((100vh - 150px) / 2 - 30px);
+  height: calc((100vh - 150px) / 2 - 50px);
+  max-height: calc((100vh - 150px) / 2 - 50px);
+  padding: 10px;
 }
