@@ -32,6 +32,7 @@
 
     <div id="buttons">
       <button class="grey-text global-button" (click)="naviagateToLoginPage()">Ausloggen</button>
+      <button class="grey-text global-button danger-button" (click)="deleteAccount()">Konto löschen</button>
       <button *ngIf="!changePasswordShown" class="grey-text global-button" (click)="changePasswordShown = true;">Passwort ändern</button>
     </div>
 
@@ -67,18 +68,4 @@
   <div *ngIf="steuereinstellungenAngezeigt" id="steuereinstellungen">
     <app-tax-settings (resetClicked)="hideSteuerrechner()"></app-tax-settings>
   </div>
-</div>
-
-
-<h2>Settings</h2>
-<button type="button" (click)="naviagateToLoginPage()">Log Out</button>
-<button (click)="showSteuerrechner()">Steuerrechner</button>
-<button (click)="showChangePassword()">Passwort ändern</button>
-
-<div *ngIf="steuerrechnerShown">
-  <app-tax-settings (resetClicked)="hideSteuerrechner()"></app-tax-settings>
-</div>
-
-<div *ngIf="changePasswordShown">
-  <app-change-password-page (resetClicked)="hideChangePassword()"></app-change-password-page>
 </div>

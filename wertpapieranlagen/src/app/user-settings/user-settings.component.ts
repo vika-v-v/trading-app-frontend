@@ -122,6 +122,21 @@ export class UserSettingsComponent implements OnInit {
     }
   }
 
+  deleteAccount() {
+    this.popupService.choicePopUp("Möchten Sie Ihr Konto wirklich löschen?").subscribe((response: any) => {
+      if(response) {
+        this.userService.deleteUser(this.http).subscribe(response => {
+          this.popupService.infoPopUp("Konto erfolgreich gelöscht.");
+          this.router.navigate(['login-seite']);
+        },
+        error => {
+          this.popupService.errorPopUp("Fehler beim Löschen des Kontos: " + error.error.message);
+        });
+      }
+    }
+    );
+  }
+
   passwortAendern() {
     const email = this.configuration.kontoeinstellungen.find((setting: any) => setting.id === 'email')!.lastSavedValue;
     this.userService.login(this.http, email, this.altesPasswort).subscribe((response: any) => {
@@ -176,7 +191,11 @@ export class UserSettingsComponent implements OnInit {
   }
 
   private savePlzOrt(updatedValue: string) {
-    const [plz, ort] = updatedValue.split(' ');
+    const lastSpaceIndex = updatedValue.lastIndexOf(' ');
+
+    const plz = updatedValue.substring(0, lastSpaceIndex);
+    const ort = updatedValue.substring(lastSpaceIndex + 1);
+
     let successfullyUpdated = 0;
 
     this.userService.updateUserData(this.http, { plz: plz }).subscribe(response => {
@@ -201,7 +220,11 @@ export class UserSettingsComponent implements OnInit {
   }
 
   private saveStrasseHausnummer(updatedValue: string) {
-    const [strasse, hausnummer] = updatedValue.split(' ');
+    const lastSpaceIndex = updatedValue.lastIndexOf(' ');
+
+    const strasse = updatedValue.substring(0, lastSpaceIndex);
+    const hausnummer = updatedValue.substring(lastSpaceIndex + 1);
+
     let successfullyUpdated = 0;
 
     this.userService.updateUserData(this.http, { strasse: strasse }).subscribe(response => {

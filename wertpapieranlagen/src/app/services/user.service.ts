@@ -114,6 +114,17 @@ export class UserService {
     return http.get(userUrl, httpOptions);
   }
 
+  deleteUser(http: HttpClient): Observable<any>{
+    const userUrl = `${this.rootUrl}users/delete`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.getToken()}`
+      })
+    };
+    this.setToken('');
+    return http.delete(userUrl, httpOptions);
+  }
+
   getAccountValue(http: HttpClient): Observable<any>{
     const accountValueURL = `${this.rootUrl}users/account-values`;
     const httpOptions = {
