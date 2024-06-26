@@ -1,28 +1,9 @@
 <div id="nonDepot-container">
   <div id="quote-container">
-    <div id="top-elements">
-      <div id="right-icons">
-        <!-- Hinzufügen des Icon-Buttons für User Settings -->
-        <!-- <div id="settings-container" (click)="showSidePanel(SidePanel.Settings)">
-          <img id="settings" src="../../assets/icons/phosphor-thin/gear_thin_icon.svg" />
-        </div> -->
-      </div>
-    </div>
     <div id="main-section">
-      <p class="quote">"Der intelligente Investor ist ein Realist, der an Optimisten verkauft und von Pessimisten kauft."</p>
-      <p class="author">Benjamin Graham</p>
-      <button class="center-button" (click)="showSidePanel(SidePanel.DepotErstellen)">Depot erstellen</button>
-    </div>
-    <div id="side-panel" [class.show]="_showSidePanel" [class.hide]="_showSidePanel !== null && !_showSidePanel">
-      <div class="background" (click)="hideSidePanel()"></div>
-      <div id="content">
-        <div *ngIf="sidePanel === SidePanel.Settings">
-          <app-user-settings></app-user-settings>
-        </div>
-        <div *ngIf="sidePanel === SidePanel.DepotErstellen">
-          <app-depot-erstellen (onAbbrechen)="hideSidePanel()"></app-depot-erstellen>
-        </div>
-      </div>
+      <p class="quote grey-text">"Der intelligente Investor ist ein Realist, der an Optimisten verkauft und von Pessimisten kauft."</p>
+      <p class="author grey-text">Benjamin Graham</p>
+      <button class="global-button grey-text" (click)="showSidePanel(SidePanel.DepotErstellen)">Depot erstellen</button>
     </div>
   </div>
 </div>

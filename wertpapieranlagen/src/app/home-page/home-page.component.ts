@@ -315,11 +315,11 @@ export class HomePageComponent implements OnInit, Updateable {
         }
       },
       (error) => {
-        console.error('Fehler beim Abrufen der Depots:', error);
+        /*console.error('Fehler beim Abrufen der Depots:', error);*/
         // Bei Fehler showNonDepotExistingComponent auf true setzen
         this.showNonDepotExistingComponent = true;
       }
     );
   }
-  
+
 }

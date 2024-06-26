@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidePanel } from '../side-panel.enum';
 import { UserService } from '../../services/user.service';
@@ -17,11 +17,14 @@ export class NonDepotExistingComponent {
   _showSidePanel: boolean | null = null;
   sidePanel: SidePanel | null = null;
 
+  @Output() showAddDepot: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(private userService: UserService) {}
 
   showSidePanel(name: SidePanel) {
     this._showSidePanel = true;
     this.sidePanel = name;
+    this.showAddDepot.emit();
   }
 
   hideSidePanel() {

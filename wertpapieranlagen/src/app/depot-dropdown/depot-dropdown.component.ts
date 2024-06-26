@@ -68,7 +68,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy
       },
       (error) => {
         this.errorMessage = 'Fehler beim Abrufen der Depots: ' + error.message;
-        this.popupService.errorPopUp(this.errorMessage);
+        //this.popupService.errorPopUp(this.errorMessage);
         //this.cdr.detectChanges(); // Trigger change detection manually
       }
     );

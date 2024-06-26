@@ -143,6 +143,12 @@
   height: 3em;
 }
 
+.top-right-settings {
+  position: fixed;
+  top: 20px;
+  right: 50px;
+}
+
 #transaktionen-table-container {
   width: calc(100vw - 70px);
   min-width: calc(100vw - 70px);
