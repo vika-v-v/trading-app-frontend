@@ -100,14 +100,16 @@ export class DepotService {
     return http.delete(deleteDepotUrl, httpOptions);
   }
 
-  getDataExport(http: HttpClient): Observable<any>{
+  getDataExport(http: HttpClient): Observable<Blob> {
     const getDataExportURL = `${this.rootUrl}excel/download`;
     const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.userService.getToken()}`
-      })
+        'Authorization': `Bearer ${this.userService.getToken()}`,
+        'Accept': 'application/octet-stream' // Erwartet einen binären Stream als Antwort
+      }),
+      responseType: 'blob' as 'json' // Angular erwartet einen expliziten Cast für 'blob'
     };
-    return http.get(getDataExportURL, httpOptions);
+    return http.get<Blob>(getDataExportURL, httpOptions);
   }
 
   getDepotHistory(http: HttpClient, depotName: string): Observable<any>{

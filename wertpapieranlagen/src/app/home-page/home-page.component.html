@@ -72,7 +72,7 @@
         <button id="depot-erstellen" class="grey-text global-button"
           (click)="showSidePanel(SidePanel.DepotErstellen)">Neues Depot erstellen</button>
         <button id="depot-loeschen" class="grey-text global-button" (click)="showDepotLoeschen()">Depot löschen</button>
-        <button id="export" class="grey-text global-button" (click)="startGetDepotExport()">Export</button>
+        <button id="export" class="grey-text global-button" (click)="export()">Export</button>
       </div>
 
       <div id="side-panel" [class.show]="_showSidePanel" [class.hide]="_showSidePanel!= null && !_showSidePanel">
