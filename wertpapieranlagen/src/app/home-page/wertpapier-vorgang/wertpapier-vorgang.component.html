@@ -36,7 +36,7 @@
 
     <div id="kurs" class="information-line" *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen">
       <p class="grey-text">Kurs</p>
-      <input class="grey-text" type="number" placeholder="100.55" [(ngModel)]="wertpapierPreis"
+      <input class="grey-text" type="number" placeholder="100.55" [(ngModel)]="wertpapierPreis" (ngModelChange)="kursChange()"
              [ngClass]="{'input-error': invalidFields.wertpapierPreis}"/>
     </div>
 

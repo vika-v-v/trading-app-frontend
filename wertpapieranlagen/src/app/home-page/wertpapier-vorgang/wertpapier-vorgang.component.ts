@@ -44,6 +44,7 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
 
   previousKuerzel: string = '';
   previousSelectedWertpapierart: any;
+  previousKurs: string = '';
 
   suggestion = "";
   allowSuggestions = false;
@@ -112,9 +113,14 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
         else {
           this.selectedWertpapierart = 'Aktie';
         }
+
+        const dates = Object.keys(wertpapier.kursHistorie);
+        const lastDate = dates.sort((a, b) => new Date(b).getTime() - new Date(a).getTime())[dates.length - 1];
+        this.wertpapierPreis = Number(wertpapier.kursHistorie[lastDate]).toString();
       }
       else {
         this.kuerzel = this.previousKuerzel;
+        this.wertpapierPreis = this.previousKurs;
         this.selectedWertpapierart = this.previousSelectedWertpapierart;
       }
       this.setSuggestion();
@@ -153,6 +159,10 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
 
   kuerzelChange() {
     this.previousKuerzel = this.kuerzel;
+  }
+
+  kursChange() {
+    this.previousKurs = this.wertpapierPreis;
   }
 
   validateInputs() {
