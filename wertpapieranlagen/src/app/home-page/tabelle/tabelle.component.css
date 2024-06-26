@@ -161,7 +161,7 @@ tr > th {
   border-top: 0.5px solid #dbd1d15d;
 }
 
-tr > th::after {
+tr > th::after, thead::after {
   content: '';
   position: absolute;
   left: 0;
