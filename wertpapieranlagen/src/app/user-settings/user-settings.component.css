@@ -55,7 +55,7 @@
   max-height: calc(100vh - 155px);
   float: left;
   justify-content: flex-start;
-  overflow-x: show;
+  overflow-x: hidden;
   overflow-y: auto;
   z-index: 2;
 }
