@@ -176,7 +176,11 @@ export class UserSettingsComponent implements OnInit {
   }
 
   private savePlzOrt(updatedValue: string) {
-    const [plz, ort] = updatedValue.split(' ');
+    const lastSpaceIndex = updatedValue.lastIndexOf(' ');
+
+    const plz = updatedValue.substring(0, lastSpaceIndex);
+    const ort = updatedValue.substring(lastSpaceIndex + 1);
+
     let successfullyUpdated = 0;
 
     this.userService.updateUserData(this.http, { plz: plz }).subscribe(response => {
@@ -201,7 +205,11 @@ export class UserSettingsComponent implements OnInit {
   }
 
   private saveStrasseHausnummer(updatedValue: string) {
-    const [strasse, hausnummer] = updatedValue.split(' ');
+    const lastSpaceIndex = updatedValue.lastIndexOf(' ');
+
+    const strasse = updatedValue.substring(0, lastSpaceIndex);
+    const hausnummer = updatedValue.substring(lastSpaceIndex + 1);
+
     let successfullyUpdated = 0;
 
     this.userService.updateUserData(this.http, { strasse: strasse }).subscribe(response => {
