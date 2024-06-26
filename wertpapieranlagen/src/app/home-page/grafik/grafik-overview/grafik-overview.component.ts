@@ -6,6 +6,10 @@ import { GrafikPiechartValueComponent } from '../grafik-piechart-value/grafik-pi
 import { CommonModule } from '@angular/common';
 import { GrafikTyp } from '../grafik-typ.enum';
 import { AktienDropdownComponent } from '../../../aktien-dropdown/aktien-dropdown.component';
+import { DepotService } from '../../../services/depot.service';
+import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
+import { HttpClient } from '@angular/common/http';
+import { DepotDropdownService } from '../../../services/depot-dropdown.service';
 
 @Component({
   selector: 'app-grafik-overview',
@@ -14,17 +18,31 @@ import { AktienDropdownComponent } from '../../../aktien-dropdown/aktien-dropdow
   standalone: true,
   imports: [CommonModule, GrafikLinechartDepotComponent, GrafikPiechartNumberComponent, GrafikPiechartValueComponent, GrafikLinechartWertpapierComponent, AktienDropdownComponent]
 })
-export class GrafikOverviewComponent implements OnInit {
+export class GrafikOverviewComponent implements OnInit, Updateable {
   grafikTyp = GrafikTyp;
   wertpapierName!: string;
-  
+
 
   @Input() selectedDepotName: string | null = null;
   @Input() typ!: GrafikTyp;
 
   name = 'Grafik';
 
-  constructor() {
+  wertpapiereVorhanden: boolean = true;
+
+  constructor(private http: HttpClient, private depotService: DepotService, private depotDropdownService: DepotDropdownService, private updateEverythingService: UpdateEverythingService) {
+    updateEverythingService.subscribeToUpdates(this);
+  }
+
+  update() {
+    this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(
+      response => {
+        this.wertpapiereVorhanden = true;
+      },
+      error => {
+        this.wertpapiereVorhanden = false;
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -40,6 +58,7 @@ export class GrafikOverviewComponent implements OnInit {
     else if(this.typ == GrafikTyp.WertverlaufWertpapierWerte) {
       this.name = 'Aktien-Wertverlauf';
     }
+    this.update();
   }
 
   ngOnChanges(changes: SimpleChanges) {

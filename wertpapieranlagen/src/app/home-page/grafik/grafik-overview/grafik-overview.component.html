@@ -1,22 +1,27 @@
 <div id="canvas-container">
   <div id="header-container">
     <p class="name grey-text">{{ name }}</p>
-    <div class="aktien-dropdown" *ngIf="this.typ === grafikTyp.WertverlaufWertpapierWerte">
-    <app-aktien-dropdown (selectionChange)="wertpapierUpdate($event)"></app-aktien-dropdown>
+    <div class="aktien-dropdown" *ngIf="this.typ === grafikTyp.WertverlaufWertpapierWerte && wertpapiereVorhanden">
+      <app-aktien-dropdown (selectionChange)="wertpapierUpdate($event)"></app-aktien-dropdown>
     </div>
   </div>
-  <div class="grafik-overview-container">
-    <div *ngIf="typ == grafikTyp.WertverlaufDepotwerte">
-      <app-grafik-linechart-depot class="grafik"></app-grafik-linechart-depot>
+  <div class="grafik-overview-container" >
+    <div class="container" *ngIf="wertpapiereVorhanden">
+      <div *ngIf="typ == grafikTyp.WertverlaufDepotwerte">
+        <app-grafik-linechart-depot class="grafik"></app-grafik-linechart-depot>
+      </div>
+      <!-- <div *ngIf="typ == grafikTyp.PizzadiagrammWertpapierMenge">
+        <app-grafik-piechart-number class="grafik"></app-grafik-piechart-number>
+      </div> -->
+      <div *ngIf="typ == grafikTyp.PizzadiagrammWertpapierWert">
+        <app-grafik-piechart-value class="grafik"></app-grafik-piechart-value>
+      </div>
+      <div *ngIf="typ == grafikTyp.WertverlaufWertpapierWerte">
+        <app-grafik-linechart-wertpapier class="grafik" [aktienName]="wertpapierName"></app-grafik-linechart-wertpapier>
+      </div>
     </div>
-    <!-- <div *ngIf="typ == grafikTyp.PizzadiagrammWertpapierMenge">
-      <app-grafik-piechart-number class="grafik"></app-grafik-piechart-number>
-    </div> -->
-    <div *ngIf="typ == grafikTyp.PizzadiagrammWertpapierWert">
-      <app-grafik-piechart-value class="grafik"></app-grafik-piechart-value>
-    </div>
-    <div *ngIf="typ == grafikTyp.WertverlaufWertpapierWerte">
-      <app-grafik-linechart-wertpapier class="grafik" [aktienName]="wertpapierName"></app-grafik-linechart-wertpapier>
+    <div *ngIf="!wertpapiereVorhanden" id="leer-fehlermeldung">
+      <p class="grey-text">Noch keine Daten vorhanden.</p>
     </div>
   </div>
 </div>

@@ -39,3 +39,10 @@
 .aktien-dropdown{
   margin-bottom: 5px;
 }
+
+#leer-fehlermeldung {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
