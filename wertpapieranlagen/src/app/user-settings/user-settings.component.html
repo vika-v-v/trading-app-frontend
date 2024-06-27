@@ -1,7 +1,12 @@
+<!-- Header -->
 <div id="header">
   <h1 class="main-header grey-text">Einstellungen</h1>
 </div>
+
+<!-- Content -->
 <div id="content">
+
+  <!-- Tabs zum switchen zwischen Kontoeinstellungen/Steuerrechener -->
   <div id="list-of-contents">
     <div class="line">
       <button class="global-button grey-text" (click)="kontoeinstellungenAngezeigt = true; steuereinstellungenAngezeigt = false;" >Kontoeinstellungen</button>
@@ -17,7 +22,10 @@
     </div>
   </div>
 
+  <!-- Kontoeinstellungen -->
   <div *ngIf="kontoeinstellungenAngezeigt" id="kontoeinstellungen">
+
+    <!-- Nutzerinformationen, dynmanisch nach der Konfiguration generiert -->
     <div *ngFor="let line of configuration.kontoeinstellungen">
       <div class="information-line">
         <p class="grey-text" [class.inline]="line.showInline">{{line.label}}</p>
@@ -30,34 +38,47 @@
       </div>
     </div>
 
+    <!-- Buttons für Einstellungen: Ausloggen, Konto löschen, Passwort ändern -->
     <div id="buttons">
       <button class="grey-text global-button" (click)="naviagateToLoginPage()">Ausloggen</button>
       <button class="grey-text global-button danger-button" (click)="deleteAccount()">Konto löschen</button>
       <button *ngIf="!changePasswordShown" class="grey-text global-button" (click)="changePasswordShown = true;">Passwort ändern</button>
     </div>
 
+    <!-- Passwortänderung angezeigt -->
     <div *ngIf="changePasswordShown" id="changePassword">
+      <!-- Altes Passwort -->
       <div class="information-line">
         <p class="grey-text inline">Altes Passwort</p>
         <input class="grey-text input-field" type="password" [(ngModel)]="altesPasswort" (ngModelChange)="this.fehlermeldungPasswort = '';"/>
       </div>
+
+      <!-- Neues Passwort -->
       <div class="information-line inline">
         <p class="grey-text">Neues Passwort</p>
         <input class="grey-text input-field" type="password" [(ngModel)]="neuesPasswort" (ngModelChange)="checkPassword(neuesPasswort)"/>
       </div>
+
+      <!-- Neues Passwort wiederholen -->
       <div class="information-line">
         <p class="grey-text">Neues&nbsp;Passwort noch&nbsp;einmal</p>
         <input class="grey-text input-field" type="password" [(ngModel)]="neuesPasswortWiederholung"/>
       </div>
+
+      <!-- Passwortstärke -->
       <div class="information-line">
         <div class="password-strength">
           <div class="strength-bar" [ngStyle]="{'width': passwordStrengthWidth, 'background-color': passwordStrengthColor}"></div>
           <div class="password-strength-text grey-text">{{ passwordStrengthText }}</div>
         </div>
       </div>
+
+      <!-- Passwortfehlermeldung -->
       <div *ngIf="fehlermeldungPasswort != ''" class="passwort-fehlermeldung">
         {{fehlermeldungPasswort}}
       </div>
+
+      <!-- Passwortändern-Buttons -->
       <div class="information-line" id="passwort-buttons">
         <button class="global-button grey-text" (click)="passwortAendern()">Ändern</button>
         <button class="global-button grey-text" (click)="passwortAendernAbbrechen()">Abbrechen</button>
@@ -65,7 +86,8 @@
     </div>
   </div>
 
+  <!-- Steuerrechner als separate Komponente -->
   <div *ngIf="steuereinstellungenAngezeigt" id="steuereinstellungen">
-    <app-tax-settings (resetClicked)="hideSteuerrechner()"></app-tax-settings>
+    <app-tax-settings></app-tax-settings>
   </div>
 </div>

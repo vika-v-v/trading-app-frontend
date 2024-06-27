@@ -118,46 +118,6 @@
   color: rgb(255, 108, 108);
 }
 
-
-/*
-display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-#passwort-buttons {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-#passwort-buttons > button {
-  width: 90%;
-}
-
-#changePassword {
-  overflow: show;
-  z-index: 3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-}
-
-.password-strength {
-  width: 90%;
-  max-width: 90%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.passwort-fehlermeldung {
-  color: rgb(205, 33, 33);
-  font-size: 15px;
-}*/
-
 p {
   overflow: show;
 }

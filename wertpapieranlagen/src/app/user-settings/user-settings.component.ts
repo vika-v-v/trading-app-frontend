@@ -24,32 +24,21 @@ import { PasswordUtilsService } from '../services/password-utils.service';
 })
 export class UserSettingsComponent implements OnInit {
 
-  steuerrechnerShown = false;
-
-  isEditing = false;
-  originalData: any = {}; // Store original data
-  updatedData: any = {}; // Store updated data
-  name: string = '';
-  address_a: string = '';
-  address_b: string = '';
-  phone: string = '';
-  email: string = '';
-
-
+  // Definiert was gerade angezeigt wird
   kontoeinstellungenAngezeigt = true;
   steuereinstellungenAngezeigt = false;
   changePasswordShown = false;
 
+  // Passwort-Ändern-Variablen
   altesPasswort: string = '';
   neuesPasswort: string = '';
   neuesPasswortWiederholung: string = '';
-
   fehlermeldungPasswort: string = '';
-
   passwordStrengthText: string = 'Ungültig';
   passwordStrengthWidth: string = '0%';
   passwordStrengthColor: string = '#ddd';
 
+  // Konfiguration der Kontoeinstellungen
   configuration = {
     kontoeinstellungen : [
       { label: 'Vorname', id: 'vorname', placeholder: 'Max', currentlyEditing: false, lastSavedValue: '', currentValue: ''},
@@ -63,6 +52,7 @@ export class UserSettingsComponent implements OnInit {
 
   constructor(private router: Router, private userService: UserService, private autoLogoutService: AutoLogoutService, private http: HttpClient, private popupService: PopUpService, private passwordUtils: PasswordUtilsService) {}
 
+  // Initialisierung der Kontoeinstellungen: über ein Request die Daten des Benutzers holen
   ngOnInit(): void {
     this.userService.getUserData(this.http).subscribe((response: any) => {
       const data = response.data;
@@ -81,26 +71,9 @@ export class UserSettingsComponent implements OnInit {
     error => {
       this.popupService.errorPopUp("Fehler beim Laden der Benutzerdaten: " + error.error.message);
     });
-    /*
-    this.userService.getUserData(this.http).subscribe((response: any) => {
-      const data = response.data;
-      this.name = (data.vorname && data.nachname) ? `${data.vorname} ${data.nachname}` : '';
-      this.address_a = (data.strasse && data.hausnummer) ? `${data.strasse} ${data.hausnummer}` : '';
-      this.address_b = (data.plz && data.ort) ? `${data.plz} ${data.ort}` : '';
-      this.phone = data.telefonnummer || '';
-      this.email = data.email || '';
-
-      // Store original data for comparison
-      this.originalData = {
-        name: this.name,
-        address_a: this.address_a,
-        address_b: this.address_b,
-        phone: this.phone,
-        email: this.email
-      };
-    });*/
   }
 
+  // Daten für Kontoeinstellungen speichern
   saveData(updatedId: string, updatedValue: string) {
     if(updatedId === 'vorname') {
       this.saveVorname(updatedValue);
@@ -122,6 +95,7 @@ export class UserSettingsComponent implements OnInit {
     }
   }
 
+  // Kontoeinstellungen -> Button: Konto löschen
   deleteAccount() {
     this.popupService.choicePopUp("Möchten Sie Ihr Konto wirklich löschen?").subscribe((response: any) => {
       if(response) {
@@ -137,10 +111,12 @@ export class UserSettingsComponent implements OnInit {
     );
   }
 
+  // Kontoeinstellungen -> Button: Passwort ändern
   passwortAendern() {
     const email = this.configuration.kontoeinstellungen.find((setting: any) => setting.id === 'email')!.lastSavedValue;
     this.userService.login(this.http, email, this.altesPasswort).subscribe((response: any) => {
       if(response.statusCode === 200) {
+        // Validierung des neuen Passworts
         if(this.neuesPasswort != this.neuesPasswortWiederholung) {
           this.fehlermeldungPasswort = "Die Passwörter stimmen nicht überein.";
           return;
@@ -156,6 +132,7 @@ export class UserSettingsComponent implements OnInit {
           return;
         }
 
+        // Passwort ändern
         this.userService.updateUserData(this.http, { password: this.neuesPasswort }).subscribe(response => {
           this.popupService.infoPopUp("Passwort erfolgreich geändert.");
           this.passwortAendernAbbrechen();
@@ -172,6 +149,8 @@ export class UserSettingsComponent implements OnInit {
     });
   }
 
+  // Methoden für den Passwort
+  // ----
   checkPassword(password: string) {
     this.passwordStrengthWidth = this.passwordUtils.checkPassword(password).width;
     this.passwordStrengthColor = this.passwordUtils.checkPassword(password).color;
@@ -190,6 +169,20 @@ export class UserSettingsComponent implements OnInit {
     this.neuesPasswortWiederholung = '';
   }
 
+  hideChangePassword() {
+    this.changePasswordShown = false;
+  }
+  // ----
+
+  //Weiterleitung zur Anmeldung + Timer-Stopp + Token-Löschung
+  naviagateToLoginPage() {
+    this.autoLogoutService.stop();
+    this.router.navigate(['login-seite']);
+    this.userService.setToken('');
+  }
+
+  // Methoden zum Speichern vom Nutzereingaben
+  // ----
   private savePlzOrt(updatedValue: string) {
     const lastSpaceIndex = updatedValue.lastIndexOf(' ');
 
@@ -283,87 +276,5 @@ export class UserSettingsComponent implements OnInit {
         this.popupService.errorPopUp("Fehler beim Ändern des Vornamens: " + error.error.message);
       });
   }
-
-  //Wechsel zwischen Bearbeiten und nicht Bearbeiten
-  toggleEdit() {
-    if (this.isEditing) {
-      this.saveChanges();
-    } else {
-      this.isEditing = true;
-    }
-  }
-
-  //Änderungen werden gespeichert
-  saveChanges() {
-    // Reset updated data
-    this.updatedData = {};
-
-    // Compare each field with original data
-    if (this.name !== this.originalData.name) {
-      const [vorname, nachname] = this.name.split(' ');
-      this.updatedData.vorname = vorname || undefined;
-      this.updatedData.nachname = nachname || undefined;
-    }
-    if (this.address_a !== this.originalData.address_a) {
-      const [strasse, hausnummer] = this.address_a.split(' ');
-      this.updatedData.strasse = strasse || undefined;
-      this.updatedData.hausnummer = hausnummer || undefined;
-    }
-    if (this.address_b !== this.originalData.address_b) {
-      const [plz, ort] = this.address_b.split(' ');
-      this.updatedData.plz = plz || undefined;
-      this.updatedData.ort = ort || undefined;
-    }
-    if (this.phone !== this.originalData.phone) {
-      this.updatedData.telefonnummer = this.phone || undefined;
-    }
-    if (this.email !== this.originalData.email) {
-      this.updatedData.email = this.email || undefined;
-    }
-
-    // Send update request if there are changes
-    if (Object.keys(this.updatedData).length > 0) {
-      this.userService.updateUserData(this.http, this.updatedData).subscribe(response => {
-        console.log('User data updated successfully:', response);
-        // Update original data after successful update
-        this.originalData = {
-          name: this.name,
-          address_a: this.address_a,
-          address_b: this.address_b,
-          phone: this.phone,
-          email: this.email
-        };
-        this.isEditing = false; // Exit edit mode after save
-      }, error => {
-        console.error('Error updating user data:', error);
-      });
-    } else {
-      this.isEditing = false; // Exit edit mode if no changes
-    }
-  }
-
-  showSteuerrechner() {
-    this.steuerrechnerShown = true;
-    this.changePasswordShown = false;
-  }
-
-  hideSteuerrechner() {
-    this.steuerrechnerShown = false;
-  }
-
-  showChangePassword() {
-    this.changePasswordShown = true;
-    this.steuerrechnerShown = false;
-  }
-
-  hideChangePassword() {
-    this.changePasswordShown = false;
-  }
-
-  //Weiterleitung zur Anmeldung + Timer-Stopp + Token-Löschung
-  naviagateToLoginPage() {
-    this.autoLogoutService.stop();
-    this.router.navigate(['login-seite']);
-    this.userService.setToken('');
-  }
+  // ----
 }

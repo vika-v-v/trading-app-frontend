@@ -52,7 +52,6 @@ export class TaxSettingsComponent implements OnInit {
           this.kirchensteuer = +(dataMap1.kirchensteuer * 100).toFixed(2); // Umwandlung in Prozent
           this.steuerfreibetrag = +dataMap1.freibetrag.toFixed(2);
 
-          // Optional: Initialisierung von kapitalgewinne_brutto und steuerbelastung basierend auf historischen Werten
           const today = new Date().toLocaleDateString('de-DE');
           if (historicalAccountValues && historicalAccountValues[today]) {
             this.kapitalgewinne_brutto = +historicalAccountValues[today].toFixed(2);
@@ -97,7 +96,5 @@ export class TaxSettingsComponent implements OnInit {
 
   onSubmit(event: Event) {
     event.preventDefault();
-    // Hier könnten weitere Aktionen bei Formulareinreichung ausgeführt werden
-    console.log('Form submitted!');
   }
 }
