@@ -15,12 +15,13 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   styleUrl: './password-reset-page.component.css'
 })
 export class PasswordResetPageComponent {
-
+  //Variablen für den Reset-Link
   email: string = '';
 
   constructor(private router: Router, private userService: UserService, private http: HttpClient) {
   }
 
+  //Funktion zum senden des Links
   sendLink(){
     if(this.email === '') {
       console.log("Ungültige Eingaben!");
@@ -42,10 +43,12 @@ export class PasswordResetPageComponent {
     }
   }
 
+  //Weiterleitung zur Anmeldung
   naviagateToLoginPage() {
     this.router.navigate(['login-seite']);
   }
 
+  //Weiterleitung zur Registrierung
   naviagateToRegistrationPage() {
     this.router.navigate(['registration-page']);
   }

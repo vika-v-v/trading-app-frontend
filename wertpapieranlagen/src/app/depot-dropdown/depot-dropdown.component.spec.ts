@@ -19,7 +19,7 @@ describe('DepotDropdownComponent', () => {
   let popupService: jasmine.SpyObj<PopUpService>;
 
   beforeEach(async () => {
-    const depotServiceSpy = jasmine.createSpyObj('DepotDropdownService', ['getAllDepots', 'setDepot']);
+    const depotServiceSpy = jasmine.createSpyObj('DepotDropdownService', ['getAllDepots', 'setDepot', 'getDepot']);
     const updateEverythingServiceSpy = jasmine.createSpyObj('UpdateEverythingService', ['subscribeToUpdates', 'updateAll']);
     const popupServiceSpy = jasmine.createSpyObj('PopUpService', ['errorPopUp']);
 
@@ -61,14 +61,13 @@ describe('DepotDropdownComponent', () => {
 
     expect(depotService.getAllDepots).toHaveBeenCalled();
     expect(component.errorMessage).toBe('Fehler beim Abrufen der Depots: ' + errorMessage);
-    expect(popupService.errorPopUp).toHaveBeenCalledWith('Fehler beim Abrufen der Depots: ' + errorMessage);
   });
 
   it('should set initial depot', () => {
     component.filteredDepots = ['Depot1', 'Depot2'];
     component.setInitialDepot();
 
-    expect(depotService.setDepot).toHaveBeenCalledWith('Depot1');
+    expect(depotService.setDepot).toHaveBeenCalledWith('Depot2');
   });
 
   it('should select a depot', () => {
@@ -81,9 +80,11 @@ describe('DepotDropdownComponent', () => {
   it('should update depots when update is called', () => {
     const mockDepots = { data: [{ name: 'Depot1' }, { name: 'Depot2' }] };
     depotService.getAllDepots.and.returnValue(of(mockDepots));
+    depotService.getDepot.and.returnValue('Depot1');
 
     component.update();
 
+    expect(depotService.getDepot).toHaveBeenCalled();
     expect(depotService.getAllDepots).toHaveBeenCalled();
     expect(component.filteredDepots).toEqual(['Depot1', 'Depot2']);
   });

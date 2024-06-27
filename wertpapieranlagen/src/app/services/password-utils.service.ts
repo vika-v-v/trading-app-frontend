@@ -7,6 +7,7 @@ export class PasswordUtilsService {
 
   constructor() { }
 
+  //Prüfung, ob das Passwort den nötigen Voraussetzungen entspricht + entsprechende Farben im Passwortstärke-Balken
   public checkPassword(password: string): { width: string, color: string, text: string, isInvalid: boolean } {
     let strength = { width: '0%', color: '#ddd', text: '', isInvalid: false };
 
@@ -30,6 +31,7 @@ export class PasswordUtilsService {
     return strength;
   }
 
+  //Prüfung, ob die Passwörte gleich sind
   public checkPasswordMatch(password: string, password2: string): boolean {
     return password === password2;
   }

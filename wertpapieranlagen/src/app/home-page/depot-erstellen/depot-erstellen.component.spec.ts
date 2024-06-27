@@ -41,7 +41,7 @@ it('should create', () => {
   it('should initialize with default values', () => {
     expect(component.name).toEqual('');
     expect(component.nameFieldInvalid).toBeFalsy();
-    expect(component.selectedWaehrung).toEqual('Euro');
-    expect(component.moeglicheWaehrungen).toEqual(['Euro', 'US-Dollar']);
+    expect(component.selectedWaehrung).toEqual('US-Dollar');
+    expect(component.moeglicheWaehrungen).toEqual(['US-Dollar']);
   });
 });

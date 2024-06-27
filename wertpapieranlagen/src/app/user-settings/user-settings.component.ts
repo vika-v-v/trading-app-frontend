@@ -284,6 +284,7 @@ export class UserSettingsComponent implements OnInit {
       });
   }
 
+  //Wechsel zwischen Bearbeiten und nicht Bearbeiten
   toggleEdit() {
     if (this.isEditing) {
       this.saveChanges();
@@ -292,6 +293,7 @@ export class UserSettingsComponent implements OnInit {
     }
   }
 
+  //Änderungen werden gespeichert
   saveChanges() {
     // Reset updated data
     this.updatedData = {};
@@ -358,6 +360,7 @@ export class UserSettingsComponent implements OnInit {
     this.changePasswordShown = false;
   }
 
+  //Weiterleitung zur Anmeldung + Timer-Stopp + Token-Löschung
   naviagateToLoginPage() {
     this.autoLogoutService.stop();
     this.router.navigate(['login-seite']);

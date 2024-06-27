@@ -118,8 +118,8 @@ export class HomePageComponent implements OnInit, Updateable {
   }
 
   fillCanvas(): void {
-    const canvas = <HTMLCanvasElement>document.getElementById('canvas');
-    if (canvas.getContext) {
+    const canvas = document.getElementById('canvas') as HTMLCanvasElement | null;
+    if (canvas && canvas.getContext) {
       const ctx = canvas.getContext('2d');
       if (ctx) {
         ctx.fillStyle = '#e5e5e5'; // Set the fill color to grey
@@ -257,11 +257,13 @@ export class HomePageComponent implements OnInit, Updateable {
     ];
   }
 
+  //Holen + Formatieren des Gesamtwertes
   getGesamtwert(): string {
     let value = parseFloat((this.depot.gesamtwert || 0).toFixed(2));
     return value.toFixed(2);
   }
 
+  //Holen + Formatieren des Gewinn/Verlustes
   getGewinnVerlust(): string {
     let value = parseFloat((this.depot.depotGewinnVerlust || 0).toFixed(2));
     return value.toFixed(2);
