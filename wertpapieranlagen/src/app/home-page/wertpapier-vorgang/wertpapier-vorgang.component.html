@@ -1,25 +1,16 @@
 <div id="content">
+
+  <!-- Header: je nach dem Vorgang unterschiedlich generieren -->
   <div id="header">
-    <p
-      *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen"
-      class="main-header grey-text"
-    >
-      Kaufen
-    </p>
-    <p
-      *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen"
-      class="main-header grey-text"
-    >
-      Verkaufen
-    </p>
-    <p
-      *ngIf="wertpapierVorgang === WertpapierVorgang.DividendeErfassen"
-      class="main-header grey-text"
-    >
-      Dividende erfassen
-    </p>
+    <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen" class="main-header grey-text"> Kaufen </p>
+    <p *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen" class="main-header grey-text"> Verkaufen </p>
+    <p *ngIf="wertpapierVorgang === WertpapierVorgang.DividendeErfassen" class="main-header grey-text"> Dividende erfassen </p>
   </div>
+
+  <!-- Informaitinen anzeigen -->
   <div id="information">
+
+    <!-- Wertpapiername mit dem Vorschlag -->
     <div id="wertpapiername" class="information-line">
       <p class="grey-text">Wertpapiername</p>
       <input
@@ -33,12 +24,10 @@
         (keydown)="onKeydown($event)"
         [ngClass]="{ 'input-error': invalidFields.wertpapiername }"
       />
-      <div class="input-suggestion input">
-        {{ wertpapiername
-        }}<span class="suggestion-text">{{ suggestion }}</span>
-      </div>
+      <div class="input-suggestion input"> {{ wertpapiername }}<span class="suggestion-text">{{ suggestion }}</span></div>
     </div>
 
+    <!-- Wertpapierart, wird durch Custom-Dropdown dargestellt und kann automatisch gefüllt werden -->
     <div
       id="wertpapierart"
       class="information-line"
@@ -53,6 +42,7 @@
       ></app-custom-dropdown>
     </div>
 
+    <!-- Kuerzel; kann automatisch gefüllt werden wenn entsprechender Wertpapier in der Datenbank gefunden wird -->
     <div
       id="kuerzel"
       class="information-line"
@@ -69,25 +59,11 @@
       />
     </div>
 
+    <!-- Datum wird angezeigt und immer am Anfang auf das aktuelle Datum gesetzt -->
     <div id="date" class="information-line">
-      <p
-        *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen"
-        class="grey-text"
-      >
-        Kaufdatum
-      </p>
-      <p
-        *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen"
-        class="grey-text"
-      >
-        Verkaufsdatum
-      </p>
-      <p
-        *ngIf="wertpapierVorgang === WertpapierVorgang.DividendeErfassen"
-        class="grey-text"
-      >
-        Datum der Dividende
-      </p>
+      <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen" class="grey-text"> Kaufdatum </p>
+      <p *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen" class="grey-text"> Verkaufsdatum </p>
+      <p *ngIf="wertpapierVorgang === WertpapierVorgang.DividendeErfassen" class="grey-text"> Datum der Dividende </p>
       <input
         type="date"
         class="grey-text"
@@ -96,6 +72,7 @@
       />
     </div>
 
+    <!-- Kurs; kann automatisch gefüllt werden -->
     <div
       id="kurs"
       class="information-line"
@@ -112,6 +89,7 @@
       />
     </div>
 
+    <!-- Anzahl der Anktien, für Dividende Erfassen nicht angzeigt -->
     <div
       id="menge"
       class="information-line"
@@ -127,6 +105,7 @@
       />
     </div>
 
+    <!-- Dividende Erfassen, für Dividende Erfassen nicht angzeigt -->
     <div
       id="transaktionskosten"
       class="information-line"
