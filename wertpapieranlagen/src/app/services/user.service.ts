@@ -7,6 +7,8 @@ import { HttpParams } from "@angular/common/http";
   providedIn: 'root'
 })
 export class UserService {
+  // Hier werden die Anfragen an den Server geschickt und der Token global gespeichert
+
   private rootUrl: string;
   private token: string = '';
 

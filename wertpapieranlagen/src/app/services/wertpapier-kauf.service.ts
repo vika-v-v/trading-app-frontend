@@ -8,6 +8,8 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class WertpapierKaufService {
+  // Hier werden die Anfragen an den Server zum Kauf/Verkauf geschickt
+
   private rootUrl: string;
 
   constructor(@Inject('ROOT_URL') rootUrl: string, private userService: UserService) {

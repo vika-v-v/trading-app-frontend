@@ -26,11 +26,12 @@ interface DepotResponse {
   };
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class DepotDropdownService {
+  // Hier werden die Anfragen an den Server geschickt und der ausgewählte depotName gloabl gespeichert
+
   private rootUrl: string;
   private depot: string = '';
   private reloadSubject = new BehaviorSubject<void>(undefined);
@@ -46,9 +47,6 @@ export class DepotDropdownService {
       this.depot = depot;
       this.updateEverythingService.updateAll();
     }
-
-    //this.updateEverythingService.updateAll();
-    //this.reloadDepots(); // Notify subscribers of the change
   }
 
   getDepot(){

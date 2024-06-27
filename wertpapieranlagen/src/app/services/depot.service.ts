@@ -7,6 +7,7 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class DepotService {
+  // Hier werden die Anfragen an den Server geschickt
 
   private rootUrl: string;
 
