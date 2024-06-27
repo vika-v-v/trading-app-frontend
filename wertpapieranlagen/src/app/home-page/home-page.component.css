@@ -14,7 +14,7 @@
   background-attachment: local;
   background-repeat: no-repeat;
   background-color: #0e0c0a;
-  z-index: -1;  /*Ensure background stays behind other content */
+  z-index: -1;
   overflow-x: hidden;
 }
 
@@ -41,7 +41,6 @@
   align-items: center;
   justify-content: flex-end;
   gap: 15px;
-  margin-right: 20px;
 }
 
 #left-buttons {
@@ -63,7 +62,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 20px;
 }
 
 #left-buttons>* {

@@ -1,11 +1,16 @@
 <div class="dropdown-container" (clickOutside)="dropdownOpen = false">
+
+  <!-- Die Ausgewählte Option -->
   <div class="selected-option" (click)="toggleDropdown()" #dropdown>
     <p class="grey-text">{{ selectedOption }}</p>
     <img class="dropdown-icon" src="../../assets/icons/phosphor-thin/caret_down_thin_icon.svg" alt="Dropdown Icon">
   </div>
+
+  <!-- Alle Optionen -->
   <div class="options-container" *ngIf="dropdownOpen" [ngClass]="{'upwards': upwards}">
     <div *ngFor="let option of options" (click)="selectOption(option)" class="option">
       <p class="grey-text option-text">{{ option }}</p>
     </div>
   </div>
+
 </div>
