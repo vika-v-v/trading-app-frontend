@@ -1,11 +1,11 @@
 #container.wide-open {
+  position: fixed;
   width: 86vw;
   height: 86vh;
   min-width: 86vw;
   max-width: 86vw;
   min-height: 86vh;
   max-height: 86vh;
-  position: fixed;
   top: calc(7vh - 20px);
   left: calc(7vw - 20px);
   z-index: 3;
