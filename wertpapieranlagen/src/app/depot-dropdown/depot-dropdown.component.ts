@@ -1,106 +1,115 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { DepotDropdownService } from '../services/depot-dropdown.service';
-import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
-import { UpdateEverythingService, Updateable } from '../services/update-everything.service'
-import { PopUpService } from '../services/pop-up.service';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, ChangeDetectorRef } from '@angular/core'; 
+import { DepotDropdownService } from '../services/depot-dropdown.service'; 
+import { HttpClient } from '@angular/common/http'; 
+import { CommonModule } from '@angular/common'; 
+import { FormsModule } from '@angular/forms'; 
+import { Subscription } from 'rxjs'; 
+import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component'; 
+import { UpdateEverythingService, Updateable } from '../services/update-everything.service'; 
+import { PopUpService } from '../services/pop-up.service'; 
 
 @Component({
-  selector: 'app-depot-dropdown',
-  templateUrl: './depot-dropdown.component.html',
-  styleUrls: ['./depot-dropdown.component.css'],
-  standalone: true,
-  imports: [CommonModule, FormsModule, CustomDropdownComponent]
+  selector: 'app-depot-dropdown', // CSS-Selector zur Identifikation der Komponente
+  templateUrl: './depot-dropdown.component.html', // Pfad zur HTML-Vorlage der Komponente
+  styleUrls: ['./depot-dropdown.component.css'], // Pfad zur CSS-Datei der Komponente
+  standalone: true, // Die Komponente ist eigenständig
+  imports: [CommonModule, FormsModule, CustomDropdownComponent] // Importieren der benötigten Module und Komponenten
 })
-export class DepotDropdownComponent implements OnInit, Updateable { // OnDestroy,
-  depots: string[] = [];
-  filteredDepots: string[] = [];
-  selectedDepot: string = '';
-  errorMessage: string = '';
-  searchTerm: string = '';
-  //private reloadSubscription: Subscription;
+export class DepotDropdownComponent implements OnInit, Updateable { // Implementieren der OnInit und Updateable Schnittstellen
+  depots: string[] = []; // Array zur Speicherung der Depots
+  filteredDepots: string[] = []; // Array zur Speicherung der gefilterten Depots
+  selectedDepot: string = ''; // Variable zur Speicherung des ausgewählten Depots
+  errorMessage: string = ''; // Variable zur Speicherung von Fehlermeldungen
+  searchTerm: string = ''; // Variable zur Speicherung des Suchbegriffs
+  //private reloadSubscription: Subscription; // Kommentar, dass die Subscription nicht verwendet wird
 
-  firstLoad: boolean = true;
+  firstLoad: boolean = true; // Flag zur Überprüfung, ob es der erste Ladevorgang ist
 
-  @Output() depotChanged: EventEmitter<string> = new EventEmitter<string>();
-  @Output() selectedDepotChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() depotChanged: EventEmitter<string> = new EventEmitter<string>(); // EventEmitter für Änderungen des Depots
+  @Output() selectedDepotChange: EventEmitter<string> = new EventEmitter<string>(); // EventEmitter für Änderungen des ausgewählten Depots
 
-  constructor(private depotService: DepotDropdownService, private http: HttpClient, private cdr: ChangeDetectorRef, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {
-    updateEverythingService.subscribeToUpdates(this);
+  constructor(
+    private depotService: DepotDropdownService, // Service zur Handhabung des Dropdowns
+    private http: HttpClient, // HTTP-Client für API-Aufrufe
+    private cdr: ChangeDetectorRef, // ChangeDetectorRef zur manuellen Änderungserkennung
+    private updateEverythingService: UpdateEverythingService, // Service zur Synchronisation von Updates
+    private popupService: PopUpService // Service zur Handhabung von Popups
+  ) {
+    updateEverythingService.subscribeToUpdates(this); // Abonnieren von Updates des UpdateEverythingService
   }
 
-
+  // Lifecycle-Hook, der bei der Initialisierung der Komponente aufgerufen wird
   ngOnInit(): void {
-    this.loadDepots();
+    this.loadDepots(); // Laden der Depots bei der Initialisierung
   }
 
+  // Methode zur Aktualisierung der Komponente, die durch Updates aufgerufen wird
   update() {
+    // Überprüfen, ob das ausgewählte Depot mit dem im Service gespeicherten Depot übereinstimmt
     if(this.selectedDepot != this.depotService.getDepot()) {
-      this.selectedDepot = this.depotService.getDepot();
+      this.selectedDepot = this.depotService.getDepot(); // Setzen des ausgewählten Depots auf das im Service gespeicherte Depot
     }
-    this.loadDepots();
+    this.loadDepots(); // Laden der Depots
   }
 
+  // Methode zum Laden der Depots
   loadDepots() {
+    // Abrufen aller Depots vom Server
     this.depotService.getAllDepots(this.http).subscribe(
       (response) => {
-        //this.depots = response.data; // Anpassen an das zurückgegebene Format
-        let data = response.data;
+        let data = response.data; // Anpassen an das zurückgegebene Format
+        // Überprüfen, ob Daten vorhanden sind
         if(data.length > 0) {
+          // Filtern und Zuordnen der Depotnamen
           this.filteredDepots = data.map((depot: any) =>  depot.name);
+          // Überprüfen, ob es der erste Ladevorgang ist
           if(this.firstLoad) {
-
-            this.setInitialDepot();
-            this.updateEverythingService.updateAll();
+            this.setInitialDepot(); // Setzen des initialen Depots
+            this.updateEverythingService.updateAll(); // Aktualisieren aller verbundenen Komponenten
           }
-          this.firstLoad = false;
+          this.firstLoad = false; // Setzen des Flags auf false nach dem ersten Ladevorgang
         }
-
-        //if(!this.depotService.getDepot()) {
-        //  this.setInitialDepot();
-        //} else {
-        //  this.selectedDepot = this.filteredDepots.find(depot => depot.label === this.depotService.getDepot());
-        //}
-
-        //this.cdr.detectChanges(); // Trigger change detection manually
       },
       (error) => {
-        this.errorMessage = 'Fehler beim Abrufen der Depots: ' + error.message;
-        //this.popupService.errorPopUp(this.errorMessage);
-        //this.cdr.detectChanges(); // Trigger change detection manually
+        this.errorMessage = 'Fehler beim Abrufen der Depots: ' + error.message; // Setzen der Fehlermeldung bei einem Fehler
+        //this.popupService.errorPopUp(this.errorMessage); // Kommentar, dass das Popup nicht verwendet wird
       }
     );
   }
 
+  // Methode zum Setzen des initialen Depots
   setInitialDepot() {
+    // Überprüfen, ob gefilterte Depots vorhanden sind
     if (this.filteredDepots.length > 0) {
-      this.selectedDepot = this.filteredDepots[this.filteredDepots.length - 1];
-      this.depotService.setDepot(this.selectedDepot);
+      this.selectedDepot = this.filteredDepots[this.filteredDepots.length - 1]; // Setzen des initialen Depots auf das letzte gefilterte Depot
+      this.depotService.setDepot(this.selectedDepot); // Speichern des initialen Depots im Service
     }
   }
 
+  // Methode zum Filtern der Depots basierend auf dem Suchbegriff
   filterDepots() {
+    // Überprüfen, ob der Suchbegriff leer ist
     if (this.searchTerm.trim() === '') {
-      this.filteredDepots = this.depots;
+      this.filteredDepots = this.depots; // Setzen der gefilterten Depots auf alle Depots
     } else {
+      // Filtern der Depots basierend auf dem Suchbegriff
       this.filteredDepots = this.depots.filter(depot =>
         depot.toLowerCase().includes(this.searchTerm.trim().toLowerCase())
       );
     }
   }
 
+  // Methode zum Handhaben der Auswahl eines Depots
   onSelectDepot(depot: string) {
     if (depot) {
-      this.selectedDepot = depot;
-      this.depotService.setDepot(depot);
-      this.selectedDepotChange.emit(depot);
+      this.selectedDepot = depot; // Setzen des ausgewählten Depots
+      this.depotService.setDepot(depot); // Speichern des ausgewählten Depots im Service
+      this.selectedDepotChange.emit(depot); // Emittieren des ausgewählten Depots
     }
   }
 
+  // Methode zum Handhaben der Änderung des Depots
   handleDepotChange(depot: string): void {
-    this.selectedDepotChange.emit(depot);
+    this.selectedDepotChange.emit(depot); // Emittieren des neuen Depotnamens
   }
 }
