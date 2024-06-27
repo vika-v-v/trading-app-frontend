@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { DepotService } from '../../services/depot.service';
 import { FormsModule } from '@angular/forms';
 import { DepotDropdownService } from '../../services/depot-dropdown.service';
@@ -16,52 +16,54 @@ import { CommonModule } from '@angular/common';
   styleUrl: './depot-erstellen.component.css'
 })
 export class DepotErstellenComponent {
+  // andere Komponenten notifizieren, wenn das Sidepanel geschlossen werden soll
+  @Output() onAbbrechen = new EventEmitter<void>();
+
   name: string = '';
   nameFieldInvalid!: boolean;
 
   selectedWaehrung: any;
-  moeglicheWaehrungen = ['US-Dollar'];
+  moeglicheWaehrungen = ['US-Dollar']; // später können hier mehr Währungen hinzugefügt werden
 
-  @Output() onAbbrechen = new EventEmitter<void>();
 
   constructor(private httpClient: HttpClient, private depotDropdownService: DepotDropdownService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {
     this.selectedWaehrung = this.moeglicheWaehrungen[0];
   }
 
+  // Beim Abbrechen alles zurücksetzen
   abbrechen() {
     this.name = "";
     this.selectedWaehrung = this.moeglicheWaehrungen[0];
     this.onAbbrechen.emit();
   }
 
-  changeWaehrung(waehrung: string) {
-    this.selectedWaehrung = waehrung;
-  }
-
-  checkName(){
-    this.nameFieldInvalid = !this.name;
-    return this.nameFieldInvalid;
-  }
-
-  depotErstellen(){
+  // Hier wird die Anfrage zum Aktualisieren geschickt
+  depotErstellen() {
     if(this.checkName()){
       this.popupService.errorPopUp('Bitte alle Felder ausfüllen.');
       return;
     }
-
-    //let waehrungKuerzel = this.selectedWaehrung === 'Euro' ? 'EUR' : 'USD';
     this.depotService.depotErstellen(this.httpClient, this.name, "USD").subscribe(
       response=>{
         this.popupService.infoPopUp("Depot erfolgreich erstellt.");
         this.depotDropdownService.setDepot(this.name);
         this.updateEverythingService.updateAll();
         this.abbrechen();
-        //this.depotDropdownService.reloadDepots();
       },
       error=>{
         this.popupService.errorPopUp("Fehler beim Erstellen des Depots: " + error.error.message);
       }
     );
   }
+
+  changeWaehrung(waehrung: string) {
+    this.selectedWaehrung = waehrung;
+  }
+
+  checkName() {
+    this.nameFieldInvalid = !this.name;
+    return this.nameFieldInvalid;
+  }
+
 }
 

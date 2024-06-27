@@ -1,13 +1,17 @@
 <div id="content">
+  <!-- Header -->
   <p class="main-header grey-text" id="header">Depot umbenennen</p>
-  <div id="information">
-    <div id="depotrname" class="information-line">
-      <p class="grey-text">Neuer Name</p>
-      <input [(ngModel)]="name" type="text" class="grey-text" placeholder="Mein Depot" (input)="nameFieldInvalid"  [ngClass]="{'input-error': nameFieldInvalid}"/>
-    </div>
+
+  <!-- Eingabefeld -->
+  <div id="depotname" class="information-line">
+    <p class="grey-text">Neuer Name</p>
+    <input [(ngModel)]="name" type="text" class="grey-text" placeholder="Mein Depot" (input)="nameFieldInvalid"  [ngClass]="{'input-error': nameFieldInvalid}"/>
   </div>
+
+  <!-- Buttons -->
   <div class="side-panel-buttons">
     <button class="depot-erstellen grey-text" (click)="depotUmbenennen()">Depot umbenennen</button>
     <button class="abbrechen grey-text" (click)="abbrechen()">Abbrechen</button>
   </div>
+
 </div>

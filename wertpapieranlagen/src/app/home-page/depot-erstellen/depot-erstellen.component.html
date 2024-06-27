@@ -1,7 +1,10 @@
 <div id="content">
+  <!-- Header -->
   <p class="main-header grey-text" id="header">Depot erstellen</p>
+
+  <!-- Informationen -->
   <div id="information">
-    <div id="depotrname" class="information-line">
+    <div id="depotname" class="information-line">
       <p class="grey-text">Name</p>
       <input [(ngModel)]="name" type="text" class="grey-text" placeholder="Mein Depot" (input)="nameFieldInvalid"  [ngClass]="{'input-error': nameFieldInvalid}"/>
     </div>
@@ -10,8 +13,11 @@
       <app-custom-dropdown class="dropdown" [options]="moeglicheWaehrungen" [selectedOption]="selectedWaehrung" (selectionChange)="changeWaehrung($event)"></app-custom-dropdown>
     </div>
   </div>
+
+  <!-- Buttons -->
   <div class="side-panel-buttons">
     <button class="depot-erstellen grey-text" (click)="depotErstellen()">Depot erstellen</button>
     <button class="abbrechen grey-text" (click)="abbrechen()">Abbrechen</button>
   </div>
+
 </div>

@@ -3,7 +3,6 @@
   display: inline-block;
   align-items: center;
   position: relative;
-  border: none;
   border-radius: 4px;
   padding: 4px 8px;
   background-color: #443f37;
@@ -16,10 +15,7 @@
   align-items: center;
   flex-grow: 1;
   background-color: #443f37;
-  border: none;
   font-size: 14px;
-  margin: 0;
-  padding: 0;
   height: 25px;
   white-space: nowrap;
 }
@@ -32,18 +28,21 @@
 
 .options-container {
   position: absolute;
-  top: 120%;
-  left: 0;
-  background-color: #322e28;
-  z-index: 3;
   display: flex;
   flex-direction: column;
+  top: 120%;
+  left: 0;
+
   width: max-content;
   min-width: 100%;
-  box-shadow: 5px 5px 10px #0b0908af;
-  border-radius: 4px;
   max-height: 40vh;
   overflow-y: auto;
+
+  background-color: #322e28;
+  border-radius: 4px;
+  box-shadow: 5px 5px 10px #0b0908af;
+
+  z-index: 3;
 }
 
 .options-container :first-child {
@@ -60,7 +59,6 @@
 .option {
   cursor: pointer;
   padding: 0 15px;
-  margin: 0;
   width: 100%;
   font-size: 14px;
   height: auto;
@@ -72,9 +70,11 @@
 .option::after {
   content: "";
   position: absolute;
+
   left: 0;
   right: 0;
   bottom: 0;
+
   height: 1.5px;
   background: linear-gradient(to right, #0e0c0a00, #0e0c0a, #0e0c0a00);
 }

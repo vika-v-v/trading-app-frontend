@@ -20,34 +20,21 @@ import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.c
   styleUrl: './depot-umbenennen.component.css'
 })
 export class DepotUmbenennenComponent {
+  @Output() onAbbrechen = new EventEmitter<void>();
+
   name: string = '';
   nameFieldInvalid!: boolean;
 
-  selectedWaehrung: any;
-  moeglicheWaehrungen = ['US-Dollar'];
+  constructor(private httpClient: HttpClient, private depotDropdownService: DepotDropdownService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {}
 
-  @Output() onAbbrechen = new EventEmitter<void>();
-
-  constructor(private httpClient: HttpClient, private depotDropdownService: DepotDropdownService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {
-    this.selectedWaehrung = this.moeglicheWaehrungen[0];
-  }
-
+  // Beim Abbrechen alles zurücksetzen
   abbrechen() {
     this.name = "";
-    this.selectedWaehrung = this.moeglicheWaehrungen[0];
     this.onAbbrechen.emit();
   }
 
-  changeWaehrung(waehrung: string) {
-    this.selectedWaehrung = waehrung;
-  }
-
-  checkName(){
-    this.nameFieldInvalid = !this.name;
-    return this.nameFieldInvalid;
-  }
-
-  depotUmbenennen(){
+  // Hier wird die Anfrage zum Umbenennen geschickt
+  depotUmbenennen() {
     if(this.checkName()){
       this.popupService.errorPopUp('Bitte das Namensfeld ausfüllen.');
       return;
@@ -68,5 +55,10 @@ export class DepotUmbenennenComponent {
         this.popupService.errorPopUp("Fehler beim Umbenennen des Depots: " + error.error.message);
       }
     );
+  }
+
+  checkName() {
+    this.nameFieldInvalid = !this.name;
+    return this.nameFieldInvalid;
   }
 }
