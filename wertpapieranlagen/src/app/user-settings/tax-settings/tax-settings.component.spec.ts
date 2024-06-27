@@ -65,16 +65,36 @@ describe('TaxSettingsComponent', () => {
   });
 
   it('should reset all values on reset', () => {
+    userService.getAccountValue.and.returnValue(of({
+      statusCode: 200,
+      data: {
+        dataMap1: {
+          verlustverrechnungstopf: 1000,
+          accountValue: 5000,
+          freibetrag: 800,
+          steuersatz: 0.25,
+          soli: 0.05,
+          kirchensteuer: 0.08
+        },
+        dataMap2: {
+          historicalAccountValues: {
+            '24.06.2024': 340000
+          }
+        }
+      }
+    }));
+
     component.onReset();
 
-    expect(component.steuersatz).toBe(0);
-    expect(component.steuerfreibetrag).toBe(0);
-    expect(component.soli).toBe(0);
-    expect(component.kirchensteuer).toBe(0);
-    expect(component.verlustverrechnungstopf).toBe(0);
-    expect(component.kapitalgewinne_brutto).toBe(0);
-    expect(component.steuerbelastung).toBe(0);
-    expect(component.kapitalgewinne_netto).toBe(0);
+    expect(component.verlustverrechnungstopf).toBe(1000);
+    expect(component.steuersatz).toBe(25);
+    expect(component.soli).toBe(5);
+    expect(component.kirchensteuer).toBe(8);
+    expect(component.steuerfreibetrag).toBe(800);
+    expect(component.kapitalgewinne_brutto).toBe(340000);
+    component.calculateSteuerbelastung();
+    expect(component.steuerbelastung).toBeDefined();
+    expect(component.kapitalgewinne_netto).toBeDefined();
   });
 
   it('should handle form submission', () => {

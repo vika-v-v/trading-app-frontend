@@ -17,15 +17,15 @@ import { PopUpService } from '../services/pop-up.service';
   styleUrl: './login-seite.component.css'
 })
 export class LoginSeiteComponent {
-
+  //Variablen für Login
   email!: string;
   passwort!: string;
 
   constructor(private router: Router, private userService: UserService, private http: HttpClient, private autoLogoutService: AutoLogoutService, private popUpService: PopUpService) {
   }
 
+  //Funktion zum anmelden
   anmelden() {
-
     this.userService.login(this.http, this.email, this.passwort).subscribe(
       response => {
         console.log('Response:', response);
@@ -49,15 +49,18 @@ export class LoginSeiteComponent {
     );
   }
 
+  //Weiterleitung zur Startseite
   naviagateToHomePage() {
     this.router.navigate(['home-page']);
     this.autoLogoutService.startTimer();
   }
 
+  //Weiterleitung zur Registrierung
   navigateToRegistrationPage() {
     this.router.navigate(['registration-page']);
   }
 
+  //Weiterleitung zum Passwort zuücksetzen
   navigateToPasswordResetPage() {
     this.router.navigate(['password-reset-page']);
   }

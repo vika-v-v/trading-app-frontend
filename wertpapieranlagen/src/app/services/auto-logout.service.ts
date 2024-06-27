@@ -20,6 +20,7 @@ export class AutoLogoutService implements OnDestroy {
     private popUpService: PopUpService
   ) {}
 
+  //Timer wird gestartet (passiert bei Anmeldung und Registrierung)
   startTimer() {
     console.log('timer start');
     if (!this.timerStarted) {
@@ -28,6 +29,7 @@ export class AutoLogoutService implements OnDestroy {
     }
   }
 
+  //Timer wird gestoppt (passiert beim Logout)
   stop() {
     console.log('timer stop');
     this.ngZone.run(() => {
@@ -36,15 +38,18 @@ export class AutoLogoutService implements OnDestroy {
     this.timerStarted = false;
   }
 
+  //Sicherung, das immer nur ein Timer aktiv ist
   ngOnDestroy() {
     this.clearTimersAndEventListeners();
   }
 
+  //Timer wird initialisiert
   private initializeInactivityTimer() {
     this.resetLogoutTimer();
     this.setupEventListeners();
   }
 
+  //Timer wird zurückgesetzt
   private resetLogoutTimer() {
     this.clearTimers();
     this.timeLeftMinutes = this.inactivityTime / (1000 * 60); // Umrechnung in Minuten
@@ -66,6 +71,7 @@ export class AutoLogoutService implements OnDestroy {
     });
   }
 
+  //Eventlistener um den Timer zurückzusetzen, falls ein Input erfolgt
   private setupEventListeners() {
     const eventTarget = document; // Listen to events on the whole document
     ['click', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(event => {
@@ -73,6 +79,7 @@ export class AutoLogoutService implements OnDestroy {
     });
   }
 
+  //Saubere Löschung bei Timerstopp
   private clearTimersAndEventListeners() {
     this.clearTimers();
     this.removeEventListeners();
@@ -98,6 +105,7 @@ export class AutoLogoutService implements OnDestroy {
 
   private resetLogoutTimerBound = this.resetLogoutTimer.bind(this);
 
+  //Wird aufgerufen, wenn der Timer bei 0 ist; Meldet den User automatisch ab und stoppt den Timer.
   private autologout() {
     console.log('autologout');
     this.stop();

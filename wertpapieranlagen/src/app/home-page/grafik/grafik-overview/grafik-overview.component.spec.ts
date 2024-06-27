@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { GrafikOverviewComponent } from './grafik-overview.component';
 
 describe('GrafikOverviewComponent', () => {
@@ -7,10 +8,15 @@ describe('GrafikOverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GrafikOverviewComponent]
-    })
-    .compileComponents();
-    
+      declarations: [],
+      imports: [
+        HttpClientModule
+      ],
+      providers: [
+        { provide: 'ROOT_URL', useValue: 'https://example.com/api' }
+      ]
+    }).compileComponents();
+
     fixture = TestBed.createComponent(GrafikOverviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

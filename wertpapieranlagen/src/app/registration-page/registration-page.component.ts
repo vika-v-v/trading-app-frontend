@@ -33,11 +33,13 @@ export class RegistrationPageComponent {
 
   constructor(private router: Router, private userService: UserService, private http: HttpClient, private passwordUtils: PasswordUtilsService, private autoLogoutService: AutoLogoutService, private popUpService: PopUpService) {}
 
+  //Methode um 2 Prüfungen zusammen aufzurufen
   checkPasswordAndMatch() {
     this.checkPassword();
     this.checkPasswordMatch();
   }
 
+  //Prüfung, ob das Passwort den nötigen Voraussetzungen entspricht + entsprechende Farben im Passwortstärke-Balken
   checkPassword() {
     this.passwordStrengthWidth = this.passwordUtils.checkPassword(this.password).width;
     this.passwordStrengthColor = this.passwordUtils.checkPassword(this.password).color;
@@ -45,10 +47,12 @@ export class RegistrationPageComponent {
     this.isPasswordInvalid = this.passwordUtils.checkPassword(this.password).isInvalid;
   }
 
+  //Prüfung, ob die Passwörte gleich sind
   checkPasswordMatch() {
     this.doPasswordsMatch = this.passwordUtils.checkPasswordMatch(this.password, this.password2);
   }
 
+  //Funktion zum Registrieren
   registrieren() {
     if(this.password == '' || this.isPasswordInvalid || !this.doPasswordsMatch || this.password2 == '' || this.email == '') {
       this.popUpService.errorPopUp("Ungültige Eingaben!");
@@ -74,10 +78,12 @@ export class RegistrationPageComponent {
     }
   }
 
+  //Weiterleitung zur Anmeldung
   naviagateToLoginPage() {
     this.router.navigate(['login-seite']);
   }
 
+  //Weiterleitung zur Startseite
   naviagateToHomePage() {
     this.router.navigate(['home-page']);
     this.autoLogoutService.startTimer();

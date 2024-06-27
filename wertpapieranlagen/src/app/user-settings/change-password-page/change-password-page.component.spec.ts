@@ -52,6 +52,8 @@ describe('ChangePasswordPageComponent', () => {
     // Set component properties
     component.password = 'newPassword';
     component.isPasswordInvalid = false;
+    component.doPasswordsMatch = true;
+    component.password2 = 'newPassword';
 
     // Call the method to be tested
     component.changePassword();

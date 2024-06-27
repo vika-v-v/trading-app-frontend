@@ -18,10 +18,12 @@ export class PopUpComponent implements OnDestroy {
   text!: string;
   symbol!: string;
   popupColor!: string;
-  choicePopUpVisible: boolean = false; // Changed initial value to false
+  choicePopUpVisible: boolean = false;
   private popupSubscription: Subscription;
 
+  //Konstruktor
   constructor(private popUpService: PopUpService) {
+    //Stellt eine Verbindung zum PopUpService her
     this.popupSubscription = this.popUpService.anzeigenPopup$.subscribe(({ text, type }) => {
       if (type === 'fehler') {
         this.errorPopUp(text);
@@ -33,12 +35,14 @@ export class PopUpComponent implements OnDestroy {
     });
   }
 
+  //Best-Practice; Wenn Subscription aufgelöst werden soll
   ngOnDestroy(): void {
     if (this.popupSubscription) {
       this.popupSubscription.unsubscribe();
     }
   }
 
+  //Erzeugung des Error-PopUps
   private errorPopUp(text: string) {
     this.choicePopUpVisible = false;
     this.symbol = '&otimes;';
@@ -46,6 +50,7 @@ export class PopUpComponent implements OnDestroy {
     this.text = text;
   }
 
+  //Erzeugung des Info-PopUps
   private infoPopUp(text: string) {
     this.choicePopUpVisible = false;
     this.symbol = '&#9432;';
@@ -53,15 +58,18 @@ export class PopUpComponent implements OnDestroy {
     this.text = text;
   }
 
+  //Erzeugung des Choice-PopUps
   private choicePopUp(text: string) {
     this.choicePopUpVisible = true;
     this.text = text;
   }
 
+  //Wenn beim Coice-PopUp Ja gedrückt wurde
   choiceYes() {
     this.popUpService.respondToChoice(true);
   }
 
+  //Wenn beim Coice-PopUp Nein gedrückt wurde
   choiceNo() {
     this.popUpService.respondToChoice(false);
   }

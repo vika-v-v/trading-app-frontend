@@ -1,7 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient} from '@angular/common/http';
-
 import { DepotDropdownService } from './depot-dropdown.service';
 import { UserService } from './user.service';
 

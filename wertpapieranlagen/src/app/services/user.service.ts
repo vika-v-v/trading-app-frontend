@@ -14,6 +14,7 @@ export class UserService {
     this.rootUrl = rootUrl;
   }
 
+  //Bearer-Token für spätere API-Calls wird festgehalten
   setToken(token: string) {
     this.token = token;
   }
@@ -37,6 +38,7 @@ export class UserService {
     return http.post(loginUrl, formData, httpOptions);
   }
 
+  //API-Call für das Registrieren
   register(http: HttpClient, email: string, passwort: string): Observable<any> {
     const registerUrl = this.rootUrl + 'users/register';
 
@@ -53,6 +55,7 @@ export class UserService {
     return http.post(registerUrl, formData, httpOptions);
   }
 
+  //API-Call für das Passwort zurücksetzen
   resetPassword(http: HttpClient, email: string): Observable<any> {
     const resetUrl: string = this.rootUrl + 'users/reset-passwort-initialisieren';
 
@@ -104,6 +107,7 @@ export class UserService {
     return http.patch(resetUrl, formData, httpOptions);
   }
 
+  //API-Call um User-Daten zu bekommen
   getUserData(http: HttpClient): Observable<any>{
     const userUrl = `${this.rootUrl}users/me`;
     const httpOptions = {
