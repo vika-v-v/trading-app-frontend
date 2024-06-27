@@ -43,7 +43,7 @@
   gap: 15px;
 }
 
-#left-buttons {
+#left-elements {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,18 +53,7 @@
   align-items: center;
 }
 
-#left-elements {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#left-buttons>* {
+#left-elements > * {
   height: 30px;
   align-self: center;
   vertical-align: middle;
@@ -108,12 +97,12 @@
 }
 
 .elementen-erste-linie {
-  margin-bottom: 15px; /* Space between rows */
+  margin-bottom: 15px;
 }
 
 .grafik, #wertpapieren-table {
-  flex: 1; /* Allows graphics to take equal space */
-  margin: 0 10px; /* Space between graphics */
+  flex: 1;
+  margin: 0 10px;
   width: 50%;
   max-width: 50%;
   min-width: 50%;
@@ -262,7 +251,6 @@
   text-align: center;
 }
 
-/* Styles für Info Icon*/
 .tooltip {
   position: relative;
 }
@@ -285,7 +273,7 @@
   content: " ";
   position: absolute;
   top: 50%;
-  right: 100%; /* To the left of the tooltip */
+  right: 100%;
   margin-top: -5px;
   border-width: 5px;
   border-style: solid;

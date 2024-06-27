@@ -48,120 +48,131 @@ import { DepotUmbenennenComponent } from './depot-umbenennen/depot-umbenennen.co
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent implements OnInit, Updateable {
+  // enums für HTML-Datei verfügbar machen
   SidePanel = SidePanel;
   WertpapierVorgang = WertpapierVorgang;
   GrafikTyp = GrafikTyp;
 
   expanded = false;
-  _showSidePanel: boolean | null = null;
+
+  // Gibt an, ob und welches Sidepanel angezeigt wird
+  showSidePanel: boolean | null = null;
   sidePanel: SidePanel | null = null;
 
-  transaktionen: any[] = [];
-  wertpapiere: any[] = [];
-  dividende: any[] = [];
-  depot: any = {};
-
-  selectedDepot: string | null = null;
-  selectedAktie: string | null = null;
-
-  currentDepotName: string | null = null;
+  // Daten, die an Tabellen übergeben werden
   wertpapierenData: any[] = [];
   transaktionenData: any[] = [];
   dividendenData: any[] = [];
 
+  // Für die Anzeige von Depotwerten
+  depot: any = {};
+
+  // Für Grafiken
+  selectedDepot: string | null = null;
+  selectedAktie: string | null = null;
+
+  currentDepotName: string | null = null;
+
   showNonDepotExistingComponent: boolean = false;
 
+  // Informationen für Dropdowns
   selectTransactions = ["Kaufen", "Verkaufen", "Dividende erfassen"];
   selectDepotAktionen = ["Neues Depot erstellen", "Depot umbenennen", "Depot löschen"];
 
-  private popUpSubscription: Subscription;
-  private choiceConfirmed: boolean = false;
-
   constructor(private http: HttpClient, private depotService: DepotService, private depotDropdownService: DepotDropdownService, private userService: UserService, private crd: ChangeDetectorRef, private popUpService: PopUpService, private updateEverythingService: UpdateEverythingService) {
     updateEverythingService.subscribeToUpdates(this);
-    this.popUpSubscription = this.popUpService.popUpVisible$.subscribe(visible => {
-      if (!visible && this.choiceConfirmed) {
-        this.choiceConfirmed = false;
-      }
-    });
   }
 
   ngOnInit(): void {
     this.getNumberofDepots();
   }
 
-  isPageVisible() {
-    return this.userService.getToken() != '';
-  }
-
-  showSidePanel(name: SidePanel) {
-    this._showSidePanel = true;
-    this.sidePanel = name;
-  }
-
-  hideSidePanel() {
-    this._showSidePanel = false;
-  }
-
-  ngAfterViewInit(): void {
-    this.fillCanvas();
-  }
-
-  onSelectTransaction(selectedTransaction: string) {
-    if (selectedTransaction === 'Kaufen') {
-      this.showSidePanel(SidePanel.Kaufen);
-    }
-    if (selectedTransaction === 'Verkaufen') {
-      this.showSidePanel(SidePanel.Verkaufen);
-    }
-    if (selectedTransaction === 'Dividende erfassen') {
-      this.showSidePanel(SidePanel.DividendeErfassen);
-    }
-  }
-
-  onSelectDepotAktion(selectedDepotAktion: string) {
-    if (selectedDepotAktion === 'Neues Depot erstellen') {
-      this.showSidePanel(SidePanel.DepotErstellen);
-    }
-    if (selectedDepotAktion === 'Depot umbenennen') {
-      this.showSidePanel(SidePanel.DepotUmbenenen);
-    }
-    if (selectedDepotAktion === 'Depot löschen') {
-      this.showDepotLoeschen();
-    }
-  }
-
-  fillCanvas(): void {
-    const canvas = document.getElementById('canvas') as HTMLCanvasElement | null;
-    if (canvas && canvas.getContext) {
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.fillStyle = '#e5e5e5'; // Set the fill color to grey
-        ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill the entire canvas
-      }
-    }
-  }
-
-  toggleExpand(): void {
-    this.expanded = !this.expanded;
-  }
-
+  // Werte aktualisieren
   update() {
     this.getNumberofDepots();
-    //this.currentDepotName = null;
-    //this.crd.detectChanges();
-    //if(neuesDepot === null) {
-    //  return;
-    //}
     this.transaktionenData = [];
     this.wertpapierenData = [];
     this.dividendenData = [];
 
+    this.updateTransaktionen();
+    this.updateWertpapiere();
+    this.updateDividende();
+    this.updateDepotWerte();
+
+    this.currentDepotName = this.depotDropdownService.getDepot();
+  }
+
+  // Überprüfen, ob der Nutzer eingeloggt ist
+  isPageVisible() {
+    return this.userService.getToken() != '';
+  }
+
+  // Update Methoden
+  // ----
+  private updateDepotWerte() {
+    /* Speichert Werte in this.depot */
+    this.depotService.getDepot(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
+      if (response && response.data) {
+        this.depot = response.data;
+      }
+    },
+      error => {
+        let statusCode = error.statusCode || error.error.statusCode;
+        if (!(statusCode >= 200 && statusCode < 300)) {
+          this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
+        }
+      });
+  }
+
+  private updateDividende() {
+    this.depotService.getDividenden(this.http, this.depotDropdownService.getDepot()).subscribe(
+      response => {
+        this.dividendenData = Object.keys(response.data).map((key: any) => {
+          const dividende = response.data[key];
+          return [
+            dividende.dividendenDatum,
+            dividende.wertpapierName,
+            Number(dividende.dividende)
+          ];
+        });
+      },
+      error => {
+        let statusCode = error.error.statusCode || error.statusCode;
+        if (!(statusCode >= 200 && statusCode < 300)) {
+          this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
+        }
+      }
+    );
+  }
+
+  private updateWertpapiere() {
+    this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(
+      response => {
+        this.wertpapierenData = Object.keys(response.data).map((key: any) => {
+          const wertpapier = response.data[key];
+          return [
+            key,
+            wertpapier.WertpapierArt,
+            Number(wertpapier.WertpapierPreisAktuell),
+            Number(wertpapier.WertpapierAnteil),
+            Number(wertpapier.GesamtWertAktuell)
+          ];
+        });
+      },
+      error => {
+        let statusCode = error.error.statusCode || error.statusCode;
+        if (!(statusCode >= 200 && statusCode < 300)) {
+          this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
+        }
+      }
+    );
+  }
+
+  private updateTransaktionen() {
     this.depotService.getTransaktionen(this.http, this.depotDropdownService.getDepot()).subscribe(
       response => {
-        this.transaktionen = response.data;
-        this.transaktionenData = Object.keys(this.transaktionen).map((key: any) => {
-          const transaktion = this.transaktionen[key];
+        this.transaktionenData = Object.keys(response.data).map((key: any) => {
+          const transaktion = response.data[key];
           return [
             transaktion.date,
             transaktion.wertpapier.name,
@@ -180,68 +191,49 @@ export class HomePageComponent implements OnInit, Updateable {
         }
       }
     );
+  }
+  // ----
 
-
-    //this.wertpapiere = this.mapWertpapierenData(this.depotService.getWertpapiere(this.http, neuesDepot).data);
-    this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(
-      response => {
-        this.wertpapiere = response.data;
-        this.wertpapierenData = Object.keys(this.wertpapiere).map((key: any) => {
-          const wertpapier = this.wertpapiere[key];
-          return [
-            key,
-            wertpapier.WertpapierArt,
-            Number(wertpapier.WertpapierPreisAktuell),
-            Number(wertpapier.WertpapierAnteil),
-            Number(wertpapier.GesamtWertAktuell)
-          ];
-        });
-      },
-      error => {
-        let statusCode = error.error.statusCode || error.statusCode;
-        if (!(statusCode >= 200 && statusCode < 300)) {
-          this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
-        }
-      }
-    );
-
-    this.depotService.getDividenden(this.http, this.depotDropdownService.getDepot()).subscribe(
-      response => {
-        this.dividende = response.data;
-        this.dividendenData = Object.keys(this.dividende).map((key: any) => {
-          const dividende = this.dividende[key];
-          return [
-            dividende.dividendenDatum,
-            dividende.wertpapierName,
-            Number(dividende.dividende)
-          ];
-        });
-      },
-      error => {
-        let statusCode = error.error.statusCode || error.statusCode;
-        if (!(statusCode >= 200 && statusCode < 300)) {
-          this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
-        }
-      }
-    );
-
-
-    /* Speichert Werte in this.depot */
-    this.depotService.getDepot(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
-      if (response && response.data) {
-        this.depot = response.data;
-      }
-    },
-    error => {
-      let statusCode = error.statusCode || error.error.statusCode;
-      if (!(statusCode >= 200 && statusCode < 300)) {
-        this.popUpService.errorPopUp('Fehler beim Laden der Tabellenwerte: ' + error.error.message);
-      }
-    });
-    //
-    this.currentDepotName = this.depotDropdownService.getDepot();
+  // Sidepanel anzeigen
+  showNewSidePanel(name: SidePanel) {
+    this.showSidePanel = true;
+    this.sidePanel = name;
   }
 
+  // Methoden um richtige Funktionalitäten bei den Depots auszuwählen
+  // ----
+  onSelectTransaction(selectedTransaction: string) {
+    if (selectedTransaction === 'Kaufen') {
+      this.showNewSidePanel(SidePanel.Kaufen);
+    }
+    if (selectedTransaction === 'Verkaufen') {
+      this.showNewSidePanel(SidePanel.Verkaufen);
+    }
+    if (selectedTransaction === 'Dividende erfassen') {
+      this.showNewSidePanel(SidePanel.DividendeErfassen);
+    }
+  }
+
+  onSelectDepotAktion(selectedDepotAktion: string) {
+    if (selectedDepotAktion === 'Neues Depot erstellen') {
+      this.showNewSidePanel(SidePanel.DepotErstellen);
+    }
+    if (selectedDepotAktion === 'Depot umbenennen') {
+      this.showNewSidePanel(SidePanel.DepotUmbenenen);
+    }
+    if (selectedDepotAktion === 'Depot löschen') {
+      this.showDepotLoeschen();
+    }
+  }
+  // ----
+
+  // Unteren Bereich anzeigen/verstecken
+  toggleExpand(): void {
+    this.expanded = !this.expanded;
+  }
+
+  // Methoden für die Tabellendaten
+  // ----
   getTransaktionenHeader() {
     return [
       { "wert": "Datum", "typ": FilterType.Date },
@@ -270,6 +262,7 @@ export class HomePageComponent implements OnInit, Updateable {
       { "wert": "Dividende", "typ": FilterType.Decimal }
     ];
   }
+  // ----
 
   //Holen + Formatieren des Gesamtwertes
   getGesamtwert(): string {
@@ -283,11 +276,7 @@ export class HomePageComponent implements OnInit, Updateable {
     return value.toFixed(2);
   }
 
-  startGetDepotExport() {
-    console.log("Export gestartet");
-    return this.depotService.getDataExport(this.http);
-  }
-
+  // Depot löschen
   async showDepotLoeschen() {
     console.log("Loeschen gestartet" + this.currentDepotName);
     const userResponse = await this.popUpService.choicePopUp('Sind Sie sicher, dass Sie das Depot "' + this.currentDepotName + '" löschen möchten?').toPromise();
@@ -315,12 +304,27 @@ export class HomePageComponent implements OnInit, Updateable {
       } else {
         console.log('Löschen abgebrochen');
       }
-
   }
 
-  confirmChoice(confirm: boolean) {
-    this.choiceConfirmed = confirm;
-    this.popUpService.hidePopUp();
+  // Exportieren der Daten, hat eine besondere Struktur und wird über "Blobs" behandelt
+  export() {
+    this.depotService.getDataExport(this.http).subscribe(
+      (response) => {
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Aktien_Daten.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+        this.popUpService.infoPopUp('Export erfolgreich.');
+      },
+      (error) => {
+        this.popUpService.errorPopUp('Fehler beim Export: ' + error.error.message);
+      }
+    );
   }
 
   getNumberofDepots() {
@@ -334,29 +338,7 @@ export class HomePageComponent implements OnInit, Updateable {
         }
       },
       (error) => {
-        /*console.error('Fehler beim Abrufen der Depots:', error);*/
-        // Bei Fehler showNonDepotExistingComponent auf true setzen
         this.showNonDepotExistingComponent = true;
-      }
-    );
-  }
-
-  export() {
-    this.depotService.getDataExport(this.http).subscribe(
-      (response) => {
-        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Aktien_Daten.xlsx'; // Der Dateiname, unter dem die Datei gespeichert wird
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove();
-        this.popUpService.infoPopUp('Export erfolgreich.');
-      },
-      (error) => {
-        this.popUpService.errorPopUp('Fehler beim Export: ' + error.error.message);
       }
     );
   }
@@ -373,9 +355,4 @@ export class HomePageComponent implements OnInit, Updateable {
   handleDepotChange(depot: string): void {
     this.selectedDepot = depot;
   }
-
-  handleAktieChange(aktie: string): void {
-    console.log('Selected Aktie in HomePage:', aktie);
-  }
-
 }
