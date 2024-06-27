@@ -22,6 +22,7 @@ import { PopUpService } from '../services/pop-up.service';
 import { Subscription } from 'rxjs';
 import { UpdateEverythingService, Updateable } from '../services/update-everything.service';
 import { DepotDropdownService } from '../services/depot-dropdown.service';
+import { DepotUmbenennenComponent } from './depot-umbenennen/depot-umbenennen.component';
 
 
 @Component({
@@ -40,7 +41,8 @@ import { DepotDropdownService } from '../services/depot-dropdown.service';
     CustomDropdownComponent,
     NotLoggedInComponent,
     NonDepotExistingComponent,
-    PopUpComponent
+    PopUpComponent,
+    DepotUmbenennenComponent
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
@@ -70,6 +72,7 @@ export class HomePageComponent implements OnInit, Updateable {
   showNonDepotExistingComponent: boolean = false;
 
   selectTransactions = ["Kaufen", "Verkaufen", "Dividende erfassen"];
+  selectDepotAktionen = ["Neues Depot erstellen", "Depot umbenennen", "Depot löschen"];
 
   private popUpSubscription: Subscription;
   private choiceConfirmed: boolean = false;
@@ -98,7 +101,6 @@ export class HomePageComponent implements OnInit, Updateable {
 
   hideSidePanel() {
     this._showSidePanel = false;
-    //this.depotAktualisieren(this.currentDepotName);
   }
 
   ngAfterViewInit(): void {
@@ -114,6 +116,18 @@ export class HomePageComponent implements OnInit, Updateable {
     }
     if (selectedTransaction === 'Dividende erfassen') {
       this.showSidePanel(SidePanel.DividendeErfassen);
+    }
+  }
+
+  onSelectDepotAktion(selectedDepotAktion: string) {
+    if (selectedDepotAktion === 'Neues Depot erstellen') {
+      this.showSidePanel(SidePanel.DepotErstellen);
+    }
+    if (selectedDepotAktion === 'Depot umbenennen') {
+      this.showSidePanel(SidePanel.DepotUmbenenen);
+    }
+    if (selectedDepotAktion === 'Depot löschen') {
+      this.showDepotLoeschen();
     }
   }
 

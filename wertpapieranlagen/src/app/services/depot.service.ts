@@ -29,6 +29,21 @@ export class DepotService {
     return http.post(createDepotUrl, formData, httpOptions);
   }
 
+  depotUmbenennen(http: HttpClient, oldName: string, newName: string): Observable<any> {
+    const createDepotUrl = this.rootUrl + 'depot/rename';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.userService.getToken()}`
+      })
+    };
+
+    const formData = new FormData();
+    formData.append('oldName', oldName);
+    formData.append('newName', newName);
+
+    return http.patch(createDepotUrl, formData, httpOptions);
+  }
+
   getWertverlauf(http: HttpClient, depotName: string): Observable<any>{
     const getDepotWertverlaufUrl = `${this.rootUrl}depot/getWertpapierDepotHistorie?depotName=${depotName}`;
     const httpOptions = {

@@ -61,10 +61,10 @@
   cursor: pointer;
   padding: 0 15px;
   margin: 0;
-  width: 100%;  /* Ensures it fits within the container */
+  width: 100%;
   font-size: 14px;
   height: auto;
-  text-align: center; /* assuming you want text centered based on .option-text */
+  text-align: center;
   box-sizing: border-box;
   position: relative;
 }
@@ -74,9 +74,9 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0; /* Position it at the bottom */
-  height: 1.5px; /* Height of the border */
-  background: linear-gradient(to right, #0e0c0a00, #0e0c0a, #0e0c0a00); /* Gradient from red to blue */
+  bottom: 0;
+  height: 1.5px;
+  background: linear-gradient(to right, #0e0c0a00, #0e0c0a, #0e0c0a00);
 }
 
 .option-text {
@@ -85,4 +85,9 @@
 
 .option:hover {
   background-color: #474338;
+}
+
+.options-container.upwards {
+  top: auto;
+  bottom: 120%;
 }

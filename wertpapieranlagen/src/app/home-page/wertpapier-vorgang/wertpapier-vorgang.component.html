@@ -1,68 +1,186 @@
 <div id="content">
   <div id="header">
-    <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen" class="main-header grey-text">Kaufen</p>
-    <p *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen" class="main-header grey-text">Verkaufen</p>
-    <p *ngIf="wertpapierVorgang === WertpapierVorgang.DividendeErfassen" class="main-header grey-text">Dividende erfassen</p>
+    <p
+      *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen"
+      class="main-header grey-text"
+    >
+      Kaufen
+    </p>
+    <p
+      *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen"
+      class="main-header grey-text"
+    >
+      Verkaufen
+    </p>
+    <p
+      *ngIf="wertpapierVorgang === WertpapierVorgang.DividendeErfassen"
+      class="main-header grey-text"
+    >
+      Dividende erfassen
+    </p>
   </div>
   <div id="information">
-
     <div id="wertpapiername" class="information-line">
       <p class="grey-text">Wertpapiername</p>
-      <input type="text" placeholder="Apple" class="grey-text" [(ngModel)]="wertpapiername" (ngModelChange)="wertpapiernameChange()" (focus)="onFocusWertpapiername()" (blur)="onBlurWertpapiername()" (keydown)="onKeydown($event)"
-             [ngClass]="{'input-error': invalidFields.wertpapiername}">
+      <input
+        type="text"
+        placeholder="Apple"
+        class="grey-text"
+        [(ngModel)]="wertpapiername"
+        (ngModelChange)="wertpapiernameChange()"
+        (focus)="onFocusWertpapiername()"
+        (blur)="onBlurWertpapiername()"
+        (keydown)="onKeydown($event)"
+        [ngClass]="{ 'input-error': invalidFields.wertpapiername }"
+      />
       <div class="input-suggestion input">
-        {{ wertpapiername }}<span class="suggestion-text">{{ suggestion }}</span>
+        {{ wertpapiername
+        }}<span class="suggestion-text">{{ suggestion }}</span>
       </div>
     </div>
 
-    <div id="wertpapierart" class="information-line" *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen">
+    <div
+      id="wertpapierart"
+      class="information-line"
+      *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen"
+    >
       <p class="grey-text">Wertpapierart</p>
-      <app-custom-dropdown class="dropdown" [options]="moeglicheWertpapierarten" [selectedOption]="selectedWertpapierart" (selectionChange)="changeWertpapierart($event)"></app-custom-dropdown>
+      <app-custom-dropdown
+        class="dropdown"
+        [options]="moeglicheWertpapierarten"
+        [selectedOption]="selectedWertpapierart"
+        (selectionChange)="changeWertpapierart($event)"
+      ></app-custom-dropdown>
     </div>
 
-    <div id="kuerzel" class="information-line" *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen">
+    <div
+      id="kuerzel"
+      class="information-line"
+      *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen"
+    >
       <p class="grey-text">Kürzel</p>
-      <input class="grey-text" type="text" placeholder="AAPL" [(ngModel)]="kuerzel" (ngModelChange)="kuerzelChange()"
-             [ngClass]="{'input-error': invalidFields.kuerzel}"/>
+      <input
+        class="grey-text"
+        type="text"
+        placeholder="AAPL"
+        [(ngModel)]="kuerzel"
+        (ngModelChange)="kuerzelChange()"
+        [ngClass]="{ 'input-error': invalidFields.kuerzel }"
+      />
     </div>
 
     <div id="date" class="information-line">
-      <p *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen" class="grey-text">Kaufdatum</p>
-      <p *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen" class="grey-text">Verkaufsdatum</p>
-      <p *ngIf="wertpapierVorgang === WertpapierVorgang.DividendeErfassen" class="grey-text">Datum der Dividende</p>
-      <input type="date" class="grey-text" [(ngModel)]="date"
-             [ngClass]="{'input-error': invalidFields.date}"/>
+      <p
+        *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen"
+        class="grey-text"
+      >
+        Kaufdatum
+      </p>
+      <p
+        *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen"
+        class="grey-text"
+      >
+        Verkaufsdatum
+      </p>
+      <p
+        *ngIf="wertpapierVorgang === WertpapierVorgang.DividendeErfassen"
+        class="grey-text"
+      >
+        Datum der Dividende
+      </p>
+      <input
+        type="date"
+        class="grey-text"
+        [(ngModel)]="date"
+        [ngClass]="{ 'input-error': invalidFields.date }"
+      />
     </div>
 
-    <div id="kurs" class="information-line" *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen">
+    <div
+      id="kurs"
+      class="information-line"
+      *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen"
+    >
       <p class="grey-text">Kurs</p>
-      <input class="grey-text" type="number" placeholder="100.55" [(ngModel)]="wertpapierPreis" (ngModelChange)="kursChange()"
-             [ngClass]="{'input-error': invalidFields.wertpapierPreis}"/>
+      <input
+        class="grey-text"
+        type="number"
+        placeholder="100.55"
+        [(ngModel)]="wertpapierPreis"
+        (ngModelChange)="kursChange()"
+        [ngClass]="{ 'input-error': invalidFields.wertpapierPreis }"
+      />
     </div>
 
-    <div id="menge" class="information-line" *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen">
+    <div
+      id="menge"
+      class="information-line"
+      *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen"
+    >
       <p class="grey-text">Menge</p>
-      <input class="grey-text" type="number" placeholder="10" [(ngModel)]="anzahl"
-             [ngClass]="{'input-error': invalidFields.anzahl}"/>
+      <input
+        class="grey-text"
+        type="number"
+        placeholder="10"
+        [(ngModel)]="anzahl"
+        [ngClass]="{ 'input-error': invalidFields.anzahl }"
+      />
     </div>
 
-    <div id="transaktionskosten" class="information-line" *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen">
+    <div
+      id="transaktionskosten"
+      class="information-line"
+      *ngIf="wertpapierVorgang !== WertpapierVorgang.DividendeErfassen"
+    >
       <p class="grey-text">Transaktionskosten</p>
-      <input class="grey-text" type="number" placeholder="2.50" [(ngModel)]="transaktionskosten"
-             [ngClass]="{'input-error': invalidFields.transaktionskosten}"/>
+      <input
+        class="grey-text"
+        type="number"
+        placeholder="2.50"
+        [(ngModel)]="transaktionskosten"
+        [ngClass]="{ 'input-error': invalidFields.transaktionskosten }"
+      />
     </div>
 
-    <div id="dividende" class="information-line" *ngIf="wertpapierVorgang === WertpapierVorgang.DividendeErfassen">
+    <div
+      id="dividende"
+      class="information-line"
+      *ngIf="wertpapierVorgang === WertpapierVorgang.DividendeErfassen"
+    >
       <p class="grey-text">Dividende</p>
-      <input class="grey-text" type="number" placeholder="100.55" [(ngModel)]="dividende"
-             [ngClass]="{'input-error': invalidFields.dividende}"/>
+      <input
+        class="grey-text"
+        type="number"
+        placeholder="100.55"
+        [(ngModel)]="dividende"
+        [ngClass]="{ 'input-error': invalidFields.dividende }"
+      />
     </div>
-
   </div>
   <div class="side-panel-buttons">
-    <button (click)="kaufHinzufuegen()" class="vorgang-erfassen grey-text" *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen">Kauf hinzufügen</button>
-    <button (click)="verkaufHinzufuegen()" class="vorgang-erfassen grey-text" *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen">Verkauf hinzufügen</button>
-    <button (click)="dividendeHinzufuegen()" class="vorgang-erfassen grey-text" *ngIf="wertpapierVorgang === WertpapierVorgang.DividendeErfassen">Dividende hinzufügen</button>
-    <button (click)="abbrechen()" class="vorgang-abbrechen grey-text">Abbrechen</button>
+    <button
+      (click)="kaufHinzufuegen()"
+      class="vorgang-erfassen grey-text"
+      *ngIf="wertpapierVorgang === WertpapierVorgang.Kaufen"
+    >
+      Kauf hinzufügen
+    </button>
+    <button
+      (click)="verkaufHinzufuegen()"
+      class="vorgang-erfassen grey-text"
+      *ngIf="wertpapierVorgang === WertpapierVorgang.Verkaufen"
+    >
+      Verkauf hinzufügen
+    </button>
+    <button
+      (click)="dividendeHinzufuegen()"
+      class="vorgang-erfassen grey-text"
+      *ngIf="wertpapierVorgang === WertpapierVorgang.DividendeErfassen"
+    >
+      Dividende hinzufügen
+    </button>
+    <button (click)="abbrechen()" class="vorgang-abbrechen grey-text">
+      Abbrechen
+    </button>
   </div>
 </div>

@@ -297,3 +297,7 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+#export {
+  padding: 8px 15px;
+}

@@ -123,7 +123,7 @@ table {
   text-align: left;
   table-layout: auto;
   position: relative;
-  border: none;
+  border: 0.5px solid #dbd1d15d;
   border-left: 0.5px solid #dbd1d15d;
   border-right: 0.5px solid #dbd1d15d;
 }
@@ -178,7 +178,7 @@ tr > th::after {
 }
 
 .header-content div {
-  margin-right: 12px;
+  margin-right: 5px;
 }
 
 .option img {

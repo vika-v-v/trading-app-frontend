@@ -11,7 +11,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, 
   templateUrl: './custom-dropdown.component.html',
   styleUrl: './custom-dropdown.component.css'
 })
-export class CustomDropdownComponent implements OnInit { // , OnChanges
+export class CustomDropdownComponent implements OnInit, AfterViewInit {
   @Input() options: string[] = [];
   @Input() alwaysSelectOption: string | null = null;
   @Input() selectedOption: string | null = null;
@@ -20,21 +20,19 @@ export class CustomDropdownComponent implements OnInit { // , OnChanges
   dropdownOpen: boolean = false;
   initalized: boolean = false;
 
+  upwards: boolean = false;
+
   @ViewChild('dropdown') dropdown!: ElementRef;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.initializeDropdown();
-    //this.cdr.detectChanges(); // Force Angular to detect changes
   }
 
-  /*
-  ngOnChanges(changes: SimpleChanges): void {
-    if(this.initalized && changes['selectedOption'] && this.selectedOption) {
-      this.selectOption(this.selectedOption);
-    }
-  }*/
+  ngAfterViewInit() {
+    this.setPosition();
+  }
 
   private initializeDropdown() {
     if (this.alwaysSelectOption != null) {
@@ -70,4 +68,21 @@ export class CustomDropdownComponent implements OnInit { // , OnChanges
       }
     }
   }
+
+  private setPosition(): void {
+    const dropdownRect = this.dropdown.nativeElement.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const spaceBelow = viewportHeight - dropdownRect.bottom;
+    const neededSpace = 200;
+
+    this.upwards = spaceBelow < neededSpace;
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    if (this.dropdownOpen) {
+      this.setPosition();
+    }
+  }
+
 }

@@ -70,9 +70,8 @@
       </div>
 
       <div id="depot-actions" *ngIf="!showNonDepotExistingComponent">
-        <button id="depot-erstellen" class="grey-text global-button"
-          (click)="showSidePanel(SidePanel.DepotErstellen)">Neues Depot erstellen</button>
-        <button id="depot-loeschen" class="grey-text global-button" (click)="showDepotLoeschen()">Depot löschen</button>
+        <app-custom-dropdown [options]="selectDepotAktionen" [alwaysSelectOption]="'Depot Aktionen'"
+          (selectionChange)="onSelectDepotAktion($event)"></app-custom-dropdown>
         <button id="export" class="grey-text global-button" (click)="export()">Export</button>
       </div>
 
@@ -93,6 +92,9 @@
           </div>
           <div *ngIf="sidePanel === SidePanel.DepotErstellen">
             <app-depot-erstellen (onAbbrechen)="hideSidePanel()"></app-depot-erstellen>
+          </div>
+          <div *ngIf="sidePanel === SidePanel.DepotUmbenenen">
+            <app-depot-umbenennen (onAbbrechen)="hideSidePanel()"></app-depot-umbenennen>
           </div>
           <div *ngIf="sidePanel === SidePanel.Settings">
             <app-user-settings></app-user-settings>
