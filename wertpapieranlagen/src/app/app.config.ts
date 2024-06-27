@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     {
       provide: "ROOT_URL",
-      useValue: "http://213.133.101.113:8080/api/"
+      useValue: "localhost:8080/api/"
     },
     {
       provide: "SORTINGS_AND_FILTERS",
