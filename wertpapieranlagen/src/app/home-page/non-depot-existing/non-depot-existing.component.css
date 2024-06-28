@@ -1,8 +1,6 @@
 
 #quote-container {
   position: absolute;
-  top: 25%;
-  left: 25%;
   background-color: #1a1714;
   border-radius: 10px;
   padding: 40px;
@@ -14,6 +12,9 @@
   justify-content: center;
   text-align: center;
   box-shadow: 10px 10px 10px #060504af;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #top-elements {
