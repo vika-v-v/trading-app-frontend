@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'; // Importieren der grundlegenden Angular-Komponenten und -Module
+import { AfterViewInit, Component, OnInit, ViewChild, ElementRef  } from '@angular/core'; // Importieren der grundlegenden Angular-Komponenten und -Module
 import { Chart, ChartConfiguration, registerables } from 'chart.js'; // Importieren von Chart.js und seinen Konfigurationen
 import { DepotService } from '../../../services/depot.service'; // Importieren des DepotService zur Datenbeschaffung
 import { DepotDropdownService } from '../../../services/depot-dropdown.service'; // Importieren des DepotDropdownService zur Handhabung des Dropdowns
@@ -26,7 +26,8 @@ interface Data {
   templateUrl: './grafik-linechart-depot.component.html', // Pfad zur HTML-Vorlage der Komponente
   styleUrls: ['./grafik-linechart-depot.component.css'] // Pfad zur CSS-Datei der Komponente
 })
-export class GrafikLinechartDepotComponent implements Updateable {
+export class GrafikLinechartDepotComponent implements Updateable, AfterViewInit {
+  @ViewChild('lineChartDepotWert') lineChartDepotWert!: ElementRef<HTMLCanvasElement>;
   private chart: Chart<'line', number[], string> | undefined; // Chart-Instanz
   private xValues: string[] = []; // X-Werte (Datenpunkte) des Diagramms
   private yValues: number[] = []; // Y-Werte (Datenpunkte) des Diagramms
@@ -47,12 +48,16 @@ export class GrafikLinechartDepotComponent implements Updateable {
     this.generateLineChart_DepotWert(); // Generieren des Diagramms
   }
 
-  // Asynchrone Methode zur Erstellung des Diagramms
-  async generateLineChart_DepotWert() {
-    try {
-      const depotName = this.depotDropdownService.getDepot(); // Abrufen des ausgewählten Depotnamens
-      const response: ApiResponse = await this.depotService.getDepotHistory(this.http, depotName).toPromise(); // Abrufen der historischen Depotdaten
+  ngAfterViewInit(): void {
+    this.update();
+  }
 
+// Synchrone Methode zur Erstellung des Diagramms
+generateLineChart_DepotWert() {
+  const depotName = this.depotDropdownService.getDepot(); // Abrufen des ausgewählten Depotnamens
+
+  this.depotService.getDepotHistory(this.http, depotName).subscribe({
+    next: (response: ApiResponse) => {
       this.xValues = []; // Zurücksetzen der X-Werte
       this.yValues = []; // Zurücksetzen der Y-Werte
 
@@ -112,8 +117,10 @@ export class GrafikLinechartDepotComponent implements Updateable {
       } else {
         console.error('Canvas element not found'); // Fehlermeldung, falls das Canvas-Element nicht gefunden wird
       }
-    } catch (error) {
+    },
+    error: (error) => {
       console.error('Error fetching historical depot data:', error); // Fehlermeldung, falls die API-Abfrage fehlschlägt
     }
-  }
+  });
+}
 }

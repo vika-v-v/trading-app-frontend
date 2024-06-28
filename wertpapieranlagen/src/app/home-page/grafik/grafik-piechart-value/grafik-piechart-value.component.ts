@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core'; 
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy,  AfterViewInit, ElementRef, ViewChild } from '@angular/core'; 
 import { Chart, ChartConfiguration, registerables } from 'chart.js'; 
 import { DepotService } from '../../../services/depot.service'; 
 import { DepotDropdownService } from '../../../services/depot-dropdown.service'; 
@@ -13,8 +13,9 @@ import { UpdateEverythingService, Updateable } from '../../../services/update-ev
   templateUrl: './grafik-piechart-value.component.html', // Pfad zur HTML-Vorlage der Komponente
   styleUrls: ['./grafik-piechart-value.component.css'] // Pfad zur CSS-Datei der Komponente
 })
-export class GrafikPiechartValueComponent implements Updateable { // Implementieren der Updateable Schnittstelle
+export class GrafikPiechartValueComponent implements Updateable, AfterViewInit { // Implementieren der Updateable Schnittstelle
   //@Input() depotName: string | null = null;
+  @ViewChild('pieChartValues') pieChartValues!: ElementRef<HTMLCanvasElement>;
   private chart: Chart<'pie', number[], string> | undefined; // Variable zur Speicherung des Chart-Objekts
 
   constructor(
@@ -25,6 +26,10 @@ export class GrafikPiechartValueComponent implements Updateable { // Implementie
   ) {
     Chart.register(...registerables); // Registrieren der Chart.js-Module
     updateEverythingService.subscribeToUpdates(this); // Abonnieren von Updates des UpdateEverythingService
+  }
+
+  ngAfterViewInit(): void {
+    this.update();
   }
 
   update(): void {

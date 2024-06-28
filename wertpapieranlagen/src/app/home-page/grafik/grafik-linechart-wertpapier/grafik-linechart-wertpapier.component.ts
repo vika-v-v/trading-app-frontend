@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { DepotService } from '../../../services/depot.service';
@@ -28,7 +28,8 @@ interface ApiResponse {
   templateUrl: './grafik-linechart-wertpapier.component.html', // Pfad zur HTML-Vorlage der Komponente
   styleUrls: ['./grafik-linechart-wertpapier.component.css'] // Pfad zur CSS-Datei der Komponente
 })
-export class GrafikLinechartWertpapierComponent implements OnChanges {
+export class GrafikLinechartWertpapierComponent implements OnChanges, AfterViewInit {
+  @ViewChild('lineChartWertpapierWert') lineChartWertpapierWert!: ElementRef<HTMLCanvasElement>;
   private chart: Chart<'line', number[], string> | undefined; // Instanz des Diagramms
   private xValues: string[] = []; // X-Werte für das Diagramm (Datenpunkte)
   private yValues: number[] = []; // Y-Werte für das Diagramm (Datenpunkte)
@@ -48,6 +49,10 @@ export class GrafikLinechartWertpapierComponent implements OnChanges {
         this.generateLineChart_WertpapierWert();
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.generateLineChart_WertpapierWert();
   }
 
   ngOnChanges(changes: SimpleChanges) {
