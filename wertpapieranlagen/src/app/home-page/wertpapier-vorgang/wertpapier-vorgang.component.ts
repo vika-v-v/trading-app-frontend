@@ -288,7 +288,7 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
       date: !this.date,
       wertpapierPreis: !this.wertpapierPreis,
       anzahl: !this.anzahl,
-      transaktionskosten: !this.transaktionskosten
+      transaktionskosten: this.transaktionskosten === '' || isNaN(Number(this.transaktionskosten))
     };
 
     return Object.values(this.invalidFields).every(value => !value);
