@@ -71,7 +71,7 @@ export class RegistrationPageComponent {
           this.loadingShown = false;
         },
         error => {
-          console.error('Error:', error);
+          this.popUpService.errorPopUp("Ein Fehler ist aufgetreten: " + error.error.message);
           this.loadingShown = false;
         }
       );

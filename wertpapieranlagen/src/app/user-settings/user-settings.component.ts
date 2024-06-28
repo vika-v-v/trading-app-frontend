@@ -101,7 +101,7 @@ export class UserSettingsComponent implements OnInit {
       if(response) {
         this.userService.deleteUser(this.http).subscribe(response => {
           this.popupService.infoPopUp("Konto erfolgreich gelöscht.");
-          this.router.navigate(['login-seite']);
+          this.naviagateToLoginPage();
         },
         error => {
           this.popupService.errorPopUp("Fehler beim Löschen des Kontos: " + error.error.message);

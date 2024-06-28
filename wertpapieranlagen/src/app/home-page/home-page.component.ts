@@ -1,5 +1,5 @@
 import { CommonModule, NgPlural } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SidePanel } from './side-panel.enum';
 import { WertpapierVorgang } from './wertpapier-vorgang.enum';
 import { WertpapierVorgangComponent } from './wertpapier-vorgang/wertpapier-vorgang.component';
@@ -47,7 +47,7 @@ import { DepotUmbenennenComponent } from './depot-umbenennen/depot-umbenennen.co
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
-export class HomePageComponent implements OnInit, Updateable {
+export class HomePageComponent implements AfterViewInit, Updateable {
   // enums für HTML-Datei verfügbar machen
   SidePanel = SidePanel;
   WertpapierVorgang = WertpapierVorgang;
@@ -83,7 +83,7 @@ export class HomePageComponent implements OnInit, Updateable {
     updateEverythingService.subscribeToUpdates(this);
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.getNumberofDepots();
   }
 
@@ -331,7 +331,7 @@ export class HomePageComponent implements OnInit, Updateable {
     this.userService.getDepots(this.http).subscribe(
       (response) => {
         // Überprüfen, ob die Nachricht "Keine Depots gefunden" ist
-        if (response.message === "Keine Depots gefunden") {
+        if (response == null || response.message === "Keine Depots gefunden") {
           this.showNonDepotExistingComponent = true;
         } else {
           this.showNonDepotExistingComponent = false;

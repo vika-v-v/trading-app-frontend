@@ -1,6 +1,6 @@
 <div id="container" *ngIf="isPageVisible(); else notLoggedInMessage">
   <!-- Überprüfung und Anzeige der NonDepotExistingComponent -->
-  <app-non-depot-existing *ngIf="showNonDepotExistingComponent == true" (showAddDepot)="showNewSidePanel(SidePanel.DepotErstellen)"></app-non-depot-existing>
+  <app-non-depot-existing *ngIf="showNonDepotExistingComponent" (showAddDepot)="showNewSidePanel(SidePanel.DepotErstellen)"></app-non-depot-existing>
   <div>
 
     <!-- Elemente Oben -->
