@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'; // Import für H
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserService } from './user.service';
+import { HttpclientProviderService } from './httpclient-provider.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,11 @@ export class DepotService {
 
   private rootUrl: string;
 
-  constructor(@Inject('ROOT_URL') rootUrl: string, private userService: UserService) {
+  constructor(@Inject('ROOT_URL') rootUrl: string, private userService: UserService, private httpProvider: HttpclientProviderService) {
     this.rootUrl = rootUrl;
   }
 
-  depotErstellen(http: HttpClient, name: string, waehrung: string): Observable<any> {
+  depotErstellen(name: string, waehrung: string): Observable<any> {
     const createDepotUrl = this.rootUrl + 'depot/create';
     const httpOptions = {
       headers: new HttpHeaders({
@@ -27,10 +28,10 @@ export class DepotService {
     formData.append('name', name);
     formData.append('waehrung', waehrung);
 
-    return http.post(createDepotUrl, formData, httpOptions);
+    return this.httpProvider.getHttpClient().post(createDepotUrl, formData, httpOptions);
   }
 
-  depotUmbenennen(http: HttpClient, oldName: string, newName: string): Observable<any> {
+  depotUmbenennen(oldName: string, newName: string): Observable<any> {
     const createDepotUrl = this.rootUrl + 'depot/rename';
     const httpOptions = {
       headers: new HttpHeaders({
@@ -42,10 +43,10 @@ export class DepotService {
     formData.append('oldName', oldName);
     formData.append('newName', newName);
 
-    return http.patch(createDepotUrl, formData, httpOptions);
+    return this.httpProvider.getHttpClient().patch(createDepotUrl, formData, httpOptions);
   }
 
-  getWertverlauf(http: HttpClient, depotName: string): Observable<any>{
+  getWertverlauf(depotName: string): Observable<any>{
     const getDepotWertverlaufUrl = `${this.rootUrl}depot/getWertpapierDepotHistorie?depotName=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
@@ -53,70 +54,70 @@ export class DepotService {
       })
     };
 
-    return http.get(getDepotWertverlaufUrl, httpOptions);
+    return this.httpProvider.getHttpClient().get(getDepotWertverlaufUrl, httpOptions);
   }
 
-  getWertpapiere(http: HttpClient, depotName: string): Observable<any> {
+  getWertpapiere(depotName: string): Observable<any> {
     const getWertpapiereURL= `${this.rootUrl}depot/getWertpapiere?depotName=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`
       })
     };
-    return http.get(getWertpapiereURL, httpOptions);
+    return this.httpProvider.getHttpClient().get(getWertpapiereURL, httpOptions);
   }
 
-  getAlleWertpapiere(http: HttpClient): Observable<any> {
+  getAlleWertpapiere(): Observable<any> {
     const getWertpapiereURL= `${this.rootUrl}wertpapier/getAllWertpapiere`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`
       })
     };
-    return http.get(getWertpapiereURL, httpOptions);
+    return this.httpProvider.getHttpClient().get(getWertpapiereURL, httpOptions);
   }
 
-  getTransaktionen(http: HttpClient, depotName: string): Observable<any> {
+  getTransaktionen(depotName: string): Observable<any> {
     const url = `${this.rootUrl}depot/getTransactions?depotName=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`
       })
     };
-    return http.get(url, httpOptions);
+    return this.httpProvider.getHttpClient().get(url, httpOptions);
   }
 
-  getDividenden(http: HttpClient, depotName: string): Observable<any> {
+  getDividenden(depotName: string): Observable<any> {
     const url = `${this.rootUrl}depot/getDividenden?depotName=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`
       })
     };
-    return http.get(url, httpOptions);
+    return this.httpProvider.getHttpClient().get(url, httpOptions);
   }
 
-  getDepot(http: HttpClient, depotName: string): Observable<any>{
+  getDepot(depotName: string): Observable<any>{
     const getDepotUrl = `${this.rootUrl}depot/getDepot?depotName=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`
       })
     };
-    return http.get(getDepotUrl, httpOptions);
+    return this.httpProvider.getHttpClient().get(getDepotUrl, httpOptions);
   }
 
-  deleteDepot(http: HttpClient, depotName: string): Observable<any>{
+  deleteDepot(depotName: string): Observable<any>{
     const deleteDepotUrl = `${this.rootUrl}depot/delete?name=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`
       })
     };
-    return http.delete(deleteDepotUrl, httpOptions);
+    return this.httpProvider.getHttpClient().delete(deleteDepotUrl, httpOptions);
   }
 
-  getDataExport(http: HttpClient): Observable<Blob> {
+  getDataExport(): Observable<Blob> {
     const getDataExportURL = `${this.rootUrl}excel/download`;
     const httpOptions = {
       headers: new HttpHeaders({
@@ -125,20 +126,20 @@ export class DepotService {
       }),
       responseType: 'blob' as 'json' // Angular erwartet einen expliziten Cast für 'blob'
     };
-    return http.get<Blob>(getDataExportURL, httpOptions);
+    return this.httpProvider.getHttpClient().get<Blob>(getDataExportURL, httpOptions);
   }
 
-  getDepotHistory(http: HttpClient, depotName: string): Observable<any>{
+  getDepotHistory(depotName: string): Observable<any>{
     const getDepotHistoryURL = `${this.rootUrl}depot/getDepotGesamtwertHistorie?depotName=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`
       })
     };
-    return http.get(getDepotHistoryURL, httpOptions);
+    return this.httpProvider.getHttpClient().get(getDepotHistoryURL, httpOptions);
   }
 
-  addDividende(http: HttpClient, depotName: string, wertpapierName: string, dividende: string, date: string): Observable<any>{
+  addDividende(depotName: string, wertpapierName: string, dividende: string, date: string): Observable<any>{
     //Achtung anpassen richtigen Api-Call wählen
     const addDividendeURL = `${this.rootUrl}depot/addDividende`;
     const httpOptions = {
@@ -153,6 +154,6 @@ export class DepotService {
     formData.append('dividende', dividende);
     formData.append('date', date);
 
-    return http.post(addDividendeURL, formData, httpOptions);
+    return this.httpProvider.getHttpClient().post(addDividendeURL, formData, httpOptions);
   }
 }

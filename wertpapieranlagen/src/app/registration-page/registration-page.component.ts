@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { PasswordUtilsService } from '../services/password-utils.service';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AutoLogoutService } from '../services/auto-logout.service';
 import { PopUpService } from '../services/pop-up.service';
@@ -13,8 +12,7 @@ import { PopUpService } from '../services/pop-up.service';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    HttpClientModule
+    FormsModule
   ],
   templateUrl: './registration-page.component.html',
   styleUrls: ['./registration-page.component.css']
@@ -31,7 +29,7 @@ export class RegistrationPageComponent {
 
   loadingShown: boolean = false;
 
-  constructor(private router: Router, private userService: UserService, private http: HttpClient, private passwordUtils: PasswordUtilsService, private autoLogoutService: AutoLogoutService, private popUpService: PopUpService) {}
+  constructor(private router: Router, private userService: UserService, private passwordUtils: PasswordUtilsService, private autoLogoutService: AutoLogoutService, private popUpService: PopUpService) {}
 
   //Methode um 2 Prüfungen zusammen aufzurufen
   checkPasswordAndMatch() {
@@ -61,7 +59,6 @@ export class RegistrationPageComponent {
 
       this.userService.register(this.email, this.password).subscribe(
         response => {
-          console.log('Response:', response);
 
           if(response.statusCode === 200 || response.statusCode === 201) {
             this.naviagateToHomePage();

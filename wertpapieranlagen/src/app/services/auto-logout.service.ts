@@ -22,7 +22,6 @@ export class AutoLogoutService implements OnDestroy {
 
   //Timer wird gestartet (passiert bei Anmeldung und Registrierung)
   startTimer() {
-    console.log('timer start');
     if (!this.timerStarted) {
       this.initializeInactivityTimer();
       this.timerStarted = true;
@@ -31,7 +30,6 @@ export class AutoLogoutService implements OnDestroy {
 
   //Timer wird gestoppt (passiert beim Logout)
   stop() {
-    console.log('timer stop');
     this.ngZone.run(() => {
       this.clearTimersAndEventListeners();
     });
@@ -62,7 +60,6 @@ export class AutoLogoutService implements OnDestroy {
       this.countdownInterval = setInterval(() => {
         this.ngZone.run(() => {
           this.timeLeftMinutes -= 1; // Reduziere um eine Minute
-          console.log(`Time left until auto logout: ${this.timeLeftMinutes} minutes`);
           if (this.timeLeftMinutes <= 0) {
             clearInterval(this.countdownInterval);
           }
@@ -107,7 +104,6 @@ export class AutoLogoutService implements OnDestroy {
 
   //Wird aufgerufen, wenn der Timer bei 0 ist; Meldet den User automatisch ab und stoppt den Timer.
   private autologout() {
-    console.log('autologout');
     this.stop();
     this.router.navigate(['login-seite']); // Navigation zur Anmeldeseite
     this.userService.setToken('');

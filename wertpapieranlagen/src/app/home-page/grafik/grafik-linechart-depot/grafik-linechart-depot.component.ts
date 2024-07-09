@@ -34,7 +34,6 @@ export class GrafikLinechartDepotComponent implements Updateable, AfterViewInit 
 
   constructor(
     private depotService: DepotService, // Service zur Handhabung von Depotdaten
-    private http: HttpClient, // HTTP-Client für API-Aufrufe
     private depotDropdownService: DepotDropdownService, // Service zur Handhabung des Dropdowns
     private updateEverythingService: UpdateEverythingService, // Service zur Synchronisation von Updates
     private userService: UserService // Service zur Benutzerverwaltung
@@ -56,7 +55,7 @@ export class GrafikLinechartDepotComponent implements Updateable, AfterViewInit 
 generateLineChart_DepotWert() {
   const depotName = this.depotDropdownService.getDepot(); // Abrufen des ausgewählten Depotnamens
 
-  this.depotService.getDepotHistory(this.http, depotName).subscribe({
+  this.depotService.getDepotHistory(depotName).subscribe({
     next: (response: ApiResponse) => {
       this.xValues = []; // Zurücksetzen der X-Werte
       this.yValues = []; // Zurücksetzen der Y-Werte
@@ -114,12 +113,7 @@ generateLineChart_DepotWert() {
       if (canvas) {
         // Erstellen eines neuen Diagramms mit der konfigurierten Einstellung und den Daten
         this.chart = new Chart(canvas, chartConfig);
-      } else {
-        console.error('Canvas element not found'); // Fehlermeldung, falls das Canvas-Element nicht gefunden wird
       }
-    },
-    error: (error) => {
-      console.error('Error fetching historical depot data:', error); // Fehlermeldung, falls die API-Abfrage fehlschlägt
     }
   });
 }

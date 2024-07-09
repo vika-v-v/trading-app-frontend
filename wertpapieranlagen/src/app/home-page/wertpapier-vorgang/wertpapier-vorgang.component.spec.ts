@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
 import { WertpapierVorgangComponent } from './wertpapier-vorgang.component';
 
 describe('WertpapierVorgangComponent', () => {
@@ -8,10 +7,6 @@ describe('WertpapierVorgangComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [],
-      imports: [
-        HttpClientModule
-      ],
       providers: [
         { provide: 'ROOT_URL', useValue: 'https://example.com/api' }
       ]

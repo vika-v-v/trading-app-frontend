@@ -39,7 +39,7 @@ export class GrafikLinechartWertpapierComponent implements OnChanges, AfterViewI
   @Input() selectedDepot: string | null = null; // Ausgewähltes Depot
   @Input() selectedAktie: string | null = null; // Ausgewählte Aktie
 
-  constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService) {
+  constructor(private depotService: DepotService, private depotDropdownService: DepotDropdownService) {
     Chart.register(...registerables); // Registrieren der Chart.js-Module
 
     // Abonnieren der Änderungen des ausgewählten Aktiennamens und Generieren des Diagramms
@@ -58,7 +58,6 @@ export class GrafikLinechartWertpapierComponent implements OnChanges, AfterViewI
   ngOnChanges(changes: SimpleChanges) {
     // Überprüfen, ob sich der Aktienname geändert hat, und das Diagramm neu generieren
     if (changes['aktienName']) {
-      console.log('AktienName:', this.aktienName); // Debugging
       this.generateLineChart_WertpapierWert();
     }
     // Überprüfen, ob sich das ausgewählte Depot oder die ausgewählte Aktie geändert hat, und das Diagramm neu generieren
@@ -68,14 +67,11 @@ export class GrafikLinechartWertpapierComponent implements OnChanges, AfterViewI
   }
 
   generateLineChart_WertpapierWert() {
-    console.log('Generate Line Chart called with selectedDepot:', this.selectedDepot, 'and selectedAktie:', this.selectedAktie);
-    const depotName = this.depotDropdownService.getDepot(); // Abrufen des ausgewählten Depotnamens
-    console.log('Depot Name:', depotName); // Debugging
+    const depotName = this.depotDropdownService.getDepot();
 
     // Abrufen des historischen Wertverlaufs der Wertpapiere über die API
-    this.depotService.getWertverlauf(this.http, depotName).subscribe(
+    this.depotService.getWertverlauf(depotName).subscribe(
       (response: ApiResponse) => {
-        console.log('Response:', response); // Debugging
 
         this.xValues = []; // Zurücksetzen der X-Werte
         this.yValues = []; // Zurücksetzen der Y-Werte
@@ -92,9 +88,6 @@ export class GrafikLinechartWertpapierComponent implements OnChanges, AfterViewI
             }
           }
         }
-
-        console.log('X Values:', this.xValues); // Debugging
-        console.log('Y Values:', this.yValues); // Debugging
 
         // Konfigurieren der Diagramm-Einstellungen
         const chartConfig: ChartConfiguration<'line', number[], string> = {
@@ -139,12 +132,7 @@ export class GrafikLinechartWertpapierComponent implements OnChanges, AfterViewI
         if (canvas) {
           // Erstellen eines neuen Diagramms mit der konfigurierten Einstellung und den Daten
           this.chart = new Chart(canvas, chartConfig);
-        } else {
-          console.error('Canvas element not found'); // Fehlermeldung, falls das Canvas-Element nicht gefunden wird
         }
-      },
-      (error) => {
-        console.error('Error fetching historical stock data:', error); // Fehlermeldung, falls die API-Abfrage fehlschlägt
       }
     );
   }

@@ -50,7 +50,7 @@ export class UserSettingsComponent implements OnInit {
     ]
   }
 
-  constructor(private router: Router, private userService: UserService, private autoLogoutService: AutoLogoutService, private http: HttpClient, private popupService: PopUpService, private passwordUtils: PasswordUtilsService) {}
+  constructor(private router: Router, private userService: UserService, private autoLogoutService: AutoLogoutService, private popupService: PopUpService, private passwordUtils: PasswordUtilsService) {}
 
   // Initialisierung der Kontoeinstellungen: über ein Request die Daten des Benutzers holen
   ngOnInit(): void {

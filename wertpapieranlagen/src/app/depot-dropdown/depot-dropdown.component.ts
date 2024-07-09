@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter, ChangeDetectorRef } from '@angular/core'; 
-import { DepotDropdownService } from '../services/depot-dropdown.service'; 
-import { HttpClient } from '@angular/common/http'; 
-import { CommonModule } from '@angular/common'; 
-import { FormsModule } from '@angular/forms'; 
-import { Subscription } from 'rxjs'; 
-import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component'; 
-import { UpdateEverythingService, Updateable } from '../services/update-everything.service'; 
-import { PopUpService } from '../services/pop-up.service'; 
+import { Component, OnInit, OnDestroy, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { DepotDropdownService } from '../services/depot-dropdown.service';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
+import { UpdateEverythingService, Updateable } from '../services/update-everything.service';
+import { PopUpService } from '../services/pop-up.service';
 
 @Component({
   selector: 'app-depot-dropdown', // CSS-Selector zur Identifikation der Komponente
@@ -30,7 +30,6 @@ export class DepotDropdownComponent implements OnInit, Updateable { // Implement
 
   constructor(
     private depotService: DepotDropdownService, // Service zur Handhabung des Dropdowns
-    private http: HttpClient, // HTTP-Client für API-Aufrufe
     private cdr: ChangeDetectorRef, // ChangeDetectorRef zur manuellen Änderungserkennung
     private updateEverythingService: UpdateEverythingService, // Service zur Synchronisation von Updates
     private popupService: PopUpService // Service zur Handhabung von Popups
@@ -55,7 +54,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // Implement
   // Methode zum Laden der Depots
   loadDepots() {
     // Abrufen aller Depots vom Server
-    this.depotService.getAllDepots(this.http).subscribe(
+    this.depotService.getAllDepots().subscribe(
       (response) => {
         let data = response.data; // Anpassen an das zurückgegebene Format
         // Überprüfen, ob Daten vorhanden sind

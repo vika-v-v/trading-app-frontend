@@ -1,10 +1,10 @@
-import { Component, EventEmitter, OnChanges, OnInit, Output, Input, SimpleChanges } from '@angular/core'; 
-import { HttpClient } from '@angular/common/http'; 
-import { CommonModule } from '@angular/common'; 
-import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component'; 
-import { DepotDropdownService } from '../services/depot-dropdown.service'; 
-import { UpdateEverythingService, Updateable } from '../services/update-everything.service'; 
-import { DepotService } from '../services/depot.service'; 
+import { Component, EventEmitter, OnChanges, OnInit, Output, Input, SimpleChanges } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
+import { DepotDropdownService } from '../services/depot-dropdown.service';
+import { UpdateEverythingService, Updateable } from '../services/update-everything.service';
+import { DepotService } from '../services/depot.service';
 
 @Component({
   selector: 'app-aktien-dropdown', // CSS-Selector zur Identifikation der Komponente
@@ -20,8 +20,7 @@ export class AktienDropdownComponent implements OnInit, Updateable, OnChanges { 
   aktien: string[] = []; // Array zur Speicherung der Aktien
   selectedOption: string | null = null; // Variable zur Speicherung der ausgewählten Option
 
-  // Konstruktor zur Initialisierung der benötigten Services
-  constructor(private http: HttpClient, private depotDropdownService: DepotDropdownService, private updateEverythingService: UpdateEverythingService, private depotService: DepotService) {
+  constructor(private depotDropdownService: DepotDropdownService, private updateEverythingService: UpdateEverythingService, private depotService: DepotService) {
     this.updateEverythingService.subscribeToUpdates(this); // Abonnieren von Updates des UpdateEverythingService
   }
 
@@ -45,8 +44,7 @@ export class AktienDropdownComponent implements OnInit, Updateable, OnChanges { 
 
   // Methode zum Laden der Aktien basierend auf dem ausgewählten Depot
   loadAktien(): void {
-    console.log('Load Aktien called with selectedDepot:', this.selectedDepot); // Debugging-Information
-    this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(
+    this.depotService.getWertpapiere(this.depotDropdownService.getDepot()).subscribe(
       (response) => {
         this.aktien = Object.keys(response.data); // Zuordnen der Aktien aus der Antwort des Servers
         // Überprüfen, ob eine Option ausgewählt ist und ob sie in der Liste der Aktien enthalten ist
@@ -54,9 +52,6 @@ export class AktienDropdownComponent implements OnInit, Updateable, OnChanges { 
           this.selectedOption = this.aktien[0]; // Setzen der ausgewählten Option auf die erste Aktie
           this.selectionChange.emit(this.selectedOption); // Emittieren der ausgewählten Option
         }
-      },
-      (error) => {
-        console.error('Fehler beim Abrufen der Aktien:', error); // Fehlerbehandlung bei fehlerhaftem Abrufen der Aktien
       }
     );
   }
@@ -68,7 +63,6 @@ export class AktienDropdownComponent implements OnInit, Updateable, OnChanges { 
       this.selectionChange.emit(aktie); // Emittieren der neuen Auswahl
     }
     this.selectedOption = aktie; // Setzen der neuen ausgewählten Option
-    console.log('Ausgewählte Aktie:', aktie); // Debugging-Information
   }
 
   // Methode zum Handhaben der Änderung der Auswahl

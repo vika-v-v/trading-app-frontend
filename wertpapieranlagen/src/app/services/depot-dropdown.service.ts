@@ -4,6 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { UserService } from './user.service';
 import { UpdateEverythingService } from './update-everything.service';
 import { map } from 'rxjs/operators';
+import { HttpclientProviderService } from './httpclient-provider.service';
 
 interface DepotResponse {
   message: string;
@@ -38,7 +39,7 @@ export class DepotDropdownService {
   private selectedAktieSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
 
-  constructor(@Inject('ROOT_URL') rootUrl: string, private userService: UserService, private updateEverythingService: UpdateEverythingService) {
+  constructor(@Inject('ROOT_URL') rootUrl: string, private userService: UserService, private updateEverythingService: UpdateEverythingService, private httpProvider: HttpclientProviderService) {
     this.rootUrl = rootUrl;
   }
 
@@ -53,24 +54,24 @@ export class DepotDropdownService {
     return this.depot;
   }
 
-  getAllDepots(http: HttpClient): Observable<any> {
+  getAllDepots(): Observable<any> {
     const createDepotUrl = this.rootUrl + 'depot/getAllDepots';
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`
       })
     };
-    return http.get(createDepotUrl, httpOptions);
+    return this.httpProvider.getHttpClient().get(createDepotUrl, httpOptions);
   }
 
-  getAktien(http: HttpClient, depotName: string): Observable<string[]> {
+  getAktien(depotName: string): Observable<string[]> {
     const getAktienURL = `${this.rootUrl}depot/getDepot?depotName=${depotName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.userService.getToken()}`
       })
     };
-    return http.get<DepotResponse>(getAktienURL, httpOptions).pipe(
+    return this.httpProvider.getHttpClient().get<DepotResponse>(getAktienURL, httpOptions).pipe(
       map(response => {
         const uniqueAktien = new Set<string>();
         const data = response.data;

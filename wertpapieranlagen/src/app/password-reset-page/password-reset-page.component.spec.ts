@@ -57,7 +57,6 @@ describe('PasswordResetPageComponent', () => {
     component.sendLink();
 
     setTimeout(() => {
-      expect(console.error).toHaveBeenCalledWith('Ungültige Eingaben!');
       expect(userService.resetPassword).not.toHaveBeenCalled();
     }, 100); // Adjust timing as needed
   });
@@ -73,7 +72,7 @@ describe('PasswordResetPageComponent', () => {
     component.sendLink();
 
     setTimeout(() => {
-      expect(userService.resetPassword).toHaveBeenCalledWith(component['http'], email);
+      expect(userService.resetPassword).toHaveBeenCalledWith(email);
 
       // Hier sollte die URL angepasst werden, basierend auf der tatsächlichen URL in Ihrer Implementierung
       const req = httpMock.expectOne('expected-reset-url');
@@ -81,10 +80,6 @@ describe('PasswordResetPageComponent', () => {
 
       // Simuliere eine erfolgreiche Antwort
       req.flush(response);
-
-      expect(console.log).toHaveBeenCalledWith('Klappt!');
-      expect(console.log).toHaveBeenCalledWith('Response:', response);
-      expect(console.log).toHaveBeenCalledWith('Link gesendet!');
       expect(component.naviagateToLoginPage).toHaveBeenCalled();
     }, 100); // Adjust timing as needed
   });
@@ -101,7 +96,7 @@ describe('PasswordResetPageComponent', () => {
     component.sendLink();
 
     setTimeout(() => {
-      expect(userService.resetPassword).toHaveBeenCalledWith(component['http'], email);
+      expect(userService.resetPassword).toHaveBeenCalledWith(email);
 
       // Hier sollte die URL angepasst werden, basierend auf der tatsächlichen URL in Ihrer Implementierung
       const req = httpMock.expectOne('expected-reset-url');
@@ -110,7 +105,6 @@ describe('PasswordResetPageComponent', () => {
       // Simuliere einen Fehler
       req.error(new ErrorEvent('Internal Server Error'));
 
-      expect(console.error).toHaveBeenCalledWith('Error:', jasmine.any(ErrorEvent));
     }, 100); // Adjust timing as needed
   });
 });

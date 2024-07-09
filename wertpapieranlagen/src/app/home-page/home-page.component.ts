@@ -6,7 +6,6 @@ import { WertpapierVorgangComponent } from './wertpapier-vorgang/wertpapier-vorg
 import { DepotErstellenComponent } from './depot-erstellen/depot-erstellen.component';
 import { UserSettingsComponent } from '../user-settings/user-settings.component';
 import { TaxSettingsComponent } from '../user-settings/tax-settings/tax-settings.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DepotService } from '../services/depot.service';
 import { TabelleComponent } from './tabelle/tabelle.component';
 import { FilterType } from './tabelle/filter-type.enum';
@@ -78,7 +77,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
   selectTransactions = ["Kaufen", "Verkaufen", "Dividende erfassen"];
   selectDepotAktionen = ["Neues Depot erstellen", "Depot umbenennen", "Depot löschen"];
 
-  constructor(private http: HttpClient, private depotService: DepotService, private depotDropdownService: DepotDropdownService, private userService: UserService, private crd: ChangeDetectorRef, private popUpService: PopUpService, private updateEverythingService: UpdateEverythingService) {
+  constructor(private depotService: DepotService, private depotDropdownService: DepotDropdownService, private userService: UserService, private crd: ChangeDetectorRef, private popUpService: PopUpService, private updateEverythingService: UpdateEverythingService) {
     updateEverythingService.subscribeToUpdates(this);
   }
 
@@ -110,7 +109,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
   // ----
   private updateDepotWerte() {
     /* Speichert Werte in this.depot */
-    this.depotService.getDepot(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
+    this.depotService.getDepot(this.depotDropdownService.getDepot()).subscribe(response => {
       if (response && response.data) {
         this.depot = response.data;
       }
@@ -124,7 +123,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
   }
 
   private updateDividende() {
-    this.depotService.getDividenden(this.http, this.depotDropdownService.getDepot()).subscribe(
+    this.depotService.getDividenden(this.depotDropdownService.getDepot()).subscribe(
       response => {
         this.dividendenData = Object.keys(response.data).map((key: any) => {
           const dividende = response.data[key];
@@ -145,7 +144,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
   }
 
   private updateWertpapiere() {
-    this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(
+    this.depotService.getWertpapiere(this.depotDropdownService.getDepot()).subscribe(
       response => {
         this.wertpapierenData = Object.keys(response.data).map((key: any) => {
           const wertpapier = response.data[key];
@@ -168,7 +167,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
   }
 
   private updateTransaktionen() {
-    this.depotService.getTransaktionen(this.http, this.depotDropdownService.getDepot()).subscribe(
+    this.depotService.getTransaktionen(this.depotDropdownService.getDepot()).subscribe(
       response => {
         this.transaktionenData = Object.keys(response.data).map((key: any) => {
           const transaktion = response.data[key];
@@ -277,37 +276,28 @@ export class HomePageComponent implements AfterViewInit, Updateable {
 
   // Depot löschen
   async showDepotLoeschen() {
-    console.log("Loeschen gestartet" + this.currentDepotName);
     const userResponse = await this.popUpService.choicePopUp('Sind Sie sicher, dass Sie das Depot "' + this.currentDepotName + '" löschen möchten?').toPromise();
       if (userResponse) {
-        console.log('Löschen bestätigt');
         if (this.currentDepotName) {
-          this.depotService.deleteDepot(this.http, this.currentDepotName).subscribe({
+          this.depotService.deleteDepot(this.currentDepotName).subscribe({
             next: (response) => {
-              console.log('Depot gelöscht:', response);
               this.popUpService.infoPopUp('Depot "' + this.currentDepotName + '" wurde gelöscht.');
-              this.depotDropdownService.getAllDepots(this.http).subscribe(response => {
+              this.depotDropdownService.getAllDepots().subscribe(response => {
                 this.depotDropdownService.setDepot(response.data[response.data.length - 1].name);
-              },
-              error => {
-                console.error('Fehler beim Abrufen aller Depots: ', error.error.message);
               });
               this.updateEverythingService.updateAll();
             },
             error: (error) => {
               this.popUpService.errorPopUp('Fehler beim Löschen des Depots: ' + error.error.message);
-              console.error('Error deleting depot:', error);
             }
           });
         }
-      } else {
-        console.log('Löschen abgebrochen');
       }
   }
 
   // Exportieren der Daten, hat eine besondere Struktur und wird über "Blobs" behandelt
   export() {
-    this.depotService.getDataExport(this.http).subscribe(
+    this.depotService.getDataExport().subscribe(
       (response) => {
         const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
         const url = window.URL.createObjectURL(blob);

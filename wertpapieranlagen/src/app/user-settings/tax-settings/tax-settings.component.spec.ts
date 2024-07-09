@@ -102,7 +102,5 @@ describe('TaxSettingsComponent', () => {
     spyOn(console, 'log');
 
     component.onSubmit(event);
-
-    expect(console.log).toHaveBeenCalledWith('Form submitted!');
   });
 });

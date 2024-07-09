@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
 import { GrafikLinechartDepotComponent } from './grafik-linechart-depot.component';
 
 describe('GrafikLinechartDepotComponent', () => {
@@ -8,10 +7,6 @@ describe('GrafikLinechartDepotComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [],
-      imports: [
-        HttpClientModule
-      ],
       providers: [
         { provide: 'ROOT_URL', useValue: 'https://example.com/api' }
       ]

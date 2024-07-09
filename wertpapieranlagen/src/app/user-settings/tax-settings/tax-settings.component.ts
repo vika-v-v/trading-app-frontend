@@ -33,7 +33,7 @@ export class TaxSettingsComponent implements OnInit {
 
   steuerinfoAngezeigt = false;
 
-  constructor(private http: HttpClient, private userService: UserService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.fetchAccountValues();
@@ -57,12 +57,7 @@ export class TaxSettingsComponent implements OnInit {
             this.kapitalgewinne_brutto = +historicalAccountValues[today].toFixed(2);
             this.calculateSteuerbelastung();
           }
-        } else {
-          console.error('Failed to fetch account values:', response.message);
         }
-      },
-      (error: any) => {
-        console.error('Error fetching account values:', error);
       }
     );
   }

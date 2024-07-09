@@ -1,10 +1,10 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy,  AfterViewInit, ElementRef, ViewChild } from '@angular/core'; 
-import { Chart, ChartConfiguration, registerables } from 'chart.js'; 
-import { DepotService } from '../../../services/depot.service'; 
-import { DepotDropdownService } from '../../../services/depot-dropdown.service'; 
-import { HttpClient } from '@angular/common/http'; 
-import { Subscription } from 'rxjs'; 
-import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service'; 
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy,  AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
+import { DepotService } from '../../../services/depot.service';
+import { DepotDropdownService } from '../../../services/depot-dropdown.service';
+import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
 
 @Component({
   selector: 'app-grafik-piechart-value', // CSS-Selector zur Identifikation der Komponente
@@ -20,7 +20,6 @@ export class GrafikPiechartValueComponent implements Updateable, AfterViewInit {
 
   constructor(
     private depotService: DepotService,
-    private http: HttpClient,
     private depotDropdownService: DepotDropdownService,
     private updateEverythingService: UpdateEverythingService
   ) {
@@ -43,7 +42,7 @@ export class GrafikPiechartValueComponent implements Updateable, AfterViewInit {
     }
 
     // Abrufen der Wertpapiere des ausgewählten Depots
-    this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
+    this.depotService.getWertpapiere(this.depotDropdownService.getDepot()).subscribe(response => {
       const wertpapiere = response.data; // Speichern der Wertpapiere aus der Antwort
 
       // Umwandeln der Daten in das benötigte Format
@@ -107,8 +106,6 @@ export class GrafikPiechartValueComponent implements Updateable, AfterViewInit {
       const canvas = document.getElementById('pieChartValues') as HTMLCanvasElement;
       if (canvas) {
         this.chart = new Chart(canvas, chartConfig);
-      } else {
-        console.error('Canvas element not found');
       }
     });
   }

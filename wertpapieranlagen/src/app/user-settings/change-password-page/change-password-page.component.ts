@@ -4,7 +4,6 @@ import { EventEmitter, Output } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { PasswordUtilsService } from '../../services/password-utils.service';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { PopUpService } from '../../services/pop-up.service';
 
@@ -13,8 +12,7 @@ import { PopUpService } from '../../services/pop-up.service';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    HttpClientModule
+    FormsModule
   ],
   templateUrl: './change-password-page.component.html',
   styleUrls: ['./change-password-page.component.css']
@@ -28,7 +26,7 @@ export class ChangePasswordPageComponent {
   passwordStrengthColor: string = '#ddd';
   isPasswordInvalid: boolean = false;
 
-  constructor(private router: Router, private userService: UserService, private http: HttpClient, private passwordUtils: PasswordUtilsService, private popUpService: PopUpService) {}
+  constructor(private router: Router, private userService: UserService, private passwordUtils: PasswordUtilsService, private popUpService: PopUpService) {}
 
   //Methode um 2 Prüfungen zusammen aufzurufen
   checkPasswordAndMatch() {
@@ -67,14 +65,10 @@ export class ChangePasswordPageComponent {
     } else {
       this.userService.updateUserData({password: this.password}).subscribe(
         response => {
-          console.log('Response:', response);
 
           if(response.statusCode === 200) {
             this.popUpService.infoPopUp("Passwort erfolgreich geändert.");
           }
-        },
-        error => {
-          console.error('Error:', error);
         }
       );
     }

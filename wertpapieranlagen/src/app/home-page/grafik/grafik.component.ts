@@ -63,7 +63,7 @@
 //   private LAVENDER = { light: '#ab90be', dark: '#B793C9' };
 //   private ROSE_PINK = { light: '#e482b2', dark: '#D26B9D' };
 
-//   constructor(private depotService: DepotService, private http: HttpClient, private depotDropdownService: DepotDropdownService, private popUpService: PopUpService) {
+//   constructor(private depotService: DepotService, private depotDropdownService: DepotDropdownService, private popUpService: PopUpService) {
 //     // Register Chart.js components
 //     Chart.register(...registerables);
 //     this.grafikTypValues = Object.values(this.grafikTyp);
@@ -419,8 +419,6 @@
 //         this.chart.destroy();
 //       }
 //       this.chart = new Chart('canvas', chartConfig);
-//     } catch (error) {
-//       console.error('Fehler beim Abrufen des Wertverlaufs:', error);
 //     }
 //   }
 
@@ -483,8 +481,6 @@
 //         this.chart.destroy();
 //       }
 //       this.chart = new Chart('canvas', chartConfig);
-//     } catch (error) {
-//       console.error('Fehler beim Abrufen des Wertverlaufs:', error);
 //     }
 //   }
 

@@ -2,7 +2,6 @@ import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AutoLogoutService } from '../services/auto-logout.service';
 import { PopUpService } from '../services/pop-up.service';
 
@@ -10,8 +9,7 @@ import { PopUpService } from '../services/pop-up.service';
   selector: 'app-login-seite',
   standalone: true,
   imports: [
-    FormsModule,
-    HttpClientModule
+    FormsModule
   ],
   templateUrl: './login-seite.component.html',
   styleUrl: './login-seite.component.css'
@@ -21,15 +19,13 @@ export class LoginSeiteComponent {
   email!: string;
   passwort!: string;
 
-  constructor(private router: Router, private userService: UserService, private http: HttpClient, private autoLogoutService: AutoLogoutService, private popUpService: PopUpService) {
+  constructor(private router: Router, private userService: UserService, private autoLogoutService: AutoLogoutService, private popUpService: PopUpService) {
   }
 
   //Funktion zum anmelden
   anmelden() {
     this.userService.login(this.email, this.passwort).subscribe(
       response => {
-        console.log('Response:', response);
-
         if(response.statusCode == 200) {
           this.naviagateToHomePage();
           this.userService.setToken(response.data);
@@ -38,7 +34,6 @@ export class LoginSeiteComponent {
         }
       },
       error => {
-        console.error('Error:', error);
         if(error.error.statusCode == 404 || error.error.statusCode == 400) {
           this.popUpService.errorPopUp("E-Mail oder Passwort falsch!");
         }

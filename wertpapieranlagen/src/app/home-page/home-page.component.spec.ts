@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
 import { HomePageComponent } from './home-page.component';
 import { DepotService } from '../services/depot.service';
 import { UserService } from '../services/user.service';
@@ -13,7 +12,7 @@ describe('HomePageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule, HomePageComponent],
+      imports: [HomePageComponent],
       providers: [
         DepotService,
         UserService,

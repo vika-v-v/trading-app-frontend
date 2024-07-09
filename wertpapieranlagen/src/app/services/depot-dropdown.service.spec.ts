@@ -37,13 +37,13 @@ describe('DepotDropdownService', () => {
   });
 
   it('should fetch all depots', inject([HttpClient, HttpTestingController],
-    (http: HttpClient, mock: HttpTestingController) => {
+    (mock: HttpTestingController) => {
       const mockDepots = [
         { id: 1, name: 'Depot1' },
         { id: 2, name: 'Depot2' }
       ];
 
-      service.getAllDepots(http)
+      service.getAllDepots()
         .subscribe(depots => {
           expect(depots.length).toBe(2);
           expect(depots).toEqual(mockDepots);

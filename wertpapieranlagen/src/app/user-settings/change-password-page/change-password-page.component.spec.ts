@@ -1,6 +1,5 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ChangePasswordPageComponent } from './change-password-page.component';
 import { UserService } from '../../services/user.service';
 import { PasswordUtilsService } from '../../services/password-utils.service';
@@ -15,7 +14,7 @@ describe('ChangePasswordPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, HttpClientModule, HttpClientTestingModule],
+      imports: [FormsModule, HttpClientTestingModule],
       providers: [
         UserService,
         PasswordUtilsService,

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { DepotService } from '../../services/depot.service';
@@ -25,7 +24,7 @@ export class DepotUmbenennenComponent {
   name: string = '';
   nameFieldInvalid!: boolean;
 
-  constructor(private httpClient: HttpClient, private depotDropdownService: DepotDropdownService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {}
+  constructor(private depotDropdownService: DepotDropdownService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {}
 
   // Beim Abbrechen alles zurücksetzen
   abbrechen() {
@@ -40,7 +39,7 @@ export class DepotUmbenennenComponent {
       return;
     }
 
-    this.depotService.depotUmbenennen(this.httpClient, this.depotDropdownService.getDepot(), this.name).subscribe(
+    this.depotService.depotUmbenennen(this.depotDropdownService.getDepot(), this.name).subscribe(
       response=>{
         this.popupService.choicePopUp("Möchten Sie das Depot " + this.depotDropdownService.getDepot() + " auf " + this.name + " wirklich umbenennen?").subscribe((response: any) => {
           if(response) {
