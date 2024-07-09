@@ -27,7 +27,7 @@ export class PasswordResetPageComponent {
     if(this.email === '') {
       this.popUpService.errorPopUp("Ungültige Eingaben!");
     } else {
-      this.userService.resetPassword(this.http, this.email).subscribe(
+      this.userService.resetPassword(this.email).subscribe(
         response => {
           console.log('Response:', response);
 

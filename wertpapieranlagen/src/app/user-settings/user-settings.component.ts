@@ -54,7 +54,7 @@ export class UserSettingsComponent implements OnInit {
 
   // Initialisierung der Kontoeinstellungen: über ein Request die Daten des Benutzers holen
   ngOnInit(): void {
-    this.userService.getUserData(this.http).subscribe((response: any) => {
+    this.userService.getUserData().subscribe((response: any) => {
       const data = response.data;
 
       this.configuration.kontoeinstellungen.find((setting: any) => setting.id === 'vorname')!.currentValue = data.vorname || '';
@@ -99,7 +99,7 @@ export class UserSettingsComponent implements OnInit {
   deleteAccount() {
     this.popupService.choicePopUp("Möchten Sie Ihr Konto wirklich löschen?").subscribe((response: any) => {
       if(response) {
-        this.userService.deleteUser(this.http).subscribe(response => {
+        this.userService.deleteUser().subscribe(response => {
           this.popupService.infoPopUp("Konto erfolgreich gelöscht.");
           this.naviagateToLoginPage();
         },
@@ -114,7 +114,7 @@ export class UserSettingsComponent implements OnInit {
   // Kontoeinstellungen -> Button: Passwort ändern
   passwortAendern() {
     const email = this.configuration.kontoeinstellungen.find((setting: any) => setting.id === 'email')!.lastSavedValue;
-    this.userService.login(this.http, email, this.altesPasswort).subscribe((response: any) => {
+    this.userService.login(email, this.altesPasswort).subscribe((response: any) => {
       if(response.statusCode === 200) {
         // Validierung des neuen Passworts
         if(this.neuesPasswort != this.neuesPasswortWiederholung) {
@@ -133,7 +133,7 @@ export class UserSettingsComponent implements OnInit {
         }
 
         // Passwort ändern
-        this.userService.updateUserData(this.http, { password: this.neuesPasswort }).subscribe(response => {
+        this.userService.updateUserData({ password: this.neuesPasswort }).subscribe(response => {
           this.popupService.infoPopUp("Passwort erfolgreich geändert.");
           this.passwortAendernAbbrechen();
         },
@@ -191,7 +191,7 @@ export class UserSettingsComponent implements OnInit {
 
     let successfullyUpdated = 0;
 
-    this.userService.updateUserData(this.http, { plz: plz }).subscribe(response => {
+    this.userService.updateUserData({ plz: plz }).subscribe(response => {
       successfullyUpdated++;
       if (successfullyUpdated === 2) {
         this.popupService.infoPopUp("PLZ und Ort erfolgreich geändert.");
@@ -201,7 +201,7 @@ export class UserSettingsComponent implements OnInit {
         this.popupService.errorPopUp("Fehler beim Ändern der PLZ: " + error.error.message);
       });
 
-    this.userService.updateUserData(this.http, { ort: ort }).subscribe(response => {
+    this.userService.updateUserData({ ort: ort }).subscribe(response => {
       successfullyUpdated++;
       if (successfullyUpdated === 2) {
         this.popupService.infoPopUp("PLZ und Ort erfolgreich geändert.");
@@ -220,7 +220,7 @@ export class UserSettingsComponent implements OnInit {
 
     let successfullyUpdated = 0;
 
-    this.userService.updateUserData(this.http, { strasse: strasse }).subscribe(response => {
+    this.userService.updateUserData({ strasse: strasse }).subscribe(response => {
       successfullyUpdated++;
       if (successfullyUpdated === 2) {
         this.popupService.infoPopUp("Straße und Hausnummer erfolgreich geändert.");
@@ -230,7 +230,7 @@ export class UserSettingsComponent implements OnInit {
         this.popupService.errorPopUp("Fehler beim Ändern der Straße: " + error.error.message);
       });
 
-    this.userService.updateUserData(this.http, { hausnummer: hausnummer }).subscribe(response => {
+    this.userService.updateUserData({ hausnummer: hausnummer }).subscribe(response => {
       successfullyUpdated++;
       if (successfullyUpdated === 2) {
         this.popupService.infoPopUp("Straße und Hausnummer erfolgreich geändert.");
@@ -242,7 +242,7 @@ export class UserSettingsComponent implements OnInit {
   }
 
   private saveEmail(updatedValue: string) {
-    this.userService.updateUserData(this.http, { email: updatedValue }).subscribe(response => {
+    this.userService.updateUserData({ email: updatedValue }).subscribe(response => {
       this.popupService.infoPopUp("E-Mail-Adresse erfolgreich geändert.");
     },
       error => {
@@ -251,7 +251,7 @@ export class UserSettingsComponent implements OnInit {
   }
 
   private saveTelefonnummer(updatedValue: string) {
-    this.userService.updateUserData(this.http, { telefonnummer: updatedValue }).subscribe(response => {
+    this.userService.updateUserData({ telefonnummer: updatedValue }).subscribe(response => {
       this.popupService.infoPopUp("Telefonnummer erfolgreich geändert.");
     },
       error => {
@@ -260,7 +260,7 @@ export class UserSettingsComponent implements OnInit {
   }
 
   private saveNachname(updatedValue: string) {
-    this.userService.updateUserData(this.http, { nachname: updatedValue }).subscribe(response => {
+    this.userService.updateUserData({ nachname: updatedValue }).subscribe(response => {
       this.popupService.infoPopUp("Nachname erfolgreich geändert.");
     },
       error => {
@@ -269,7 +269,7 @@ export class UserSettingsComponent implements OnInit {
   }
 
   private saveVorname(updatedValue: string) {
-    this.userService.updateUserData(this.http, { vorname: updatedValue }).subscribe(response => {
+    this.userService.updateUserData({ vorname: updatedValue }).subscribe(response => {
       this.popupService.infoPopUp("Vorname erfolgreich geändert.");
     },
       error => {

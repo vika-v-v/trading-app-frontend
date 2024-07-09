@@ -26,7 +26,7 @@ export class LoginSeiteComponent {
 
   //Funktion zum anmelden
   anmelden() {
-    this.userService.login(this.http, this.email, this.passwort).subscribe(
+    this.userService.login(this.email, this.passwort).subscribe(
       response => {
         console.log('Response:', response);
 

@@ -11,8 +11,7 @@ import { AppComponent } from './app.component';
     AppComponent,
     BrowserModule,
     FormsModule,
-    HttpClientModule, // Füge HttpClientModule hinzu
-    LoginSeiteComponent // Füge die Login-Seite Komponente hinzu
+    LoginSeiteComponent
   ],
   providers: [AutoLogoutService]
 })

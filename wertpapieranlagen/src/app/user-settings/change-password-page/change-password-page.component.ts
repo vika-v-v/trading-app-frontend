@@ -65,7 +65,7 @@ export class ChangePasswordPageComponent {
     if(this.password == '' || this.isPasswordInvalid || !this.doPasswordsMatch || this.password2 == '') {
       this.popUpService.errorPopUp("Ungültige Eingaben!");
     } else {
-      this.userService.updateUserData(this.http, {password: this.password}).subscribe(
+      this.userService.updateUserData({password: this.password}).subscribe(
         response => {
           console.log('Response:', response);
 

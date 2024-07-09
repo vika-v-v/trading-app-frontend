@@ -34,7 +34,6 @@ import { DepotUmbenennenComponent } from './depot-umbenennen/depot-umbenennen.co
     DepotErstellenComponent,
     UserSettingsComponent,
     TaxSettingsComponent,
-    HttpClientModule,
     TabelleComponent,
     GrafikOverviewComponent,
     DepotDropdownComponent,
@@ -328,7 +327,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
   }
 
   getNumberofDepots() {
-    this.userService.getDepots(this.http).subscribe(
+    this.userService.getDepots().subscribe(
       (response) => {
         // Überprüfen, ob die Nachricht "Keine Depots gefunden" ist
         if (response == null || response.message === "Keine Depots gefunden") {

@@ -40,7 +40,7 @@ export class TaxSettingsComponent implements OnInit {
   }
 
   fetchAccountValues() {
-    this.userService.getAccountValue(this.http).subscribe(
+    this.userService.getAccountValue().subscribe(
       (response: any) => {
         if (response.statusCode === 200) {
           const dataMap1 = response.data.dataMap1 as AccountValues;

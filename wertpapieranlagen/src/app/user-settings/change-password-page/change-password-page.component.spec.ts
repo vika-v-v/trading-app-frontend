@@ -60,6 +60,6 @@ describe('ChangePasswordPageComponent', () => {
 
     // Expectations
     expect(userService.updateUserData).toHaveBeenCalled();
-    expect(userService.updateUserData).toHaveBeenCalledWith(component['http'], { password: 'newPassword' });
+    expect(userService.updateUserData).toHaveBeenCalledWith({ password: 'newPassword' });
   });
 });

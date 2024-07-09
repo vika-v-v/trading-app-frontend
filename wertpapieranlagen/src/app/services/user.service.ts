@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpParams } from "@angular/common/http";
+import { HttpclientProviderService } from './httpclient-provider.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class UserService {
   private rootUrl: string;
   private token: string = '';
 
-  constructor(@Inject('ROOT_URL') rootUrl: string) {
+  constructor(@Inject('ROOT_URL') rootUrl: string, private httpProvider: HttpclientProviderService) {
     this.rootUrl = rootUrl;
   }
 
@@ -20,11 +20,12 @@ export class UserService {
   setToken(token: string) {
     this.token = token;
   }
+
   getToken(){
     return this.token;
   }
 
-  login(http: HttpClient, email: string, passwort: string): Observable<any> {
+  login(email: string, passwort: string): Observable<any> {
     const loginUrl = this.rootUrl + 'users/login';
 
     const httpOptions = {
@@ -37,11 +38,11 @@ export class UserService {
     formData.append('email', email);
     formData.append('passwort', passwort);
 
-    return http.post(loginUrl, formData, httpOptions);
+    return this.httpProvider.getHttpClient().post(loginUrl, formData, httpOptions);
   }
 
   //API-Call für das Registrieren
-  register(http: HttpClient, email: string, passwort: string): Observable<any> {
+  register(email: string, passwort: string): Observable<any> {
     const registerUrl = this.rootUrl + 'users/register';
 
     const httpOptions = {
@@ -54,11 +55,11 @@ export class UserService {
     formData.append('email', email);
     formData.append('passwort', passwort);
 
-    return http.post(registerUrl, formData, httpOptions);
+    return this.httpProvider.getHttpClient().post(registerUrl, formData, httpOptions);
   }
 
   //API-Call für das Passwort zurücksetzen
-  resetPassword(http: HttpClient, email: string): Observable<any> {
+  resetPassword(email: string): Observable<any> {
     const resetUrl: string = this.rootUrl + 'users/reset-passwort-initialisieren';
 
     const httpOptions = {
@@ -70,10 +71,10 @@ export class UserService {
     const formData = new FormData();
     formData.append('email', email);
 
-    return http.post(resetUrl, formData, httpOptions);
+    return this.httpProvider.getHttpClient().post(resetUrl, formData, httpOptions);
   }
 
-  updateUserData(http: HttpClient, optionalData:
+  updateUserData(optionalData:
     {
       email?: string;
       password?: string;
@@ -106,21 +107,21 @@ export class UserService {
       }
     });
 
-    return http.patch(resetUrl, formData, httpOptions);
+    return this.httpProvider.getHttpClient().patch(resetUrl, formData, httpOptions);
   }
 
   //API-Call um User-Daten zu bekommen
-  getUserData(http: HttpClient): Observable<any>{
+  getUserData(): Observable<any>{
     const userUrl = `${this.rootUrl}users/me`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.getToken()}`
       })
     };
-    return http.get(userUrl, httpOptions);
+    return this.httpProvider.getHttpClient().get(userUrl, httpOptions);
   }
 
-  deleteUser(http: HttpClient): Observable<any>{
+  deleteUser(): Observable<any>{
     const userUrl = `${this.rootUrl}users/delete`;
     const httpOptions = {
       headers: new HttpHeaders({
@@ -128,26 +129,26 @@ export class UserService {
       })
     };
     this.setToken('');
-    return http.delete(userUrl, httpOptions);
+    return this.httpProvider.getHttpClient().delete(userUrl, httpOptions);
   }
 
-  getAccountValue(http: HttpClient): Observable<any>{
+  getAccountValue(): Observable<any>{
     const accountValueURL = `${this.rootUrl}users/account-values`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.getToken()}`
       })
     };
-    return http.get(accountValueURL, httpOptions);
+    return this.httpProvider.getHttpClient().get(accountValueURL, httpOptions);
   }
 
-  getDepots(http: HttpClient): Observable<any>{
+  getDepots(): Observable<any>{
     const getAllDepotsURL = `${this.rootUrl}depot/getAllDepots`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.getToken()}`
       })
     };
-    return http.get(getAllDepotsURL, httpOptions);
+    return this.httpProvider.getHttpClient().get(getAllDepotsURL, httpOptions);
   }
 }

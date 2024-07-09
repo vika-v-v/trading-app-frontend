@@ -59,7 +59,7 @@ export class RegistrationPageComponent {
     } else {
       this.loadingShown = true;
 
-      this.userService.register(this.http, this.email, this.password).subscribe(
+      this.userService.register(this.email, this.password).subscribe(
         response => {
           console.log('Response:', response);
 
