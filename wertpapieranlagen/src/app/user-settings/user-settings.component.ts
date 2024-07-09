@@ -5,7 +5,6 @@ import { TaxSettingsComponent } from './tax-settings/tax-settings.component';
 import { CommonModule } from '@angular/common';
 import { ChangePasswordPageComponent } from './change-password-page/change-password-page.component';
 import { AutoLogoutService } from '../services/auto-logout.service';
-import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { PopUpService } from '../services/pop-up.service';
 import { PasswordUtilsService } from '../services/password-utils.service';

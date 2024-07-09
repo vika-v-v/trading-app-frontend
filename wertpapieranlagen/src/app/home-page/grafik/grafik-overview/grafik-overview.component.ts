@@ -8,7 +8,6 @@ import { GrafikTyp } from '../grafik-typ.enum';
 import { AktienDropdownComponent } from '../../../aktien-dropdown/aktien-dropdown.component';
 import { DepotService } from '../../../services/depot.service';
 import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
-import { HttpClient } from '@angular/common/http';
 import { DepotDropdownService } from '../../../services/depot-dropdown.service';
 
 @Component({

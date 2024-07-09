@@ -1,9 +1,7 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { DepotService } from '../../../services/depot.service';
 import { DepotDropdownService } from '../../../services/depot-dropdown.service';
-import { HttpClient } from '@angular/common/http';
-import { Subscription } from 'rxjs';
 import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
 
 @Component({

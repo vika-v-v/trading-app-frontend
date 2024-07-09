@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 interface AccountValues {

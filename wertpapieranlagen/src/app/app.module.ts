@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { AutoLogoutService } from './services/auto-logout.service';
 import { LoginSeiteComponent } from './login-seite/login-seite.component'; // Importiere die Login-Seite Komponente
 import { AppComponent } from './app.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MockInterceptor } from './mock-server/mock.interceptor';
 
 @NgModule({
   imports: [
@@ -12,6 +14,12 @@ import { AppComponent } from './app.component';
     FormsModule,
     LoginSeiteComponent
   ],
-  providers: [AutoLogoutService]
+  providers: [AutoLogoutService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MockInterceptor,
+      multi: true
+    }
+  ]
 })
 export class AppModule { }

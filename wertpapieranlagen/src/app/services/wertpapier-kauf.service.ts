@@ -1,7 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpParams } from "@angular/common/http";
 import { UserService } from './user.service';
 import { HttpclientProviderService } from './httpclient-provider.service';
 

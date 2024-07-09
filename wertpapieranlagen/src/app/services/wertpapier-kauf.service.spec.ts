@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { WertpapierKaufService } from './wertpapier-kauf.service';
 import { UserService } from './user.service';
-import { HttpClient } from '@angular/common/http';
 
 describe('WertpapierKaufService', () => {
   let service: WertpapierKaufService;
@@ -38,7 +37,7 @@ describe('WertpapierKaufService', () => {
     const wertpapierPreis = '100';
     const transaktionskosten = '5';
 
-    service.wertpapierkaufErfassen(TestBed.inject(HttpClient), depotName, date, wertpapiername, anzahl, wertpapierPreis, transaktionskosten).subscribe(response => {
+    service.wertpapierkaufErfassen(depotName, date, wertpapiername, anzahl, wertpapierPreis, transaktionskosten).subscribe(response => {
       expect(response).toBeTruthy();
       expect(response).toEqual({ success: true }); // Anpassen an die erwartete Antwort
     });
@@ -57,7 +56,7 @@ describe('WertpapierKaufService', () => {
     const wertpapierPreis = '110';
     const transaktionskosten = '3';
 
-    service.wertpapierverkaufErfassen(TestBed.inject(HttpClient), depotName, date, wertpapiername, anzahl, wertpapierPreis, transaktionskosten).subscribe(response => {
+    service.wertpapierverkaufErfassen(depotName, date, wertpapiername, anzahl, wertpapierPreis, transaktionskosten).subscribe(response => {
       expect(response).toBeTruthy();
       expect(response).toEqual({ success: true }); // Anpassen an die erwartete Antwort
     });

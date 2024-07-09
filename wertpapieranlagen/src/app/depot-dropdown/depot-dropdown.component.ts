@@ -1,9 +1,7 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { DepotDropdownService } from '../services/depot-dropdown.service';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 import { UpdateEverythingService, Updateable } from '../services/update-everything.service';
 import { PopUpService } from '../services/pop-up.service';

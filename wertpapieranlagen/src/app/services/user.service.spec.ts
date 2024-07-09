@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient } from '@angular/common/http';
 import { UserService } from './user.service';
 
 describe('UserService', () => {
@@ -38,7 +37,7 @@ describe('UserService', () => {
     const password = 'testpassword';
     const mockResponse = { statusCode: 200, data: { token: 'test-token' } };
 
-    service.login(TestBed.inject(HttpClient), email, password).subscribe(response => {
+    service.login( email, password).subscribe(response => {
       expect(response.statusCode).toBe(200);
       expect(response.data.token).toBe('test-token');
     });
@@ -54,7 +53,7 @@ describe('UserService', () => {
     const password = 'testpassword';
     const mockResponse = { statusCode: 201, data: { token: 'test-token' } };
 
-    service.register(TestBed.inject(HttpClient), email, password).subscribe(response => {
+    service.register(email, password).subscribe(response => {
       expect(response.statusCode).toBe(201);
       expect(response.data.token).toBe('test-token');
     });
@@ -69,7 +68,7 @@ describe('UserService', () => {
     const email = 'test@example.com';
     const mockResponse = { statusCode: 200, message: 'Reset link sent successfully' };
 
-    service.resetPassword(TestBed.inject(HttpClient), email).subscribe(response => {
+    service.resetPassword(email).subscribe(response => {
       expect(response.statusCode).toBe(200);
       expect(response.message).toBe('Reset link sent successfully');
     });
@@ -84,7 +83,7 @@ describe('UserService', () => {
     const optionalData = { email: 'new-email@example.com', vorname: 'Max', nachname: 'Mustermann' };
     const mockResponse = { statusCode: 200, message: 'User data updated successfully' };
 
-    service.updateUserData(TestBed.inject(HttpClient), optionalData).subscribe(response => {
+    service.updateUserData(optionalData).subscribe(response => {
       expect(response.statusCode).toBe(200);
       expect(response.message).toBe('User data updated successfully');
     });

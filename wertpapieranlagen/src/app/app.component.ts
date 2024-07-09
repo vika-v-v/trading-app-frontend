@@ -1,7 +1,6 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
-import { LoginSeiteComponent } from './login-seite/login-seite.component';
 import { PopUpComponent } from './pop-up/pop-up.component';
 import { PopUpService } from './services/pop-up.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';

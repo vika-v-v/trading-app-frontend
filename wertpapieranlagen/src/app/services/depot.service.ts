@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // Import für HttpHeaders hinzugefügt
+import { HttpHeaders } from '@angular/common/http'; // Import für HttpHeaders hinzugefügt
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserService } from './user.service';

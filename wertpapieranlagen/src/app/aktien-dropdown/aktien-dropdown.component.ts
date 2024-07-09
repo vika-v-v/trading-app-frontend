@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnChanges, OnInit, Output, Input, SimpleChanges } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 import { DepotDropdownService } from '../services/depot-dropdown.service';

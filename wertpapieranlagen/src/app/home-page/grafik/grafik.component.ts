@@ -1,6 +1,6 @@
 // import { Component, Input, OnInit, AfterViewInit, SimpleChanges } from '@angular/core';
 // import { GrafikTyp } from './grafik-typ.enum';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
+// import { HttpHeaders } from '@angular/common/http';
 // import { DepotService } from '../../services/depot.service';
 // import { DepotDropdownService } from '../../services/depot-dropdown.service';
 // import { Chart, ChartConfiguration, ChartTypeRegistry, registerables } from 'chart.js';

@@ -3,9 +3,7 @@ import { Chart, ChartConfiguration, registerables } from 'chart.js'; // Importie
 import { DepotService } from '../../../services/depot.service'; // Importieren des DepotService zur Datenbeschaffung
 import { DepotDropdownService } from '../../../services/depot-dropdown.service'; // Importieren des DepotDropdownService zur Handhabung des Dropdowns
 import { UserService } from '../../../services/user.service'; // Importieren des UserService zur Benutzerverwaltung
-import { HttpClient } from '@angular/common/http'; // Importieren des HttpClient zur HTTP-Kommunikation
 import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service'; // Importieren des UpdateEverythingService zur Synchronisation
-import { map } from 'rxjs/operators'; // Importieren von RxJS-Operatoren zur Datenverarbeitung
 
 // Definieren der Struktur der API-Antwort
 interface ApiResponse {
