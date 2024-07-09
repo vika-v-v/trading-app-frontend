@@ -13,3 +13,5 @@
 -- new terminal --
 4) Run "cd wertpapieranlagen"
 6) Run "node src/server.js"
+
+# More is in the "docu" folder

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse
 } from '@angular/common/http';
@@ -21,11 +21,13 @@ export class MockInterceptor implements HttpInterceptor {
     }
     return next.handle(req); // Pass through other requests
   }*/
- constructor() {
+
+  constructor(private injector: Injector) {
     console.log('MockInterceptor initialized');
   }
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      console.log('Intercepting request:', req.url);
-      return next.handle(req);
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log('Intercepting request:', req.url);
+    return next.handle(req);
   }
 }

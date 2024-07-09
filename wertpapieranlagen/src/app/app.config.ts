@@ -3,6 +3,8 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { FilterType } from './home-page/tabelle/filter-type.enum';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { MockInterceptor } from './mock-server/mock.interceptor';
 
 let arrowUp = '../../../assets/icons/phosphor-thin/arrow_up_thin_icon.svg';
 let arrowDown = '../../../assets/icons/phosphor-thin/arrow_down_thin_icon.svg';
@@ -10,6 +12,12 @@ let arrowDown = '../../../assets/icons/phosphor-thin/arrow_down_thin_icon.svg';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
+    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MockInterceptor,
+      multi: true
+    },
     {
       provide: "ROOT_URL",
       useValue: "http://localhost:8080/api/"

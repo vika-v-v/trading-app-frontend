@@ -13,13 +13,6 @@ import { MockInterceptor } from './mock-server/mock.interceptor';
     BrowserModule,
     FormsModule,
     LoginSeiteComponent
-  ],
-  providers: [AutoLogoutService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MockInterceptor,
-      multi: true
-    }
   ]
 })
 export class AppModule { }

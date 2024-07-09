@@ -15,5 +15,4 @@ export class HttpclientProviderService {
   getHttpClient(): HttpClient {
     return this.http;
   }
-
 }
