@@ -138,4 +138,33 @@ export class MockUserService {
       }
     }
   }
+
+  deleteUser(): any {
+    return {
+      message: "User successfully deleted",
+      statusCode: 200
+    };
+  }
+
+  getUserAccountValue(): any {
+    return {
+      "message": "Account values found",
+      "statusCode": 200,
+      "data": {
+        "dataMap1": {
+          "verlustverrechnungstopf": 250.0,
+          "accountValue": 34681.6,
+          "freibetrag": 100.0,
+          "steuersatz": 0.25,
+          "soli": 0.055,
+          "kirchensteuer": 0.09
+        },
+        "dataMap2": {
+          "historicalAccountValues": {
+            "10-07-2024": 17340.8
+          }
+        }
+      }
+    };
+  }
 }

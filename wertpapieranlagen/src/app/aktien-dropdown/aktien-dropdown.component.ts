@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnChanges, OnInit, Output, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
-import { DepotDropdownService } from '../services/depot-dropdown.service';
 import { UpdateEverythingService, Updateable } from '../services/update-everything.service';
 import { DepotService } from '../services/depot.service';
 
@@ -19,7 +18,7 @@ export class AktienDropdownComponent implements OnInit, Updateable, OnChanges { 
   aktien: string[] = []; // Array zur Speicherung der Aktien
   selectedOption: string | null = null; // Variable zur Speicherung der ausgewählten Option
 
-  constructor(private depotDropdownService: DepotDropdownService, private updateEverythingService: UpdateEverythingService, private depotService: DepotService) {
+  constructor(private updateEverythingService: UpdateEverythingService, private depotService: DepotService) {
     this.updateEverythingService.subscribeToUpdates(this); // Abonnieren von Updates des UpdateEverythingService
   }
 
@@ -43,7 +42,7 @@ export class AktienDropdownComponent implements OnInit, Updateable, OnChanges { 
 
   // Methode zum Laden der Aktien basierend auf dem ausgewählten Depot
   loadAktien(): void {
-    this.depotService.getWertpapiere(this.depotDropdownService.getDepot()).subscribe(
+    this.depotService.getWertpapiere(this.depotService.getCurrentDepot()).subscribe(
       (response) => {
         this.aktien = Object.keys(response.data); // Zuordnen der Aktien aus der Antwort des Servers
         // Überprüfen, ob eine Option ausgewählt ist und ob sie in der Liste der Aktien enthalten ist

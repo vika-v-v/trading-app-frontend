@@ -2,7 +2,6 @@
 // import { GrafikTyp } from './grafik-typ.enum';
 // import { HttpHeaders } from '@angular/common/http';
 // import { DepotService } from '../../services/depot.service';
-// import { DepotDropdownService } from '../../services/depot-dropdown.service';
 // import { Chart, ChartConfiguration, ChartTypeRegistry, registerables } from 'chart.js';
 // import { FormsModule } from '@angular/forms';
 // import { CommonModule } from '@angular/common';
@@ -63,7 +62,7 @@
 //   private LAVENDER = { light: '#ab90be', dark: '#B793C9' };
 //   private ROSE_PINK = { light: '#e482b2', dark: '#D26B9D' };
 
-//   constructor(private depotService: DepotService, private depotDropdownService: DepotDropdownService, private popUpService: PopUpService) {
+//   constructor(private depotService: DepotService, private popUpService: PopUpService) {
 //     // Register Chart.js components
 //     Chart.register(...registerables);
 //     this.grafikTypValues = Object.values(this.grafikTyp);
@@ -98,7 +97,7 @@
 
 //   // Funktion generatePizzaDiagrammNumber
 // generatePizzaDiagrammNumber() {
-//   this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
+//   this.depotService.getWertpapiere(this.http, this.depotService.getCurrentDepot()).subscribe(response => {
 //     const wertpapiere = response.data;
 
 //     // Convert the data into an array of { name: string, value: number } objects
@@ -183,7 +182,7 @@
 
 // // Funktion generatePizzaDiagrammValue
 // generatePizzaDiagrammValue() {
-//   this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
+//   this.depotService.getWertpapiere(this.http, this.depotService.getCurrentDepot()).subscribe(response => {
 //     const wertpapiere = response.data;
 
 //     // Convert the data into an array of { name: string, value: number } objects
@@ -267,7 +266,7 @@
 // }
 
 //   generateBarDiagramm() {
-//     this.depotService.getWertpapiere(this.http, this.depotDropdownService.getDepot()).subscribe(response => {
+//     this.depotService.getWertpapiere(this.http, this.depotService.getCurrentDepot()).subscribe(response => {
 //       const wertpapiere: any = response.data;
 
 //       // Count occurrences of each WertpapierArt
@@ -360,7 +359,7 @@
 
 //   async generateLineChart_WertpapierWert() {
 //     try {
-//       const depotName = this.depotDropdownService.getDepot();
+//       const depotName = this.depotService.getCurrentDepot();
 //       const input = await this.depotService.getWertverlauf(this.http, depotName).toPromise();
 //       const xValues: string[] = [];
 //       const yValues: number[] = [];
@@ -424,7 +423,7 @@
 
 //   async generateLineChart_DepotWert() {
 //     try {
-//       const depotName = this.depotDropdownService.getDepot();
+//       const depotName = this.depotService.getCurrentDepot();
 //       const input = await this.depotService.getWertverlauf(this.http, depotName).toPromise();
 //       const xValues: string[] = [];
 //       const yValues: number[] = [];

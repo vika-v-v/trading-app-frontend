@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { DepotService } from '../../services/depot.service';
 import { UpdateEverythingService } from '../../services/update-everything.service';
 import { PopUpService } from '../../services/pop-up.service';
@@ -24,7 +23,7 @@ export class DepotUmbenennenComponent {
   name: string = '';
   nameFieldInvalid!: boolean;
 
-  constructor(private depotDropdownService: DepotDropdownService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {}
+  constructor(private depotService: DepotService, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {}
 
   // Beim Abbrechen alles zurücksetzen
   abbrechen() {
@@ -39,12 +38,12 @@ export class DepotUmbenennenComponent {
       return;
     }
 
-    this.depotService.depotUmbenennen(this.depotDropdownService.getDepot(), this.name).subscribe(
+    this.depotService.depotUmbenennen(this.depotService.getCurrentDepot(), this.name).subscribe(
       response=>{
-        this.popupService.choicePopUp("Möchten Sie das Depot " + this.depotDropdownService.getDepot() + " auf " + this.name + " wirklich umbenennen?").subscribe((response: any) => {
+        this.popupService.choicePopUp("Möchten Sie das Depot " + this.depotService.getCurrentDepot() + " auf " + this.name + " wirklich umbenennen?").subscribe((response: any) => {
           if(response) {
             this.popupService.infoPopUp("Depot erfolgreich umbenannt.");
-            this.depotDropdownService.setDepot(this.name);
+            this.depotService.setCurrentDepot(this.name);
             this.updateEverythingService.updateAll();
             this.abbrechen();
           }

@@ -1,7 +1,6 @@
 import { Component, OnChanges, Input, SimpleChanges, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { DepotService } from '../../../services/depot.service';
-import { DepotDropdownService } from '../../../services/depot-dropdown.service';
 
 // Definiert die Struktur der API-Antwort, die von der Server-API zurückgegeben wird
 interface ApiResponse {
@@ -38,16 +37,8 @@ export class GrafikLinechartWertpapierComponent implements OnChanges, AfterViewI
   @Input() selectedDepot: string | null = null; // Ausgewähltes Depot
   @Input() selectedAktie: string | null = null; // Ausgewählte Aktie
 
-  constructor(private depotService: DepotService, private depotDropdownService: DepotDropdownService) {
+  constructor(private depotService: DepotService) {
     Chart.register(...registerables); // Registrieren der Chart.js-Module
-
-    // Abonnieren der Änderungen des ausgewählten Aktiennamens und Generieren des Diagramms
-    this.depotDropdownService.getAktie().subscribe((aktie) => {
-      if (aktie) {
-        this.aktienName = aktie;
-        this.generateLineChart_WertpapierWert();
-      }
-    });
   }
 
   ngAfterViewInit(): void {
@@ -66,7 +57,7 @@ export class GrafikLinechartWertpapierComponent implements OnChanges, AfterViewI
   }
 
   generateLineChart_WertpapierWert() {
-    const depotName = this.depotDropdownService.getDepot();
+    const depotName = this.depotService.getCurrentDepot();
 
     // Abrufen des historischen Wertverlaufs der Wertpapiere über die API
     this.depotService.getWertverlauf(depotName).subscribe(

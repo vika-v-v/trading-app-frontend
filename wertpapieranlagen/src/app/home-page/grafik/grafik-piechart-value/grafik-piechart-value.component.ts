@@ -1,7 +1,6 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { DepotService } from '../../../services/depot.service';
-import { DepotDropdownService } from '../../../services/depot-dropdown.service';
 import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
 
 @Component({
@@ -18,7 +17,6 @@ export class GrafikPiechartValueComponent implements Updateable, AfterViewInit {
 
   constructor(
     private depotService: DepotService,
-    private depotDropdownService: DepotDropdownService,
     private updateEverythingService: UpdateEverythingService
   ) {
     Chart.register(...registerables); // Registrieren der Chart.js-Module
@@ -40,7 +38,7 @@ export class GrafikPiechartValueComponent implements Updateable, AfterViewInit {
     }
 
     // Abrufen der Wertpapiere des ausgewählten Depots
-    this.depotService.getWertpapiere(this.depotDropdownService.getDepot()).subscribe(response => {
+    this.depotService.getWertpapiere(this.depotService.getCurrentDepot()).subscribe(response => {
       const wertpapiere = response.data; // Speichern der Wertpapiere aus der Antwort
 
       // Umwandeln der Daten in das benötigte Format

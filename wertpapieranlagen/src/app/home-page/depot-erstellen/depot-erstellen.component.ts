@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { DepotService } from '../../services/depot.service';
 import { FormsModule } from '@angular/forms';
-import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
 import { UpdateEverythingService } from '../../services/update-everything.service';
 import { PopUpService } from '../../services/pop-up.service';
@@ -25,7 +24,7 @@ export class DepotErstellenComponent {
   moeglicheWaehrungen = ['US-Dollar']; // später können hier mehr Währungen hinzugefügt werden
 
 
-  constructor(private depotDropdownService: DepotDropdownService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {
+  constructor(private depotService: DepotService, private updateEverythingService: UpdateEverythingService, private popupService: PopUpService) {
     this.selectedWaehrung = this.moeglicheWaehrungen[0];
   }
 
@@ -45,7 +44,7 @@ export class DepotErstellenComponent {
     this.depotService.depotErstellen(this.name, "USD").subscribe(
       response=>{
         this.popupService.infoPopUp("Depot erfolgreich erstellt.");
-        this.depotDropdownService.setDepot(this.name);
+        this.depotService.setCurrentDepot(this.name);
         this.updateEverythingService.updateAll();
         this.abbrechen();
       },

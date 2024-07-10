@@ -29,6 +29,15 @@ export class MockInterceptor implements HttpInterceptor {
     else if(req.url.endsWith("users/update") && req.method === 'PATCH') {
       mockData = this.userMockService.patchUpdateUserData(req.body);
     }
+    else if(req.url.endsWith("users/me") && req.method === 'GET') {
+      mockData = this.userMockService.getUserData();
+    }
+    else if(req.url.endsWith("users/delete") && req.method === 'DELETE') {
+      mockData = this.userMockService.deleteUser();
+    }
+    else if(req.url.endsWith("users/account-values") && req.method === 'POST') {
+      mockData = this.userMockService.getUserAccountValue();
+    }
 
     if(mockData != null) {
       return of(new HttpResponse({ status: mockData.statusCode, body: mockData }));

@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { DepotDropdownService } from '../services/depot-dropdown.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CustomDropdownComponent } from '../custom-dropdown/custom-dropdown.component';
 import { UpdateEverythingService, Updateable } from '../services/update-everything.service';
 import { PopUpService } from '../services/pop-up.service';
+import { DepotService } from '../services/depot.service';
 
 @Component({
   selector: 'app-depot-dropdown', // CSS-Selector zur Identifikation der Komponente
@@ -27,10 +27,8 @@ export class DepotDropdownComponent implements OnInit, Updateable { // Implement
   @Output() selectedDepotChange: EventEmitter<string> = new EventEmitter<string>(); // EventEmitter für Änderungen des ausgewählten Depots
 
   constructor(
-    private depotService: DepotDropdownService, // Service zur Handhabung des Dropdowns
-    private cdr: ChangeDetectorRef, // ChangeDetectorRef zur manuellen Änderungserkennung
-    private updateEverythingService: UpdateEverythingService, // Service zur Synchronisation von Updates
-    private popupService: PopUpService // Service zur Handhabung von Popups
+    private depotService: DepotService,
+    private updateEverythingService: UpdateEverythingService
   ) {
     updateEverythingService.subscribeToUpdates(this); // Abonnieren von Updates des UpdateEverythingService
   }
@@ -43,8 +41,8 @@ export class DepotDropdownComponent implements OnInit, Updateable { // Implement
   // Methode zur Aktualisierung der Komponente, die durch Updates aufgerufen wird
   update() {
     // Überprüfen, ob das ausgewählte Depot mit dem im Service gespeicherten Depot übereinstimmt
-    if(this.selectedDepot != this.depotService.getDepot()) {
-      this.selectedDepot = this.depotService.getDepot(); // Setzen des ausgewählten Depots auf das im Service gespeicherte Depot
+    if(this.selectedDepot != this.depotService.getCurrentDepot()) {
+      this.selectedDepot = this.depotService.getCurrentDepot(); // Setzen des ausgewählten Depots auf das im Service gespeicherte Depot
     }
     this.loadDepots(); // Laden der Depots
   }
@@ -52,7 +50,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // Implement
   // Methode zum Laden der Depots
   loadDepots() {
     // Abrufen aller Depots vom Server
-    this.depotService.getAllDepots().subscribe(
+    this.depotService.getDepots().subscribe(
       (response) => {
         let data = response.data; // Anpassen an das zurückgegebene Format
         // Überprüfen, ob Daten vorhanden sind
@@ -79,7 +77,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // Implement
     // Überprüfen, ob gefilterte Depots vorhanden sind
     if (this.filteredDepots.length > 0) {
       this.selectedDepot = this.filteredDepots[this.filteredDepots.length - 1]; // Setzen des initialen Depots auf das letzte gefilterte Depot
-      this.depotService.setDepot(this.selectedDepot); // Speichern des initialen Depots im Service
+      this.depotService.setCurrentDepot(this.selectedDepot); // Speichern des initialen Depots im Service
     }
   }
 
@@ -100,7 +98,7 @@ export class DepotDropdownComponent implements OnInit, Updateable { // Implement
   onSelectDepot(depot: string) {
     if (depot) {
       this.selectedDepot = depot; // Setzen des ausgewählten Depots
-      this.depotService.setDepot(depot); // Speichern des ausgewählten Depots im Service
+      this.depotService.setCurrentDepot(depot); // Speichern des ausgewählten Depots im Service
       this.selectedDepotChange.emit(depot); // Emittieren des ausgewählten Depots
     }
   }

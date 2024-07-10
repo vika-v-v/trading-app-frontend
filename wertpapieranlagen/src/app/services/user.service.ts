@@ -1,3 +1,4 @@
+// mocked
 import { HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -25,7 +26,6 @@ export class UserService {
     return this.token;
   }
 
-  // mocked
   login(email: string, password: string): Observable<any> {
     const loginUrl = this.rootUrl + 'users/login';
 
@@ -43,7 +43,6 @@ export class UserService {
   }
 
   //API-Call für das Registrieren
-  // mocked
   register(email: string, passwort: string): Observable<any> {
     const registerUrl = this.rootUrl + 'users/register';
 
@@ -61,7 +60,6 @@ export class UserService {
   }
 
   //API-Call für das Passwort zurücksetzen
-  // mocked
   resetPassword(email: string): Observable<any> {
     const resetUrl: string = this.rootUrl + 'users/reset-passwort-initialisieren';
 
@@ -77,7 +75,6 @@ export class UserService {
     return this.httpProvider.getHttpClient().post(resetUrl, formData, httpOptions);
   }
 
-  // mocked
   updateUserData(optionalData:
     {
       email?: string;
@@ -144,15 +141,5 @@ export class UserService {
       })
     };
     return this.httpProvider.getHttpClient().get(accountValueURL, httpOptions);
-  }
-
-  getDepots(): Observable<any>{
-    const getAllDepotsURL = `${this.rootUrl}depot/getAllDepots`;
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.getToken()}`
-      })
-    };
-    return this.httpProvider.getHttpClient().get(getAllDepotsURL, httpOptions);
   }
 }

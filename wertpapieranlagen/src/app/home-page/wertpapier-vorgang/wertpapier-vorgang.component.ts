@@ -3,7 +3,6 @@ import { WertpapierVorgang } from '../wertpapier-vorgang.enum';
 import { CommonModule } from '@angular/common';
 import { WertpapierKaufService } from '../../services/wertpapier-kauf.service';
 import { FormsModule } from '@angular/forms';
-import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { PopUpService } from '../../services/pop-up.service';
 import { CustomDropdownComponent } from '../../custom-dropdown/custom-dropdown.component';
 import { DepotService } from '../../services/depot.service';
@@ -52,7 +51,7 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
   invalidFields: any = {};
 
   // Anfangswerte für die Eingabefelder
-  constructor(private wertpapierKaufService: WertpapierKaufService, private depotDropdownService: DepotDropdownService, private popupService: PopUpService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService) {
+  constructor(private wertpapierKaufService: WertpapierKaufService, private popupService: PopUpService, private depotService: DepotService, private updateEverythingService: UpdateEverythingService) {
     this.selectedWertpapierart = this.moeglicheWertpapierarten[0];
     this.previousSelectedWertpapierart = this.selectedWertpapierart;
     this.date = this.formatDate(new Date());
@@ -74,13 +73,13 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
       return;
     }
 
-    if(!this.depotDropdownService.getDepot()) {
+    if(!this.depotService.getCurrentDepot()) {
       this.popupService.errorPopUp("Kein Depot ausgewählt");
       this.abbrechen();
       return;
     }
 
-    this.wertpapierKaufService.wertpapierkaufErfassen(this.depotDropdownService.getDepot(), this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
+    this.wertpapierKaufService.wertpapierkaufErfassen(this.depotService.getCurrentDepot(), this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
       response=>{
         this.popupService.infoPopUp("Kauf erfolgreich hinzugefügt.");
         this.abbrechen();
@@ -116,7 +115,7 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
       return;
     }
 
-    this.wertpapierKaufService.wertpapierverkaufErfassen(this.depotDropdownService.getDepot(), this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
+    this.wertpapierKaufService.wertpapierverkaufErfassen(this.depotService.getCurrentDepot(), this.dateWithPoints(this.date), this.wertpapiername, this.anzahl, this.wertpapierPreis, this.transaktionskosten).subscribe(
       response=>{
         this.popupService.infoPopUp("Verkauf erfolgreich hinzugefügt.");
         this.abbrechen();
@@ -139,7 +138,7 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
       return;
     }
 
-    this.depotService.addDividende(this.depotDropdownService.getDepot(), this.wertpapiername, this.dividende, this.dateWithPoints(this.date)).subscribe(
+    this.depotService.addDividende(this.depotService.getCurrentDepot(), this.wertpapiername, this.dividende, this.dateWithPoints(this.date)).subscribe(
       response=>{
         this.popupService.infoPopUp("Dividende erfolgreich hinzugefügt.");
         this.abbrechen();
@@ -184,7 +183,7 @@ export class WertpapierVorgangComponent implements OnInit, Updateable {
 
   // für die Autovervollständigung alle Wertpapiere in diesem Depot laden (Vervollsändigung für Verkauf, Dividende Erfassen)
   private updateAlleWertpapiereInDiesemDepot() {
-    this.depotService.getWertpapiere(this.depotDropdownService.getDepot()).subscribe(
+    this.depotService.getWertpapiere(this.depotService.getCurrentDepot()).subscribe(
       response => {
         let wertpapiere = response.data;
 

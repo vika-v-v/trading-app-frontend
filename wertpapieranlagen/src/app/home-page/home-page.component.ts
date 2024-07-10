@@ -1,4 +1,4 @@
-import { CommonModule, NgPlural } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SidePanel } from './side-panel.enum';
 import { WertpapierVorgang } from './wertpapier-vorgang.enum';
@@ -18,9 +18,7 @@ import { NonDepotExistingComponent } from './non-depot-existing/non-depot-existi
 import { GrafikOverviewComponent } from './grafik/grafik-overview/grafik-overview.component';
 import { PopUpComponent } from '../pop-up/pop-up.component';
 import { PopUpService } from '../services/pop-up.service';
-import { Subscription } from 'rxjs';
 import { UpdateEverythingService, Updateable } from '../services/update-everything.service';
-import { DepotDropdownService } from '../services/depot-dropdown.service';
 import { DepotUmbenennenComponent } from './depot-umbenennen/depot-umbenennen.component';
 
 
@@ -77,7 +75,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
   selectTransactions = ["Kaufen", "Verkaufen", "Dividende erfassen"];
   selectDepotAktionen = ["Neues Depot erstellen", "Depot umbenennen", "Depot löschen"];
 
-  constructor(private depotService: DepotService, private depotDropdownService: DepotDropdownService, private userService: UserService, private crd: ChangeDetectorRef, private popUpService: PopUpService, private updateEverythingService: UpdateEverythingService) {
+  constructor(private depotService: DepotService, private userService: UserService, private crd: ChangeDetectorRef, private popUpService: PopUpService, private updateEverythingService: UpdateEverythingService) {
     updateEverythingService.subscribeToUpdates(this);
   }
 
@@ -97,7 +95,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
     this.updateDividende();
     this.updateDepotWerte();
 
-    this.currentDepotName = this.depotDropdownService.getDepot();
+    this.currentDepotName = this.depotService.getCurrentDepot();
   }
 
   // Überprüfen, ob der Nutzer eingeloggt ist
@@ -109,7 +107,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
   // ----
   private updateDepotWerte() {
     /* Speichert Werte in this.depot */
-    this.depotService.getDepot(this.depotDropdownService.getDepot()).subscribe(response => {
+    this.depotService.getDepot(this.depotService.getCurrentDepot()).subscribe(response => {
       if (response && response.data) {
         this.depot = response.data;
       }
@@ -123,7 +121,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
   }
 
   private updateDividende() {
-    this.depotService.getDividenden(this.depotDropdownService.getDepot()).subscribe(
+    this.depotService.getDividenden(this.depotService.getCurrentDepot()).subscribe(
       response => {
         this.dividendenData = Object.keys(response.data).map((key: any) => {
           const dividende = response.data[key];
@@ -144,7 +142,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
   }
 
   private updateWertpapiere() {
-    this.depotService.getWertpapiere(this.depotDropdownService.getDepot()).subscribe(
+    this.depotService.getWertpapiere(this.depotService.getCurrentDepot()).subscribe(
       response => {
         this.wertpapierenData = Object.keys(response.data).map((key: any) => {
           const wertpapier = response.data[key];
@@ -167,7 +165,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
   }
 
   private updateTransaktionen() {
-    this.depotService.getTransaktionen(this.depotDropdownService.getDepot()).subscribe(
+    this.depotService.getTransaktionen(this.depotService.getCurrentDepot()).subscribe(
       response => {
         this.transaktionenData = Object.keys(response.data).map((key: any) => {
           const transaktion = response.data[key];
@@ -282,8 +280,8 @@ export class HomePageComponent implements AfterViewInit, Updateable {
           this.depotService.deleteDepot(this.currentDepotName).subscribe({
             next: (response) => {
               this.popUpService.infoPopUp('Depot "' + this.currentDepotName + '" wurde gelöscht.');
-              this.depotDropdownService.getAllDepots().subscribe(response => {
-                this.depotDropdownService.setDepot(response.data[response.data.length - 1].name);
+              this.depotService.getDepots().subscribe(response => {
+                this.depotService.setCurrentDepot(response.data[response.data.length - 1].name);
               });
               this.updateEverythingService.updateAll();
             },
@@ -317,7 +315,7 @@ export class HomePageComponent implements AfterViewInit, Updateable {
   }
 
   getNumberofDepots() {
-    this.userService.getDepots().subscribe(
+    this.depotService.getDepots().subscribe(
       (response) => {
         // Überprüfen, ob die Nachricht "Keine Depots gefunden" ist
         if (response == null || response.message === "Keine Depots gefunden") {

@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild, ElementRef  } from '@angular/core'; // Importieren der grundlegenden Angular-Komponenten und -Module
 import { Chart, ChartConfiguration, registerables } from 'chart.js'; // Importieren von Chart.js und seinen Konfigurationen
 import { DepotService } from '../../../services/depot.service'; // Importieren des DepotService zur Datenbeschaffung
-import { DepotDropdownService } from '../../../services/depot-dropdown.service'; // Importieren des DepotDropdownService zur Handhabung des Dropdowns
 import { UserService } from '../../../services/user.service'; // Importieren des UserService zur Benutzerverwaltung
 import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service'; // Importieren des UpdateEverythingService zur Synchronisation
 
@@ -32,9 +31,7 @@ export class GrafikLinechartDepotComponent implements Updateable, AfterViewInit 
 
   constructor(
     private depotService: DepotService, // Service zur Handhabung von Depotdaten
-    private depotDropdownService: DepotDropdownService, // Service zur Handhabung des Dropdowns
     private updateEverythingService: UpdateEverythingService, // Service zur Synchronisation von Updates
-    private userService: UserService // Service zur Benutzerverwaltung
   ) {
     Chart.register(...registerables); // Registrieren von Chart.js Modulen
     updateEverythingService.subscribeToUpdates(this); // Abonnieren von Updates des UpdateEverythingService
@@ -51,7 +48,7 @@ export class GrafikLinechartDepotComponent implements Updateable, AfterViewInit 
 
 // Synchrone Methode zur Erstellung des Diagramms
 generateLineChart_DepotWert() {
-  const depotName = this.depotDropdownService.getDepot(); // Abrufen des ausgewählten Depotnamens
+  const depotName = this.depotService.getCurrentDepot(); // Abrufen des ausgewählten Depotnamens
 
   this.depotService.getDepotHistory(depotName).subscribe({
     next: (response: ApiResponse) => {

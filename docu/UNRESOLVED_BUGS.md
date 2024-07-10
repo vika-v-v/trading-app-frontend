@@ -3,3 +3,5 @@
 3) No Checking for phone format in the settings
 4) Hausnummer is not saved
 5) PLZ ist not saved
+6) On register the loading symbol on the button is not in the center
+7) In the main window, the bottom richt element - table with "wertpapiere" is a little bit smaller than other elements.

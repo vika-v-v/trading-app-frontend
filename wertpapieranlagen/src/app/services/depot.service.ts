@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserService } from './user.service';
 import { HttpclientProviderService } from './httpclient-provider.service';
+import { UpdateEverythingService } from './update-everything.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,31 @@ export class DepotService {
 
   private rootUrl: string;
 
-  constructor(@Inject('ROOT_URL') rootUrl: string, private userService: UserService, private httpProvider: HttpclientProviderService) {
+  private depot: string = '';
+
+  constructor(@Inject('ROOT_URL') rootUrl: string, private userService: UserService, private httpProvider: HttpclientProviderService, private updateEverythingService: UpdateEverythingService) {
     this.rootUrl = rootUrl;
+  }
+
+  setCurrentDepot(depot: string) {
+    if(depot != this.depot && depot != '' && depot != null && depot != undefined) {
+      this.depot = depot;
+      this.updateEverythingService.updateAll();
+    }
+  }
+
+  getCurrentDepot(){
+    return this.depot;
+  }
+
+  getDepots(): Observable<any>{
+    const getAllDepotsURL = `${this.rootUrl}depot/getAllDepots`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.userService.getToken()}`
+      })
+    };
+    return this.httpProvider.getHttpClient().get(getAllDepotsURL, httpOptions);
   }
 
   depotErstellen(name: string, waehrung: string): Observable<any> {

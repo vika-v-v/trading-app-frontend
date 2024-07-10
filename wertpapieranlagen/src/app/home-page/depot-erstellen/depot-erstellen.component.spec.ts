@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { DepotDropdownService } from '../../services/depot-dropdown.service';
 import { DepotService } from '../../services/depot.service';
 import { UpdateEverythingService } from '../../services/update-everything.service';
 import { PopUpService } from '../../services/pop-up.service';
@@ -21,7 +20,6 @@ describe('DepotErstellenComponent', () => {
         CommonModule
       ],
       providers: [
-        DepotDropdownService,
         DepotService,
         UpdateEverythingService,
         PopUpService,

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GrafikLinechartDepotComponent } from '../grafik-linechart-depot/grafik-linechart-depot.component';
 import { GrafikLinechartWertpapierComponent } from '../grafik-linechart-wertpapier/grafik-linechart-wertpapier.component';
 import { GrafikPiechartNumberComponent } from '../grafik-piechart-number/grafik-piechart-number.component';
@@ -8,7 +8,6 @@ import { GrafikTyp } from '../grafik-typ.enum';
 import { AktienDropdownComponent } from '../../../aktien-dropdown/aktien-dropdown.component';
 import { DepotService } from '../../../services/depot.service';
 import { UpdateEverythingService, Updateable } from '../../../services/update-everything.service';
-import { DepotDropdownService } from '../../../services/depot-dropdown.service';
 
 @Component({
   selector: 'app-grafik-overview', // CSS-Selector zur Identifikation der Komponente
@@ -40,7 +39,6 @@ export class GrafikOverviewComponent implements OnInit, Updateable {
 
   constructor(
     private depotService: DepotService, // Service zur Handhabung von Depotdaten
-    private depotDropdownService: DepotDropdownService, // Service zur Handhabung des Dropdowns
     private updateEverythingService: UpdateEverythingService // Service zur Synchronisation von Updates
   ) {
     updateEverythingService.subscribeToUpdates(this); // Abonnieren von Updates des UpdateEverythingService
@@ -49,7 +47,7 @@ export class GrafikOverviewComponent implements OnInit, Updateable {
   // Methode zur Aktualisierung der Komponente, die durch Updates aufgerufen wird
   update() {
     // Abrufen der Wertpapiere für das ausgewählte Depot
-    this.depotService.getWertpapiere(this.depotDropdownService.getDepot()).subscribe(
+    this.depotService.getWertpapiere(this.depotService.getCurrentDepot()).subscribe(
       response => {
         this.wertpapiereVorhanden = true; // Setzen der Variable auf true, wenn Wertpapiere vorhanden sind
       },
