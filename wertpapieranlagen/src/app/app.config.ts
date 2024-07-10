@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: "USE_MOCK",
-      useValue: true
+      useValue: false
     },
     {
       provide: "ROOT_URL",

@@ -3,12 +3,12 @@ import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse
 } from '@angular/common/http';
 import { Observable, of, tap } from 'rxjs';
-import { UserService } from './user.mock.service';
+import { MockUserService } from './user.mock.service';
 
 @Injectable()
 export class MockInterceptor implements HttpInterceptor {
 
-  constructor(@Inject('USE_MOCK') private useMock: boolean, private userMockService: UserService) {
+  constructor(@Inject('USE_MOCK') private useMock: boolean, private userMockService: MockUserService) {
   }
 
 
@@ -27,7 +27,7 @@ export class MockInterceptor implements HttpInterceptor {
       mockData = this.userMockService.postResetPassword(req.body);
     }
     else if(req.url.endsWith("users/update") && req.method === 'PATCH') {
-      mockData = this.userMockService.patchUsersUpdate(req.body);
+      mockData = this.userMockService.patchUpdateUserData(req.body);
     }
 
     if(mockData != null) {

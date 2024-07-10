@@ -95,6 +95,8 @@ Problem: there is no restrictions as to what element is allowed to trigger the u
 
 The problem was that due to lack of experience, I used formulas like <code>height: calc((100vh - 170px) / 2 - 36px);</code> to position and scale the elements. Because of that is was really hard to work with elements if futher should be added. So in the next project, I will use the positioning in the correct way.
 
+## 5) Calling same API-Points several times
+
 # Management problems and learnings
 
 ## 1) Do not underestimate the time you need for the project

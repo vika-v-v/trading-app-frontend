@@ -77,6 +77,7 @@ export class UserService {
     return this.httpProvider.getHttpClient().post(resetUrl, formData, httpOptions);
   }
 
+  // mocked
   updateUserData(optionalData:
     {
       email?: string;
