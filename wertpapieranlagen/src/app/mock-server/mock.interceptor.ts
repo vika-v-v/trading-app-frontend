@@ -15,8 +15,22 @@ export class MockInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if(!this.useMock) return next.handle(req);
 
+    let mockData = null;
+
     if (req.url.endsWith("users/login") && req.method === 'POST') {
-      const mockData = this.userMockService.getUsersLogin(req.body);
+      mockData = this.userMockService.postUsersLogin(req.body);
+    }
+    else if(req.url.endsWith("users/register") && req.method === 'POST') {
+      mockData = this.userMockService.postUsersRegister(req.body);
+    }
+    else if(req.url.endsWith("users/reset-passwort-initialisieren") && req.method === 'POST') {
+      mockData = this.userMockService.postResetPassword(req.body);
+    }
+    else if(req.url.endsWith("users/update") && req.method === 'PATCH') {
+      mockData = this.userMockService.patchUsersUpdate(req.body);
+    }
+
+    if(mockData != null) {
       return of(new HttpResponse({ status: mockData.statusCode, body: mockData }));
     }
 

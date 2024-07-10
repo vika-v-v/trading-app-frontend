@@ -7,7 +7,7 @@ export class UserService {
 
   constructor() { }
 
-  getUsersLogin(params?: any): any {
+  postUsersLogin(params?: any): any {
     if (params instanceof FormData && params.get('email') == 'test@test.de'  && params.get('passwort') == 'test123') {
       return {
         message: "User successfully logged in",
@@ -17,10 +17,32 @@ export class UserService {
     }
     else {
       return {
-        message: "Invalid email or password",
-        statusCode: 400,
-        data: null
+        message: "User successfully logged in",
+        statusCode: 200,
+        data: "fake-token-new-user"
       };
     }
+  }
+
+  postUsersRegister(params?: any): any {
+    return {
+      message: "User successfully registered",
+      statusCode: 200,
+      data: "fake-token-new-user"
+    };
+  }
+
+  postResetPassword(params?: any): any {
+    return {
+      message: "The password was successfully reset.",
+      statusCode: 200
+    };
+  }
+
+  patchUsersUpdate(params?: any): any {
+    return {
+      message: "The data was successfully updated.",
+      statusCode: 200
+    };
   }
 }

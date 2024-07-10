@@ -25,6 +25,7 @@ export class UserService {
     return this.token;
   }
 
+  // mocked
   login(email: string, password: string): Observable<any> {
     const loginUrl = this.rootUrl + 'users/login';
 
@@ -42,6 +43,7 @@ export class UserService {
   }
 
   //API-Call für das Registrieren
+  // mocked
   register(email: string, passwort: string): Observable<any> {
     const registerUrl = this.rootUrl + 'users/register';
 
@@ -59,6 +61,7 @@ export class UserService {
   }
 
   //API-Call für das Passwort zurücksetzen
+  // mocked
   resetPassword(email: string): Observable<any> {
     const resetUrl: string = this.rootUrl + 'users/reset-passwort-initialisieren';
 
