@@ -19,6 +19,10 @@ export const appConfig: ApplicationConfig = {
       multi: true
     },
     {
+      provide: "USE_MOCK",
+      useValue: true
+    },
+    {
       provide: "ROOT_URL",
       useValue: "http://localhost:8080/api/"
       //useValue: "http://213.133.101.113:8080/api/"

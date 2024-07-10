@@ -25,7 +25,7 @@ export class UserService {
     return this.token;
   }
 
-  login(email: string, passwort: string): Observable<any> {
+  login(email: string, password: string): Observable<any> {
     const loginUrl = this.rootUrl + 'users/login';
 
     const httpOptions = {
@@ -36,7 +36,7 @@ export class UserService {
 
     const formData = new FormData();
     formData.append('email', email);
-    formData.append('passwort', passwort);
+    formData.append('passwort', password);
 
     return this.httpProvider.getHttpClient().post(loginUrl, formData, httpOptions);
   }
