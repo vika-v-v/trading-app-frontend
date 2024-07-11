@@ -1,4 +1,3 @@
-// mocked
 import { HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';

@@ -5,11 +5,12 @@ import {
 import { Observable, of, tap } from 'rxjs';
 import { MockUserService } from './user.mock.service';
 import { DepotMockService } from './depot.mock.service';
+import { WertpapierMockService } from './wertpapier.mock.service';
 
 @Injectable()
 export class MockInterceptor implements HttpInterceptor {
 
-  constructor(@Inject('USE_MOCK') private useMock: boolean, private userMockService: MockUserService, private depotMockService: DepotMockService) {
+  constructor(@Inject('USE_MOCK') private useMock: boolean, private userMockService: MockUserService, private depotMockService: DepotMockService, private wertpapierMockService: WertpapierMockService) {
   }
 
 
@@ -77,6 +78,12 @@ export class MockInterceptor implements HttpInterceptor {
     }
     else if(req.url.endsWith("depot/addDividende")) {
       mockData = this.depotMockService.addDividens();
+    }
+    else if(req.url.endsWith("depot/addTransaction")) {
+      mockData = this.wertpapierMockService.addTransaction();
+    }
+    else if(req.url.endsWith("wertpapier/add")) {
+      mockData = this.wertpapierMockService.addWertpapier();
     }
 
     if(mockData != null) {
