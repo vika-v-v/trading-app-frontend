@@ -1,4 +1,4 @@
-{
+export const depotData = {
   "message": "Depots erfolgreich abgerufen",
   "statusCode": 200,
   "data": [
@@ -288,80 +288,6 @@
           "depotGewinnVerlust": 0.0,
           "gesamtwert": 0.0,
           "transactions": []
-      },
-      {
-          "depotId": "668f9559d0f6e81ac80cabd6",
-          "name": "Depot 123",
-          "waehrung": "USD",
-          "owner": "668d3a985f6a8d72b45d5aeb",
-          "enabled": true,
-          "steuerlast": 0.0,
-          "wertpapiere": {
-              "668d3a935f6a8d72b45d5ae6": 100.0,
-              "668d3a935f6a8d72b45d5ae4": 29.0
-          },
-          "dividendenErtraegeListe": [
-              "668f95a5d0f6e81ac80cabda"
-          ],
-          "historischeKursdaten": {
-              "Thu Jul 11 00:00:00 CEST 2024": {
-                  "Apple Inc": {
-                      "GesamtwertKaufpreis": "22782.0",
-                      "GesamtWertAktuell": "22782.0000",
-                      "WertpapierDurchschnittspreis": "227.82",
-                      "WertpapierArt": "AKTIE",
-                      "WertpapierPreisAktuell": "227.82",
-                      "WertpapierAnteil": "100.0"
-                  }
-              },
-              "Thu Jul 11 00:00:01 CEST 2024": {
-                  "Apple Inc": {
-                      "GesamtwertKaufpreis": "22782.0",
-                      "GesamtWertAktuell": "22782.0000",
-                      "WertpapierDurchschnittspreis": "227.82",
-                      "WertpapierArt": "AKTIE",
-                      "WertpapierPreisAktuell": "227.82",
-                      "WertpapierAnteil": "100.0"
-                  },
-                  "NVIDIA Corporation": {
-                      "GesamtwertKaufpreis": "3845.9999999999995",
-                      "GesamtWertAktuell": "3846.0000",
-                      "WertpapierDurchschnittspreis": "128.2",
-                      "WertpapierArt": "AKTIE",
-                      "WertpapierPreisAktuell": "128.2",
-                      "WertpapierAnteil": "30.0"
-                  }
-              },
-              "Thu Jul 11 00:00:02 CEST 2024": {
-                  "Apple Inc": {
-                      "GesamtwertKaufpreis": "22782.0",
-                      "GesamtWertAktuell": "22782.0000",
-                      "WertpapierDurchschnittspreis": "227.82",
-                      "WertpapierArt": "AKTIE",
-                      "WertpapierPreisAktuell": "227.82",
-                      "WertpapierAnteil": "100.0"
-                  },
-                  "NVIDIA Corporation": {
-                      "GesamtwertKaufpreis": "3717.7999999999997",
-                      "GesamtWertAktuell": "3717.8000",
-                      "WertpapierDurchschnittspreis": "128.2",
-                      "WertpapierArt": "AKTIE",
-                      "WertpapierPreisAktuell": "128.2",
-                      "WertpapierAnteil": "29.0"
-                  }
-              }
-          },
-          "historischeDepotgesamtwerte": {
-              "11-07-2024": 25260.533333333333
-          },
-          "depotDividendenErtrag": 100.0,
-          "depotGewinnVerlust": 0.0,
-          "gesamtwert": 26499.8,
-          "transactions": [
-              "668f9573d0f6e81ac80cabd7",
-              "668f9583d0f6e81ac80cabd8",
-              "668f9591d0f6e81ac80cabd9"
-          ]
       },
       {
         "depotId": "668d3a985f6a8d72b45d5aec",
@@ -1018,6 +944,6 @@
             "668d3a995f6a8d72b45d5af6",
             "668e9a56d0f6e81ac80cabbc"
         ]
-    }
+      }
   ]
 }

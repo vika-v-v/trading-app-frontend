@@ -8,3 +8,4 @@
 8) Kaufen - Autocomplete with Amazon
 9) If "Verkauf" with not existing Wertpapier done, some other Wertpapier is used and there is no error
 10) Dividende is sometimes NaN
+11) Go to "Depot umbenennen" => give another name => click "No" => log out => log in => Depot is renamed also it was unwanted

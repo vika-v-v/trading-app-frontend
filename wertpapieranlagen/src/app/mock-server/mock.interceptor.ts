@@ -4,11 +4,12 @@ import {
 } from '@angular/common/http';
 import { Observable, of, tap } from 'rxjs';
 import { MockUserService } from './user.mock.service';
+import { DepotMockService } from './depot.mock.service';
 
 @Injectable()
 export class MockInterceptor implements HttpInterceptor {
 
-  constructor(@Inject('USE_MOCK') private useMock: boolean, private userMockService: MockUserService) {
+  constructor(@Inject('USE_MOCK') private useMock: boolean, private userMockService: MockUserService, private depotMockService: DepotMockService) {
   }
 
 
@@ -39,7 +40,43 @@ export class MockInterceptor implements HttpInterceptor {
       mockData = this.userMockService.getUserAccountValue();
     }
     else if(req.url.endsWith("depot/getAllDepots")) {
-      mockData = this.userMockService.getUserAccountValue();
+      mockData = this.depotMockService.getDepots();
+    }
+    else if(req.url.endsWith("depot/create")) {
+      mockData = this.depotMockService.createDepot();
+    }
+    else if(req.url.endsWith("depot/rename")) {
+      mockData = this.depotMockService.renameDepot();
+    }
+    else if(req.url.includes("depot/getWertpapierDepotHistorie?depotName=")) {
+      mockData = this.depotMockService.getWertverlauf(req.url.substring(req.url.indexOf("depotName=") + 10));
+    }
+    else if(req.url.includes("depot/getWertpapiere?depotName=")) {
+      mockData = this.depotMockService.getWertpapiere(req.url.substring(req.url.indexOf("depotName=") + 10));
+    }
+    else if(req.url.endsWith("wertpapier/getAllWertpapiere")) {
+      mockData = this.depotMockService.getAllWertpapiere();
+    }
+    else if(req.url.includes("depot/getTransactions?depotName=")) {
+      mockData = this.depotMockService.getTransactions(req.url.substring(req.url.indexOf("depotName=") + 10));
+    }
+    else if(req.url.includes("depot/getDividenden?depotName=")) {
+      mockData = this.depotMockService.getDividents(req.url.substring(req.url.indexOf("depotName=") + 10));
+    }
+    else if(req.url.includes("depot/getDepot?depotName")) {
+      mockData = this.depotMockService.getDepot(req.url.substring(req.url.indexOf("depotName=") + 10));
+    }
+    else if(req.url.includes("depot/delete?name=")) {
+      mockData = this.depotMockService.deleteDepot();
+    }
+    else if(req.url.endsWith("excel/download")) {
+      mockData = this.depotMockService.export();
+    }
+    else if(req.url.includes("depot/getDepotGesamtwertHistorie?depotName=")) {
+      mockData = this.depotMockService.getDepotHistory(req.url.substring(req.url.indexOf("depotName=") + 10));
+    }
+    else if(req.url.endsWith("depot/addDividende")) {
+      mockData = this.depotMockService.addDividens();
     }
 
     if(mockData != null) {
