@@ -17,25 +17,28 @@ export class MockInterceptor implements HttpInterceptor {
 
     let mockData = null;
 
-    if (req.url.endsWith("users/login") && req.method === 'POST') {
+    if (req.url.endsWith("users/login")) {
       mockData = this.userMockService.postUsersLogin(req.body);
     }
-    else if(req.url.endsWith("users/register") && req.method === 'POST') {
+    else if(req.url.endsWith("users/register")) {
       mockData = this.userMockService.postUsersRegister(req.body);
     }
-    else if(req.url.endsWith("users/reset-passwort-initialisieren") && req.method === 'POST') {
+    else if(req.url.endsWith("users/reset-passwort-initialisieren")) {
       mockData = this.userMockService.postResetPassword(req.body);
     }
-    else if(req.url.endsWith("users/update") && req.method === 'PATCH') {
+    else if(req.url.endsWith("users/update")) {
       mockData = this.userMockService.patchUpdateUserData(req.body);
     }
-    else if(req.url.endsWith("users/me") && req.method === 'GET') {
+    else if(req.url.endsWith("users/me")) {
       mockData = this.userMockService.getUserData();
     }
-    else if(req.url.endsWith("users/delete") && req.method === 'DELETE') {
+    else if(req.url.endsWith("users/delete")) {
       mockData = this.userMockService.deleteUser();
     }
-    else if(req.url.endsWith("users/account-values") && req.method === 'POST') {
+    else if(req.url.endsWith("users/account-values")) {
+      mockData = this.userMockService.getUserAccountValue();
+    }
+    else if(req.url.endsWith("depot/getAllDepots")) {
       mockData = this.userMockService.getUserAccountValue();
     }
 

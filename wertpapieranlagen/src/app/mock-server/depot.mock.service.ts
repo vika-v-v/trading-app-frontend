@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { UserService } from '../services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,26 +8,21 @@ export class DepotMockService {
 
   depots: any[] = [];
 
-  constructor() { }
+
+  constructor(private userService: UserService) { }
 
   initTestUserDepots() {
 
   }
 
   getDepots(): any {
-    return {
-      message: "Depots successfully fetched",
-      statusCode: 200,
-      data: [
-        {
-          name: "Depot 1",
-          waehrung: "EUR"
-        },
-        {
-          name: "Depot 2",
-          waehrung: "USD"
-        }
-      ]
-    };
+    if(this.userService.getToken() === 'fake-token-test@test.de') {
+      return fetch('./testuser_depots.json')
+        .then(response => response.json())
+        .catch(error => {
+          console.error('Error fetching depots:', error);
+          return null;
+        });
+    }
   }
 }
