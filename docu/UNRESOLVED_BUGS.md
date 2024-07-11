@@ -5,3 +5,5 @@
 5) PLZ ist not saved
 6) On register the loading symbol on the button is not in the center
 7) In the main window, the bottom richt element - table with "wertpapiere" is a little bit smaller than other elements.
+8) Kaufen - Autocomplete with Amazon
+9) If "Verkauf" with not existing Wertpapier done, some other Wertpapier is used and there is no error
