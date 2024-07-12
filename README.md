@@ -1,15 +1,22 @@
+# Traiding Application
+
+This repository contains the frontend for the Trading application developed using Angular. This was a group project for university. The repository includes a simple mock server to replace the backend (it does not save any data or allow registration, but you can click through the app). Use the test user with email <em>test@test.de</em> and password <em>test123</em> to test the app.
+
 # Get Started
-1) Install node.js (google)
-2) Run "npm install -g @angular/cli"
-3) Open Project root in terminal
-4) Run "cd wertpapieranlagen"
-5) Run "npm i"
-6) Run "ng s"
+Prerequisites: Node.js and Angular must be installed.
+<ol>
+    <li>Open the terminal and navigate to the project root.</li>
+    <li>Run <code>cd wertpapieranlagen</code>.</li>
+    <li>Run <code>npm i</code> (npm install) to install the necessary node_modules.</li>
+    <li>Run <code>ng s</code> (ng serve) to start the application.</li>
+    <li>Open <a href="http://localhost:4200/">http://localhost:4200/</a> in your browser, and use the test user with email <em>test@test.de</em> and password <em>test123</em> to explore the app.</li>
+</ol>
 
-# Test the app
-There is a user <i>test@test.de</i> with the password <i>testtest123</i> where the data is demonstrated. There is no backend provided in this repository, so the data is not saved, but you can click through the app using the test user. You can also register, but the account will not be saved as there is no database. But during the development the app was tested with the actual backend server so if all the requests in docu/API_REQUESTS.md provided, there should be no problems with saving the data.
-
-# Switch mock/no-mock
-Use "USE_MOCK" config variable to switch
-
-# More is in the "docu" folder
+# Switching from Mock Server to Backend
+To integrate the frontend with the backend, follow these steps:
+<ol>
+    <li>Develop the required API endpoints (they are listed in the <a href='/wertpapieranlagen/src/app/mock-server/'>mock-server</a> services, and examples of their usage can be found in the <a href='/wertpapieranlagen/src/app/services/'>services</a> folder).</li>
+    <li>Open `app.config.ts` and set the "USE_MOCK" variable to `false`.</li>
+    <li>Update the "ROOT_URL" variable in `app.config.ts` to the root URL of your server.</li>
+    <li>Run your server and test the application to ensure it connects properly.</li>
+</ol>
