@@ -3,10 +3,10 @@
 This repository contains the frontend for the Trading application developed using Angular. This was a group project for university. The repository includes a simple mock server to replace the backend (it does not save any data or allow registration, but you can click through the app). Use the test user with email `test@test.de` and password `test123` to test the app.
 
 Preview Login:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.youtube.com/watch?v=2qALI9QUW5A?autoplay=1" style="max-width: 80vw"><img src="/wertpapieranlagen/src/assets/preview/demo_login_videopreview.png" alt="Demo login" style="max-width:80%;"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://www.youtube.com/watch?v=2qALI9QUW5A?autoplay=1" style="max-width: 80vw">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/wertpapieranlagen/src/assets/preview/demo_login_videopreview.png" alt="Demo login" style="max-width:80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 
 Preview Register:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.youtube.com/watch?v=ghZr5NSFoVE?autoplay=1" style="max-width: 80vw"><img src="/wertpapieranlagen/src/assets/preview/demo_register_videopreview.png" alt="Demo login" style="max-width:80%;"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://www.youtube.com/watch?v=ghZr5NSFoVE?autoplay=1" style="max-width: 80vw">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/wertpapieranlagen/src/assets/preview/demo_register_videopreview.png" alt="Demo login" style="max-width:80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
 
