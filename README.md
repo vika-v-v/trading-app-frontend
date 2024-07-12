@@ -1,6 +1,12 @@
-# Traiding Application
+# Trading Application
 
 This repository contains the frontend for the Trading application developed using Angular. This was a group project for university. The repository includes a simple mock server to replace the backend (it does not save any data or allow registration, but you can click through the app). Use the test user with email <em>test@test.de</em> and password <em>test123</em> to test the app.
+
+<p align="center">
+  <iframe width="80%" height="auto" style="max-width: 560px;" src="https://www.youtube.com/embed/2qALI9QUW5A?autoplay=1&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <br>
+  <iframe width="80%" height="auto" style="max-width: 560px;" src="https://www.youtube.com/embed/ghZr5NSFoVE?autoplay=1&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</p>
 
 # Get Started
 Prerequisites: Node.js and Angular must be installed.
