@@ -26,3 +26,6 @@ To integrate the frontend with the backend, follow these steps:
     <li>Update the "ROOT_URL" variable in `app.config.ts` to the root URL of your server.</li>
     <li>Run your server and test the application to ensure it connects properly.</li>
 </ol>
+
+# Table with filters and sorting, custom dropdown, range slider
+In this project, there are some components used that are ready-to-use in different projects. <a href="https://github.com/vika-v-v/table-with-filters-and-sorting">This repository</a> features the table with filters and sorting that was also used in this project. The table is widely configurable and contains customizable themes. The same repository also contains the dropdown and the range slider.m
